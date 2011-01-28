@@ -18,7 +18,38 @@ LOCAL_SRC_FILES := libiconv/lib/iconv.c \
      libiconv/libcharset/lib/localcharset.c \
      libiconv/lib/relocatable.c
 
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/libiconv/include
+LOCAL_EXPORT_LDLIBS := -lz 
+
 include $(BUILD_STATIC_LIBRARY) 
+
+include $(CLEAR_VARS) 
+
+LOCAL_MODULE := libboost_filesystem 
+LOCAL_SRC_FILES := libboost/libboost_filesystem-gcc-mt-s-1_45.a
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
+LOCAL_EXPORT_LDLIBS := -lz 
+
+include $(PREBUILT_STATIC_LIBRARY) 
+
+include $(CLEAR_VARS) 
+
+LOCAL_MODULE := libboost_system
+LOCAL_SRC_FILES := libboost/libboost_system-gcc-mt-s-1_45.a
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
+LOCAL_EXPORT_LDLIBS := -lz
+
+include $(PREBUILT_STATIC_LIBRARY) 
+
+
+include $(CLEAR_VARS) 
+
+LOCAL_MODULE := libboost_thread
+LOCAL_SRC_FILES := libboost/libboost_thread_pthread-gcc-mt-s-1_45.a
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
+LOCAL_EXPORT_LDLIBS := -lz
+
+include $(PREBUILT_STATIC_LIBRARY) 
 
 
 include $(CLEAR_VARS) 
@@ -28,16 +59,13 @@ LOCAL_MODULE := libtorrent
 LOCAL_CFLAGS := -DBOOST_NO_INTRINSIC_WCHAR_T \
 	-DBOOST_FILESYSTEM_NARROW_ONLY \
 	-DTORRENT_DISABLE_ENCRYPTION \
-	-L$(LOCAL_PATH)/libs
+	-DTORRENT_DISABLE_GEO_IP
 
-LOCAL_LDLIBS += -llog
-LOCAL_LDLIBS += -lboost_filesystem-gcc-mt-s-1_45
-LOCAL_LDLIBS += -lboost_system-gcc-mt-s-1_45
-
-LOCAL_STATIC_LIBRARIES := libiconv
-	
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/libtorrent \
-	$(LOCAL_PATH)/libiconv/include
+LOCAL_LDLIBS := -llog
+LOCAL_STATIC_LIBRARIES := libiconv \
+	libboost_filesystem \
+	libboost_system \
+	libboost_thread
 
 LOCAL_SRC_FILES := libtorrent.cpp \
 	libtorrent/alert.cpp \
