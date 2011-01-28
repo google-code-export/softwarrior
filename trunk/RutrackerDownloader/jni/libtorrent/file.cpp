@@ -39,6 +39,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/alloca.hpp"
 #include "libtorrent/allocator.hpp" // page_size
 
+#define TORRENT_HAS_FALLOCATE 0
+
 #include <boost/scoped_ptr.hpp>
 #ifdef TORRENT_WINDOWS
 // windows part
@@ -57,7 +59,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <fcntl.h> // for F_LOG2PHYS
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/statvfs.h>
+#include <sys/statfs.h>
 #include <errno.h>
 #ifdef TORRENT_LINUX
 #include <sys/ioctl.h>
@@ -93,7 +95,7 @@ static int my_fallocate(int fd, int mode, loff_t offset, loff_t len)
 // related functions support 64-bit offsets.
 // this test makes sure lseek() returns a type
 // at least 64 bits wide
-BOOST_STATIC_ASSERT(sizeof(lseek(0, 0, 0)) >= 8);
+//BOOST_STATIC_ASSERT(sizeof(lseek(0, 0, 0)) >= 8);
 
 #endif
 
@@ -294,8 +296,8 @@ namespace libtorrent
 #if defined TORRENT_LINUX
 		if (m_sector_size == 0)
 		{
-			struct statvfs fs;
-			if (fstatvfs(m_fd, &fs) == 0)
+			struct statfs fs;
+			if (fstatfs(m_fd, &fs) == 0)
 				m_sector_size = fs.f_bsize;
 			else
 				m_sector_size = 4096;

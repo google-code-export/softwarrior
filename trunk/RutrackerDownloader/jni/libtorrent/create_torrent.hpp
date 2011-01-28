@@ -176,8 +176,10 @@ namespace libtorrent
 		inline bool ignore_subdir(std::string const& leaf)
 		{ return leaf == ".." || leaf == "."; }
 
+#if TORRENT_USE_WPATH
 		inline bool ignore_subdir(std::wstring const& leaf)
 		{ return leaf == L".." || leaf == L"."; }
+#endif
 
 		inline void nop(int i) {}
 

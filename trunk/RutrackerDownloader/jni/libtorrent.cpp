@@ -5,17 +5,9 @@
 
 #include "libtorrent/config.hpp"
 
-#ifdef _MSC_VER
-#pragma warning(push, 1)
-#endif
-
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/convenience.hpp>
 #include <boost/bind.hpp>
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
 #include "libtorrent/extensions/metadata_transfer.hpp"
 #include "libtorrent/extensions/ut_metadata.hpp"
@@ -29,46 +21,11 @@
 #include "libtorrent/alert_types.hpp"
 #include "libtorrent/ip_filter.hpp"
 #include "libtorrent/magnet_uri.hpp"
+
 #include "libtorrent/bitfield.hpp"
 #include "libtorrent/file.hpp"
 
 using boost::bind;
-
-#ifdef _WIN32
-
-#if defined(_MSC_VER)
-#	define for if (false) {} else for
-#endif
-
-#include <windows.h>
-#include <conio.h>
-
-bool sleep_and_input(char* c, int sleep)
-{
-	for (int i = 0; i < sleep * 2; ++i)
-	{
-		if (_kbhit())
-		{
-			*c = _getch();
-			return true;
-		}
-		Sleep(500);
-	}
-	return false;
-};
-
-void clear_home()
-{
-	CONSOLE_SCREEN_BUFFER_INFO si;
-	HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-	GetConsoleScreenBufferInfo(h, &si);
-	COORD c = {0, 0};
-	DWORD n;
-	FillConsoleOutputCharacter(h, ' ', si.dwSize.X * si.dwSize.Y, c, &n);
-	SetConsoleCursorPosition(h, c);
-}
-
-#else
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -119,7 +76,6 @@ void clear_home()
 	puts("\033[2J\033[0;0H");
 }
 
-#endif
 
 bool print_trackers = false;
 bool print_peers = false;
