@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, RutrackerDownloader!</string>
     <string name="app_name">RutrackerDownloader</string>
+    <string name="android_sax">Android SAX</string>
+    <string name="sax">Classic SAX</string>
+    <string name="dom">DOM</string>
+    <string name="pull">XML Pull</string>
 </resources>
