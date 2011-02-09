@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
     <string name="hello">Hello World, RutrackerDownloader!</string>
     <string name="app_name">RutrackerDownloader</string>
@@ -6,4 +6,8 @@
     <string name="sax">Classic SAX</string>
     <string name="dom">DOM</string>
     <string name="pull">XML Pull</string>
+<string name="menu_rss">RSS</string>
+    <string name="menu_web">WEB</string>
+    <string name="menu_stop">STOP</string>
+    <string name="menu_start">START</string>
 </resources>
