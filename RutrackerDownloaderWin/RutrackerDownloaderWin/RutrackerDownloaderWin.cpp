@@ -8,36 +8,36 @@
 //	return 0;
 //}
 
-#include <iterator>
-
-#include "libtorrent/config.hpp"
+//#include <iterator>
+//
+//#include "libtorrent/config.hpp"
 
 #ifdef _MSC_VER
 #pragma warning(push, 1)
 #endif
 
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/convenience.hpp>
-#include <boost/bind.hpp>
+//#include <boost/filesystem/operations.hpp>
+//#include <boost/filesystem/convenience.hpp>
+//#include <boost/bind.hpp>
 
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 
-#include "libtorrent/extensions/metadata_transfer.hpp"
-#include "libtorrent/extensions/ut_metadata.hpp"
-#include "libtorrent/extensions/ut_pex.hpp"
-#include "libtorrent/extensions/smart_ban.hpp"
+//#include "libtorrent/extensions/metadata_transfer.hpp"
+//#include "libtorrent/extensions/ut_metadata.hpp"
+//#include "libtorrent/extensions/ut_pex.hpp"
+//#include "libtorrent/extensions/smart_ban.hpp"
 
-#include "libtorrent/entry.hpp"
-#include "libtorrent/bencode.hpp"
+//#include "libtorrent/entry.hpp"
+//#include "libtorrent/bencode.hpp"
 #include "libtorrent/session.hpp"
-#include "libtorrent/identify_client.hpp"
-#include "libtorrent/alert_types.hpp"
-#include "libtorrent/ip_filter.hpp"
-#include "libtorrent/magnet_uri.hpp"
-#include "libtorrent/bitfield.hpp"
-#include "libtorrent/file.hpp"
+//#include "libtorrent/identify_client.hpp"
+//#include "libtorrent/alert_types.hpp"
+//#include "libtorrent/ip_filter.hpp"
+//#include "libtorrent/magnet_uri.hpp"
+//#include "libtorrent/bitfield.hpp"
+//#include "libtorrent/file.hpp"
 
 using boost::bind;
 
