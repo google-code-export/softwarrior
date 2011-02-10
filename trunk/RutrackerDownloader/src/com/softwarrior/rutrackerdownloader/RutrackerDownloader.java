@@ -32,6 +32,18 @@ public class RutrackerDownloader extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+		
+        
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.setClassName(this, TorrentWebClient.class.getName());
+        startActivity(intent);
+
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//        intent.setClassName(this, TorrentHttpPost.class.getName());
+//        startActivity(intent);
+
     }
 
 	@Override
