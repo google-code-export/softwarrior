@@ -13,6 +13,7 @@
 
     <activity android:name="com.softwarrior.rss.MessageList"></activity>
 <activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
+<activity android:name="com.softwarrior.web.TorrentHttpPost"></activity>
 </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" /> 
