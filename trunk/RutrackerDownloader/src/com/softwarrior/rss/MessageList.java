@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,21 +28,17 @@ public class MessageList extends ListActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.main);
+        setContentView(R.layout.rss);
         loadFeed(ParserType.ANDROID_SAX);
     }
-    
+        
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(Menu.NONE, ParserType.ANDROID_SAX.ordinal(), 
-				ParserType.ANDROID_SAX.ordinal(), R.string.android_sax);
-		menu.add(Menu.NONE, ParserType.SAX.ordinal(), ParserType.SAX.ordinal(),
-				R.string.sax);
-		menu.add(Menu.NONE, ParserType.DOM.ordinal(), ParserType.DOM.ordinal(), 
-				R.string.dom);
-		menu.add(Menu.NONE, ParserType.XML_PULL.ordinal(), 
-				ParserType.XML_PULL.ordinal(), R.string.pull);
+//		menu.add(Menu.NONE, ParserType.ANDROID_SAX.ordinal(), ParserType.ANDROID_SAX.ordinal(), R.string.android_sax); 
+//		menu.add(Menu.NONE, ParserType.SAX.ordinal(), ParserType.SAX.ordinal(), R.string.sax); 
+//		menu.add(Menu.NONE, ParserType.DOM.ordinal(), ParserType.DOM.ordinal(), R.string.dom);
+//		menu.add(Menu.NONE, ParserType.XML_PULL.ordinal(), ParserType.XML_PULL.ordinal(), R.string.pull);
 		return true;
 	}
 
@@ -62,8 +59,7 @@ public class MessageList extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Intent viewMessage = new Intent(Intent.ACTION_VIEW, 
-				Uri.parse(messages.get(position).getLink().toExternalForm()));
+		Intent viewMessage = new Intent(Intent.ACTION_VIEW, Uri.parse(messages.get(position).getLink().toExternalForm()));
 		this.startActivity(viewMessage);
 	}
 
@@ -82,7 +78,7 @@ public class MessageList extends ListActivity {
 	    		titles.add(msg.getTitle());
 	    	}
 	    	ArrayAdapter<String> adapter = 
-	    		new ArrayAdapter<String>(this, R.layout.row,titles);
+	    		new ArrayAdapter<String>(this, R.layout.rss_row,titles);
 	    	this.setListAdapter(adapter);
     	} catch (Throwable t){
     		Log.e("AndroidNews",t.getMessage(),t);

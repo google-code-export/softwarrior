@@ -1,50 +1,28 @@
 package com.softwarrior.web;
 
-import java.io.DataOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.http.Header;
-import org.apache.http.HeaderIterator;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 
 import com.softwarrior.rutrackerdownloader.R;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 public class TorrentWebClient extends Activity {
 
@@ -53,8 +31,6 @@ public class TorrentWebClient extends Activity {
     private WebView mWebView;
     
     final Activity activity = this;
-
-    private Handler mHandler = new Handler();
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -166,7 +142,7 @@ public class TorrentWebClient extends Activity {
 		        }
 		       // String reply = sb.toString();		        	    		
 			} catch (Exception ex){
-				Log.e("WebClient", ex.toString());
+				Log.e(LOG_TAG, ex.toString());
 		    }
 			//////////////////////////////////////////
 			result = super.onKeyDown(keyCode,event);
@@ -192,7 +168,7 @@ public class TorrentWebClient extends Activity {
               String value=(String)list_it.next();
               resultText += value;
             }
-            Log.i("WebClient",resultText);
+            Log.i(LOG_TAG ,resultText);
         }
     }
 }
