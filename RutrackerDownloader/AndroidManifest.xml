@@ -2,18 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
       android:versionCode="1" android:versionName="1.0.0.0">
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
-        <activity android:name=".RutrackerDownloader"
-                  android:label="@string/app_name">
-            <intent-filter>
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true" android:name="RutrackerDownloaderApp">        
+           <activity android:name="SplashScreen" android:screenOrientation="portrait">
+       		<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-    <activity android:name="com.softwarrior.rss.MessageList"></activity>
-<activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
-<activity android:name="com.softwarrior.web.TorrentHttpPost"></activity>
+		<activity android:name="com.softwarrior.rss.MessageList"></activity>
+		<activity android:name="com.softwarrior.web.TorrentWebClient"></activity><activity android:name=".PreferencesScreen"></activity>
+		
+		
+		<activity android:name=".RutrackerDownloader"></activity>		
 </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" /> 

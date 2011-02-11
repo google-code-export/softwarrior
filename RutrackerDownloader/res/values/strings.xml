@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="hello">Hello World, RutrackerDownloader!</string>
-    <string name="app_name">RutrackerDownloader</string>
     <string name="android_sax">Android SAX</string>
     <string name="sax">Classic SAX</string>
     <string name="dom">DOM</string>
-    <string name="pull">XML Pull</string>
-<string name="menu_rss">RSS</string>
-    <string name="menu_web">WEB</string>
-    <string name="menu_stop">STOP</string>
-    <string name="menu_start">START</string>
+    <string name="pull">XML Pull</string>       
+
+    <string name="app_name">Rutracker Downloader</string>
+	
+	<string name="menu_exit">Exit</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
+	<string name="menu_preferences">Preferences</string>
+	
+	<string name="preferences_select_content_title">SELECT CONTENT</string>
+	<string name="preferences_video_title">FILMS, VIDEO, TV</string>   
+	<string name="preferences_video_foreign_films_title">Foreign Films</string>
+	<string name="preferences_video_russian_films_title">Russian Films</string>
+	<string name="preferences_video_authors_films_title">Authors Films</string>
+	<string name="preferences_video_theatre_title">Theatre</string>
+	<string name="preferences_video_animations_title">Animations</string>
+	<string name="preferences_video_animation_serials_title">Animation serials</string>
+	<string name="preferences_video_anime_title">Anime</string>
+	
+	<string name="preferences_serials_title">SERIALS</string>
+	<string name="preferences_serials_foreign_title">Foreign serials</string>
+	<string name="preferences_serials_russian_title">Russian serials</string>
+	
+	<string name="preferences_audiobooks_title">AUDIOBOOKS</string>
+	<string name="preferences_audiobooks_audiobooks_title">Audiobooks</string>
+	
+	<string name="preferences_music_title">MUSIC</string>
+	<string name="preferences_music_classic_title">Classic music</string>
+	<string name="preferences_music_pope_dance_title">Pope, disco, dance music</string>
+	
+	<string name="preferences_search_title">SEARCH PARAMETERS</string>
+	<string name="preferences_search_year_title">SEARCH YEAR</string>
+	<string name="preferences_search_name_title">SEARCH NAME</string>
 </resources>
