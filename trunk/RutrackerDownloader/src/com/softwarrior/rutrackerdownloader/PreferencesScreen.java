@@ -8,6 +8,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.KeyEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,8 +42,12 @@ public final class PreferencesScreen extends PreferenceActivity
     setContentView(R.layout.preferences);
   }
 
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-		// TODO Auto-generated method stub	
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
   }
+  
+  public void OnClickButtonSearch(View v) {
+  }
+  
+  public void OnClickButtonLogin(View v) {
+  }  
 }

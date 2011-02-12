@@ -54,13 +54,9 @@ public class RutrackerDownloader extends Activity {
 		switch(type)
 		{
 		case PREFERENCES_ACTIVITY:{
-			Log.d(Constants.LOG_TAG, "onActivityResult PREFERENCES_ACTIVITY");
-			RssActivity();
-		} break;
-		case RSS_ACTIVITY:
-		{
-			Log.d(Constants.LOG_TAG, "onActivityResult RSS_ACTIVITY");
 			CloseApplication();
+		} break;
+		case RSS_ACTIVITY:{
 		} break;
 		};
     }

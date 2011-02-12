@@ -36,4 +36,11 @@
 	<string name="preferences_search_title">SEARCH PARAMETERS</string>
 	<string name="preferences_search_year_title">SEARCH YEAR</string>
 	<string name="preferences_search_name_title">SEARCH NAME</string>
+	
+	<string name="on_click_button_search">OnClickButtonSearch</string>
+	<string name="on_click_button_login">OnClickButtonLogin</string>
+
+	<string name="button_search">Search</string>
+	<string name="button_login">Login</string>
+
 </resources>
