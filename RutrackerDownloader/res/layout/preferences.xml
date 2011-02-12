@@ -19,14 +19,16 @@
 			android:layout_centerHorizontal="true" 
 			android:layout_centerVertical="true"/> 		 
 		<Button 
-			android:text="Search"
+			android:text="@string/button_search"
+			android:onClick="@string/on_click_button_search"
             android:id="@+id/ButtonSearch"
             android:layout_alignParentRight="true" 
             android:layout_height="wrap_content" 
             android:layout_width="fill_parent" 
             android:layout_toRightOf="@id/TextView"/>
 		<Button 
-			android:text="Login"
+			android:text="@string/button_login"
+			android:onClick="@string/on_click_button_login"
 			android:layout_height="wrap_content" 
             android:id="@+id/ButtonLogin" 
             android:layout_alignParentLeft="true" 
