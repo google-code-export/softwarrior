@@ -6,24 +6,18 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
-import android.os.Handler;
 import android.os.Process;
 
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import android.widget.ImageView;
-
 import com.softwarrior.rss.*;
-import com.softwarrior.web.*;
 import com.softwarrior.libtorrent.*;
-import com.softwarrior.common.*;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
 
 public class RutrackerDownloader extends Activity {
 
