@@ -90,7 +90,7 @@ public class RutrackerDownloader extends Activity {
 	}
 	
     private void PreferencesActivity(){
-    	Log.d(Constants.LOG_TAG, "PreferencesActivity");
+    	Log.d(RutrackerDownloaderApp.TAG, "PreferencesActivity");
 	   	Intent intent = new Intent(Intent.ACTION_VIEW);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	  	intent.setClassName(this, PreferencesScreen.class.getName());
@@ -98,7 +98,7 @@ public class RutrackerDownloader extends Activity {
     }
 
     private void RssActivity(){
-    	Log.d(Constants.LOG_TAG, "RssActivity");
+    	Log.d(RutrackerDownloaderApp.TAG, "RssActivity");
 	   	Intent intent = new Intent(Intent.ACTION_VIEW);
 	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	  	intent.setClassName(this, MessageList.class.getName());

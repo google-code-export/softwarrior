@@ -9,9 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import android.util.Log;
 
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+
+import android.util.Log;
 
 public class TorrentDownloader {
 	
@@ -66,7 +67,7 @@ public class TorrentDownloader {
 	        }
 	       // String reply = sb.toString();		        	    		
 		} catch (Exception ex){
-			Log.e(Constants.LOG_TAG, ex.toString());
+			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
 	}
 	
@@ -88,7 +89,7 @@ public class TorrentDownloader {
               String value=(String)list_it.next();
               resultText += value;
             }
-            Log.i(Constants.LOG_TAG ,resultText);
+            Log.i(RutrackerDownloaderApp.TAG ,resultText);
         }
     }
 }

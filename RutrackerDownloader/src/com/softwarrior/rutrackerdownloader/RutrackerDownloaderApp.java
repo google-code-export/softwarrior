@@ -7,14 +7,12 @@ import android.os.Environment;
 
 public class RutrackerDownloaderApp extends Application {
  
-	public class Constants {
-	    public static final String LOG_TAG = "Softwarrior";
-	}
-	
+	//Constants
+	public static final String TAG = "Softwarrior";
 	public static final String SavePath   = Environment.getExternalStorageDirectory() + "/RutrackerDownloader";
 	public static final String TorentFile = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
 	public static final LibTorrent LibTorrent =  new LibTorrent();
-
+	//Variables
 	public static String CookieData = new String();
 	
 	@Override
