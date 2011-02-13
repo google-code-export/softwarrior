@@ -9,12 +9,10 @@ import org.xmlpull.v1.XmlSerializer;
 import com.softwarrior.rutrackerdownloader.PreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.MessageListResultTypes;
 import com.softwarrior.web.TorrentWebClient;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Process;
 import android.util.Log;
@@ -119,14 +117,14 @@ public class MessageList extends ListActivity {
 
 	private void loadFeed(ParserType type){
     	try{
-    		Log.i("AndroidNews", "ParserType="+type.name());
+    		Log.i(RutrackerDownloaderApp.TAG, "ParserType="+type.name());
 	    	FeedParser parser = FeedParserFactory.getParser(type);
 	    	long start = System.currentTimeMillis();
 	    	messages = parser.parse();
 	    	long duration = System.currentTimeMillis() - start;
-	    	Log.i("AndroidNews", "Parser duration=" + duration);
+	    	Log.i(RutrackerDownloaderApp.TAG, "Parser duration=" + duration);
 	    	String xml = writeXml();
-	    	Log.i("AndroidNews", xml);
+	    	Log.i(RutrackerDownloaderApp.TAG, xml);
 	    	List<String> titles = new ArrayList<String>(messages.size());
 	    	for (Message msg : messages){
 	    		titles.add(msg.getTitle());
@@ -135,7 +133,7 @@ public class MessageList extends ListActivity {
 	    		new ArrayAdapter<String>(this, R.layout.rss_row,titles);
 	    	this.setListAdapter(adapter);
     	} catch (Throwable t){
-    		Log.e("AndroidNews",t.getMessage(),t);
+    		Log.e(RutrackerDownloaderApp.TAG,t.getMessage(),t);
     	}
     }
     
