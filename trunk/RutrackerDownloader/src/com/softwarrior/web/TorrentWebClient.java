@@ -12,10 +12,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 public class TorrentWebClient extends Activity {
 
     private WebView mWebView;
+    private String  mLoadUrl;
     
     final Activity activity = this;
 
@@ -56,9 +58,19 @@ public class TorrentWebClient extends Activity {
                 return true;
             }
         }); 
-        //mWebView.loadUrl("http://rutracker.org/forum/index.php");
-        mWebView.loadUrl("http://login.rutracker.org/forum/login.php");
         
+        Bundle bundle = this.getIntent().getExtras();
+        String hideButtons = bundle.getString("HideButtons");
+        if(hideButtons != null)
+        {
+        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.ButtonsLayout);
+        	buttonsLayout.setVisibility(View.GONE);
+        }
+                                
+        mLoadUrl = bundle.getString("LoadUrl");
+        mWebView.loadUrl(mLoadUrl);
+        
+        //mWebView.loadUrl("http://rutracker.org/forum/index.php");
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
@@ -77,7 +89,7 @@ public class TorrentWebClient extends Activity {
     }
 
     public void OnClickButtonRepeatLogin(View v) {
-    	mWebView.loadUrl("http://login.rutracker.org/forum/login.php");
+    	mWebView.loadUrl(mLoadUrl);
     }
     
     public void OnClickButtonFinishLogin(View v) {
@@ -85,5 +97,6 @@ public class TorrentWebClient extends Activity {
 		CookieManager cookieManager  = CookieManager.getInstance();	
 //		"http://rutracker.org/forum/viewtopic.php?t=2587860" 
 		RutrackerDownloaderApp.CookieData = cookieManager.getCookie("http://rutracker.org/forum/index.php");
+		finish();
     }  
 }
