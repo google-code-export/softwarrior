@@ -1,7 +1,9 @@
 package com.softwarrior.rss;
+
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+
 public abstract class FeedParserFactory {
 	//static String feedUrl = "http://www.androidster.com/android_news.rss";
-	static String feedUrl = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&fromdate=-1+day&type=documental,anime,abook,music";
 	
 	public static FeedParser getParser(){
 		return getParser(ParserType.ANDROID_SAX);
@@ -10,13 +12,13 @@ public abstract class FeedParserFactory {
 	public static FeedParser getParser(ParserType type){
 		switch (type){
 			case SAX:
-				return new SaxFeedParser(feedUrl);
+				return new SaxFeedParser(RutrackerDownloaderApp.FeedUrl);
 			case DOM:
-				return new DomFeedParser(feedUrl);
+				return new DomFeedParser(RutrackerDownloaderApp.FeedUrl);
 			case ANDROID_SAX:
-				return new AndroidSaxFeedParser(feedUrl);
+				return new AndroidSaxFeedParser(RutrackerDownloaderApp.FeedUrl);
 			case XML_PULL:
-				return new XmlPullFeedParser(feedUrl);
+				return new XmlPullFeedParser(RutrackerDownloaderApp.FeedUrl);
 			default: return null;
 		}
 	}

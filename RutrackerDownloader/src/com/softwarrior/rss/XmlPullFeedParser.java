@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+
 import android.util.Log;
 import android.util.Xml;
 
@@ -57,7 +59,7 @@ public class XmlPullFeedParser extends BaseFeedParser {
 				eventType = parser.next();
 			}
 		} catch (Exception e) {
-			Log.e("AndroidNews::PullFeedParser", e.getMessage(), e);
+			Log.e(RutrackerDownloaderApp.TAG, e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 		return messages;

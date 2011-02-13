@@ -4,25 +4,27 @@ import com.softwarrior.libtorrent.LibTorrent;
 import android.app.Application;
 import android.os.Environment;
 
-public class RutrackerDownloaderApp extends Application {
-	//Enumerations
-	public enum PreferencesScreenResultTypes {
-		RESULT_OK(-1),RESULT_CANCELED(0),RESULT_FIRST_USER(1),
-		RESULT_SEARCH(2);
-		
-		private int mCode;
-		private PreferencesScreenResultTypes(int code) {mCode = code;}
-		
-		public int getCode() {return mCode;}		
-		public static PreferencesScreenResultTypes getValue(int code){
-			PreferencesScreenResultTypes result = RESULT_OK;
-			for (PreferencesScreenResultTypes value : PreferencesScreenResultTypes.values()) {
-				if(value.getCode() == code){result = value; break;}					
-			}
-			return result;
-		}
-	}
+public class RutrackerDownloaderApp extends Application {	
+	//Constants
+	public static final String TAG = "Softwarrior";
+	public static final String FeedUrl = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&fromdate=-1+day&type=documental,anime,abook,music";
+	public static final String TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
+	public static final String SavePath   = Environment.getExternalStorageDirectory() + "/RutrackerDownloader";
+	public static final String TorentFile = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
 	
+	public static final LibTorrent LibTorrent =  new LibTorrent();
+	
+	//Variables
+	public static String CookieData = new String();		
+}
+/*
+public class RutrackerDownloader extends Activity {
+    
+    public enum ActivityType{    	
+    	UNDEFINED, PREFERENCES_SCREEN, MESSAGE_LIST, TORRENT_WEB_CLIENT;
+    }
+    
+    	//Enumerations
 	public enum MessageListResultTypes {
 		RESULT_OK(-1),RESULT_CANCELED(0),RESULT_FIRST_USER(1),
 		RESULT_ABOUT(2), RESULT_HELP(3), RESULT_PREFERENCES(4), RESULT_EXIT(5);
@@ -39,23 +41,6 @@ public class RutrackerDownloaderApp extends Application {
 			return result;
 		}
 	}
-	
-	//Constants
-	public static final String TAG = "Softwarrior";
-	public static final String TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
-	public static final String SavePath   = Environment.getExternalStorageDirectory() + "/RutrackerDownloader";
-	public static final String TorentFile = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
-	public static final LibTorrent LibTorrent =  new LibTorrent();
-	
-	//Variables
-	public static String CookieData = new String();		
-}
-/*
-public class RutrackerDownloader extends Activity {
-    
-    public enum ActivityType{    	
-    	UNDEFINED, PREFERENCES_SCREEN, MESSAGE_LIST, TORRENT_WEB_CLIENT;
-    }
      
     @Override
     protected void onCreate(Bundle savedInstanceState) {
