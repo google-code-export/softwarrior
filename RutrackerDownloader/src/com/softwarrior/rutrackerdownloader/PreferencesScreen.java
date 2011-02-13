@@ -1,17 +1,15 @@
 package com.softwarrior.rutrackerdownloader;
 
+import com.softwarrior.rss.MessageList;
+import com.softwarrior.web.TorrentWebClient;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.view.KeyEvent;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public final class PreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
@@ -46,8 +44,20 @@ public final class PreferencesScreen extends PreferenceActivity
   }
   
   public void OnClickButtonSearch(View v) {
+	  Intent intent = new Intent(Intent.ACTION_VIEW);
+	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	  intent.setClassName(this, MessageList.class.getName());
+	  startActivity(intent);
+	  finish();
   }
   
   public void OnClickButtonLogin(View v) {
+	  Bundle bundle = new Bundle();
+	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);    			
+	  Intent intent = new Intent(Intent.ACTION_VIEW);
+	  intent.putExtras(bundle);
+	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	  intent.setClassName(this, TorrentWebClient.class.getName());
+	  startActivity(intent);
   }  
 }

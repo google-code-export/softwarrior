@@ -6,15 +6,19 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlSerializer;
 
+import com.softwarrior.rutrackerdownloader.PreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.MessageListResultTypes;
+import com.softwarrior.web.TorrentWebClient;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
 import android.util.Xml;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,38 +33,88 @@ public class MessageList extends ListActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.rss);
-        loadFeed(ParserType.ANDROID_SAX);
+        loadFeed(ParserType.ANDROID_SAX);    
     }
-        
+
+    public enum MenuType{
+    	About, Help, Preferences, Exit;
+    }
+    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-//		menu.add(Menu.NONE, ParserType.ANDROID_SAX.ordinal(), ParserType.ANDROID_SAX.ordinal(), R.string.android_sax); 
-//		menu.add(Menu.NONE, ParserType.SAX.ordinal(), ParserType.SAX.ordinal(), R.string.sax); 
-//		menu.add(Menu.NONE, ParserType.DOM.ordinal(), ParserType.DOM.ordinal(), R.string.dom);
-//		menu.add(Menu.NONE, ParserType.XML_PULL.ordinal(), ParserType.XML_PULL.ordinal(), R.string.pull);
+		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
+		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
+		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
+		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
 
 	@SuppressWarnings("unchecked")
+	void ClearList()
+	{
+		ArrayAdapter<String> adapter = (ArrayAdapter<String>) this.getListAdapter();
+		if (adapter.getCount() > 0){
+			adapter.clear();
+		}		
+	}
+	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		super.onMenuItemSelected(featureId, item);
-		ParserType type = ParserType.values()[item.getItemId()];
-		ArrayAdapter<String> adapter =
-			(ArrayAdapter<String>) this.getListAdapter();
-		if (adapter.getCount() > 0){
-			adapter.clear();
+		MenuType type = MenuType.values()[item.getItemId()];
+		switch(type)
+		{
+		case About:{
+			AboutActivity();
+		} break;
+		case Help:{
+			HelpActivity();
+		} break;
+		case Preferences:{
+			PreferencesScreenActivity();
+		} break;
+		case Exit:{
+			CloseApplication();
+		} break;
 		}
-		this.loadFeed(type);
 		return true;
 	}
 
+	private void AboutActivity(){
+    }
+
+    private void HelpActivity(){
+    }
+    
+    private void PreferencesScreenActivity(){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(getApplicationContext(), PreferencesScreen.class.getName());
+    	startActivity(intent);
+    	finish();
+    }
+
+    private void CloseApplication(){
+    	moveTaskToBack(false);
+    	Process.killProcess(Process.myPid());
+    }
+
+    
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Intent viewMessage = new Intent(Intent.ACTION_VIEW, Uri.parse(messages.get(position).getLink().toExternalForm()));
-		this.startActivity(viewMessage);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("LoadUrl", messages.get(position).getLink().toExternalForm());
+		bundle.putString("HideButtons","true");
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.putExtras(bundle);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		intent.setClassName(this, TorrentWebClient.class.getName());
+		startActivity(intent);		
+		//Intent viewMessage = new Intent(Intent.ACTION_VIEW, Uri.parse(messages.get(position).getLink().toExternalForm()));
+		//startActivity(viewMessage);
 	}
 
 	private void loadFeed(ParserType type){

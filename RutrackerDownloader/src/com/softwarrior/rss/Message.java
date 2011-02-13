@@ -2,7 +2,6 @@ package com.softwarrior.rss;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,6 +45,7 @@ public class Message implements Comparable<Message>{
 		return FORMATTER.format(this.date);
 	}
 
+	@SuppressWarnings("static-access")
 	public void setDate(String date) {
 		// pad the date if necessary
 		while (!date.endsWith("00")){
