@@ -41,10 +41,11 @@
 	
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
-
 	<string name="on_click_button_refresh_page">OnClickButtonRefreshPage</string>
 	<string name="on_click_button_finish_login">OnClickButtonFinishLogin</string>
+	<string name="on_click_button_download">OnClickButtonDownload</string>
 	
+	<string name="button_download">Download distribution</string>
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
 	<string name="button_refresh_page">Refresh page</string>

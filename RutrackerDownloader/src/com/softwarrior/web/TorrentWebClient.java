@@ -1,10 +1,13 @@
 package com.softwarrior.web;
 
+
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +18,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
+import android.widget.ViewAnimator;
 
 public class TorrentWebClient extends Activity {
 
     private WebView mWebView;
-    private String  mLoadUrl;
-    private String  mAction;
+   
+    private String  mLoadUrl = new String();
+    private String  mAction = new String();
+    private String  mCurrentUrl = new String();
+    private String  mDistributionNumber = new String();
+    private boolean mCatchBackKey = false;
     
     final Activity activity = this;
     
@@ -60,29 +68,81 @@ public class TorrentWebClient extends Activity {
             }
  
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url){
-                view.loadUrl(url);
+            public boolean shouldOverrideUrlLoading(WebView view, String url){            	
+            	view.loadUrl(url);
                 return true;
+            }
+            
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            	ManageDownloadButton(url);
+            	super.onPageStarted(view, url, favicon);
             }
         }); 
         
         Bundle bundle = this.getIntent().getExtras();
         mAction = bundle.getString("Action");
-        if(!mAction.equals("Login"))
-        {
-        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.ButtonsLayout);
-        	buttonsLayout.setVisibility(View.GONE);
+        if(mAction.equals("Login")) {
+        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+        	viewAnimator.setVisibility(View.VISIBLE);
+        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
+        	buttonsLayout.setVisibility(View.VISIBLE);
+        	viewAnimator.bringChildToFront(buttonsLayout);
         }
-        
+        else if(mAction.equals("Show")){        	
+        }
+        else if(mAction.equals("Search")){
+        	mCatchBackKey = true;
+        }        
         mLoadUrl = bundle.getString("LoadUrl");
-        mWebView.loadUrl(mLoadUrl);
-        
+        mWebView.loadUrl(mLoadUrl);       
         //mWebView.loadUrl("http://rutracker.org/forum/index.php");
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
     }
-        
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(mCatchBackKey){	        	
+	    	if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+	        	mWebView.goBack();
+	            return true;
+	        }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void ManageDownloadButton(String current_url) {
+    	if(mAction.equals("Show") || mAction.equals("Search")){        	
+	    	if(current_url.contains("http://rutracker.org/forum/viewtopic.php?t=")){
+	    		mCurrentUrl = current_url;
+	    		mDistributionNumber = current_url.replace("http://rutracker.org/forum/viewtopic.php?t=", "");
+	    		mDistributionNumber= mDistributionNumber.trim();
+	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+	        	viewAnimator.setVisibility(View.VISIBLE);
+	        	RelativeLayout downloadLayout = (RelativeLayout) findViewById(R.id.DownloadLayout);
+	        	downloadLayout.setVisibility(View.VISIBLE);
+	        	viewAnimator.bringChildToFront(downloadLayout);
+	    	}
+	    	else{
+	    		mDistributionNumber = new String();
+	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+	        	viewAnimator.setVisibility(View.GONE);            		
+	    	}
+    	}
+    }
+    
+    public void OnClickButtonDownload(View v) {    	
+    	if(mDistributionNumber.length()>0){
+    		CookieSyncManager.getInstance().sync();
+    		CookieManager cookieManager  = CookieManager.getInstance();	
+    		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
+    		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, RutrackerDownloaderApp.TorrentFullFileName);
+    		torrentDownloader.Download(mDistributionNumber);
+    	}    	
+    }
+    
     @Override
     protected void onResume() {
     	CookieSyncManager.getInstance().startSync();
