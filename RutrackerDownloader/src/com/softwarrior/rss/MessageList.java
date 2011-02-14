@@ -10,7 +10,6 @@ import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
-import com.softwarrior.web.TorrentWebClient.MenuType;
 
 import android.app.ListActivity;
 import android.content.Intent;
