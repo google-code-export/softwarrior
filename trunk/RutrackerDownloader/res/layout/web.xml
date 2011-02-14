@@ -19,9 +19,9 @@
 			android:layout_centerHorizontal="true" 
 			android:layout_centerVertical="true"/> 		 
 		<Button 
-			android:text="@string/button_repeat_login"
-			android:onClick="@string/on_click_button_repeat_login"
-            android:id="@+id/ButtonRepeatLogin"
+			android:text="@string/button_refresh_page"
+			android:onClick="@string/on_click_button_refresh_page"
+            android:id="@+id/ButtonRefreshPage"
             android:layout_alignParentRight="true" 
             android:layout_height="wrap_content" 
             android:layout_width="fill_parent" 

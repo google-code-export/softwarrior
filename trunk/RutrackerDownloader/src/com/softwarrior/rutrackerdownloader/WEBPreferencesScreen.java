@@ -1,13 +1,16 @@
 package com.softwarrior.rutrackerdownloader;
 
-import com.softwarrior.rss.MessageList;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.preference.Preference;
@@ -21,6 +24,10 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 
 	String mString = new String();
 
+	public enum MenuType{
+		About, Help, Exit;
+	}
+	
 	//TITLE
 	public static final String KEY_SEARCH_STRING = "preferences_search_string";
 
@@ -43,6 +50,55 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	super.onResume();
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
   }
+  
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
+		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
+		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
+		return true;
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		super.onMenuItemSelected(featureId, item);
+		MenuType type = MenuType.values()[item.getItemId()];
+		switch(type)
+		{
+		case About:{
+			AboutActivity();
+		} break;
+		case Help:{
+			HelpActivity();
+		} break;
+		case Exit:{
+			CloseApplication();
+		} break;
+		}
+		return true;
+	}
+
+	private void AboutActivity(){
+    }
+
+    private void HelpActivity(){
+    }
+
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_EXIT:{
+			CloseApplication();
+		} break;
+		};		
+	}
+	
+	private void CloseApplication(){
+	  	moveTaskToBack(false);
+	  	Process.killProcess(Process.myPid());
+	}
 
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {
@@ -85,10 +141,12 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     if(pref instanceof EditTextPreference) {
     	EditTextPreference editTextPreference = (EditTextPreference) pref;
     	String text = editTextPreference.getText();		    	
-    	if(text.length()>0){
-    		if(editTextPreference.getKey().equals(KEY_SEARCH_STRING)){
-    			mString = text;
-    		}
+    	if(text != null){
+	    	if(text.length()>0){
+	    		if(editTextPreference.getKey().equals(KEY_SEARCH_STRING)){
+	    			mString = text;
+	    		}
+	    	}
     	}
     }	  
   }
@@ -115,17 +173,18 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  CreateSearchUrl();
 	  Bundle bundle = new Bundle();
 	  bundle.putString("LoadUrl", RutrackerDownloaderApp.SearchUrl);
-	  bundle.putString("HideButtons", "true");
+	  bundle.putString("Action", "Search");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	  intent.setClassName(this, TorrentWebClient.class.getName());
-	  startActivity(intent);
+	  startActivityForResult(intent,0);
   }
   
   public void OnClickButtonLogin(View v) {
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);    			
+	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);
+	  bundle.putString("Action", "Login");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

@@ -5,6 +5,25 @@ import android.app.Application;
 import android.os.Environment;
 
 public class RutrackerDownloaderApp extends Application {	
+		
+   	//Enumerations
+	public enum ActivityResultType {
+		RESULT_OK(-1),RESULT_CANCELED(0),RESULT_FIRST_USER(1),
+		RESULT_PREFERENCES(2), RESULT_EXIT(3);
+		
+		private int mCode;
+		private ActivityResultType(int code) {mCode = code;}
+		
+		public int getCode() {return mCode;}
+		public static ActivityResultType getValue(int code){
+			ActivityResultType result = RESULT_OK;
+			for (ActivityResultType value : ActivityResultType.values()) {
+				if(value.getCode() == code){result = value; break;}					
+			}
+			return result;
+		}
+	}
+	
 	//Constants
 	public static final String TAG = "Softwarrior";
 	public static final String TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";

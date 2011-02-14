@@ -44,10 +44,10 @@ public class SplashScreen extends Activity {
     private class SplashHandler extends Handler {	
 	    @Override
 		public void handleMessage(Message message) {
-		   	Intent intent = new Intent(Intent.ACTION_VIEW);
-		    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		  	intent.setClassName(getApplicationContext(), PreferencesTabs.class.getName());
-		    startActivity(intent);
+	    	Intent intent = new Intent(Intent.ACTION_VIEW);
+	    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	    	intent.setClassName(getApplicationContext(), PreferencesTabs.class.getName());
+	    	startActivity(intent);
 	    	finish();
 	    }
     }        
