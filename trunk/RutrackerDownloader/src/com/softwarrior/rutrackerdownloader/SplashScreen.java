@@ -46,7 +46,7 @@ public class SplashScreen extends Activity {
 		public void handleMessage(Message message) {
 		   	Intent intent = new Intent(Intent.ACTION_VIEW);
 		    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		  	intent.setClassName(getApplicationContext(), PreferencesScreen.class.getName());
+		  	intent.setClassName(getApplicationContext(), PreferencesTabs.class.getName());
 		    startActivity(intent);
 	    	finish();
 	    }

@@ -37,6 +37,8 @@
 	<string name="preferences_search_year_title">SEARCH YEAR</string>
 	<string name="preferences_search_name_title">SEARCH NAME</string>
 	
+	<string name="preferences_search_string_title">SEARCH STRING</string>
+	
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
 
@@ -51,5 +53,8 @@
 	<string name="summary_chechbox_enable">Enable this setting</string>
 	<string name="summary_chechbox_disable">Disable this setting</string>
 	<string name="summary_edittext_current">Current value is</string>
-
+	
+	<string name="tab_web_search">Web Search</string>
+	<string name="tab_rss_search">RSS Search</string>
+	
 </resources>

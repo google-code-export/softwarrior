@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlSerializer;
 
-import com.softwarrior.rutrackerdownloader.PreferencesScreen;
+import com.softwarrior.rutrackerdownloader.RSSPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.web.TorrentWebClient;
@@ -88,7 +88,7 @@ public class MessageList extends ListActivity {
     private void PreferencesScreenActivity(){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(getApplicationContext(), PreferencesScreen.class.getName());
+    	intent.setClassName(getApplicationContext(), RSSPreferencesScreen.class.getName());
     	startActivity(intent);
     	finish();
     }
