@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.preference.Preference;
@@ -16,6 +19,8 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceGroup;
 
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
+
 public final class RSSPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
 
@@ -23,7 +28,10 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	  String mDate = new String();
 	  String mName = new String();
 
-	
+	public enum MenuType{
+		About, Help, Exit;
+	}
+	  	
 	//http://feed.rutracker.org/atom/f/XX.atom
 	//FILMS, VIDEO, TV
 	public static final String KEY_VIDEO_FOREIGN_FILMS = "preferences_video_foreign_films"; //7
@@ -45,6 +53,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	public static final String KEY_SEARCH_YEAR = "preferences_search_year";
 	public static final String KEY_SEARCH_NAME = "preferences_search_name";
 
+	
 	@Override
   protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
@@ -65,6 +74,55 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
   }
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
+		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
+		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
+		return true;
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		super.onMenuItemSelected(featureId, item);
+		MenuType type = MenuType.values()[item.getItemId()];
+		switch(type)
+		{
+		case About:{
+			AboutActivity();
+		} break;
+		case Help:{
+			HelpActivity();
+		} break;
+		case Exit:{
+			CloseApplication();
+		} break;
+		}
+		return true;
+	}
+
+	private void AboutActivity(){
+    }
+
+    private void HelpActivity(){
+    }
+
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_EXIT:{
+			CloseApplication();
+		} break;
+		};		
+	}
+	
+	private void CloseApplication(){
+	  	moveTaskToBack(false);
+	  	Process.killProcess(Process.myPid());
+	}
+  
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {
 	  for (int i = 0; i < pg.getPreferenceCount(); ++i) {
@@ -125,13 +183,15 @@ public final class RSSPreferencesScreen extends PreferenceActivity
     else if(pref instanceof EditTextPreference) {
     	EditTextPreference editTextPreference = (EditTextPreference) pref;
     	String text = editTextPreference.getText();		    	
-    	if(text.length()>0){
-    		if(editTextPreference.getKey().equals(KEY_SEARCH_YEAR)){
-    			mDate = text;
-    		}
-    		if(editTextPreference.getKey().equals(KEY_SEARCH_NAME)){
-    			mName = text;
-    		}		    			
+    	if(text != null){
+	    	if(text.length()>0){
+	    		if(editTextPreference.getKey().equals(KEY_SEARCH_YEAR)){
+	    			mDate = text;
+	    		}
+	    		if(editTextPreference.getKey().equals(KEY_SEARCH_NAME)){
+	    			mName = text;
+	    		}		    			
+	    	}
     	}
     }	  
   }
@@ -159,12 +219,13 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	  intent.setClassName(this, MessageList.class.getName());
-	  startActivity(intent);
+	  startActivityForResult(intent,0);
   }
-  
+    
   public void OnClickButtonLogin(View v) {
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);    			
+	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);
+	  bundle.putString("Action", "Login");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

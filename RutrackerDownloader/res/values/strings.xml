@@ -42,12 +42,12 @@
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
 
-	<string name="on_click_button_repeat_login">OnClickButtonRepeatLogin</string>
+	<string name="on_click_button_refresh_page">OnClickButtonRefreshPage</string>
 	<string name="on_click_button_finish_login">OnClickButtonFinishLogin</string>
 	
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
-	<string name="button_repeat_login">Repeat Login</string>
+	<string name="button_refresh_page">Refresh page</string>
 	<string name="button_finish_login">Finish Login</string>
 	
 	<string name="summary_chechbox_enable">Enable this setting</string>

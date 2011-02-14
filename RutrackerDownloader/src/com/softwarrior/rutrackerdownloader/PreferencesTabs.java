@@ -12,8 +12,8 @@ public class PreferencesTabs extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final TabHost tabHost = getTabHost();
-
+        final TabHost tabHost = getTabHost();        
+                
         tabHost.addTab(tabHost.newTabSpec("tab_web_search")
                 .setIndicator(getString(R.string.tab_web_search))
                 .setContent(new Intent(this, WEBPreferencesScreen.class)));
@@ -21,7 +21,15 @@ public class PreferencesTabs extends TabActivity {
         tabHost.addTab(tabHost.newTabSpec("tab_rss_search")
                 .setIndicator(getString(R.string.tab_rss_search))
                 .setContent(new Intent(this, RSSPreferencesScreen.class)));      
-        //.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-        // This tab sets the intent flag so that it is recreated each time the tab is clicked.
+        		//.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))); This tab sets the intent flag so that it is recreated each time the tab is clicked.
+        
+        Bundle bundle = this.getIntent().getExtras();
+        if(bundle != null){
+        	String currentTab = bundle.getString("CurrentTab");
+	        if(currentTab != null)
+	        {
+	        	tabHost.setCurrentTabByTag(currentTab);
+	        }
+        }
     }
 }

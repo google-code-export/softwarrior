@@ -5,6 +5,8 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -18,8 +20,13 @@ public class TorrentWebClient extends Activity {
 
     private WebView mWebView;
     private String  mLoadUrl;
+    private String  mAction;
     
     final Activity activity = this;
+    
+    public enum MenuType{
+    	About, Help, Preferences, Exit;
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -60,13 +67,13 @@ public class TorrentWebClient extends Activity {
         }); 
         
         Bundle bundle = this.getIntent().getExtras();
-        String hideButtons = bundle.getString("HideButtons");
-        if(hideButtons != null)
+        mAction = bundle.getString("Action");
+        if(!mAction.equals("Login"))
         {
         	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.ButtonsLayout);
         	buttonsLayout.setVisibility(View.GONE);
         }
-                                
+        
         mLoadUrl = bundle.getString("LoadUrl");
         mWebView.loadUrl(mLoadUrl);
         
@@ -75,7 +82,7 @@ public class TorrentWebClient extends Activity {
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
     }
-    
+        
     @Override
     protected void onResume() {
     	CookieSyncManager.getInstance().startSync();
@@ -88,7 +95,55 @@ public class TorrentWebClient extends Activity {
     	super.onStop();
     }
 
-    public void OnClickButtonRepeatLogin(View v) {
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
+		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
+		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
+		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
+		return true;
+	}
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		super.onMenuItemSelected(featureId, item);
+		MenuType type = MenuType.values()[item.getItemId()];
+		switch(type)
+		{
+		case About:{
+			AboutActivity();
+		} break;
+		case Help:{
+			HelpActivity();
+		} break;
+		case Preferences:{
+			PreferencesScreenActivity();
+		} break;
+		case Exit:{
+			CloseApplication();
+		} break;
+		}
+		return true;
+	}
+
+	private void AboutActivity(){
+    }
+
+    private void HelpActivity(){
+    }
+    
+    private void PreferencesScreenActivity(){
+    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
+    	finish();
+    }
+
+    private void CloseApplication(){
+    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	finish();
+    }
+    
+    public void OnClickButtonRefreshPage(View v) {
     	mWebView.loadUrl(mLoadUrl);
     }
     

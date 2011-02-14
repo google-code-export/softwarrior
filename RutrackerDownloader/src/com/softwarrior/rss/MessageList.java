@@ -6,15 +6,15 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlSerializer;
 
-import com.softwarrior.rutrackerdownloader.RSSPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
+import com.softwarrior.web.TorrentWebClient.MenuType;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Process;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
@@ -27,6 +27,11 @@ public class MessageList extends ListActivity {
 	
 	private List<Message> messages;
 	
+    public enum MenuType{
+    	About, Help, Preferences, Exit;
+    }
+
+	
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
@@ -34,10 +39,18 @@ public class MessageList extends ListActivity {
         loadFeed(ParserType.ANDROID_SAX);    
     }
 
-    public enum MenuType{
-    	About, Help, Preferences, Exit;
-    }
-    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_PREFERENCES:
+		case RESULT_EXIT:
+			setResult(resultCode);
+			finish();
+			break;
+		};		
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -46,15 +59,6 @@ public class MessageList extends ListActivity {
 		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
-	}
-
-	@SuppressWarnings("unchecked")
-	void ClearList()
-	{
-		ArrayAdapter<String> adapter = (ArrayAdapter<String>) this.getListAdapter();
-		if (adapter.getCount() > 0){
-			adapter.clear();
-		}		
 	}
 	
 	@Override
@@ -86,31 +90,27 @@ public class MessageList extends ListActivity {
     }
     
     private void PreferencesScreenActivity(){
-    	Intent intent = new Intent(Intent.ACTION_VIEW);
-    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(getApplicationContext(), RSSPreferencesScreen.class.getName());
-    	startActivity(intent);
     	finish();
     }
 
     private void CloseApplication(){
-    	moveTaskToBack(false);
-    	Process.killProcess(Process.myPid());
+    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	finish();
     }
-
-    
+	
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
 		Bundle bundle = new Bundle();
 		bundle.putString("LoadUrl", messages.get(position).getLink().toExternalForm());
-		bundle.putString("HideButtons","true");
+		 bundle.putString("Action", "Search");
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.putExtras(bundle);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		intent.setClassName(this, TorrentWebClient.class.getName());
-		startActivity(intent);		
+		startActivityForResult(intent,0);		
 		//Intent viewMessage = new Intent(Intent.ACTION_VIEW, Uri.parse(messages.get(position).getLink().toExternalForm()));
 		//startActivity(viewMessage);
 	}
