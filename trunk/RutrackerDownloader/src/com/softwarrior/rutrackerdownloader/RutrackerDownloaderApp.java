@@ -7,7 +7,6 @@ import android.os.Environment;
 public class RutrackerDownloaderApp extends Application {	
 	//Constants
 	public static final String TAG = "Softwarrior";
-	public static final String FeedUrl = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&fromdate=-1+day&type=documental,anime,abook,music";
 	public static final String TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
 	public static final String SavePath   = Environment.getExternalStorageDirectory() + "/RutrackerDownloader";
 	public static final String TorentFile = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
@@ -15,7 +14,9 @@ public class RutrackerDownloaderApp extends Application {
 	public static final LibTorrent LibTorrent =  new LibTorrent();
 	
 	//Variables
-	public static String CookieData = new String();		
+	public static String CookieData = new String();
+	//"http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&type=video_foreign_films&date=2010&name=the";
+	public static String FeedUrl = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
 }
 /*
 public class RutrackerDownloader extends Activity {
