@@ -5,10 +5,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
@@ -42,7 +38,7 @@ public class TorrentDownloader {
 		    httppost.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.7");
 		    httppost.setRequestProperty("Keep-Alive", "300");
 		    httppost.setRequestProperty("Connection", "keep-alive");
-		    httppost.setRequestProperty("Referer", "http://rutracker.org/forum/viewtopic.php?t=2587860");
+		    httppost.setRequestProperty("Referer", "http://rutracker.org/forum/viewtopic.php?t=" + DistributionNumber);
 		    httppost.setRequestProperty("Cookie", mCookieData + "; bb_dl=" + DistributionNumber);
 		    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		    httppost.setRequestProperty("Content-Length", "0");
@@ -71,25 +67,25 @@ public class TorrentDownloader {
 	    }
 	}
 	
-    void PrintMapWithList(Map<String, List<String>> MapList)
-    {
-        Set map_set = MapList.entrySet();
-        Iterator map_it = map_set.iterator();
-        
-        while(map_it.hasNext())
-        {
-            Map.Entry map_entry =(Map.Entry)map_it.next();
-            String key=(String)map_entry.getKey();
-            String resultText = key;
-            resultText += ": ";
-            List<String> value_list=(List<String>)map_entry.getValue();	            
-            Iterator list_it=value_list.iterator();
-            while(list_it.hasNext())
-            {
-              String value=(String)list_it.next();
-              resultText += value;
-            }
-            Log.i(RutrackerDownloaderApp.TAG ,resultText);
-        }
-    }
+//    void PrintMapWithList(Map<String, List<String>> MapList)
+//    {
+//        Set map_set = MapList.entrySet();
+//        Iterator map_it = map_set.iterator();
+//        
+//        while(map_it.hasNext())
+//        {
+//            Map.Entry map_entry =(Map.Entry)map_it.next();
+//            String key=(String)map_entry.getKey();
+//            String resultText = key;
+//            resultText += ": ";
+//            List<String> value_list=(List<String>)map_entry.getValue();	            
+//            Iterator list_it=value_list.iterator();
+//            while(list_it.hasNext())
+//            {
+//              String value=(String)list_it.next();
+//              resultText += value;
+//            }
+//            Log.i(RutrackerDownloaderApp.TAG ,resultText);
+//        }
+//    }
 }

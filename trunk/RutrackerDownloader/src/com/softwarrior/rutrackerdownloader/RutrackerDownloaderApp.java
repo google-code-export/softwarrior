@@ -30,7 +30,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String FeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
 	public static final String SearchUrlPrefix = "http://rutracker.org/forum/search.php";
 	public static final String SavePath   = Environment.getExternalStorageDirectory() + "/RutrackerDownloader";
-	public static final String TorentFile = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
+	public static final String TorrentFullFileName = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
 	
 	public static final LibTorrent LibTorrent =  new LibTorrent();
 	

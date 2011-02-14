@@ -104,7 +104,7 @@ public class MessageList extends ListActivity {
 
 		Bundle bundle = new Bundle();
 		bundle.putString("LoadUrl", messages.get(position).getLink().toExternalForm());
-		 bundle.putString("Action", "Search");
+		bundle.putString("Action", "Show");
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.putExtras(bundle);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
