@@ -58,4 +58,16 @@
 	<string name="tab_web_search">Web Search</string>
 	<string name="tab_rss_search">RSS Search</string>
 	
+	<string name="service_controller">Torrent Downloader Service controller</string>	
+	<string name="service_created">Torrent Downloader Service created</string>
+	<string name="service_destroyed">Torrent Downloader Service destroyed</string>
+	<string name="service_label">Torrent Downloader Service</string>
+	<string name="activity_service_controller">Torrent Downloader Service Controller</string>
+		
+	<string name="start1_service">Start \"One\" no redeliver</string>
+    <string name="start2_service">Start \"Two\" no redeliver</string>
+    <string name="start3_service">Start \"Three\" w/redeliver</string>
+    <string name="startfail_service">Start failed delivery</string>
+    <string name="kill_process">Kill Process</string>
+		    	    		
 </resources>

@@ -70,13 +70,14 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetProgress
 			std::vector<libtorrent::size_type> file_progress;
 			gTHandle.file_progress(file_progress);
 			libtorrent::torrent_info const& info = gTHandle.get_torrent_info();
+			int files_num = info.num_files();
 			for (int i = 0; i < info.num_files(); ++i)
 			{
-				bool pad_file = info.file_at(i).pad_file;
 				int progress = info.file_at(i).size > 0 ?file_progress[i] * 1000 / info.file_at(i).size:1000;
-				result = progress;
-				LOG_INFO("File number=%d, progress=%d, pad_file=%d", i, progress, pad_file);
+				result += progress;
 			}
+			result = result/files_num;
+			LOG_INFO("Common progress=%d\n\r", result);
 		}
 	}
 	return result;

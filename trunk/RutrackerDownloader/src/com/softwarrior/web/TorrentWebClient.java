@@ -1,10 +1,12 @@
 package com.softwarrior.web;
 
 
+import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -140,6 +142,11 @@ public class TorrentWebClient extends Activity {
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
     		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, RutrackerDownloaderApp.TorrentFullFileName);
     		torrentDownloader.Download(mDistributionNumber);
+    		
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+			intent.setClassName(this, DownloadService.Controller.class.getName());
+			startActivity(intent);
     	}    	
     }
     
