@@ -1,82 +1,146 @@
-// RutrackerDownloaderWin.cpp : Defines the entry point for the console application.
-//
-//#include "stdafx.h"
-//
-//
-//int _tmain(int argc, _TCHAR* argv[])
-//{
-//	return 0;
-//}
-
-//#include <iterator>
-//
-//#include "libtorrent/config.hpp"
-
+//-----------------------------------------------------------------------------------
 #ifdef _MSC_VER
 #pragma warning(push, 1)
 #endif
 
-//#include <boost/filesystem/operations.hpp>
-//#include <boost/filesystem/convenience.hpp>
-//#include <boost/bind.hpp>
-
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-
-//#include "libtorrent/extensions/metadata_transfer.hpp"
-//#include "libtorrent/extensions/ut_metadata.hpp"
-//#include "libtorrent/extensions/ut_pex.hpp"
-//#include "libtorrent/extensions/smart_ban.hpp"
-
-//#include "libtorrent/entry.hpp"
-//#include "libtorrent/bencode.hpp"
+//-----------------------------------------------------------------------------------
 #include "libtorrent/session.hpp"
-//#include "libtorrent/identify_client.hpp"
-//#include "libtorrent/alert_types.hpp"
-//#include "libtorrent/ip_filter.hpp"
-//#include "libtorrent/magnet_uri.hpp"
-//#include "libtorrent/bitfield.hpp"
-//#include "libtorrent/file.hpp"
+//-----------------------------------------------------------------------------------
+static libtorrent::session* 	  gpSession = 0;
+static libtorrent::torrent_handle gTHandle;
+static char* 				      gpSavePath = 0;
+static char* 					  gpTorentFile = 0;
+//-----------------------------------------------------------------------------------
+void StartDownload(const std::string& SavePath, const std::string& TorentFile, int ListenPort, int ProxyType, const std::string& ProxyHostName, int ProxyPort, const std::string& ProxyUsername)
+{
+	if(gpSession == 0)
+	{
+		gpSession = new libtorrent::session();
+		int listenPort = ListenPort;
+		gpSession->listen_on(std::make_pair(listenPort, listenPort+10));
 
-using boost::bind;
+		//TODO: PROXY
+//		proxy_settings ps;
+//		ps.hostname = ProxyHostName;
+//	    ps.port = ProxyPort;
+//	    ps.type = ProxyType;
+//		//if (ps.type == proxy_settings::none) ps.type = proxy_settings::socks5;
+//		ps.username = ProxyUsername;
+//		ps.password = ProxyPassword;
+//		ps.type = proxy_settings::socks5_pw;
+//
+//		gpSession->set_peer_proxy(ps);
+//		gpSession->set_web_seed_proxy(ps);
+//		gpSession->set_tracker_proxy(ps);
+//		gpSession->set_dht_proxy(ps);
 
+		libtorrent::add_torrent_params torrentParams;
+
+		gpSavePath = new char[SavePath.length()];
+		strcpy(gpSavePath, SavePath.c_str());
+
+		torrentParams.save_path  = gpSavePath;
+
+		gpTorentFile = new char[TorentFile.length()];
+		strcpy(gpTorentFile, TorentFile.c_str());
+
+		torrentParams.ti = new libtorrent::torrent_info(gpTorentFile);
+
+		libtorrent::error_code ec;
+		gTHandle = gpSession->add_torrent(torrentParams,ec);
+		if(ec)
+			printf("failed to add torrent: %s\n", ec.message().c_str());
+	}
+}
+//-----------------------------------------------------------------------------------
+int GetProgress()
+{
+	int result = 0;
+	if(gpSession)
+	{
+		libtorrent::torrent_status s = gTHandle.status();
+		if(s.state != libtorrent::torrent_status::seeding && gTHandle.has_metadata())
+		{
+			std::vector<libtorrent::size_type> file_progress;
+			gTHandle.file_progress(file_progress);
+			libtorrent::torrent_info const& info = gTHandle.get_torrent_info();
+			for (int i = 0; i < info.num_files(); ++i)
+			{
+				bool pad_file = info.file_at(i).pad_file;
+				int progress = info.file_at(i).size > 0 ?file_progress[i] * 1000 / info.file_at(i).size:1000;
+				result = progress;
+				printf("File number=%d, progress=%d, pad_file=%d", i, progress, pad_file);
+			}
+		}
+	}
+	return result;
+}
+//-----------------------------------------------------------------------------------
+void StopDownload()
+{
+	if(gpSession)
+	{
+		delete gpSession;
+		gpSession = 0;
+	}
+	if(gpSavePath)
+	{
+		delete gpSavePath;
+		gpSavePath = 0;
+	}
+	if(gpTorentFile)
+	{
+		delete gpTorentFile;
+		gpTorentFile = 0;
+	}
+}
+//-----------------------------------------------------------------------------------
+// MAIN
+//-----------------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
-        using namespace libtorrent;
+//-----------------------------
 #if BOOST_VERSION < 103400
-        namespace fs = boost::filesystem;
-        fs::path::default_name_check(fs::no_check);
+	namespace fs = boost::filesystem;
+	fs::path::default_name_check(fs::no_check);
 #endif
-
-if (argc != 2)
-{
-        std::cerr << "usage: ./simple_client torrent-file\n"
-                "to stop the client, press return.\n";
-        return 1;
-}
-
+//----------------------------
+	if (argc != 2)
+	{
+			std::cerr << "usage: ./simple_client torrent-file\n"
+					"to stop the client, press return.\n";
+			return 1;
+	}
+//----------------------------
 #ifndef BOOST_NO_EXCEPTIONS
-        try
+	try
 #endif
-        {
-                session s;
-                s.listen_on(std::make_pair(6881, 6889));
-                add_torrent_params p;
-                p.save_path = "./";
-                p.ti = new torrent_info(argv[1]);
-                s.add_torrent(p);
+//----------------------------
+	{
+		StartDownload("./", argv[1], 6881, 0, "", 0, "");
+        
+		for(int i = 0; i<100; i++)	
+			Sleep(100);
 
-                // wait for the user to end
-                char a;
-                std::cin.unsetf(std::ios_base::skipws);
-                std::cin >> a;
-        }
+		GetProgress();
+
+		char a;
+        std::cin.unsetf(std::ios_base::skipws);
+        std::cin >> a;
+
+		StopDownload();
+	}
+//----------------------------
 #ifndef BOOST_NO_EXCEPTIONS
-        catch (std::exception& e)
-        {
-                std::cout << e.what() << "\n";
-        }
+    catch (std::exception& e)
+    {
+            std::cout << e.what() << "\n";
+    }
 #endif
-        return 0;
+//----------------------------
+	return 0;
 }
+//-----------------------------------------------------------------------------------
