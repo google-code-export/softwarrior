@@ -66,8 +66,8 @@
 	<string name="service_disconnected">Torrent Downloader Service disconnected</string>
 	<string name="service_connected">Torrent Downloader Service connected</string>
 	<string name="service_controller">Torrent Downloader Service controller</string>	
-	<string name="service_created">Torrent Downloader Service created</string>
-	<string name="service_destroyed">Torrent Downloader Service destroyed</string>
+	<string name="service_created">Torrent Downloader Service started</string>
+	<string name="service_destroyed">Torrent Downloader Service stopped</string>
 	<string name="service_label">Torrent Downloader Service</string>
 	<string name="service_notification">Start Download Service</string>
 	
