@@ -31,9 +31,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String SearchUrlPrefix = "http://rutracker.org/forum/search.php";
 	public static final String SavePath   = Environment.getExternalStorageDirectory() + "/RutrackerDownloader";
 	public static final String TorrentFullFileName = Environment.getExternalStorageDirectory() + "/RutrackerDownloader/downloader.torrent";	
-	
-	public static final LibTorrent LibTorrent =  new LibTorrent();
-	
+		
 	//Variables
 	public static String CookieData = new String();
 	//"http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&type=video_foreign_films&date=2010&name=the";

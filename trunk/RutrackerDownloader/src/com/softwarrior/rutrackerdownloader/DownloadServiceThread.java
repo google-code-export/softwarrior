@@ -7,27 +7,40 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Process;
+
 import android.util.Log;
+
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class DownloadService extends Service {
+
+public class DownloadServiceThread extends Service {
     
 	private static final LibTorrent mLibTorrent =  new LibTorrent();
 	
 	private NotificationManager mNM;
-    private int mStartId = 0;
+    private	Intent mInvokeIntent;
+    	
+    private volatile Looper mServiceLooper;
+    private volatile ServiceHandler mServiceHandler;
+    private volatile Message mMsg;
     
     private final IBinder mBinder = new LocalBinder();
 
@@ -48,62 +61,100 @@ public class DownloadService extends Service {
     }    
     
     public class LocalBinder extends Binder {
-    	DownloadService getService() {
-            return DownloadService.this;
+    	DownloadServiceThread getService() {
+            return DownloadServiceThread.this;
         }
     }    
+        
+    private final class ServiceHandler extends Handler {
+        public ServiceHandler(Looper looper) {
+            super(looper);
+        }
+        
+        @Override
+        public void handleMessage(Message msg) {
+           
+        	Bundle arguments = (Bundle)msg.obj;        
+            String txt = arguments.getString("notification");
             
+            Log.d(RutrackerDownloaderApp.TAG, "Message: " + msg + ", " + arguments.getString("notification"));
+        
+            //Check flags
+            if ((msg.arg2 & Service.START_FLAG_REDELIVERY) == 0) {
+                txt = "New " + msg.arg1 + ": " + txt;
+            } else {
+                txt = "Re-delivered " + msg.arg1 + ": " + txt;
+            }
+                        
+            showNotification(txt);            
+            
+            String savePath = RutrackerDownloaderApp.SavePath; 
+            String torentFile = RutrackerDownloaderApp.TorrentFullFileName; 
+            int listenPort = 0; 
+            int proxyType = 0; 
+            String proxyHostName = new String(); 
+            int proxyPort = 0; 
+            String proxyUsername = new String(); 
+            String proxyPassword = new String();
+
+            StartDownload(savePath, torentFile, listenPort, proxyType, proxyHostName, proxyPort, proxyUsername, proxyPassword);
+			
+		    //void StopServiceSelf();
+        }
+    };
+    
     void StopServiceSelf()
     {
+        long endTime = System.currentTimeMillis() + 5*1000;
+		while (System.currentTimeMillis() < endTime) {
+			synchronized (this) {
+				try {
+				      wait(endTime - System.currentTimeMillis());
+				} catch (Exception e) {
+				}
+			}
+		}  
 		hideNotification();            
 		Log.d(RutrackerDownloaderApp.TAG, "StopServiceSelf");            
-		stopSelf(mStartId);
+		stopSelf(mMsg.arg1); //startId;
     }
-         
+    
+     
     @Override
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        Toast.makeText(this, R.string.service_created,Toast.LENGTH_SHORT).show();        
-//      mInvokeIntent = new Intent(this, Controller.class); //This is who should be launched if the user selects our persistent notification.
+        Toast.makeText(this, R.string.service_created,Toast.LENGTH_SHORT).show();
+        //This is who should be launched if the user selects our persistent notification.
+        mInvokeIntent = new Intent(this, Controller.class); 
+        //Start up the thread running the service.  
+        //Note that we create a separate thread because the service normally runs in the process's main thread, which we don't want to block.
+        //We also make it background priority so CPU-intensive work will not disrupt our UI.        
+        HandlerThread thread = new HandlerThread("DownloadService", Process.THREAD_PRIORITY_BACKGROUND);
+        thread.start();        
+        mServiceLooper = thread.getLooper();
+        mServiceHandler = new ServiceHandler(mServiceLooper);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-		mStartId = startId;
-		Log.d(RutrackerDownloaderApp.TAG, "Service Starting" + startId + ": " + intent.getExtras());
-
-		Bundle arguments = (Bundle)intent.getExtras();        
-		String txt = arguments.getString("notification");
-
-		//Check flags
-		if ((flags & Service.START_FLAG_REDELIVERY) == 0) {
-		    txt = "New " + mStartId + ": " + txt;
-		} else {
-		    txt = "Re-delivered " + mStartId + ": " + txt;
-		}
-	                  
-		showNotification(txt);            
-		  
-		String savePath = RutrackerDownloaderApp.SavePath; 
-		String torentFile = RutrackerDownloaderApp.TorrentFullFileName; 
-		int listenPort = 0; 
-		int proxyType = 0; 
-		String proxyHostName = new String(); 
-		int proxyPort = 0; 
-		String proxyUsername = new String(); 
-		String proxyPassword = new String();
-
-		StartDownload(savePath, torentFile, listenPort, proxyType, proxyHostName, proxyPort, proxyUsername, proxyPassword);
-    	
-        return START_REDELIVER_INTENT; //START_NOT_STICKY;
+        Log.i(RutrackerDownloaderApp.TAG, "Service Starting" + startId + ": " + intent.getExtras());
+        mMsg = mServiceHandler.obtainMessage();
+        mMsg.arg1 = startId;
+        mMsg.arg2 = flags;
+        mMsg.obj = intent.getExtras();
+        mServiceHandler.sendMessage(mMsg);
+        
+        Log.d(RutrackerDownloaderApp.TAG, "Sending: " + mMsg);    	
+        return START_REDELIVER_INTENT; //START_NOT_STICKY
     }
 
     @Override
     public void onDestroy() {
+        mServiceLooper.quit();
         StopDownload();
         hideNotification();
         // Tell the user we stopped.
-        Toast.makeText(DownloadService.this, R.string.service_destroyed, Toast.LENGTH_SHORT).show();
+        Toast.makeText(DownloadServiceThread.this, R.string.service_destroyed, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -131,10 +182,8 @@ public class DownloadService extends Service {
     }    
     // ----------------------------------------------------------------------
     public static class Controller extends Activity {
-        
-    	private volatile boolean mIsBound = false;
-        private volatile boolean mIsBoundService = false; 
-        private DownloadService mBoundService = null;
+        private boolean mIsBound;
+        private DownloadServiceThread mBoundService;
 
         private ProgressBar mProgress;
         private volatile int mProgressStatus = 0;
@@ -143,16 +192,11 @@ public class DownloadService extends Service {
         private Handler mHandler = new Handler();        
         private Thread mProgressThread;
         
-        private Button mButtonStart;
-        private Button mButtonStop;
-        private Button mButtonPause;
-        private Button mButtonResume;
-        
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
         }  
         
-        private volatile ControllerState mControllerState = ControllerState.Undefined;
+        private ControllerState mControllerState = ControllerState.Undefined;
                 
     	@Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -161,16 +205,11 @@ public class DownloadService extends Service {
             setContentView(R.layout.service);
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
-            mButtonStart = (Button)findViewById(R.id.ButtonStartDownloadService);
-            mButtonStop = (Button)findViewById(R.id.ButtonStopDownloadService);
-            mButtonPause = (Button)findViewById(R.id.ButtonPauseDownloadService);
-            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownloadService);
-            
             // Start lengthy operation in a background thread
             mProgressThread = new Thread(new Runnable() {
                 public void run() {
                     while (mProgressStatus < 1000) {
-                    	if(mIsBound && mIsBoundService && mControllerState == ControllerState.Started)
+                    	if(mIsBound && mBoundService != null && mControllerState == ControllerState.Started)
                     		mProgressStatus = mBoundService.GetProgress();
                         // Update the progress bar
                         mHandler.post(new Runnable() {
@@ -186,44 +225,25 @@ public class DownloadService extends Service {
     	
     	void RestoreControllerState()
     	{
-            mPrefs= getSharedPreferences(DownloadService.class.getName(), MODE_PRIVATE);
+            mPrefs= getSharedPreferences(DownloadServiceThread.class.getName(), MODE_PRIVATE);
             int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
-            mControllerState = ControllerState.values()[controllerState]; 
-            SetControllerState(mControllerState);
-    	}
-    	
-    	void SetControllerState(ControllerState controllerState)
-    	{
-    		mControllerState = controllerState; 
+            mControllerState = ControllerState.values()[controllerState];
+            
             switch (mControllerState) {
 			case Started:{
-		       mButtonStart.setEnabled(false);
-		       mButtonStop.setEnabled(true);
-		       mButtonPause.setEnabled(true);
-		       mButtonResume.setEnabled(false);				
+				
 			} break;
 			case Stopped:{
-			       mButtonStart.setEnabled(true);
-			       mButtonStop.setEnabled(false);
-			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(false);				
 			} break;
 			case Paused:{
-			       mButtonStart.setEnabled(false);
-			       mButtonStop.setEnabled(true);
-			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(true);				
 			} break;
 			case Undefined:
 			default: {
-			       mButtonStart.setEnabled(true);
-			       mButtonStop.setEnabled(false);
-			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(false);				
+				
 			} break;
 			}
     	}
-    	
+
     	void SaveControllerState()
     	{
             SharedPreferences.Editor ed = mPrefs.edit();
@@ -241,68 +261,52 @@ public class DownloadService extends Service {
         protected void onDestroy() {
     		Log.d(RutrackerDownloaderApp.TAG, "onDestroy");
             super.onDestroy();
-            doUnbindService();
         }        
         
 		public void OnClickButtonStartDownloadService(View v) {
-		    startService(new Intent(Controller.this, DownloadService.class)
+		    startService(new Intent(Controller.this, DownloadServiceThread.class)
 		    	.putExtra("notification", getString(R.string.service_notification)));
-		    doBindService();
+		    mControllerState = ControllerState.Started;
 		}
        
         public void OnClickButtonStopDownloadService(View v) {
-		    doUnbindService();
-		    stopService(new Intent(Controller.this,DownloadService.class));
-		    SetControllerState(ControllerState.Stopped);
+        	stopService(new Intent(Controller.this,DownloadServiceThread.class));
+		    mControllerState = ControllerState.Stopped;
         }        
 
 		public void OnClickButtonPauseDownloadService(View v) {
-        	if(mIsBound && mIsBoundService && mControllerState == ControllerState.Started){
-        		mBoundService.PauseDownload();
-        		SetControllerState(ControllerState.Paused);
-        	}
+		    mControllerState = ControllerState.Paused;
 		}
        
         public void OnClickButtonResumeDownloadService(View v) {
-        	if(mIsBound && mIsBoundService  && mControllerState == ControllerState.Paused){
-        		mBoundService.ResumeDownload();
-        		SetControllerState(ControllerState.Started);
-        	}
+        	mControllerState = ControllerState.Started;
         }                
-                
+        
+        //This is to simulate the service being killed while it is running in the background.
+        //Process.killProcess(Process.myPid());
+        
         private ServiceConnection mConnection = new ServiceConnection() {
            
         	public void onServiceConnected(ComponentName className, IBinder service) {
-                mBoundService = ((DownloadService.LocalBinder)service).getService(); 
-                if(mBoundService != null)
-                	mIsBoundService = true;
-                else
-                	mIsBoundService = false;
+                mBoundService = ((DownloadServiceThread.LocalBinder)service).getService();                
                 Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
-                if(mIsBoundService)
-                {
-                	SetControllerState(ControllerState.Started);
-        			mProgressThread.start();
-                }
+                Log.d(RutrackerDownloaderApp.TAG, "onServiceConnected");
             }
 
             public void onServiceDisconnected(ComponentName className) {
-            	mIsBoundService = false;
-            	mBoundService = null;
+                mBoundService = null;
                 Toast.makeText(Controller.this, R.string.service_disconnected, Toast.LENGTH_SHORT).show();
-                SetControllerState(ControllerState.Stopped);  
+                Log.d(RutrackerDownloaderApp.TAG, "onServiceDisconnected");
             }
         };
         
         void doBindService() {
-            bindService(new Intent(Controller.this, DownloadService.class), mConnection, Context.BIND_AUTO_CREATE);
+            bindService(new Intent(Controller.this, DownloadServiceThread.class), mConnection, Context.BIND_AUTO_CREATE);
             mIsBound = true;
         }
         
         void doUnbindService() {
             if (mIsBound) {
-            	if(mProgressThread.isAlive())
-            			mProgressThread.stop();
                 // Detach our existing connection.
                 unbindService(mConnection);
                 mIsBound = false;
