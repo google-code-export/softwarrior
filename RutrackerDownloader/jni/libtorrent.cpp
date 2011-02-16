@@ -86,6 +86,8 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetProgress
 				}
 				result = result/files_num;
 			}
+			else if(s.state == libtorrent::torrent_status::seeding && gTHandle.has_metadata())
+					result = 1000;
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to progress torrent");
@@ -94,6 +96,24 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetProgress
 	if(!gWorkState) LOG_ERR("LibTorrent.GetProgress WorkState==false");
 	return result;
 }
+
+JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetStatus
+	(JNIEnv *, jobject)
+{
+	jint result = -1;
+	try {
+		if(gWorkState) {
+			libtorrent::torrent_status s = gTHandle.status();
+			result = s.state;
+		}
+	}catch(...){
+		LOG_ERR("Exception: failed to get status");
+		gWorkState=false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.GetStatus WorkState==false");
+	return result;
+}
+
 
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseDownload
 	(JNIEnv *, jobject)

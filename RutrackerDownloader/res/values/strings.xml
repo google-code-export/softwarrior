@@ -72,5 +72,17 @@
 	<string name="service_notification">Start Download Service</string>
 	
 	<string name="activity_service_controller">Torrent Downloader Service Controller</string>
-		    	    		
+	
+	<string name="text_download_status">Status:</string>
+	<string name="text_download_status_undefined">undefined</string>
+	
+	<string name="text_download_status_queued_for_checking">queued for checking</string>
+	<string name="text_download_status_checking_files">checking files</string>
+	<string name="text_download_status_downloading_metadata">downloading metadata</string>
+	<string name="text_download_status_downloading">downloading</string>
+	<string name="text_download_status_finished">finished</string>
+	<string name="text_download_status_seeding">seeding</string>
+	<string name="text_download_status_allocating">allocating</string>
+	<string name="text_download_status_checking_resume_data">checking resume data</string>	
+				    	    		
 </resources>
