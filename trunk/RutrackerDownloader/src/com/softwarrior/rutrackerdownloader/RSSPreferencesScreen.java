@@ -3,6 +3,7 @@ package com.softwarrior.rutrackerdownloader;
 import com.softwarrior.rss.MessageList;
 import com.softwarrior.web.TorrentWebClient;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -112,13 +113,19 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(ActivityResultType.getValue(resultCode))
 		{
-		case RESULT_EXIT:{
+		case RESULT_PREFERENCES:{			
+		} break;
+		case RESULT_EXIT:
+		default:{
 			CloseApplication();
 		} break;
-		};		
+		};
 	}
 	
 	private void CloseApplication(){
+		stopService(new Intent(getApplicationContext(),DownloadService.class));
+		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+		nm.cancelAll();
 	  	moveTaskToBack(false);
 	  	Process.killProcess(Process.myPid());
 	}

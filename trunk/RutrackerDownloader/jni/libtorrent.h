@@ -18,6 +18,9 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_StartDownl
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetProgress
   (JNIEnv *, jobject);
 
+JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetStatus
+  (JNIEnv *, jobject);
+
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_StopDownload
 	(JNIEnv *, jobject);
 

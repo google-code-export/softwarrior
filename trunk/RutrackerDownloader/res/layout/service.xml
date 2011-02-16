@@ -47,14 +47,30 @@
 		android:id="@+id/ProgressBarLayout" 
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:orientation="vertical"	
-        android:layout_above="@id/ButtonsLayout">		
-	    <ProgressBar 
+		android:layout_above="@id/ButtonsLayout">
+		<TextView 
+			android:layout_alignParentTop="true" 
+			android:text="@string/text_download_status"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content" 
+			android:id="@+id/TextViewStatusLabel"/>
+		<TextView 
+			android:layout_toRightOf="@+id/TextViewStatusLabel"  
+			android:text="@string/text_download_status_undefined"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content" 
+			android:id="@+id/TextViewStatus" 
+			android:layout_alignTop="@+id/TextViewStatusLabel" 
+			android:layout_alignBottom="@+id/TextViewStatusLabel"/>
+		<ProgressBar 
 	    	android:id="@+id/progress_horizontal"
+	    	android:layout_below="@id/TextViewStatus"
 	        style="?android:attr/progressBarStyleHorizontal"
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	     	android:layout_width="fill_parent"
-	        android:max="1000"
-	        android:progress="0" android:paddingTop="40px"/>
-    </RelativeLayout>	
+	     	android:max="1000"
+	        android:progress="0"/> 	           
+		
+
+</RelativeLayout>	
 </RelativeLayout>

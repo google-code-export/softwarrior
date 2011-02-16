@@ -13,9 +13,8 @@
 		<activity android:name="WEBPreferencesScreen"></activity>
 		<activity android:name="RSSPreferencesScreen"></activity>		
 		<activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
-		<activity android:name="com.softwarrior.rss.MessageList"></activity>
-		
-		<service android:name="DownloadService"/>
+		<activity android:name="com.softwarrior.rss.MessageList"></activity>		
+		<service android:name="DownloadService"></service>
         <activity android:name="DownloadService$Controller"
                 android:label="@string/activity_service_controller"
                 android:launchMode="singleTop">
