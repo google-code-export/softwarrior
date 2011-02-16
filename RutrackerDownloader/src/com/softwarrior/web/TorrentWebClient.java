@@ -4,6 +4,7 @@ package com.softwarrior.web;
 import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -115,6 +116,18 @@ public class TorrentWebClient extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_PREFERENCES:
+		case RESULT_EXIT:
+			setResult(resultCode);
+			finish();
+			break;
+		};		
+	}
+
     private void ManageDownloadButton(String current_url) {
     	if(mAction.equals("Show") || mAction.equals("Search")){        	
 	    	if(current_url.contains("http://rutracker.org/forum/viewtopic.php?t=")){
@@ -146,7 +159,7 @@ public class TorrentWebClient extends Activity {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			intent.setClassName(this, DownloadService.Controller.class.getName());
-			startActivity(intent);
+			startActivityForResult(intent, 0);
     	}    	
     }
     
