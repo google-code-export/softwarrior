@@ -1,7 +1,6 @@
 package com.softwarrior.rutrackerdownloader;
 
 import com.softwarrior.libtorrent.LibTorrent;
-import com.softwarrior.rutrackerdownloader.RSSPreferencesScreen.MenuType;
 
 import android.app.Activity;
 import android.app.Notification;

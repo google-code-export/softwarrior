@@ -1,6 +1,5 @@
 package com.softwarrior.rutrackerdownloader;
 
-import com.softwarrior.libtorrent.LibTorrent;
 import android.app.Application;
 import android.os.Environment;
 

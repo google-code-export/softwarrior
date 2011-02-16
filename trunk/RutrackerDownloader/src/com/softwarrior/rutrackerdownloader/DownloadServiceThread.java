@@ -36,7 +36,7 @@ public class DownloadServiceThread extends Service {
 	private static final LibTorrent mLibTorrent =  new LibTorrent();
 	
 	private NotificationManager mNM;
-    private	Intent mInvokeIntent;
+//    private	Intent mInvokeIntent;
     	
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
@@ -125,7 +125,7 @@ public class DownloadServiceThread extends Service {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Toast.makeText(this, R.string.service_created,Toast.LENGTH_SHORT).show();
         //This is who should be launched if the user selects our persistent notification.
-        mInvokeIntent = new Intent(this, Controller.class); 
+ //       mInvokeIntent = new Intent(this, Controller.class); 
         //Start up the thread running the service.  
         //Note that we create a separate thread because the service normally runs in the process's main thread, which we don't want to block.
         //We also make it background priority so CPU-intensive work will not disrupt our UI.        
@@ -219,7 +219,8 @@ public class DownloadServiceThread extends Service {
                         });
                     }
                 }
-            });           
+            });  
+            
             RestoreControllerState();                     
         }
     	
@@ -291,6 +292,7 @@ public class DownloadServiceThread extends Service {
                 mBoundService = ((DownloadServiceThread.LocalBinder)service).getService();                
                 Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
                 Log.d(RutrackerDownloaderApp.TAG, "onServiceConnected");
+                mProgressThread.start();
             }
 
             public void onServiceDisconnected(ComponentName className) {

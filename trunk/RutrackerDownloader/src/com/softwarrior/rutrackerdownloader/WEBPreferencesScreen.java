@@ -1,6 +1,5 @@
 package com.softwarrior.rutrackerdownloader;
 
-import com.softwarrior.rutrackerdownloader.DownloadService.Controller;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
