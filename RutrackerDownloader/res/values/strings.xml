@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="android_sax">Android SAX</string>
-    <string name="sax">Classic SAX</string>
-    <string name="dom">DOM</string>
-    <string name="pull">XML Pull</string>       
-
     <string name="app_name">Rutracker Downloader</string>
 	
 	<string name="menu_exit">Exit</string>
@@ -44,12 +39,22 @@
 	<string name="on_click_button_refresh_page">OnClickButtonRefreshPage</string>
 	<string name="on_click_button_finish_login">OnClickButtonFinishLogin</string>
 	<string name="on_click_button_download">OnClickButtonDownload</string>
+	<string name="on_click_button_start_download_service">OnClickButtonStartDownloadService</string>
+    <string name="on_click_button_stop_download_service">OnClickButtonStopDownloadService</string>
+	<string name="on_click_button_pause_download_service">OnClickButtonPauseDownloadService</string>
+    <string name="on_click_button_resume_download_service">OnClickButtonResumeDownloadService</string>
+
 	
 	<string name="button_download">Download distribution</string>
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
 	<string name="button_refresh_page">Refresh page</string>
 	<string name="button_finish_login">Finish Login</string>
+	<string name="button_start_download_service">Start Download</string>
+    <string name="button_stop_download_service">Stop Download</string>
+	<string name="button_pause_download_service">Pause Download</string>
+    <string name="button_resume_download_service">Resume Download</string>
+
 	
 	<string name="summary_chechbox_enable">Enable this setting</string>
 	<string name="summary_chechbox_disable">Disable this setting</string>
@@ -58,16 +63,14 @@
 	<string name="tab_web_search">Web Search</string>
 	<string name="tab_rss_search">RSS Search</string>
 	
+	<string name="service_disconnected">Torrent Downloader Service disconnected</string>
+	<string name="service_connected">Torrent Downloader Service connected</string>
 	<string name="service_controller">Torrent Downloader Service controller</string>	
 	<string name="service_created">Torrent Downloader Service created</string>
 	<string name="service_destroyed">Torrent Downloader Service destroyed</string>
 	<string name="service_label">Torrent Downloader Service</string>
+	<string name="service_notification">Start Download Service</string>
+	
 	<string name="activity_service_controller">Torrent Downloader Service Controller</string>
-		
-	<string name="start1_service">Start \"One\" no redeliver</string>
-    <string name="start2_service">Start \"Two\" no redeliver</string>
-    <string name="start3_service">Start \"Three\" w/redeliver</string>
-    <string name="startfail_service">Start failed delivery</string>
-    <string name="kill_process">Kill Process</string>
 		    	    		
 </resources>

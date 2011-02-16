@@ -1,39 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:padding="4dip"
-    android:gravity="center_horizontal"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:paddingBottom="4dip"
-        android:text="@string/service_controller"/>
-
-    <Button android:id="@+id/start1"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" 
-        android:text="@string/start1_service">
-        <requestFocus />
-    </Button>
-
-    <Button android:id="@+id/start2"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" 
-        android:text="@string/start2_service">
-    </Button>
-
-    <Button android:id="@+id/start3"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" 
-        android:text="@string/start3_service">
-    </Button>
-
-    <Button android:id="@+id/startfail"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" 
-        android:text="@string/startfail_service">
-    </Button>
-
-    <Button android:id="@+id/kill"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" 
-        android:text="@string/kill_process">
-    </Button>
-
-</LinearLayout>
+<RelativeLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+    <LinearLayout    
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:id="@+id/ButtonsLayout" 
+		android:orientation="vertical" 
+		android:layout_height="wrap_content" 
+		android:layout_alignParentBottom="true"> 
+	    <Button 
+	    	android:id="@+id/ButtonStartDownloadService"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:onClick="@string/on_click_button_start_download_service" 
+	        android:text="@string/button_start_download_service">
+	        <requestFocus />
+	    </Button>
+	    <Button 
+	    	android:id="@+id/ButtonStopDownloadService"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content" 
+	        android:onClick="@string/on_click_button_stop_download_service"
+	        android:text="@string/button_stop_download_service">
+	    </Button>
+	    <Button 
+	    	android:id="@+id/ButtonPauseDownloadService"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content" 
+	        android:onClick="@string/on_click_button_pause_download_service"
+	        android:text="@string/button_pause_download_service">
+	    </Button>
+	    <Button 
+	    	android:id="@+id/ButtonResumeDownloadService"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content" 
+	        android:onClick="@string/on_click_button_resume_download_service"
+	        android:text="@string/button_resume_download_service">
+	    </Button>
+	</LinearLayout>
+	<RelativeLayout    
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/ProgressBarLayout" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"	
+        android:layout_above="@id/ButtonsLayout">		
+	    <ProgressBar 
+	    	android:id="@+id/progress_horizontal"
+	        style="?android:attr/progressBarStyleHorizontal"
+	        android:layout_height="wrap_content"
+	     	android:layout_width="fill_parent"
+	        android:max="1000"
+	        android:progress="0" android:paddingTop="40px"/>
+    </RelativeLayout>	
+</RelativeLayout>
