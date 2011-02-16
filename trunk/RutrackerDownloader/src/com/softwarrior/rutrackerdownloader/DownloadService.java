@@ -23,8 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.InterruptedException;
-
 public class DownloadService extends Service {
     
 	private static final LibTorrent mLibTorrent =  new LibTorrent();
@@ -37,21 +35,11 @@ public class DownloadService extends Service {
     public boolean StartDownload(String SavePath,String TorentFile, int ListenPort, int ProxyType, String ProxyHostName, int ProxyPort, String ProxyUsername, String ProxyPassword){
     	return mLibTorrent.StartDownload(SavePath, TorentFile, ListenPort, ProxyType, ProxyHostName, ProxyPort, ProxyUsername, ProxyPassword);
     }
-    public int GetProgress(){
-    	return mLibTorrent.GetProgress();    	 
-    }
-    public int GetStatus(){
-    	return mLibTorrent.GetStatus();    	 
-    }
-    public boolean StopDownload(){
-    	return mLibTorrent.StopDownload();
-    }
-    public boolean PauseDownload(){
-    	return mLibTorrent.PauseDownload();    	
-    }
-    public boolean ResumeDownload(){
-    	return mLibTorrent.ResumeDownload();
-    }    
+    public int GetProgress(){ return mLibTorrent.GetProgress(); }
+    public int GetStatus(){ return mLibTorrent.GetStatus();}
+    public boolean StopDownload(){return mLibTorrent.StopDownload();}
+    public boolean PauseDownload(){return mLibTorrent.PauseDownload(); }
+    public boolean ResumeDownload(){ return mLibTorrent.ResumeDownload();}    
     
     public class LocalBinder extends Binder {
     	DownloadService getService() {
@@ -72,24 +60,18 @@ public class DownloadService extends Service {
         Toast.makeText(this, R.string.service_created,Toast.LENGTH_SHORT).show();        
 //      mInvokeIntent = new Intent(this, Controller.class); //This is who should be launched if the user selects our persistent notification.
     }
-
+    
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 		mStartId = startId;
-		Log.d(RutrackerDownloaderApp.TAG, "Service Starting" + startId + ": " + intent.getExtras());
-
-		Bundle arguments = (Bundle)intent.getExtras();        
-		String txt = arguments.getString("notification");
-
-		//Check flags
-//		if ((flags & Service.START_FLAG_REDELIVERY) == 0) {
-//		    txt = "New " + mStartId + ": " + txt;
-//		} else {
-//		    txt = "Re-delivered " + mStartId + ": " + txt;
-//		}
-	                  
-		showNotification(txt);            
-		  
+		String txt = null;
+		if ((flags & Service.START_FLAG_REDELIVERY) == 0) {
+		    txt = "New startId" + mStartId;
+		} else {
+		    txt = "Re-delivered startId" + mStartId;
+		}
+		Log.d(RutrackerDownloaderApp.TAG, "Service Starting" + txt);
+	                  		  
 		String savePath = RutrackerDownloaderApp.SavePath; 
 		String torentFile = RutrackerDownloaderApp.TorrentFullFileName; 
 		int listenPort = 0; 
@@ -118,7 +100,7 @@ public class DownloadService extends Service {
     }
 
     //Show a notification while this service is running.
-    private void showNotification(String text) {
+    public void showNotification(String text) {
         // Set the icon, scrolling text and timestamp
         Notification notification = new Notification(R.drawable.stat_sample, text, System.currentTimeMillis());
         // The PendingIntent to launch our activity if the user selects this notification
@@ -149,15 +131,13 @@ public class DownloadService extends Service {
         private SharedPreferences mPrefs;
 
         private Handler mHandler = new Handler();        
-        private Thread mProgressThread;
         
         private Button mButtonStart;
         private Button mButtonStop;
         private Button mButtonPause;
         private Button mButtonResume;
         private TextView mTextViewStatus; 
-        
-        
+                
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
         }  
@@ -170,7 +150,6 @@ public class DownloadService extends Service {
                 
     	@Override
         protected void onCreate(Bundle savedInstanceState) {
-    		Log.d(RutrackerDownloaderApp.TAG, "onCreate");
     		super.onCreate(savedInstanceState);
             setContentView(R.layout.service);
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
@@ -182,61 +161,37 @@ public class DownloadService extends Service {
             mTextViewStatus = (TextView)findViewById(R.id.TextViewStatus);
             
             // Start lengthy operation in a background thread
-            mProgressThread = new Thread(new Runnable() {
+            new Thread(new Runnable() {
                 public void run() {
-                	while (mProgressStatus < 1000 && !mStopProgress) {
-						if((mIsBound && mIsBoundService && mControllerState == ControllerState.Started) ||
-						   (mIsBound && mIsBoundService && mControllerState == ControllerState.Paused)) {
-							mProgressStatus = mBoundService.GetProgress();
-							mStatus = mBoundService.GetStatus();
-							mHandler.post(new Runnable() {
-								public void run() {
-									mProgress.setProgress(mProgressStatus);
-									SetDownloadStatus(mStatus);
-								}
+                	while (!mStopProgress) {
+						if((mIsBoundService && mControllerState == ControllerState.Started) ||
+						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
+								mProgressStatus = mBoundService.GetProgress();
+								mStatus = mBoundService.GetStatus();
+								mHandler.post(new Runnable() {
+									public void run() {
+										mProgress.setProgress(mProgressStatus);
+										SetDownloadStatus(mStatus);
+									}
 							});
 						}
 					}
                 }
-            });           
+            }).start();
             RestoreControllerState();                     
         }
-    	
-    	void SetDownloadStatus(int Status)
-    	{
-    		if(Status > 0 && Status < 8)
-    		{
-	    		DownloadStatus status = DownloadStatus.values()[Status];
-	    		switch (status){
-				case queued_for_checking: mTextViewStatus.setText(R.string.text_download_status_queued_for_checking); break; 
-				case checking_files: mTextViewStatus.setText(R.string.text_download_status_checking_files); break;
-				case downloading_metadata: mTextViewStatus.setText(R.string.text_download_status_downloading_metadata); break;
-				case downloading: mTextViewStatus.setText(R.string.text_download_status_downloading); break;
-				case finished: mTextViewStatus.setText(R.string.text_download_status_finished); break;
-				case seeding: mTextViewStatus.setText(R.string.text_download_status_seeding); break;
-				case allocating: mTextViewStatus.setText(R.string.text_download_status_allocating); break;
-				case checking_resume_data: mTextViewStatus.setText(R.string.text_download_status_checking_resume_data); break;
-				default:
-					break;
-				}
-    		}
-    		else
-    			mTextViewStatus.setText(R.string.text_download_status_undefined); 
-    	}
-    	
+
     	void RestoreControllerState()
     	{
-            mPrefs= getSharedPreferences(DownloadService.class.getName(), MODE_PRIVATE);
+            mPrefs = getSharedPreferences(Controller.class.getName(), MODE_PRIVATE);
             int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
             mControllerState = ControllerState.values()[controllerState]; 
             SetControllerState(mControllerState);
-            if(!mIsBound && !mIsBoundService && mControllerState == ControllerState.Started)            
-		        doBindService();
-            else
-            if(!mIsBound && !mIsBoundService && mControllerState == ControllerState.Paused)
-            	doBindService();
+            if((!mIsBoundService && mControllerState == ControllerState.Started) ||            
+               (!mIsBoundService && mControllerState == ControllerState.Paused)) 
+            		doBindService();
     	}
-    	
+
     	void SetControllerState(ControllerState controllerState)
     	{
     		mControllerState = controllerState; 
@@ -265,21 +220,48 @@ public class DownloadService extends Service {
 			} break;
 			}
     	}
-    	
+
+    	void SetDownloadStatus(int Status)
+    	{
+    		if(Status > 0 && Status < 8)
+    		{
+	    		DownloadStatus status = DownloadStatus.values()[Status];
+	    		String txt_status = null;
+	    		switch (status){
+				case queued_for_checking: txt_status = getString(R.string.text_download_status_queued_for_checking); break; 
+				case checking_files: txt_status = getString(R.string.text_download_status_checking_files); break;
+				case downloading_metadata: txt_status = getString(R.string.text_download_status_downloading_metadata); break;
+				case downloading: txt_status = getString(R.string.text_download_status_downloading); break;
+				case finished: txt_status = getString(R.string.text_download_status_finished); break;
+				case seeding: txt_status = getString(R.string.text_download_status_seeding); break;
+				case allocating: txt_status = getString(R.string.text_download_status_allocating); break;
+				case checking_resume_data: txt_status = getString(R.string.text_download_status_checking_resume_data); break;
+				default: txt_status = getString(R.string.text_download_status_undefined); break;
+				}
+	    		if(!mTextViewStatus.getText().equals(txt_status)){
+		            if((mIsBoundService && mControllerState == ControllerState.Started) ||            
+		               (mIsBoundService && mControllerState == ControllerState.Paused)) 
+		            		mBoundService.showNotification(txt_status);
+	   	            mTextViewStatus.setText(txt_status);
+	    		}
+    		}
+    		else {
+    			String txt_status = getString(R.string.text_download_status_undefined);
+	    		if(!mTextViewStatus.getText().equals(txt_status)){
+		            if((mIsBoundService && mControllerState == ControllerState.Started) ||            
+		               (mIsBoundService && mControllerState == ControllerState.Paused)) 
+		            		mBoundService.showNotification(txt_status);
+	   	            mTextViewStatus.setText(txt_status);
+	    		}
+    		}
+    	}
+    	    	    	
     	void SaveControllerState()
     	{
             SharedPreferences.Editor ed = mPrefs.edit();
             ed.putInt(ControllerState.class.getName(), mControllerState.ordinal());
             ed.commit();
     	}
-
-    	void ClearControllerState()
-    	{
-            SharedPreferences.Editor ed = mPrefs.edit();
-            ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
-            ed.commit();
-    	}
-
     	
     	@Override
     	protected void onPause() {
@@ -289,20 +271,18 @@ public class DownloadService extends Service {
 
     	@Override
         protected void onDestroy() {
-    		Log.d(RutrackerDownloaderApp.TAG, "onDestroy");
-            super.onDestroy();
+    		mStopProgress = true;
+            super.onDestroy();            
             doUnbindService();
         }        
         
 		public void OnClickButtonStartDownloadService(View v) {
-		    startService(new Intent(Controller.this, DownloadService.class)
-		    	.putExtra("notification", getString(R.string.service_notification)));
+		    startService(new Intent(Controller.this, DownloadService.class));
 		    doBindService();
 		    SetControllerState(ControllerState.Started);
 		}
 				
         public void OnClickButtonStopDownloadService(View v) {        	        	
-        	StopProgressThread();
         	doUnbindService();
 		    stopService(new Intent(Controller.this,DownloadService.class));
 		    SetControllerState(ControllerState.Stopped);
@@ -326,16 +306,11 @@ public class DownloadService extends Service {
            
         	public void onServiceConnected(ComponentName className, IBinder service) {
                 mBoundService = ((DownloadService.LocalBinder)service).getService(); 
-                if(mBoundService != null)
-                	mIsBoundService = true;
-                else
-                	mIsBoundService = false;
+                if(mBoundService == null) mIsBoundService = false;
+                else mIsBoundService = true;
                 Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
                 if(mIsBoundService)
-                {
                 	SetControllerState(ControllerState.Started);
-                	StartProgressThread();
-                }
             }
 
             public void onServiceDisconnected(ComponentName className) {
@@ -343,7 +318,6 @@ public class DownloadService extends Service {
             	mBoundService = null;
                 Toast.makeText(Controller.this, R.string.service_disconnected, Toast.LENGTH_SHORT).show();
                 SetControllerState(ControllerState.Stopped);
-            	StopProgressThread();
             }
         };
         
@@ -356,34 +330,10 @@ public class DownloadService extends Service {
         
         void doUnbindService() {
             if (mIsBound) {
-            	StopProgressThread();
-            	// Detach our existing connection.
+             	// Detach our existing connection.
                 unbindService(mConnection);
                 mIsBound = false;
             }
-        } 
-        
-        void StartProgressThread() {
-        	if(mStopProgress == true ){
-        		mStopProgress = false;
-        		mProgressThread.start();
-        	}else
-        		Log.d(RutrackerDownloaderApp.TAG, "StartProgressThread Error");        	
-        }
-        
-        void StopProgressThread(){
-        	if(mStopProgress == false){
-        		mStopProgress = true;
-        		while(mProgressThread.isAlive()) {
-	        		try{
-	        			Thread.sleep(1);
-	        		} catch(Exception e)
-	        		{
-	        			Log.d(RutrackerDownloaderApp.TAG, "StopProgressThread Error" + e);
-	        		}
-				}
-        	}else
-        		Log.d(RutrackerDownloaderApp.TAG, "StopProgressThread Error");        	        	
-        }
+        }         
     }
 }

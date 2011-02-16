@@ -1,5 +1,6 @@
 package com.softwarrior.rutrackerdownloader;
 
+import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
@@ -102,7 +103,11 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	private void CloseApplication(){
 		stopService(new Intent(getApplicationContext(),DownloadService.class));
 		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-		nm.cancelAll();
+ 		nm.cancelAll();
+    	SharedPreferences prefs = getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
+    	SharedPreferences.Editor ed = prefs.edit();
+        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
+        ed.commit();
 	  	moveTaskToBack(false);
 	  	Process.killProcess(Process.myPid());
 	}
