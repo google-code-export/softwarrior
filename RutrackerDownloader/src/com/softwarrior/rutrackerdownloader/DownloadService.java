@@ -23,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.InterruptedException;
+
 public class DownloadService extends Service {
     
 	private static final LibTorrent mLibTorrent =  new LibTorrent();
@@ -141,6 +143,7 @@ public class DownloadService extends Service {
         private DownloadService mBoundService = null;
 
         private ProgressBar mProgress;
+        private volatile boolean mStopProgress = false;
         private volatile int mProgressStatus = 0;
         private volatile int mStatus = 0;
         private SharedPreferences mPrefs;
@@ -181,26 +184,19 @@ public class DownloadService extends Service {
             // Start lengthy operation in a background thread
             mProgressThread = new Thread(new Runnable() {
                 public void run() {
-                    while (mProgressStatus < 1000) {
-                    	if(mIsBound && mIsBoundService && mControllerState == ControllerState.Started) {                    	
-                    		mProgressStatus = mBoundService.GetProgress();
-                    		mStatus = mBoundService.GetStatus();
-                    		mHandler.post(new Runnable() {
-                    			public void run() {
-                    				mProgress.setProgress(mProgressStatus);
-                    				SetDownloadStatus(mStatus);
-                    			}
-                    		});
-                    	}
-                    	else if(mIsBound && mIsBoundService && mControllerState == ControllerState.Paused) {
-                    		mStatus = mBoundService.GetStatus();
-                    		mHandler.post(new Runnable() {
-                    			public void run() {
-                    				SetDownloadStatus(mStatus);
-                    			}
-                    		});                    		
-                    	}
-                    }
+                	while (mProgressStatus < 1000 && !mStopProgress) {
+						if((mIsBound && mIsBoundService && mControllerState == ControllerState.Started) ||
+						   (mIsBound && mIsBoundService && mControllerState == ControllerState.Paused)) {
+							mProgressStatus = mBoundService.GetProgress();
+							mStatus = mBoundService.GetStatus();
+							mHandler.post(new Runnable() {
+								public void run() {
+									mProgress.setProgress(mProgressStatus);
+									SetDownloadStatus(mStatus);
+								}
+							});
+						}
+					}
                 }
             });           
             RestoreControllerState();                     
@@ -208,19 +204,24 @@ public class DownloadService extends Service {
     	
     	void SetDownloadStatus(int Status)
     	{
-    		DownloadStatus status = DownloadStatus.values()[Status];
-    		switch (status){
-			case queued_for_checking: mTextViewStatus.setText(R.string.text_download_status_queued_for_checking); break; 
-			case checking_files: mTextViewStatus.setText(R.string.text_download_status_checking_files); break;
-			case downloading_metadata: mTextViewStatus.setText(R.string.text_download_status_downloading_metadata); break;
-			case downloading: mTextViewStatus.setText(R.string.text_download_status_downloading); break;
-			case finished: mTextViewStatus.setText(R.string.text_download_status_finished); break;
-			case seeding: mTextViewStatus.setText(R.string.text_download_status_seeding); break;
-			case allocating: mTextViewStatus.setText(R.string.text_download_status_allocating); break;
-			case checking_resume_data: mTextViewStatus.setText(R.string.text_download_status_checking_resume_data); break;
-			default:
-				break;
-			}
+    		if(Status > 0 && Status < 8)
+    		{
+	    		DownloadStatus status = DownloadStatus.values()[Status];
+	    		switch (status){
+				case queued_for_checking: mTextViewStatus.setText(R.string.text_download_status_queued_for_checking); break; 
+				case checking_files: mTextViewStatus.setText(R.string.text_download_status_checking_files); break;
+				case downloading_metadata: mTextViewStatus.setText(R.string.text_download_status_downloading_metadata); break;
+				case downloading: mTextViewStatus.setText(R.string.text_download_status_downloading); break;
+				case finished: mTextViewStatus.setText(R.string.text_download_status_finished); break;
+				case seeding: mTextViewStatus.setText(R.string.text_download_status_seeding); break;
+				case allocating: mTextViewStatus.setText(R.string.text_download_status_allocating); break;
+				case checking_resume_data: mTextViewStatus.setText(R.string.text_download_status_checking_resume_data); break;
+				default:
+					break;
+				}
+    		}
+    		else
+    			mTextViewStatus.setText(R.string.text_download_status_undefined); 
     	}
     	
     	void RestoreControllerState()
@@ -229,6 +230,11 @@ public class DownloadService extends Service {
             int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
             mControllerState = ControllerState.values()[controllerState]; 
             SetControllerState(mControllerState);
+            if(!mIsBound && !mIsBoundService && mControllerState == ControllerState.Started)            
+		        doBindService();
+            else
+            if(!mIsBound && !mIsBoundService && mControllerState == ControllerState.Paused)
+            	doBindService();
     	}
     	
     	void SetControllerState(ControllerState controllerState)
@@ -239,13 +245,7 @@ public class DownloadService extends Service {
 			       mButtonStart.setEnabled(false);
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(true);
-			       mButtonResume.setEnabled(false);				
-			} break;
-			case Stopped:{
-			       mButtonStart.setEnabled(true);
-			       mButtonStop.setEnabled(false);
-			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(false);				
+			       mButtonResume.setEnabled(false);
 			} break;
 			case Paused:{
 			       mButtonStart.setEnabled(false);
@@ -253,12 +253,15 @@ public class DownloadService extends Service {
 			       mButtonPause.setEnabled(false);
 			       mButtonResume.setEnabled(true);				
 			} break;
+			case Stopped:
 			case Undefined:
 			default: {
 			       mButtonStart.setEnabled(true);
 			       mButtonStop.setEnabled(false);
 			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(false);				
+			       mButtonResume.setEnabled(false);	
+			       mTextViewStatus.setText(R.string.text_download_status_undefined);
+			       mProgress.setProgress(0);
 			} break;
 			}
     	}
@@ -289,17 +292,17 @@ public class DownloadService extends Service {
     		Log.d(RutrackerDownloaderApp.TAG, "onDestroy");
             super.onDestroy();
             doUnbindService();
-            ClearControllerState();
         }        
         
 		public void OnClickButtonStartDownloadService(View v) {
 		    startService(new Intent(Controller.this, DownloadService.class)
 		    	.putExtra("notification", getString(R.string.service_notification)));
 		    doBindService();
+		    SetControllerState(ControllerState.Started);
 		}
 				
-        public void OnClickButtonStopDownloadService(View v) {
-        	if(mProgressThread.isAlive()) mProgressThread.stop();
+        public void OnClickButtonStopDownloadService(View v) {        	        	
+        	StopProgressThread();
         	doUnbindService();
 		    stopService(new Intent(Controller.this,DownloadService.class));
 		    SetControllerState(ControllerState.Stopped);
@@ -331,7 +334,7 @@ public class DownloadService extends Service {
                 if(mIsBoundService)
                 {
                 	SetControllerState(ControllerState.Started);
-                	if(!mProgressThread.isAlive()) mProgressThread.start();
+                	StartProgressThread();
                 }
             }
 
@@ -339,22 +342,48 @@ public class DownloadService extends Service {
             	mIsBoundService = false;
             	mBoundService = null;
                 Toast.makeText(Controller.this, R.string.service_disconnected, Toast.LENGTH_SHORT).show();
-                SetControllerState(ControllerState.Stopped);  
+                SetControllerState(ControllerState.Stopped);
+            	StopProgressThread();
             }
         };
         
         void doBindService() {
-            bindService(new Intent(Controller.this, DownloadService.class), mConnection, Context.BIND_AUTO_CREATE);
-            mIsBound = true;
+        	if (!mIsBound) {
+	            bindService(new Intent(Controller.this, DownloadService.class), mConnection, Context.BIND_AUTO_CREATE);
+	            mIsBound = true;
+        	}
         }
         
         void doUnbindService() {
             if (mIsBound) {
-            	if(mProgressThread.isAlive()) mProgressThread.stop();
-                // Detach our existing connection.
+            	StopProgressThread();
+            	// Detach our existing connection.
                 unbindService(mConnection);
                 mIsBound = false;
             }
-        }        
+        } 
+        
+        void StartProgressThread() {
+        	if(mStopProgress == true ){
+        		mStopProgress = false;
+        		mProgressThread.start();
+        	}else
+        		Log.d(RutrackerDownloaderApp.TAG, "StartProgressThread Error");        	
+        }
+        
+        void StopProgressThread(){
+        	if(mStopProgress == false){
+        		mStopProgress = true;
+        		while(mProgressThread.isAlive()) {
+	        		try{
+	        			Thread.sleep(1);
+	        		} catch(Exception e)
+	        		{
+	        			Log.d(RutrackerDownloaderApp.TAG, "StopProgressThread Error" + e);
+	        		}
+				}
+        	}else
+        		Log.d(RutrackerDownloaderApp.TAG, "StopProgressThread Error");        	        	
+        }
     }
 }
