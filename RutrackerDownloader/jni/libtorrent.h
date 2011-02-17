@@ -1,35 +1,74 @@
 #include <jni.h>
 #include <android/log.h>
-
+//-----------------------------------------------------------------------------
 #ifndef __Included_Java_com_softwarrior_libtorrent_LibTorrent__
 #define __Included_Java_com_softwarrior_libtorrent_LibTorrent__
-
+//-----------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+//-----------------------------------------------------------------------------
 #define LOG_TAG "Softwarrior"
 #define LOG_INFO(...) {__android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__);}
 #define LOG_ERR(...) {__android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__);}
-
-JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_StartDownload
-	(JNIEnv *, jobject, jstring, jstring, jint, jint, jstring, jint, jstring, jstring);
-
-JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetProgress
-  (JNIEnv *, jobject);
-
-JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetStatus
-  (JNIEnv *, jobject);
-
-JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_StopDownload
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
+	(JNIEnv *env, jobject obj, jint ListenPort, jint UploadLimit, jint DownloadLimit);
+//-----------------------------------------------------------------------------
+//enum proxy_type
+//{
+//	0 - none, // a plain tcp socket is used, and the other settings are ignored.
+//	1 - socks4, // socks4 server, requires username.
+//	2 - socks5, // the hostname and port settings are used to connect to the proxy. No username or password is sent.
+//	3 - socks5_pw, // the hostname and port are used to connect to the proxy. the username and password are used to authenticate with the proxy server.
+//	4 - http, // the http proxy is only available for tracker and web seed traffic assumes anonymous access to proxy
+//	5 - http_pw // http proxy with basic authentication uses username and password
+//};
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
+	(JNIEnv *env, jobject obj, jint Type, jstring HostName, jint Port, jstring UserName, jstring Password);
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
+	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorentFile);
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseSession
 	(JNIEnv *, jobject);
-
-JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseDownload
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeSession
 	(JNIEnv *, jobject);
-
-JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeDownload
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorrent
+	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
+JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
+	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
+//enum state_t
+//{
+//	0 queued_for_checking,
+//	1 checking_files,
+//	2 downloading_metadata,
+//	3 downloading,
+//	4 finished,
+//	5 seeding,
+//	6 allocating,
+//	7 checking_resume_data
+//}
+// + 8 paused
+// + 9 queued
+//-----------------------------------------------------------------------------
+JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentState
 	(JNIEnv *, jobject);
-
+//-----------------------------------------------------------------------------
+//static char const* state_str[] =
+//{"checking (q)", "checking", "dl metadata", "downloading", "finished", "seeding", "allocating", "checking (r)"};
+//-----------------------------------------------------------------------------
+JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentStatusText
+	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
+JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionStatusText
+	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
