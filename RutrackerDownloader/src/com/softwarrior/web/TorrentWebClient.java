@@ -118,7 +118,7 @@ public class TorrentWebClient extends Activity {
 
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch(ActivityResultType.getValue(resultCode))
+    	switch(ActivityResultType.getValue(resultCode))
 		{
 		case RESULT_PREFERENCES:
 		case RESULT_EXIT:

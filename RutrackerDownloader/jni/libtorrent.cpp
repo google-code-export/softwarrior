@@ -281,8 +281,8 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 			char str[500]; memset(str,0,500);
 			//------- NAME --------
 			std::string name = gTorrent.name();
-			if (name.size() > 40) name.resize(40);
-			snprintf(str, sizeof(str), "%-40s ", name.c_str());
+			if (name.size() > 60) name.resize(60);
+			snprintf(str, sizeof(str), "%-60s\r\n", name.c_str());
 			out += str;
 			//------- ERROR --------
 			libtorrent::torrent_status t_s = gTorrent.status();
@@ -305,8 +305,12 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 			//---------------------
 			if (t_s.state != libtorrent::torrent_status::queued_for_checking && t_s.state != libtorrent::torrent_status::checking_files){
 				snprintf(str, sizeof(str)
-					,"Torrent status: %-13s down: (%s) up: %s (%s) swarm: %4d:%4d  bandwidth queue: (%d|%d) all-time (Rx: %s Tx: %s) seed rank: %x\r\n"
-					, (paused && !auto_managed)?"paused":(paused && auto_managed)?"queued":state_str[t_s.state]
+					,"down:     (%s)\r\n"
+					 "up:        %s (%s)\r\n"
+					 "swarm:     %4d:%4d\r\n"
+					 "queue:    (%d|%d)\r\n"
+					 "all-time  (Rx:%s Tx:%s)\r\n"
+					 "seed rank: %x\r\n"
 					, add_suffix(t_s.total_download).c_str()
 					, add_suffix(t_s.upload_rate, "/s").c_str()
 					, add_suffix(t_s.total_upload).c_str()
@@ -318,7 +322,13 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 				out += str;
 				boost::posix_time::time_duration t = t_s.next_announce;
 				snprintf(str, sizeof(str)
-					, "peers: %d (%d) seeds: %d distributed copies: %4.2f sparse regions: %d download: %s next announce: %02d:%02d:%02d tracker: %s\r\n"
+					, "peers:    %d (%d)\r\n"
+					  "seeds:    %d\r\n"
+					  "copies:   %4.2f\r\n"
+					  "regions:  %d\r\n"
+					  "download: %s \r\n"
+					  "announce: %02d:%02d:%02d\r\n"
+					  "tracker:  %s\r\n"
 					, t_s.num_peers
 					, t_s.connect_candidates
 					, t_s.num_seeds
@@ -348,7 +358,13 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionS
 			std::string out;
 			char str[500]; memset(str,0,500);
 			libtorrent::session_status s_s = gSession.status();
-			snprintf(str, sizeof(str), "conns: %d down: %s (%s) up: %s (%s) tcp/ip: %s %s DHT: %s %s tracker: %s %s\r\n"
+			snprintf(str, sizeof(str),
+					  "conns:    %d\r\n"
+					  "down:     %s (%s)\r\n"
+					  "up:       %s (%s)\r\n"
+					  "tcp/ip:   %s  %s\r\n"
+					  "DHT:      %s  %s\r\n"
+					  "tracker:  %s  %s\r\n"
 				, s_s.num_peers
 				, add_suffix(s_s.download_rate, "/s").c_str()
 				, add_suffix(s_s.total_download).c_str()

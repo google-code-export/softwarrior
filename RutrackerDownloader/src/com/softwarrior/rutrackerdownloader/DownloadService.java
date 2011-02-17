@@ -183,10 +183,13 @@ public class DownloadService extends Service {
         private volatile boolean mIsBoundService = false; 
         private DownloadService mBoundService = null;
 
-        private ProgressBar mProgress;
         private volatile boolean mStopProgress = false;
         private volatile int mTorrentProgress = 0;
         private volatile int mTorrentState = 0;
+        private volatile String mTorrentStatus = new String();
+        private volatile String mSessionStatus = new String();
+        
+        private ProgressBar mProgress;
         private SharedPreferences mPrefs;
 
         private Handler mHandler = new Handler();        
@@ -195,7 +198,8 @@ public class DownloadService extends Service {
         private Button mButtonStop;
         private Button mButtonPause;
         private Button mButtonResume;
-        private TextView mTextViewStatus; 
+        private TextView mTextViewTorrentState; 
+        private TextView mTextViewCommonStatus;
                 
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
@@ -219,7 +223,8 @@ public class DownloadService extends Service {
             mButtonStop = (Button)findViewById(R.id.ButtonStopDownloadService);
             mButtonPause = (Button)findViewById(R.id.ButtonPauseDownloadService);
             mButtonResume = (Button)findViewById(R.id.ButtonResumeDownloadService);          
-            mTextViewStatus = (TextView)findViewById(R.id.TextViewStatus);
+            mTextViewTorrentState = (TextView)findViewById(R.id.TextViewTorrentState);
+            mTextViewCommonStatus = (TextView)findViewById(R.id.TextViewCommonStatus);
             
             // Start lengthy operation in a background thread
             new Thread(new Runnable() {
@@ -229,10 +234,13 @@ public class DownloadService extends Service {
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
 								mTorrentProgress = mBoundService.GetTorrentProgress();
 								mTorrentState = mBoundService.GetTorrentState();
+								mTorrentStatus = mBoundService.GetTorrentStatusText();
+								mSessionStatus = mBoundService.GetSessionStatusText();
 								mHandler.post(new Runnable() {
 									public void run() {
 										mProgress.setProgress(mTorrentProgress);
 										SetTorrentState(mTorrentState);
+										 mTextViewCommonStatus.setText(mTorrentStatus + mSessionStatus);										
 									}
 							});
 						}
@@ -274,7 +282,7 @@ public class DownloadService extends Service {
 			       mButtonStop.setEnabled(false);
 			       mButtonPause.setEnabled(false);
 			       mButtonResume.setEnabled(false);	
-			       mTextViewStatus.setText(R.string.text_torrent_state_undefined);
+			       mTextViewTorrentState.setText(R.string.text_torrent_state_undefined);
 			       mProgress.setProgress(0);
 			} break;
 			}
@@ -296,20 +304,20 @@ public class DownloadService extends Service {
 				case queued: txt_state = getString(R.string.text_torrent_state_checking_resume_data); break;
 				default: txt_state = getString(R.string.text_torrent_state_undefined); break;
 				}
-	    		if(!mTextViewStatus.getText().equals(txt_state)){
+	    		if(!mTextViewTorrentState.getText().equals(txt_state)){
 		            if((mIsBoundService && mControllerState == ControllerState.Started) ||            
 		               (mIsBoundService && mControllerState == ControllerState.Paused)) 
 		            		mBoundService.showNotification(txt_state);
-	   	            mTextViewStatus.setText(txt_state);
+		            mTextViewTorrentState.setText(txt_state);
 	    		}
     		}
     		else {
     			String txt_state = getString(R.string.text_torrent_state_undefined);
-	    		if(!mTextViewStatus.getText().equals(txt_state)){
+	    		if(!mTextViewTorrentState.getText().equals(txt_state)){
 		            if((mIsBoundService && mControllerState == ControllerState.Started) ||            
 		               (mIsBoundService && mControllerState == ControllerState.Paused)) 
 		            		mBoundService.showNotification(txt_state);
-	   	            mTextViewStatus.setText(txt_state);
+		            mTextViewTorrentState.setText(txt_state);
 	    		}
     		}
     	}
