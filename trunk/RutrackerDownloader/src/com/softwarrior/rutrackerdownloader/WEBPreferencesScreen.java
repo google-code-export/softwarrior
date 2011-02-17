@@ -11,6 +11,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.os.Process;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     addPreferencesFromResource(R.xml.web_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
+    if(RutrackerDownloaderApp.ExitState) CloseApplication();
   }
   
   @Override
@@ -51,6 +53,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   protected void onResume() {
 	super.onResume();
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+	if(RutrackerDownloaderApp.ExitState) CloseApplication();
   }
   
 	@Override
@@ -94,10 +97,17 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		case RESULT_PREFERENCES:{			
 		} break;
 		case RESULT_EXIT:
-		default:{
 			CloseApplication();
+		default:{
 		} break;
 		};
+	}
+    
+	@Override 
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+			CloseApplication();
+		return super.onKeyDown(keyCode,event); 
 	}
 	
 	private void CloseApplication(){

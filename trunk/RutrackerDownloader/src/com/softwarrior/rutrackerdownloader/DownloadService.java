@@ -446,6 +446,7 @@ public class DownloadService extends Service {
         }
         
         private void CloseApplication(){
+        	RutrackerDownloaderApp.ExitState = true;
         	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
         	finish();
         }
