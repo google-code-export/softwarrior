@@ -50,13 +50,13 @@
 		android:layout_above="@id/ButtonsLayout">
 		<TextView 
 			android:layout_alignParentTop="true" 
-			android:text="@string/text_download_status"
+			android:text="@string/text_torrent_state"
 			android:layout_height="wrap_content" 
 			android:layout_width="wrap_content" 
 			android:id="@+id/TextViewStatusLabel"/>
 		<TextView 
 			android:layout_toRightOf="@+id/TextViewStatusLabel"  
-			android:text="@string/text_download_status_undefined"
+			android:text="@string/text_torrent_state_undefined"
 			android:layout_height="wrap_content" 
 			android:layout_width="wrap_content" 
 			android:id="@+id/TextViewStatus" 
