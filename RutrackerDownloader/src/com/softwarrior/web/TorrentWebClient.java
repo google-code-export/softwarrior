@@ -103,6 +103,7 @@ public class TorrentWebClient extends Activity {
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
+        if(RutrackerDownloaderApp.ExitState) CloseApplication();
     }
 
     @Override
@@ -167,6 +168,7 @@ public class TorrentWebClient extends Activity {
     protected void onResume() {
     	CookieSyncManager.getInstance().startSync();
     	super.onResume();
+    	if(RutrackerDownloaderApp.ExitState) CloseApplication();
     }
     
     @Override
