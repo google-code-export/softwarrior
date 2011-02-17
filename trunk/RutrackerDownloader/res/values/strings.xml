@@ -74,7 +74,8 @@
 	<string name="activity_service_controller">Torrent Downloader Service Controller</string>
 	
 	<string name="text_torrent_state">Torrent state:</string>
-	<string name="text_torrent_state_undefined">undefined</string>
+	<string name="text_torrent_state_undefined">undefined</string>	
+	<string name="text_common_status">Torrent and Session status</string>
 	
 	<string name="text_torrent_state_queued_for_checking">queued for checking</string>
 	<string name="text_torrent_state_checking_files">checking files</string>
