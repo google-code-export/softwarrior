@@ -60,6 +60,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	@Override
   protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
+    startService(new Intent(this, DownloadService.class));
     addPreferencesFromResource(R.xml.rss_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
@@ -134,7 +135,8 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	}
 	
 	private void CloseApplication(){
-		stopService(new Intent(getApplicationContext(),DownloadService.class));
+		RutrackerDownloaderApp.ExitState = true;
+		stopService(new Intent(this,DownloadService.class));
 		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
  		nm.cancelAll();
     	SharedPreferences prefs = getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
