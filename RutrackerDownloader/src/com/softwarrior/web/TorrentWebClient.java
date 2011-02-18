@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
@@ -42,9 +43,27 @@ public class TorrentWebClient extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.web);
         
         CookieSyncManager.createInstance(this);
+        
+        Bundle bundle = this.getIntent().getExtras();
+        mAction = bundle.getString("Action");
+        if(mAction.equals("Login")) {
+        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+        	viewAnimator.setVisibility(View.VISIBLE);
+        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
+        	buttonsLayout.setVisibility(View.VISIBLE);
+        	viewAnimator.bringChildToFront(buttonsLayout);
+        }
+        else if(mAction.equals("Show")){        	
+        }
+        else if(mAction.equals("Search")){
+        	mCatchBackKey = true;
+        }        
+        mLoadUrl = bundle.getString("LoadUrl"); 
+        activity.setTitle(mLoadUrl);
         
         mWebView = (WebView) findViewById(R.id.webview);
 
@@ -57,10 +76,10 @@ public class TorrentWebClient extends Activity {
         
         mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress){
-                activity.setTitle("Loading...");
-                activity.setProgress(progress * 100); 
+                activity.setProgress(progress * 100);
+                setProgressBarIndeterminateVisibility(true);
                 if(progress == 100)
-                    activity.setTitle(R.string.app_name);
+                	setProgressBarIndeterminateVisibility(false);
             }
         });
  
@@ -78,26 +97,12 @@ public class TorrentWebClient extends Activity {
             
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            	activity.setTitle(url);
             	ManageDownloadButton(url);
             	super.onPageStarted(view, url, favicon);
             }
         }); 
         
-        Bundle bundle = this.getIntent().getExtras();
-        mAction = bundle.getString("Action");
-        if(mAction.equals("Login")) {
-        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
-        	viewAnimator.setVisibility(View.VISIBLE);
-        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
-        	buttonsLayout.setVisibility(View.VISIBLE);
-        	viewAnimator.bringChildToFront(buttonsLayout);
-        }
-        else if(mAction.equals("Show")){        	
-        }
-        else if(mAction.equals("Search")){
-        	mCatchBackKey = true;
-        }        
-        mLoadUrl = bundle.getString("LoadUrl");
         mWebView.loadUrl(mLoadUrl);       
         //mWebView.loadUrl("http://rutracker.org/forum/index.php");
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
