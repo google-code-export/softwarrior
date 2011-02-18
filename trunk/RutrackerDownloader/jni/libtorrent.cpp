@@ -280,10 +280,11 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 			std::string out;
 			char str[500]; memset(str,0,500);
 			//------- NAME --------
-			std::string name = gTorrent.name();
-			if (name.size() > 60) name.resize(60);
-			snprintf(str, sizeof(str), "%-60s\r\n", name.c_str());
-			out += str;
+			//std::string name = gTorrent.name();
+			//if (name.size() > 80) name.resize(80);
+			//snprintf(str, sizeof(str), "%-80s\n", name.c_str());
+			//out += str;
+			out += gTorrent.name(); out += "\n";
 			//------- ERROR --------
 			libtorrent::torrent_status t_s = gTorrent.status();
 			bool paused = gTorrent.is_paused();
@@ -292,7 +293,7 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 			{
 				out += "error ";
 				out += t_s.error;
-				out += "\r\n";
+				out += "\n";
 				return env->NewStringUTF(out.c_str());
 			}
 			//---------------------
@@ -304,38 +305,48 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 			else downloaders = t_s.list_peers - t_s.list_seeds;
 			//---------------------
 			if (t_s.state != libtorrent::torrent_status::queued_for_checking && t_s.state != libtorrent::torrent_status::checking_files){
-				snprintf(str, sizeof(str)
-					,"down:     (%s)\r\n"
-					 "up:        %s (%s)\r\n"
-					 "swarm:     %4d:%4d\r\n"
-					 "queue:    (%d|%d)\r\n"
-					 "all-time  (Rx:%s Tx:%s)\r\n"
-					 "seed rank: %x\r\n"
+				snprintf(str, sizeof(str),
+					 "%26s%20s\n"
+					 "%26s%20s/%s\n"
+					 "%20s%20d/%d\n"
+					 "%17s%20d/%d\n"
+					 "%23s%20s/%s\n"
+					 "%23s%20x\n"
+					, "down:"
 					, add_suffix(t_s.total_download).c_str()
-					, add_suffix(t_s.upload_rate, "/s").c_str()
-					, add_suffix(t_s.total_upload).c_str()
+					, "up/rate:"
+					, add_suffix(t_s.total_upload).c_str(), add_suffix(t_s.upload_rate, "/s").c_str()
+					, "downs/seeds:"
 					, downloaders, seeds
+					, "queue up/down:"
 					, t_s.up_bandwidth_queue, t_s.down_bandwidth_queue
-					, add_suffix(t_s.all_time_download).c_str()
-					, add_suffix(t_s.all_time_upload).c_str()
+					, "all-time rx/tx:"
+					, add_suffix(t_s.all_time_download).c_str(), add_suffix(t_s.all_time_upload).c_str()
+					, "seed rank:"
 					, t_s.seed_rank);
 				out += str;
 				boost::posix_time::time_duration t = t_s.next_announce;
-				snprintf(str, sizeof(str)
-					, "peers:    %d (%d)\r\n"
-					  "seeds:    %d\r\n"
-					  "copies:   %4.2f\r\n"
-					  "regions:  %d\r\n"
-					  "download: %s \r\n"
-					  "announce: %02d:%02d:%02d\r\n"
-					  "tracker:  %s\r\n"
-					, t_s.num_peers
-					, t_s.connect_candidates
+				snprintf(str, sizeof(str),
+					  "%22s%20d/%d\n"
+					  "%26s%20d\n"
+					  "%26s%20.2f\n"
+					  "%25s%20d\n"
+					  "%22s%20s\n"
+					  "%22s%20.02d:%02d:%02d\n"
+					  "%26s%s\n"
+					, "peers/cand:"
+					, t_s.num_peers, t_s.connect_candidates
+					, "seeds:"
 					, t_s.num_seeds
+					, "copies:"
 					, t_s.distributed_copies
+					, "regions:"
 					, t_s.sparse_regions
+					, "download:"
 					, add_suffix(t_s.download_rate, "/s").c_str()
+					, "announce:"
 					, t.hours(), t.minutes(), t.seconds()
+					, "tracker:"
 					, t_s.current_tracker.c_str());
 				out += str;
 			}
@@ -359,23 +370,24 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionS
 			char str[500]; memset(str,0,500);
 			libtorrent::session_status s_s = gSession.status();
 			snprintf(str, sizeof(str),
-					  "conns:    %d\r\n"
-					  "down:     %s (%s)\r\n"
-					  "up:       %s (%s)\r\n"
-					  "tcp/ip:   %s  %s\r\n"
-					  "DHT:      %s  %s\r\n"
-					  "tracker:  %s  %s\r\n"
+					  "%25s%20d\n"
+					  "%22s%20s/%s\n"
+					  "%25s%20s/%s\n"
+					  "%18s%20s/%s\n"
+					  "%15s%20s/%s\n"
+					  "%19s%20s/%s\n"
+				,"conns:"
 				, s_s.num_peers
-				, add_suffix(s_s.download_rate, "/s").c_str()
-				, add_suffix(s_s.total_download).c_str()
-				, add_suffix(s_s.upload_rate, "/s").c_str()
-				, add_suffix(s_s.total_upload).c_str()
-				, add_suffix(s_s.ip_overhead_download_rate, "/s").c_str()
-				, add_suffix(s_s.ip_overhead_upload_rate, "/s").c_str()
-				, add_suffix(s_s.dht_download_rate, "/s").c_str()
-				, add_suffix(s_s.dht_upload_rate, "/s").c_str()
-				, add_suffix(s_s.tracker_download_rate, "/s").c_str()
-				, add_suffix(s_s.tracker_upload_rate, "/s").c_str());
+				, "down/rate:"
+				, add_suffix(s_s.total_download).c_str(), add_suffix(s_s.download_rate, "/s").c_str()
+				, "up/rate:"
+				, add_suffix(s_s.total_upload).c_str(), add_suffix(s_s.upload_rate, "/s").c_str()
+				, "ip rate down/up:"
+				, add_suffix(s_s.ip_overhead_download_rate, "/s").c_str(), add_suffix(s_s.ip_overhead_upload_rate, "/s").c_str()
+				, "dht rate down/up:"
+				, add_suffix(s_s.dht_download_rate, "/s").c_str(), add_suffix(s_s.dht_upload_rate, "/s").c_str()
+				, "tr rate down/up:"
+				, add_suffix(s_s.tracker_download_rate, "/s").c_str(), add_suffix(s_s.tracker_upload_rate, "/s").c_str());
 			out += str;
 			result = env->NewStringUTF(out.c_str());
 		}
