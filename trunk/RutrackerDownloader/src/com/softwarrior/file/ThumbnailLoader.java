@@ -3,6 +3,8 @@ package com.softwarrior.file;
 import java.io.File;
 import java.util.List;
 
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,8 +15,6 @@ import android.util.Log;
 import android.view.Gravity;
 
 public class ThumbnailLoader extends Thread {
-
-	private static final String TAG = "OIFM_ThumbnailLoader";
 	
     List<IconifiedText> listFile;
     boolean cancel;
@@ -46,7 +46,7 @@ public class ThumbnailLoader extends Thread {
 	public void run() {
 		int count = listFile.size();
 		
-		Log.v(TAG, "Scanning for thumbnails (files=" + count + ")");
+		Log.v(RutrackerDownloaderApp.TAG, "Scanning for thumbnails (files=" + count + ")");
 		
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		
@@ -54,7 +54,7 @@ public class ThumbnailLoader extends Thread {
 		
 		for (int x=0; x<count; x++) {
 			if (cancel) {
-				Log.v(TAG, "Thumbnail loader canceled");
+				Log.v(RutrackerDownloaderApp.TAG, "Thumbnail loader canceled");
 				listFile = null;
 				return;
 			}
@@ -119,7 +119,7 @@ public class ThumbnailLoader extends Thread {
 			}
 		}
 		
-		Log.v(TAG, "Done scanning for thumbnails");
+		Log.v(RutrackerDownloaderApp.TAG, "Done scanning for thumbnails");
 		listFile = null;
 	}
 }
