@@ -7,15 +7,8 @@ import android.provider.MediaStore.Audio;
 import android.provider.MediaStore.Video;
 
 public class FileUtils {
-	/** TAG for log messages. */
-	static final String TAG = "FileUtils";
 
-	/**
-	 * Whether the URI is a local one.
-	 * 
-	 * @param uri
-	 * @return
-	 */
+	 //Whether the URI is a local one.
 	public static boolean isLocal(String uri) {
 		if (uri != null && !uri.startsWith("http://")) {
 			return true;
@@ -23,13 +16,9 @@ public class FileUtils {
 		return false;
 	}
 
-	/**
-	 * Gets the extension of a file name, like ".png" or ".jpg".
-	 * 
-	 * @param uri
-	 * @return Extension including the dot("."); "" if there is no extension;
-	 *         null if uri was null.
-	 */
+//	 Gets the extension of a file name, like ".png" or ".jpg".
+//	 return Extension including the dot("."); "" if there is no extension;
+//	         null if uri was null.	 
 	public static String getExtension(String uri) {
 		if (uri == null) {
 			return null;
@@ -44,12 +33,7 @@ public class FileUtils {
 		}
 	}
 
-	/**
-	 * Returns true if uri is a media uri.
-	 * 
-	 * @param uri
-	 * @return
-	 */
+	 //Returns true if uri is a media uri.
 	public static boolean isMediaUri(String uri) {
 		if (uri.startsWith(Audio.Media.INTERNAL_CONTENT_URI.toString())
 				|| uri.startsWith(Audio.Media.EXTERNAL_CONTENT_URI.toString())
@@ -61,11 +45,7 @@ public class FileUtils {
 		}
 	}
 	
-	/**
-	 * Convert File into Uri.
-	 * @param file
-	 * @return uri
-	 */
+	//Convert File into Uri.
 	public static Uri getUri(File file) {
 		if (file != null) {
 			return Uri.fromFile(file);
@@ -73,11 +53,7 @@ public class FileUtils {
 		return null;
 	}
 	
-	/**
-	 * Convert Uri into File.
-	 * @param uri
-	 * @return file
-	 */
+	//Convert Uri into File.
 	public static File getFile(Uri uri) {
 		if (uri != null) {
 			String filepath = uri.getPath();
@@ -88,11 +64,8 @@ public class FileUtils {
 		return null;
 	}
 	
-	/**
-	 * Returns the path only (without file name).
-	 * @param file
-	 * @return
-	 */
+	
+	 //Returns the path only (without file name).
 	public static File getPathWithoutFilename(File file) {
 		 if (file != null) {
 			 if (file.isDirectory()) {
@@ -113,13 +86,7 @@ public class FileUtils {
 		 return null;
 	}
 
-	/**
-	 * Constructs a file from a path and file name.
-	 * 
-	 * @param curdir
-	 * @param file
-	 * @return
-	 */
+	//Constructs a file from a path and file name.
 	public static File getFile(String curdir, String file) {
 		String separator = "/";
 		  if (curdir.endsWith("/")) {
