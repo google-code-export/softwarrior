@@ -107,12 +107,13 @@ public class DownloadService extends Service {
 		mStartId = startId;
 		String txt = null;
 		if ((flags & Service.START_FLAG_REDELIVERY) == 0) {
-		    txt = "New startId" + mStartId;
+		    txt = "New startId=" + mStartId;
 		} else {
-		    txt = "Re-delivered startId" + mStartId;
+		    txt = "Re-delivered startId=" + mStartId;
 		}
-		Log.d(RutrackerDownloaderApp.TAG, "Service Starting" + txt);
-	                  		  		
+		Log.d(RutrackerDownloaderApp.TAG, "Service Starting: " + txt);
+	    showNotification(getString(R.string.service_created)); 
+		
 		int listenPort = 54321;
 		int uploadLimit = -1; //unlimited
 		int downloadLimit = -1; //unlimited
@@ -136,12 +137,7 @@ public class DownloadService extends Service {
 		String password = new String();		
 
 		SetProxy(type, hostName, port, userName, password);       
-    			
-		String savePath = RutrackerDownloaderApp.SavePath; 
-		String torentFile = RutrackerDownloaderApp.TorrentFullFileName; 
-		
-		AddTorrent(savePath, torentFile);
-		
+    					
         return START_REDELIVER_INTENT; //START_NOT_STICKY;
     }
 
@@ -219,10 +215,10 @@ public class DownloadService extends Service {
             setContentView(R.layout.service);
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
-            mButtonStart = (Button)findViewById(R.id.ButtonStartDownloadService);
-            mButtonStop = (Button)findViewById(R.id.ButtonStopDownloadService);
-            mButtonPause = (Button)findViewById(R.id.ButtonPauseDownloadService);
-            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownloadService);          
+            mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
+            mButtonStop = (Button)findViewById(R.id.ButtonStopDownload);
+            mButtonPause = (Button)findViewById(R.id.ButtonPauseDownload);
+            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownload);          
             mTextViewTorrentState = (TextView)findViewById(R.id.TextViewTorrentState);
             mTextViewCommonStatus = (TextView)findViewById(R.id.TextViewCommonStatus);
             
@@ -239,25 +235,23 @@ public class DownloadService extends Service {
 								mHandler.post(new Runnable() {
 									public void run() {
 										mProgress.setProgress(mTorrentProgress);
-										SetTorrentState(mTorrentState);
-										 mTextViewCommonStatus.setText(mTorrentStatus + mSessionStatus);										
+										SetTorrentState();
+										SetCommonStatus();
 									}
 							});
 						}
 					}
                 }
             }).start();
-            RestoreControllerState();                     
+            RestoreControllerState();
+		    doBindService();
         }
-
+    	
     	void RestoreControllerState(){
             mPrefs = getSharedPreferences(Controller.class.getName(), MODE_PRIVATE);
             int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
             mControllerState = ControllerState.values()[controllerState]; 
             SetControllerState(mControllerState);
-            if((!mIsBoundService && mControllerState == ControllerState.Started) ||            
-               (!mIsBoundService && mControllerState == ControllerState.Paused)) 
-            		doBindService();
     	}
 
     	void SetControllerState(ControllerState controllerState){
@@ -268,14 +262,20 @@ public class DownloadService extends Service {
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(true);
 			       mButtonResume.setEnabled(false);
+			       if(mIsBoundService)
+			    	   mBoundService.showNotification(getString(R.string.text_download_started));
 			} break;
 			case Paused:{
 			       mButtonStart.setEnabled(false);
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(true);				
+			       mButtonResume.setEnabled(true);
+			       if(mIsBoundService)
+			    	   mBoundService.showNotification(getString(R.string.text_download_paused));
 			} break;
 			case Stopped:
+					if(mIsBoundService)
+						mBoundService.showNotification(getString(R.string.text_download_stopped));
 			case Undefined:
 			default: {
 			       mButtonStart.setEnabled(true);
@@ -283,14 +283,15 @@ public class DownloadService extends Service {
 			       mButtonPause.setEnabled(false);
 			       mButtonResume.setEnabled(false);	
 			       mTextViewTorrentState.setText(R.string.text_torrent_state_undefined);
+			       mTextViewCommonStatus.setText(R.string.text_common_status);
 			       mProgress.setProgress(0);
 			} break;
 			}
     	}
 
-    	void SetTorrentState(int State){
-    		if(State > 0 && State < 10){
-	    		TorrentState state = TorrentState.values()[State];
+    	void SetTorrentState(){
+    		if(mTorrentState > 0 && mTorrentState < 10){
+	    		TorrentState state = TorrentState.values()[mTorrentState];
 	    		String txt_state = null;
 	    		switch (state){
 				case queued_for_checking: txt_state = getString(R.string.text_torrent_state_queued_for_checking); break; 
@@ -305,23 +306,26 @@ public class DownloadService extends Service {
 				default: txt_state = getString(R.string.text_torrent_state_undefined); break;
 				}
 	    		if(!mTextViewTorrentState.getText().equals(txt_state)){
-		            if((mIsBoundService && mControllerState == ControllerState.Started) ||            
-		               (mIsBoundService && mControllerState == ControllerState.Paused)) 
-		            		mBoundService.showNotification(txt_state);
 		            mTextViewTorrentState.setText(txt_state);
 	    		}
     		}
     		else {
     			String txt_state = getString(R.string.text_torrent_state_undefined);
 	    		if(!mTextViewTorrentState.getText().equals(txt_state)){
-		            if((mIsBoundService && mControllerState == ControllerState.Started) ||            
-		               (mIsBoundService && mControllerState == ControllerState.Paused)) 
-		            		mBoundService.showNotification(txt_state);
 		            mTextViewTorrentState.setText(txt_state);
 	    		}
     		}
     	}
-    	    	    	
+    	
+    	void SetCommonStatus()
+    	{
+			if(mTorrentStatus != null && mSessionStatus != null)
+				mTextViewCommonStatus.setText(mTorrentStatus + mSessionStatus);
+			else
+				mTextViewCommonStatus.setText(R.string.text_common_status);    		
+    	}
+
+    	
     	void SaveControllerState(){
             SharedPreferences.Editor ed = mPrefs.edit();
             ed.putInt(ControllerState.class.getName(), mControllerState.ordinal());
@@ -341,42 +345,45 @@ public class DownloadService extends Service {
             doUnbindService();
         }        
         
-		public void OnClickButtonStartDownloadService(View v) {
-		    startService(new Intent(Controller.this, DownloadService.class));
-		    doBindService();
-		    SetControllerState(ControllerState.Started);
+		public void OnClickButtonStartDownload(View v) {
+        	if(mIsBoundService){
+        		String savePath = RutrackerDownloaderApp.SavePath; 
+        		String torentFile = RutrackerDownloaderApp.TorrentFullFileName;
+        		mBoundService.AddTorrent(savePath, torentFile);
+        		SetControllerState(ControllerState.Started);
+        	}
 		}
-				
-        public void OnClickButtonStopDownloadService(View v) {
-        	mBoundService.RemoveTorrent();
-        	doUnbindService();
-		    stopService(new Intent(Controller.this,DownloadService.class));
-		    SetControllerState(ControllerState.Stopped);
+		
+        public void OnClickButtonStopDownload(View v) {
+        	if(mIsBoundService){
+        		mBoundService.RemoveTorrent();
+    		    SetControllerState(ControllerState.Stopped);
+        	}
         }        
 
-		public void OnClickButtonPauseDownloadService(View v) {
-        	if(mIsBound && mIsBoundService && mControllerState == ControllerState.Started){
+		public void OnClickButtonPauseDownload(View v) {
+        	if(mIsBoundService){
         		mBoundService.PauseSession();
         		SetControllerState(ControllerState.Paused);
         	}
 		}
        
-        public void OnClickButtonResumeDownloadService(View v) {
-        	if(mIsBound && mIsBoundService  && mControllerState == ControllerState.Paused){
+        public void OnClickButtonResumeDownload(View v) {
+        	if(mIsBound && mIsBoundService){
         		mBoundService.ResumeSession();
         		SetControllerState(ControllerState.Started);
         	}
-        }                
-                
+        }
+                                
         private ServiceConnection mConnection = new ServiceConnection() {
            
         	public void onServiceConnected(ComponentName className, IBinder service) {
                 mBoundService = ((DownloadService.LocalBinder)service).getService(); 
                 if(mBoundService == null) mIsBoundService = false;
                 else mIsBoundService = true;
-                Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
-                if(mIsBoundService)
-                	SetControllerState(ControllerState.Started);
+                if(mIsBoundService){
+                    Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
+                }
             }
 
             public void onServiceDisconnected(ComponentName className) {

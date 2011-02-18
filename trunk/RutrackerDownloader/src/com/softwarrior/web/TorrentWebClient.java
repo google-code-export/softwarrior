@@ -221,6 +221,7 @@ public class TorrentWebClient extends Activity {
     }
 
     private void CloseApplication(){
+    	RutrackerDownloaderApp.ExitState = true;
     	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
     	finish();
     }

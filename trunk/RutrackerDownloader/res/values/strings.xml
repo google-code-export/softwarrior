@@ -39,10 +39,10 @@
 	<string name="on_click_button_refresh_page">OnClickButtonRefreshPage</string>
 	<string name="on_click_button_finish_login">OnClickButtonFinishLogin</string>
 	<string name="on_click_button_download">OnClickButtonDownload</string>
-	<string name="on_click_button_start_download_service">OnClickButtonStartDownloadService</string>
-    <string name="on_click_button_stop_download_service">OnClickButtonStopDownloadService</string>
-	<string name="on_click_button_pause_download_service">OnClickButtonPauseDownloadService</string>
-    <string name="on_click_button_resume_download_service">OnClickButtonResumeDownloadService</string>
+	<string name="on_click_button_start_download">OnClickButtonStartDownload</string>
+    <string name="on_click_button_stop_download">OnClickButtonStopDownload</string>
+	<string name="on_click_button_pause_download">OnClickButtonPauseDownload</string>
+    <string name="on_click_button_resume_download">OnClickButtonResumeDownload</string>
 
 	
 	<string name="button_download">Download distribution</string>
@@ -50,10 +50,10 @@
 	<string name="button_login">Login</string>
 	<string name="button_refresh_page">Refresh page</string>
 	<string name="button_finish_login">Finish Login</string>
-	<string name="button_start_download_service">Start Download</string>
-    <string name="button_stop_download_service">Stop Download</string>
-	<string name="button_pause_download_service">Pause Download</string>
-    <string name="button_resume_download_service">Resume Download</string>
+	<string name="button_start_download">Start Download</string>
+    <string name="button_stop_download">Stop Download</string>
+	<string name="button_pause_download">Pause Download</string>
+    <string name="button_resume_download">Resume Download</string>
 
 	
 	<string name="summary_chechbox_enable">Enable this setting</string>
@@ -86,6 +86,10 @@
 	<string name="text_torrent_state_allocating">allocating</string>
 	<string name="text_torrent_state_checking_resume_data">checking resume data</string>
 	<string name="text_torrent_state_paused">paused</string>
-	<string name="text_torrent_state_queued">queued</string>	
+	<string name="text_torrent_state_queued">queued</string>
+	
+	<string name="text_download_started">Download Started</string>
+	<string name="text_download_stopped">Download Stopped</string>	
+	<string name="text_download_paused">Download Paused</string>
 				    	    		
 </resources>

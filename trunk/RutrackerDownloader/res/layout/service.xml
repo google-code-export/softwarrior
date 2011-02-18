@@ -26,18 +26,18 @@
 				android:layout_centerHorizontal="true" 
 				android:layout_centerVertical="true"/> 		 
 			<Button 
-		    	android:id="@+id/ButtonStopDownloadService"
-		        android:onClick="@string/on_click_button_stop_download_service"
-		        android:text="@string/button_stop_download_service" 
+		    	android:id="@+id/ButtonStopDownload"
+		        android:onClick="@string/on_click_button_stop_download"
+		        android:text="@string/button_stop_download" 
 	            android:layout_alignParentRight="true" 
 	            android:layout_height="wrap_content" 
 	            android:layout_width="fill_parent" 
 	            android:layout_toRightOf="@id/TextView1"/>
 	            <requestFocus />
 			<Button 
-		    	android:id="@+id/ButtonStartDownloadService"
-		        android:onClick="@string/on_click_button_start_download_service" 
-		        android:text="@string/button_start_download_service" 
+		    	android:id="@+id/ButtonStartDownload"
+		        android:onClick="@string/on_click_button_start_download" 
+		        android:text="@string/button_start_download" 
 				android:layout_height="wrap_content"  
 	            android:layout_alignParentLeft="true" 
 	            android:layout_width="fill_parent"
@@ -58,18 +58,18 @@
 				android:layout_centerHorizontal="true" 
 				android:layout_centerVertical="true"/> 		 
 			<Button 
-				android:id="@+id/ButtonPauseDownloadService"
-		        android:onClick="@string/on_click_button_pause_download_service"
-		        android:text="@string/button_pause_download_service"  
+				android:id="@+id/ButtonPauseDownload"
+		        android:onClick="@string/on_click_button_pause_download"
+		        android:text="@string/button_pause_download"  
 	            android:layout_alignParentRight="true" 
 	            android:layout_height="wrap_content" 
 	            android:layout_width="fill_parent" 
 	            android:layout_toRightOf="@id/TextView2"/>
 	            <requestFocus />
 			<Button 
-			   	android:id="@+id/ButtonResumeDownloadService" 
-		        android:onClick="@string/on_click_button_resume_download_service"
-		        android:text="@string/button_resume_download_service" 			
+			   	android:id="@+id/ButtonResumeDownload" 
+		        android:onClick="@string/on_click_button_resume_download"
+		        android:text="@string/button_resume_download" 			
 				android:layout_height="wrap_content"  
 	            android:layout_alignParentLeft="true" 
 	            android:layout_width="fill_parent"
