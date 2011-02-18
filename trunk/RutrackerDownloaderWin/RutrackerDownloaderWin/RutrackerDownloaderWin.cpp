@@ -7,6 +7,8 @@
 #pragma warning(pop)
 #endif
 //-----------------------------------------------------------------------------------
+#include <conio.h>
+//-----------------------------------------------------------------------------------
 #include "libtorrent/session.hpp"
 //-----------------------------------------------------------------------------------
 static libtorrent::session* 	  gpSession = 0;
@@ -67,13 +69,15 @@ int GetProgress()
 			std::vector<libtorrent::size_type> file_progress;
 			gTHandle.file_progress(file_progress);
 			libtorrent::torrent_info const& info = gTHandle.get_torrent_info();
+			int num_files= info.num_files();
 			for (int i = 0; i < info.num_files(); ++i)
 			{
-				bool pad_file = info.file_at(i).pad_file;
 				int progress = info.file_at(i).size > 0 ?file_progress[i] * 1000 / info.file_at(i).size:1000;
-				result = progress;
-				printf("File number=%d, progress=%d, pad_file=%d", i, progress, pad_file);
+				result += progress;
+				printf("File number=%d, progress=%d\n\r", i, progress);
 			}
+			result=result/num_files;
+			printf("Common progress=%d\n\r", result);
 		}
 	}
 	return result;
@@ -120,24 +124,21 @@ int main(int argc, char* argv[])
 #endif
 //----------------------------
 	{
-		StartDownload("./", argv[1], 6881, 0, "", 0, "");
-        
-		for(int i = 0; i<100; i++)	
-			Sleep(100);
+		StartDownload("./", argv[1], 55425, 0, "", 0, "");
 
-		GetProgress();
-
-		char a;
-        std::cin.unsetf(std::ios_base::skipws);
-        std::cin >> a;
-
+		while(true)
+		{
+			::Sleep(100);
+			GetProgress();
+			if (_kbhit()) break;
+		}
 		StopDownload();
 	}
 //----------------------------
 #ifndef BOOST_NO_EXCEPTIONS
     catch (std::exception& e)
-    {
-            std::cout << e.what() << "\n";
+    {	
+		std::cout << e.what() << "\n";
     }
 #endif
 //----------------------------
