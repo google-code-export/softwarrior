@@ -3,26 +3,28 @@
       package="com.softwarrior.rutrackerdownloader"
       android:versionCode="1" android:versionName="1.0.0.0">
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true" android:name="RutrackerDownloaderApp">        
-        <activity android:name="SplashScreen" android:screenOrientation="portrait">
+        <activity android:name="SplashScreen" android:screenOrientation="portrait" android:theme="@android:style/Theme.Light">
        		<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name="PreferencesTabs"></activity>
-		<activity android:name="WEBPreferencesScreen"></activity>
-		<activity android:name="RSSPreferencesScreen"></activity>		
-		<activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
-		<activity android:name="com.softwarrior.rss.MessageList"></activity>		
-		<service android:name="DownloadService"></service>
+		<activity android:name="PreferencesTabs" android:theme="@android:style/Theme.Light"></activity>
+		<activity android:name="WEBPreferencesScreen" android:theme="@android:style/Theme.Light"></activity>
+		<activity android:name="RSSPreferencesScreen" android:theme="@android:style/Theme.Light"></activity>
+		<activity android:name="DownloadPreferencesScreen" android:theme="@android:style/Theme.Light"></activity>		
+		<activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
+		<activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>		
         <activity android:name="DownloadService$Controller"
+         		android:theme="@android:style/Theme.Light"
                 android:label="@string/activity_service_controller"
                 android:launchMode="singleTop" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>							
+        </activity>
+        <service android:name="DownloadService"></service>
 </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" /> 

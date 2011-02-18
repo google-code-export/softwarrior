@@ -34,6 +34,25 @@
 	
 	<string name="preferences_search_string_title">SEARCH STRING</string>
 	
+	<string name="preferences_download_options_title">DOWNLOAD OPTIONS</string>
+	<string name="preferences_session_options_title">SESSION OPTIONS</string>
+	<string name="preferences_session_options_cat_title">SESSION OPTIONS</string>
+	<string name="preferences_listen_port">Listen port</string>
+	<string name="preferences_upload_limit">Upload limit</string>
+	<string name="preferences_download_limit">Download limit</string>
+	<string name="preferences_proxy_options_title">PROXY OPTIONS</string>
+	<string name="preferences_proxy_options_cat_title">PROXY OPTIONS</string>
+	<string name="preferences_proxy_type">Proxy Type</string>
+	<string name="preferences_host_name">Host name</string>
+	<string name="preferences_port_number">Port number</string>
+	<string name="preferences_user_name">User name</string>
+	<string name="preferences_password">Password</string>
+	<string name="preferences_torrent_options_title">TORRENT OPTIONS</string>
+	<string name="preferences_torrent_options_cat_title">TORRENT OPTIONS</string>
+	<string name="preferences_torrent_file_name">Torrent file name</string>
+	<string name="preferences_torrent_save_path">Torrent save path</string>	
+	<string name="preferences_proxy_type_dialog_title"> Select proxy type</string>
+		
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
 	<string name="on_click_button_refresh_page">OnClickButtonRefreshPage</string>
@@ -43,7 +62,6 @@
     <string name="on_click_button_stop_download">OnClickButtonStopDownload</string>
 	<string name="on_click_button_pause_download">OnClickButtonPauseDownload</string>
     <string name="on_click_button_resume_download">OnClickButtonResumeDownload</string>
-
 	
 	<string name="button_download">Download distribution</string>
 	<string name="button_search">Search</string>
@@ -54,14 +72,16 @@
     <string name="button_stop_download">Stop Download</string>
 	<string name="button_pause_download">Pause Download</string>
     <string name="button_resume_download">Resume Download</string>
-
 	
 	<string name="summary_chechbox_enable">Enable this setting</string>
 	<string name="summary_chechbox_disable">Disable this setting</string>
 	<string name="summary_edittext_current">Current value is</string>
 	
+	<string name="summary_preferences_proxy_type">Select proxy type</string>
+	
 	<string name="tab_web_search">Web Search</string>
 	<string name="tab_rss_search">RSS Search</string>
+	<string name="tab_download">Download</string>
 	
 	<string name="service_disconnected">Torrent Downloader Service disconnected</string>
 	<string name="service_connected">Torrent Downloader Service connected</string>
@@ -91,5 +111,5 @@
 	<string name="text_download_started">Download Started</string>
 	<string name="text_download_stopped">Download Stopped</string>	
 	<string name="text_download_paused">Download Paused</string>
-				    	    		
+	
 </resources>
