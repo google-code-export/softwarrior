@@ -4,36 +4,6 @@
     android:orientation="vertical"
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent">
-    <FrameLayout
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content">
-	    <LinearLayout android:id="@+id/directory_buttons"
-		    android:orientation="horizontal"
-		    android:layout_width="wrap_content" 
-		    android:layout_height="wrap_content">
-		    <!-- Buttons added here dynamically -->
-		 	<Button 
-				android:text="@string/button_home"
-				android:onClick="@string/on_click_button_home"
-	            android:id="@+id/ButtonHome"
-	            android:layout_height="wrap_content" 
-	            android:layout_width="wrap_content"/>		    
-		</LinearLayout>
-		<LinearLayout android:id="@+id/directory_input"
-		    android:orientation="horizontal"
-		    android:layout_width="fill_parent" 
-		    android:layout_height="wrap_content"
-		    android:visibility="gone">
-		    <EditText android:id="@+id/directory_text"
-				    android:layout_width="0dip"
-				    android:layout_weight="1" 
-				    android:layout_height="wrap_content" />
-			<ImageButton android:id="@+id/button_directory_pick"
-					android:src="@drawable/ic_menu_forward_small"
-				    android:layout_width="wrap_content" 
-				    android:layout_height="wrap_content" />
-		</LinearLayout>
-	</FrameLayout>
     <LinearLayout
 	    android:orientation="horizontal"
 	    android:layout_width="fill_parent" 
@@ -48,15 +18,13 @@
 			    android:layout_height="wrap_content"
 			    android:minWidth="64dip" />
 	</LinearLayout>     
-    <!-- The frame layout is here since we will be showing either
-    the empty view or the list view.  -->
+    <!-- The frame layout is here since we will be showing either the empty view or the list view.  -->
     <FrameLayout
         android:layout_width="fill_parent" 
         android:layout_height="0dip"
         android:layout_weight="1" >
-        <!-- Here is the list. Since we are using a ListActivity, we
-             have to call it "@android:id/list" so ListActivity will
-             find it -->
+        <!-- Here is the list. Since we are using a ListActivity, we have to call 
+             it "@android:id/list" so ListActivity will find it -->
         <ListView android:id="@android:id/list"
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent"
@@ -85,4 +53,64 @@
 			android:visibility="gone"/>
         </LinearLayout>            
     </FrameLayout>
+        <FrameLayout
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content">
+	    <LinearLayout 
+	    	android:id="@+id/directory_buttons"
+		    android:orientation="horizontal"
+		    android:layout_weight="1" 
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+		    <!-- Buttons added here dynamically -->
+			 <Button 
+				android:text="@string/button_home"
+				android:onClick="@string/on_click_button_home"
+	            android:id="@+id/ButtonHome"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>	            		    
+		 	<Button 
+				android:text="@string/button_sdcard"
+				android:onClick="@string/on_click_button_sdcard"
+	            android:id="@+id/ButtonSDCard"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>
+          	<Button 
+				android:text="@string/button_back_to_downloader"
+				android:onClick="@string/on_click_back_to_downloader"
+	            android:id="@+id/ButtonBackToDownloader"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>	            		              			            		    
+          	<Button 
+				android:text="@string/button_select_current_dir"
+				android:onClick="@string/on_click_select_current_dir"
+	            android:id="@+id/ButtonSelectCurrentDir"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>	            		              			            		    
+		</LinearLayout>
+		<!--
+		<LinearLayout android:id="@+id/directory_input"
+		    android:orientation="horizontal"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:visibility="gone">
+		    <EditText android:id="@+id/directory_text"
+				    android:layout_width="0dip"
+				    android:layout_weight="1" 
+				    android:layout_height="wrap_content" />
+			<ImageButton android:id="@+id/button_directory_pick"
+					android:src="@drawable/ic_menu_forward_small"
+				    android:layout_width="wrap_content" 
+				    android:layout_height="wrap_content" />
+		  </LinearLayout>
+		  -->
+	</FrameLayout>    
 </LinearLayout>
