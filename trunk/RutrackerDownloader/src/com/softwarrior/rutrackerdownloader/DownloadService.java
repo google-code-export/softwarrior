@@ -157,7 +157,7 @@ public class DownloadService extends Service {
     //Show a notification while this service is running.
     public void showNotification(String text) {
         // Set the icon, scrolling text and timestamp
-        Notification notification = new Notification(R.drawable.stat_sample, text, System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.stat, text, System.currentTimeMillis());
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, Controller.class), 0);
         // Set the info for the views that show in the notification panel.

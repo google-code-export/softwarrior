@@ -274,6 +274,15 @@ public class FileManagerActivity extends ListActivity {
      public void OnClickButtonHome(View v) {
          jumpTo(new File("/"));
      }  
+     public void OnClickButtonSDCard(View v) {
+         jumpTo(new File(mSdCardPath));    	 
+     }
+     public void OnClickButtonBackToDownloader(View v) {
+ 		
+ 	 }
+     public void OnClickButtonSelectCurrentDir(View v) {
+ 		
+ 	 }
 
      
      private void handleMessage(Message message) {    	 

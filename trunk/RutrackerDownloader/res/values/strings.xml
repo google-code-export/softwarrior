@@ -115,7 +115,12 @@
     <!-- File manager -->
     <string name="button_home">Home</string>
     <string name="on_click_button_home">OnClickButtonHome</string>
-
+	<string name="button_sdcard">SD card</string>
+	<string name="on_click_button_sdcard">OnClickButtonSDCard</string>
+	<string name="button_back_to_downloader">Downloader</string>
+	<string name="on_click_back_to_downloader">OnClickButtonBackToDownloader</string>
+	<string name="button_select_current_dir">Select dir</string>
+	<string name="on_click_select_current_dir">OnClickButtonSelectCurrentDir</string>
 
 	<string name="menu_new_folder">New Folder</string>
     <string name="menu_delete">Delete</string>
