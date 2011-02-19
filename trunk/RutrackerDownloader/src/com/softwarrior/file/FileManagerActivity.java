@@ -39,7 +39,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+//import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -110,11 +110,11 @@ public class FileManagerActivity extends ListActivity {
      
      private EditText mEditFilename;
      private Button mButtonPick;
-     private LinearLayout mDirectoryButtons;
+//     private LinearLayout mDirectoryButtons;
      
-     private LinearLayout mDirectoryInput;
-     private EditText mEditDirectory;
-     private ImageButton mButtonDirectoryPick;
+//     private LinearLayout mDirectoryInput;
+//     private EditText mEditDirectory;
+//     private ImageButton mButtonDirectoryPick;
      
      private TextView mEmptyText;
      private ProgressBar mProgressBar;
@@ -154,7 +154,7 @@ public class FileManagerActivity extends ListActivity {
 	      getListView().requestFocus();
 	      getListView().requestFocusFromTouch();
 	      
-          mDirectoryButtons = (LinearLayout) findViewById(R.id.directory_buttons);
+//          mDirectoryButtons = (LinearLayout) findViewById(R.id.directory_buttons);
           mEditFilename = (EditText) findViewById(R.id.filename);
           
 
@@ -168,7 +168,7 @@ public class FileManagerActivity extends ListActivity {
           });
           
           // Initialize only when necessary:
-          mDirectoryInput = null;
+//          mDirectoryInput = null;
           
           // Create map of extensions:
           getMimeTypes();
@@ -271,6 +271,11 @@ public class FileManagerActivity extends ListActivity {
     	 }
      }
      
+     public void OnClickButtonHome(View v) {
+         jumpTo(new File("/"));
+     }  
+
+     
      private void handleMessage(Message message) {    	 
     	 switch (message.what) {
     	 case MESSAGE_SHOW_DIRECTORY_CONTENTS:
@@ -318,7 +323,7 @@ public class FileManagerActivity extends ListActivity {
 	     getListView().setTextFilterEnabled(true);
 
          selectInList(mPreviousDirectory);
-         refreshDirectoryPanel();
+//         refreshDirectoryPanel();
          setProgressBarIndeterminateVisibility(false);
 
     	 mProgressBar.setVisibility(View.GONE);
@@ -328,76 +333,76 @@ public class FileManagerActivity extends ListActivity {
     	 mThumbnailLoader.start();
      }
 
-     private void onCreateDirectoryInput() {
-    	 mDirectoryInput = (LinearLayout) findViewById(R.id.directory_input);
-         mEditDirectory = (EditText) findViewById(R.id.directory_text);
-
-         mButtonDirectoryPick = (ImageButton) findViewById(R.id.button_directory_pick);
-         
-         mButtonDirectoryPick.setOnClickListener(new View.OnClickListener() {
-				
-				public void onClick(View arg0) {
-					goToDirectoryInEditText();
-				}
-         });
-     }
+//     private void onCreateDirectoryInput() {
+//    	 mDirectoryInput = (LinearLayout) findViewById(R.id.directory_input);
+//         mEditDirectory = (EditText) findViewById(R.id.directory_text);
+//
+//         mButtonDirectoryPick = (ImageButton) findViewById(R.id.button_directory_pick);
+//         
+//         mButtonDirectoryPick.setOnClickListener(new View.OnClickListener() {
+//				
+//				public void onClick(View arg0) {
+//					goToDirectoryInEditText();
+//				}
+//         });
+//     }
      
      //private boolean mHaveShownErrorMessage;
-     private File mHaveShownErrorMessageForFile = null;
+//     private File mHaveShownErrorMessageForFile = null;
      
-     private void goToDirectoryInEditText() {
-    	 File browseto = new File(mEditDirectory.getText().toString());
-    	 
-    	 if (browseto.equals(currentDirectory)) {
-    		 showDirectoryInput(false);
-    	 } else {
-    		 if (mHaveShownErrorMessageForFile != null 
-    				 && mHaveShownErrorMessageForFile.equals(browseto)) {
-    			 // Don't let user get stuck in wrong directory.
-    			 mHaveShownErrorMessageForFile = null;
-        		 showDirectoryInput(false);
-    		 } else {
-	    		 if (!browseto.exists()) {
-	    			 // browseTo() below will show an error message,
-	    			 // because file does not exist.
-	    			 // It is ok to show this the first time.
-	    			 mHaveShownErrorMessageForFile = browseto;
-	    		 }
-				 browseTo(browseto);
-    		 }
-    	 }
-     }
+//     private void goToDirectoryInEditText() {
+//    	 File browseto = new File(mEditDirectory.getText().toString());
+//    	 
+//    	 if (browseto.equals(currentDirectory)) {
+//    		 showDirectoryInput(false);
+//    	 } else {
+//    		 if (mHaveShownErrorMessageForFile != null 
+//    				 && mHaveShownErrorMessageForFile.equals(browseto)) {
+//    			 // Don't let user get stuck in wrong directory.
+//    			 mHaveShownErrorMessageForFile = null;
+//        		 showDirectoryInput(false);
+//    		 } else {
+//	    		 if (!browseto.exists()) {
+//	    			 // browseTo() below will show an error message,
+//	    			 // because file does not exist.
+//	    			 // It is ok to show this the first time.
+//	    			 mHaveShownErrorMessageForFile = browseto;
+//	    		 }
+//				 browseTo(browseto);
+//    		 }
+//    	 }
+//     }
      
 //     Show the directory line as input box instead of button row.
 //     If Directory input does not exist yet, it is created.
 //     Since the default is show == false, nothing is created if
 //     it is not necessary (like after icicle).
      private void showDirectoryInput(boolean show) {
-    	 if (show) {
-    		 if (mDirectoryInput == null) {
-        		 onCreateDirectoryInput();
-        	 }
-    	 }
-    	 if (mDirectoryInput != null) {
-	    	 mDirectoryInput.setVisibility(show ? View.VISIBLE : View.GONE);
-	    	 mDirectoryButtons.setVisibility(show ? View.GONE : View.VISIBLE);
-    	 }
+//    	 if (show) {
+//    		 if (mDirectoryInput == null) {
+//        		 onCreateDirectoryInput();
+//        	 }
+//    	 }
+//    	 if (mDirectoryInput != null) {
+//	    	 mDirectoryInput.setVisibility(show ? View.VISIBLE : View.GONE);
+//	    	 mDirectoryButtons.setVisibility(show ? View.GONE : View.VISIBLE);
+//    	 }
     	 
-    	 refreshDirectoryPanel();
+//    	 refreshDirectoryPanel();
      }
 
- 	private void refreshDirectoryPanel() {
- 		if (isDirectoryInputVisible()) {
- 			// Set directory path
- 			String path = currentDirectory.getAbsolutePath();
- 			mEditDirectory.setText(path);
- 			
- 			// Set selection to last position so user can continue to type:
- 			mEditDirectory.setSelection(path.length());
- 		} else {
- 			setDirectoryButtons();
- 		}
- 	} 
+// 	private void refreshDirectoryPanel() {
+// 		if (isDirectoryInputVisible()) {
+// 			// Set directory path
+// 			String path = currentDirectory.getAbsolutePath();
+// 			mEditDirectory.setText(path);
+// 			
+// 			// Set selection to last position so user can continue to type:
+// 			mEditDirectory.setSelection(path.length());
+// 		} else {
+// 			setDirectoryButtons();
+// 		}
+// 	} 
 
  	@Override
  	protected void onSaveInstanceState(Bundle outState) {
@@ -406,14 +411,14 @@ public class FileManagerActivity extends ListActivity {
  		outState.putString(BUNDLE_CURRENT_DIRECTORY, currentDirectory.getAbsolutePath());
  		outState.putString(BUNDLE_CONTEXT_FILE, mContextFile.getAbsolutePath());
  		outState.putString(BUNDLE_CONTEXT_TEXT, mContextText);
- 		boolean show = isDirectoryInputVisible();
- 		outState.putBoolean(BUNDLE_SHOW_DIRECTORY_INPUT, show);
+// 		boolean show = isDirectoryInputVisible();
+// 		outState.putBoolean(BUNDLE_SHOW_DIRECTORY_INPUT, show);
  		outState.putInt(BUNDLE_STEPS_BACK, mStepsBack);
  	}
  	
- 	private boolean isDirectoryInputVisible() {
-		return ((mDirectoryInput != null) && (mDirectoryInput.getVisibility() == View.VISIBLE));
-	}
+// 	private boolean isDirectoryInputVisible() {
+//		return ((mDirectoryInput != null) && (mDirectoryInput.getVisibility() == View.VISIBLE));
+//	}
 
 	private void pickFileOrDirectory() {
 		File file = null;
@@ -564,99 +569,99 @@ public class FileManagerActivity extends ListActivity {
     	 }
      }
      
-     private void setDirectoryButtons() {
-    	 String[] parts = currentDirectory.getAbsolutePath().split("/");
-    	 
-    	 mDirectoryButtons.removeAllViews();
-    	 
-    	 int WRAP_CONTENT = LinearLayout.LayoutParams.WRAP_CONTENT;
-    	 
-    	 // Add home button separately
-    	 ImageButton ib = new ImageButton(this);
-    	 ib.setImageResource(R.drawable.ic_launcher_home_small);
-		 ib.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-		 ib.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				jumpTo(new File("/"));
-			}
-		 });
-		 mDirectoryButtons.addView(ib);
-		 
-    	 // Add other buttons
-    	 
-    	 String dir = "";
-    	 
-    	 for (int i = 1; i < parts.length; i++) {
-    		 dir += "/" + parts[i];
-    		 if (dir.equals(mSdCardPath)) {
-    			 // Add SD card button
-    			 ib = new ImageButton(this);
-    	    	 ib.setImageResource(R.drawable.icon_sdcard_small);
-    			 ib.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-    			 ib.setOnClickListener(new View.OnClickListener() {
-    					public void onClick(View view) {
-    						jumpTo(new File(mSdCardPath));
-    					}
-    			 });
-    			 mDirectoryButtons.addView(ib);
-    		 } else {
-	    		 Button b = new Button(this);
-	    		 b.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-	    		 b.setText(parts[i]);
-	    		 b.setTag(dir);
-	    		 b.setOnClickListener(new View.OnClickListener() {
-	 				public void onClick(View view) {
-	 					String dir = (String) view.getTag();
-	 					jumpTo(new File(dir));
-	 				}
-	    		 });
-    			 mDirectoryButtons.addView(b);
-    		 }
-    	 }
-    	 
-    	 checkButtonLayout();
-     }
-
-     private void checkButtonLayout() {
-    	 
-    	 // Let's measure how much space we need:
-    	 int spec = View.MeasureSpec.UNSPECIFIED;
-    	 mDirectoryButtons.measure(spec, spec);
-    	 mDirectoryButtons.getChildCount();
-    	 
-    	 int requiredwidth = mDirectoryButtons.getMeasuredWidth();
-    	 int width = getWindowManager().getDefaultDisplay().getWidth();
-    	 
-    	 if (requiredwidth > width) {
-        	 int WRAP_CONTENT = LinearLayout.LayoutParams.WRAP_CONTENT;
-        	 
-        	 // Create a new button that shows that there is more to the left:
-        	 ImageButton ib = new ImageButton(this);
-        	 ib.setImageResource(R.drawable.ic_menu_back_small);
-    		 ib.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-    		 // 
-    		 ib.setOnClickListener(new View.OnClickListener() {
-    				public void onClick(View view) {
-    					// Up one directory.
-    					upOneLevel();
-    				}
-    		 });
-    		 mDirectoryButtons.addView(ib, 0);
-    		 
-    		 // New button needs even more space
-    		 ib.measure(spec, spec);
-    		 requiredwidth += ib.getMeasuredWidth();
-
-    		 // Need to take away some buttons
-    		 // but leave at least "back" button and one directory button.
-    		 while (requiredwidth > width && mDirectoryButtons.getChildCount() > 2) {
-    			 View view = mDirectoryButtons.getChildAt(1);
-    			 requiredwidth -= view.getMeasuredWidth();
-    			 
-	    		 mDirectoryButtons.removeViewAt(1);
-    		 }
-    	 }
-     }
+//     private void setDirectoryButtons() {
+//    	 String[] parts = currentDirectory.getAbsolutePath().split("/");
+//    	 
+//    	 mDirectoryButtons.removeAllViews();
+//    	 
+//    	 int WRAP_CONTENT = LinearLayout.LayoutParams.WRAP_CONTENT;
+//    	 
+//    	 // Add home button separately
+//    	 ImageButton ib = new ImageButton(this);
+//    	 ib.setImageResource(R.drawable.ic_launcher_home_small);
+//		 ib.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+//		 ib.setOnClickListener(new View.OnClickListener() {
+//			public void onClick(View view) {
+//				jumpTo(new File("/"));
+//			}
+//		 });
+//		 mDirectoryButtons.addView(ib);
+//		 
+//    	 // Add other buttons
+//    	 
+//    	 String dir = "";
+//    	 
+//    	 for (int i = 1; i < parts.length; i++) {
+//    		 dir += "/" + parts[i];
+//    		 if (dir.equals(mSdCardPath)) {
+//    			 // Add SD card button
+//    			 ib = new ImageButton(this);
+//    	    	 ib.setImageResource(R.drawable.icon_sdcard_small);
+//    			 ib.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+//    			 ib.setOnClickListener(new View.OnClickListener() {
+//    					public void onClick(View view) {
+//    						jumpTo(new File(mSdCardPath));
+//    					}
+//    			 });
+//    			 mDirectoryButtons.addView(ib);
+//    		 } else {
+//	    		 Button b = new Button(this);
+//	    		 b.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+//	    		 b.setText(parts[i]);
+//	    		 b.setTag(dir);
+//	    		 b.setOnClickListener(new View.OnClickListener() {
+//	 				public void onClick(View view) {
+//	 					String dir = (String) view.getTag();
+//	 					jumpTo(new File(dir));
+//	 				}
+//	    		 });
+//    			 mDirectoryButtons.addView(b);
+//    		 }
+//    	 }
+//    	 
+//    	 checkButtonLayout();
+//     }
+//
+//     private void checkButtonLayout() {
+//    	 
+//    	 // Let's measure how much space we need:
+//    	 int spec = View.MeasureSpec.UNSPECIFIED;
+//    	 mDirectoryButtons.measure(spec, spec);
+//    	 mDirectoryButtons.getChildCount();
+//    	 
+//    	 int requiredwidth = mDirectoryButtons.getMeasuredWidth();
+//    	 int width = getWindowManager().getDefaultDisplay().getWidth();
+//    	 
+//    	 if (requiredwidth > width) {
+//        	 int WRAP_CONTENT = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        	 
+//        	 // Create a new button that shows that there is more to the left:
+//        	 ImageButton ib = new ImageButton(this);
+//        	 ib.setImageResource(R.drawable.ic_menu_back_small);
+//    		 ib.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
+//    		 // 
+//    		 ib.setOnClickListener(new View.OnClickListener() {
+//    				public void onClick(View view) {
+//    					// Up one directory.
+//    					upOneLevel();
+//    				}
+//    		 });
+//    		 mDirectoryButtons.addView(ib, 0);
+//    		 
+//    		 // New button needs even more space
+//    		 ib.measure(spec, spec);
+//    		 requiredwidth += ib.getMeasuredWidth();
+//
+//    		 // Need to take away some buttons
+//    		 // but leave at least "back" button and one directory button.
+//    		 while (requiredwidth > width && mDirectoryButtons.getChildCount() > 2) {
+//    			 View view = mDirectoryButtons.getChildAt(1);
+//    			 requiredwidth -= view.getMeasuredWidth();
+//    			 
+//	    		 mDirectoryButtons.removeViewAt(1);
+//    		 }
+//    	 }
+//     }
      
      @Override 
      protected void onListItemClick(ListView l, View v, int position, long id) { 

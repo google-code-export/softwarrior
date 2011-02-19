@@ -12,6 +12,12 @@
 		    android:layout_width="wrap_content" 
 		    android:layout_height="wrap_content">
 		    <!-- Buttons added here dynamically -->
+		 	<Button 
+				android:text="@string/button_home"
+				android:onClick="@string/on_click_button_home"
+	            android:id="@+id/ButtonHome"
+	            android:layout_height="wrap_content" 
+	            android:layout_width="wrap_content"/>		    
 		</LinearLayout>
 		<LinearLayout android:id="@+id/directory_input"
 		    android:orientation="horizontal"
@@ -41,22 +47,7 @@
 			    android:layout_width="wrap_content" 
 			    android:layout_height="wrap_content"
 			    android:minWidth="64dip" />
-	</LinearLayout>
-    <!-- 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content">
-        
-        <Button android:id="@+id/add"
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content"
-            android:text="@string/menu_insert"
-            android:layout_gravity="center" />
-            
-    </LinearLayout>
-     -->
-     
+	</LinearLayout>     
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
     <FrameLayout
@@ -70,25 +61,19 @@
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent"
             android:fastScrollEnabled="true"
-            android:drawSelectorOnTop="false"/>
-        
-        <!-- Here is the view to show if the list is empty -->
-        
+            android:drawSelectorOnTop="false"/>        
+        <!-- Here is the view to show if the list is empty -->        
         <LinearLayout android:id="@+id/empty"
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent">
-
-		<!--  If the list is empty because there are no files... -->
-        
+		<!--  If the list is empty because there are no files... -->        
         <TextView android:id="@+id/empty_text"
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent"
             android:text="@string/this_folder_is_empty"
         	android:textAppearance="?android:attr/textAppearanceMedium"
-        	android:gravity="center" />
-        	
+        	android:gravity="center" />        	
         <!--  If the list is empty because we're still scanning... -->
-
 		<ProgressBar android:id="@+id/scan_progress" 
 			android:layout_height="wrap_content"
 			style="?android:attr/progressBarStyleHorizontal"
@@ -98,8 +83,6 @@
 			android:secondaryProgress="0"
 			android:layout_gravity="center"
 			android:visibility="gone"/>
-        	
-        </LinearLayout>
-            
+        </LinearLayout>            
     </FrameLayout>
 </LinearLayout>
