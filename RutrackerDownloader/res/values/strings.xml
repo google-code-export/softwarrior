@@ -111,21 +111,10 @@
 	<string name="text_download_started">Download Started</string>
 	<string name="text_download_stopped">Download Stopped</string>	
 	<string name="text_download_paused">Download Paused</string>
-	
 
-
-
-
-
-	<!-- ***************************
-	     Preferences  *************************** -->
-
-
-
-
-
-
-
+    <!-- File manager -->
+    <string name="button_home">Home</string>
+    <string name="on_click_button_home">OnClickButtonHome</string>
 
 
 	<string name="menu_new_folder">New Folder</string>
@@ -135,8 +124,6 @@
     <string name="menu_open">Open</string>
     <string name="menu_move">Move</string>
     <string name="menu_copy">Copy</string>
-    <string name="menu_include_in_media_scan">Include in media scan</string>
-    <string name="menu_exclude_from_media_scan">Exclude from media scan</string>
     
     <string name="create_new_folder">Create new folder</string>
     <string name="folder_name">Folder name</string>
@@ -177,20 +164,7 @@
     <string name="error_generic">An error occurred: </string>
     <string name="error_media_scan">Could not change media scan settings.</string>
     
-    <string name="send_not_available">No application available for sending.</string>
-    
-    <string name="application_not_available">Application not available</string>
-    
-	<!-- ***************************
-	     Preferences  *************************** -->
-    <!-- Menu item for Settings -->
-	<string name="settings">Settings</string>
-	
-    <!-- Category for preferences. -->
-    <string name="preference_advanced_features">Advanced features</string>
-	<string name="preference_mediascan_title">Exclude from media scan</string>
-    <string name="preference_mediascan_summary_on">Show menu item to exclude folders from media scan.</string>
-    <string name="preference_mediascan_summary_off">Hide menu item to exclude folders from media scan.</string>
-	
+    <string name="send_not_available">No application available for sending.</string>    
+    <string name="application_not_available">Application not available</string>    	
 	
 </resources>
