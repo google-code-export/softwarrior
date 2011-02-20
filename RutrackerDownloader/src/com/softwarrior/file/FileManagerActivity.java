@@ -72,8 +72,13 @@ public class FileManagerActivity extends ListActivity {
 	private static final int MENU_SEND = Menu.FIRST + 7;
 	private static final int MENU_OPEN = Menu.FIRST + 8;
 	private static final int MENU_MOVE = Menu.FIRST + 9;
-	private static final int MENU_COPY = Menu.FIRST + 100;
-	
+	private static final int MENU_COPY = Menu.FIRST + 10;
+
+	private static final int MENU_ABOUT = Menu.FIRST + 11;
+	private static final int MENU_HELP = Menu.FIRST + 12;
+	private static final int MENU_PREFERENCES = Menu.FIRST + 13;
+	private static final int MENU_EXIT = Menu.FIRST + 100;
+		
 	private static final int DIALOG_NEW_FOLDER = 1;
 	private static final int DIALOG_DELETE = 2;
 	private static final int DIALOG_RENAME = 100;
@@ -83,7 +88,7 @@ public class FileManagerActivity extends ListActivity {
 	private static final String BUNDLE_CURRENT_DIRECTORY = "current_directory";
 	private static final String BUNDLE_CONTEXT_FILE = "context_file";
 	private static final String BUNDLE_CONTEXT_TEXT = "context_text";
-	private static final String BUNDLE_SHOW_DIRECTORY_INPUT = "show_directory_input";
+//	private static final String BUNDLE_SHOW_DIRECTORY_INPUT = "show_directory_input";
 	private static final String BUNDLE_STEPS_BACK = "steps_back";
 	
 	//Contains directories and files together 
@@ -242,14 +247,22 @@ public class FileManagerActivity extends ListActivity {
         	  mContextFile = new File(icicle.getString(BUNDLE_CONTEXT_FILE));
         	  mContextText = icicle.getString(BUNDLE_CONTEXT_TEXT);
         	  
-        	  boolean show = icicle.getBoolean(BUNDLE_SHOW_DIRECTORY_INPUT);
-        	  showDirectoryInput(show);
+//        	  boolean show = icicle.getBoolean(BUNDLE_SHOW_DIRECTORY_INPUT);
+//        	  showDirectoryInput(show);
         	  
         	  mStepsBack = icicle.getInt(BUNDLE_STEPS_BACK);
           }
           
           browseTo(browseto);
+          
+          if(RutrackerDownloaderApp.ExitState) CloseApplication();
      }
+     
+     @Override
+    protected void onResume() {
+    	super.onResume();
+    	if(RutrackerDownloaderApp.ExitState) CloseApplication();
+    }
      
      public void onDestroy() {
     	 super.onDestroy();
@@ -386,7 +399,7 @@ public class FileManagerActivity extends ListActivity {
 //     If Directory input does not exist yet, it is created.
 //     Since the default is show == false, nothing is created if
 //     it is not necessary (like after icicle).
-     private void showDirectoryInput(boolean show) {
+//     private void showDirectoryInput(boolean show) {
 //    	 if (show) {
 //    		 if (mDirectoryInput == null) {
 //        		 onCreateDirectoryInput();
@@ -398,7 +411,7 @@ public class FileManagerActivity extends ListActivity {
 //    	 }
     	 
 //    	 refreshDirectoryPanel();
-     }
+//     }
 
 // 	private void refreshDirectoryPanel() {
 // 		if (isDirectoryInputVisible()) {
@@ -483,10 +496,11 @@ public class FileManagerActivity extends ListActivity {
           setTitle(aDirectory.getAbsolutePath());
           
           if (aDirectory.isDirectory()){
-        	  if (aDirectory.equals(currentDirectory)) {
-        		  // Switch from button to directory input
-        		  showDirectoryInput(true);
-        	  } else {
+//        	  if (aDirectory.equals(currentDirectory)) {
+//        		  // Switch from button to directory input
+//        		  showDirectoryInput(true);
+//        	  } else 
+        	  {
         		   mPreviousDirectory = currentDirectory;
 	               currentDirectory = aDirectory;
 	               refreshList();
@@ -706,8 +720,12 @@ public class FileManagerActivity extends ListActivity {
  	@Override
  	public boolean onCreateOptionsMenu(Menu menu) {
  		super.onCreateOptionsMenu(menu);
- 		menu.add(0, MENU_NEW_FOLDER, 0, R.string.menu_new_folder).setIcon(
- 				android.R.drawable.ic_menu_add).setShortcut('0', 'f');  		
+ 		menu.add(Menu.NONE, MENU_NEW_FOLDER, MENU_NEW_FOLDER, R.string.menu_new_folder);
+ 		//.setIcon(android.R.drawable.ic_menu_add).setShortcut('0', 'f');  		
+ 		menu.add(Menu.NONE, MENU_ABOUT, MENU_ABOUT, R.string.menu_about);
+ 		menu.add(Menu.NONE, MENU_HELP, MENU_HELP, R.string.menu_help);
+ 		menu.add(Menu.NONE, MENU_PREFERENCES, MENU_PREFERENCES, R.string.menu_preferences);
+ 		menu.add(Menu.NONE, MENU_EXIT, MENU_EXIT, R.string.menu_exit);
  		return true;
  	}
 
@@ -737,11 +755,40 @@ public class FileManagerActivity extends ListActivity {
 		case MENU_NEW_FOLDER:
 			showDialog(DIALOG_NEW_FOLDER);
 			return true;			
+		case MENU_ABOUT:
+			AboutActivity();
+			return true;			
+		case MENU_HELP:
+			HelpActivity();
+			return true;			
+		case MENU_PREFERENCES:
+			PreferencesScreenActivity();
+			return true;			
+		case MENU_EXIT:
+			CloseApplication();
+			return true;			
 		}
 		return super.onOptionsItemSelected(item);
 
 	}
 	
+	private void AboutActivity(){
+    }
+
+    private void HelpActivity(){
+    }
+    
+    private void PreferencesScreenActivity(){
+    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
+    	finish();
+    }
+    
+    private void CloseApplication(){
+    	RutrackerDownloaderApp.ExitState = true;
+    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	finish();
+    }
+		
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view,
 			ContextMenuInfo menuInfo) {

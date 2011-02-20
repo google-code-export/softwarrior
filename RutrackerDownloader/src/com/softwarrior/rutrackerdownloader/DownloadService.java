@@ -245,6 +245,7 @@ public class DownloadService extends Service {
             }).start();
             RestoreControllerState();
 		    doBindService();
+		    if(RutrackerDownloaderApp.ExitState) CloseApplication();
         }
     	
     	void RestoreControllerState(){
@@ -330,6 +331,12 @@ public class DownloadService extends Service {
             SharedPreferences.Editor ed = mPrefs.edit();
             ed.putInt(ControllerState.class.getName(), mControllerState.ordinal());
             ed.commit();
+    	}
+    	
+    	@Override
+    	protected void onResume() {
+    		super.onResume();
+    		if(RutrackerDownloaderApp.ExitState) CloseApplication();
     	}
     	
     	@Override
