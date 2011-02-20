@@ -1,6 +1,10 @@
 package com.softwarrior.rutrackerdownloader;
 
+import com.softwarrior.file.FileManagerActivity;
+
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Environment;
 
 public class RutrackerDownloaderApp extends Application {	
@@ -38,6 +42,32 @@ public class RutrackerDownloaderApp extends Application {
 	//"http://rutracker.org/forum/search.php?nm=TEST"
 	public static String SearchUrl = new String();
 	public static boolean ExitState = false;
+	
+	
+    static public void PreferencesScreenActivity(Activity activity){
+    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
+    	activity.finish();
+    }
+    
+    static public void FileManagerActivity(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, FileManagerActivity.class.getName());
+    	activity.startActivityForResult(intent,0);      
+    }
+ 
+    static public void CloseApplication(Activity activity){
+    	RutrackerDownloaderApp.ExitState = true;
+    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	activity.finish();
+    }
+    
+    static public void HelpActivity(Activity activity){
+    }
+ 
+    static public void AboutActivity(Activity activity){
+    }
+ 
 }
 
 // For targetSdkVersion="5" or higher, one needs to use the following code instead of the one above:

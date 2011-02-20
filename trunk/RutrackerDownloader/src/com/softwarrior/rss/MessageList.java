@@ -27,17 +27,23 @@ public class MessageList extends ListActivity {
 	private List<Message> messages;
 	
     public enum MenuType{
-    	About, Help, Preferences, Exit;
+    	About, Help, Preferences, FileManager, Exit;
     }
-
 	
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.rss);
-        loadFeed(ParserType.ANDROID_SAX);    
+        loadFeed(ParserType.ANDROID_SAX);
+        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
 
+    @Override
+    protected void onResume() {
+    	super.onResume();
+        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    }
+    
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(ActivityResultType.getValue(resultCode))
@@ -56,6 +62,7 @@ public class MessageList extends ListActivity {
 		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
 		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
 		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
+		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
@@ -67,37 +74,24 @@ public class MessageList extends ListActivity {
 		switch(type)
 		{
 		case About:{
-			AboutActivity();
+			RutrackerDownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			HelpActivity();
+			RutrackerDownloaderApp.HelpActivity(this);
 		} break;
 		case Preferences:{
-			PreferencesScreenActivity();
+			RutrackerDownloaderApp.PreferencesScreenActivity(this);
+		} break;
+		case FileManager:{
+			RutrackerDownloaderApp.FileManagerActivity(this);
 		} break;
 		case Exit:{
-			CloseApplication();
+			RutrackerDownloaderApp.CloseApplication(this);
 		} break;
 		}
 		return true;
 	}
-
-	private void AboutActivity(){
-    }
-
-    private void HelpActivity(){
-    }
-    
-    private void PreferencesScreenActivity(){
-    	finish();
-    }
-
-    private void CloseApplication(){
-    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
-    	finish();
-    }
-	
-	
+    		
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);

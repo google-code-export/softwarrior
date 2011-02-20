@@ -1,7 +1,5 @@
 package com.softwarrior.rutrackerdownloader;
 
-import com.softwarrior.file.FileManagerActivity;
-
 import android.app.Activity;
 
 import android.content.Intent;
@@ -52,16 +50,10 @@ public class SplashScreen extends Activity {
     
     void StartPreferencesScreen()
     {
-//    	Intent intent = new Intent(Intent.ACTION_VIEW);
-//    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//    	intent.setClassName(this, PreferencesTabs.class.getName());
-//    	startActivity(intent);
-//    	finish();
-
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(this, FileManagerActivity.class.getName());
+    	intent.setClassName(this, PreferencesTabs.class.getName());
     	startActivity(intent);
-    	finish();    
+    	finish();
     }
 }

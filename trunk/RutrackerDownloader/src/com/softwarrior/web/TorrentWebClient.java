@@ -1,6 +1,5 @@
 package com.softwarrior.web;
 
-
 import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
@@ -37,7 +36,7 @@ public class TorrentWebClient extends Activity {
     final Activity activity = this;
     
     public enum MenuType{
-    	About, Help, Preferences, Exit;
+    	About, Help, Preferences, FileManager, Exit;
     }
 
     @Override
@@ -108,7 +107,7 @@ public class TorrentWebClient extends Activity {
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
-        if(RutrackerDownloaderApp.ExitState) CloseApplication();
+        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
 
     @Override
@@ -173,7 +172,7 @@ public class TorrentWebClient extends Activity {
     protected void onResume() {
     	CookieSyncManager.getInstance().startSync();
     	super.onResume();
-    	if(RutrackerDownloaderApp.ExitState) CloseApplication();
+    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
     
     @Override
@@ -188,6 +187,7 @@ public class TorrentWebClient extends Activity {
 		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
 		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
 		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
+		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
@@ -199,37 +199,23 @@ public class TorrentWebClient extends Activity {
 		switch(type)
 		{
 		case About:{
-			AboutActivity();
+			RutrackerDownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			HelpActivity();
+			RutrackerDownloaderApp.HelpActivity(this);
 		} break;
 		case Preferences:{
-			PreferencesScreenActivity();
+			RutrackerDownloaderApp.PreferencesScreenActivity(this);
+		} break;
+		case FileManager:{
+			RutrackerDownloaderApp.FileManagerActivity(this);
 		} break;
 		case Exit:{
-			CloseApplication();
+			RutrackerDownloaderApp.CloseApplication(this);
 		} break;
 		}
 		return true;
 	}
-
-	private void AboutActivity(){
-    }
-
-    private void HelpActivity(){
-    }
-    
-    private void PreferencesScreenActivity(){
-    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
-    	finish();
-    }
-
-    private void CloseApplication(){
-    	RutrackerDownloaderApp.ExitState = true;
-    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
-    	finish();
-    }
     
     public void OnClickButtonRefreshPage(View v) {
     	mWebView.loadUrl(mLoadUrl);
