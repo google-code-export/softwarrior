@@ -255,13 +255,13 @@ public class FileManagerActivity extends ListActivity {
           
           browseTo(browseto);
           
-          if(RutrackerDownloaderApp.ExitState) CloseApplication();
+          if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
      }
      
      @Override
     protected void onResume() {
     	super.onResume();
-    	if(RutrackerDownloaderApp.ExitState) CloseApplication();
+    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
      
      public void onDestroy() {
@@ -756,39 +756,22 @@ public class FileManagerActivity extends ListActivity {
 			showDialog(DIALOG_NEW_FOLDER);
 			return true;			
 		case MENU_ABOUT:
-			AboutActivity();
+			RutrackerDownloaderApp.AboutActivity(this);
 			return true;			
 		case MENU_HELP:
-			HelpActivity();
+			RutrackerDownloaderApp.HelpActivity(this);
 			return true;			
 		case MENU_PREFERENCES:
-			PreferencesScreenActivity();
+			RutrackerDownloaderApp.PreferencesScreenActivity(this);
 			return true;			
 		case MENU_EXIT:
-			CloseApplication();
+			RutrackerDownloaderApp.CloseApplication(this);
 			return true;			
 		}
 		return super.onOptionsItemSelected(item);
 
 	}
-	
-	private void AboutActivity(){
-    }
-
-    private void HelpActivity(){
-    }
-    
-    private void PreferencesScreenActivity(){
-    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
-    	finish();
-    }
-    
-    private void CloseApplication(){
-    	RutrackerDownloaderApp.ExitState = true;
-    	setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
-    	finish();
-    }
-		
+			
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view,
 			ContextMenuInfo menuInfo) {

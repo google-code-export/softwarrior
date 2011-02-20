@@ -28,7 +28,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	String mString = new String();
 
 	public enum MenuType{
-		About, Help, Exit;
+		About, Help, FileManager, Exit;
 	}
 	
 	//TITLE
@@ -61,7 +61,8 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
-		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
+		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help);
+		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
@@ -73,10 +74,13 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		switch(type)
 		{
 		case About:{
-			AboutActivity();
+			RutrackerDownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			HelpActivity();
+			RutrackerDownloaderApp.HelpActivity(this);
+		} break;
+		case FileManager:{
+			RutrackerDownloaderApp.FileManagerActivity(this);
 		} break;
 		case Exit:{
 			CloseApplication();
@@ -84,13 +88,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		}
 		return true;
 	}
-
-	private void AboutActivity(){
-    }
-
-    private void HelpActivity(){
-    }
-
+    
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(ActivityResultType.getValue(resultCode))
