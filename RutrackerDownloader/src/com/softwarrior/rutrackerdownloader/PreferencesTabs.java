@@ -35,5 +35,6 @@ public class PreferencesTabs extends TabActivity {
 	        	tabHost.setCurrentTabByTag(currentTab);
 	        }
         }
+        startService(new Intent(this, DownloadService.class));
     }
 }

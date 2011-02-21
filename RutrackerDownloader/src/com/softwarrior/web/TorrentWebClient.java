@@ -1,5 +1,6 @@
 package com.softwarrior.web;
 
+import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
@@ -125,6 +126,7 @@ public class TorrentWebClient extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	switch(ActivityResultType.getValue(resultCode))
 		{
+		case RESULT_DOWNLOADER:
 		case RESULT_PREFERENCES:
 		case RESULT_EXIT:
 			setResult(resultCode);
@@ -158,7 +160,7 @@ public class TorrentWebClient extends Activity {
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
-    		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, RutrackerDownloaderApp.TorrentFullFileName);
+    		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetFullTorrentFileName(this));
     		torrentDownloader.Download(mDistributionNumber);
     		
 			Intent intent = new Intent(Intent.ACTION_VIEW);

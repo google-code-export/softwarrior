@@ -39,8 +39,8 @@
 	<string name="preferences_session_options_title">SESSION OPTIONS</string>
 	<string name="preferences_session_options_cat_title">SESSION OPTIONS</string>
 	<string name="preferences_listen_port">Listen port</string>
-	<string name="preferences_upload_limit">Upload limit</string>
-	<string name="preferences_download_limit">Download limit</string>
+	<string name="preferences_upload_limit">Upload limit (Byte/sec)</string>
+	<string name="preferences_download_limit">Download limit (Byte/sec)</string>
 	<string name="preferences_proxy_options_title">PROXY OPTIONS</string>
 	<string name="preferences_proxy_options_cat_title">PROXY OPTIONS</string>
 	<string name="preferences_proxy_type">Proxy Type</string>
@@ -63,6 +63,8 @@
     <string name="on_click_button_stop_download">OnClickButtonStopDownload</string>
 	<string name="on_click_button_pause_download">OnClickButtonPauseDownload</string>
     <string name="on_click_button_resume_download">OnClickButtonResumeDownload</string>
+	<string name="on_click_activate_settings">OnClickButtonActivateSettings</string>
+	<string name="on_click_button_downloaded">OnClickButtonDownloader</string>
 	
 	<string name="button_download">Download distribution</string>
 	<string name="button_search">Search</string>
@@ -73,6 +75,8 @@
     <string name="button_stop_download">Stop Download</string>
 	<string name="button_pause_download">Pause Download</string>
     <string name="button_resume_download">Resume Download</string>
+	<string name="button_activate_settings">ActivateSettings</string>
+	<string name="button_downloaded">Downloaded</string>
 	
 	<string name="summary_chechbox_enable">Enable this setting</string>
 	<string name="summary_chechbox_disable">Disable this setting</string>
@@ -169,6 +173,7 @@
     <string name="error_deleting_child_file">Could not delete child file \'%s\'.</string>
     <string name="error_generic">An error occurred: </string>
     <string name="error_media_scan">Could not change media scan settings.</string>
+    <string name="error_torrent_file_absent">Torrent file is absent. Search and download distribution</string>
     
     <string name="send_not_available">No application available for sending.</string>    
     <string name="application_not_available">Application not available</string>    	

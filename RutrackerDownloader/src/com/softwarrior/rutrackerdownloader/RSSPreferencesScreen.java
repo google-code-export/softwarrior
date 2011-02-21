@@ -57,7 +57,6 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	@Override
   protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
-    startService(new Intent(this, DownloadService.class));
     addPreferencesFromResource(R.xml.rss_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
@@ -113,6 +112,9 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(ActivityResultType.getValue(resultCode))
 		{
+		case RESULT_DOWNLOADER:{
+			RutrackerDownloaderApp.OpenDownloaderActivity(this);
+		} break;
 		case RESULT_PREFERENCES:{			
 		} break;
 		case RESULT_EXIT:

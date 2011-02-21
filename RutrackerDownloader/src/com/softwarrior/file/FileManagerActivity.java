@@ -47,6 +47,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
@@ -54,6 +55,7 @@ public class FileManagerActivity extends ListActivity {
 	
 	public static final String ACTION_PICK_FILE = "com.softwarrior.file.PICK_FILE";
 	public static final String ACTION_PICK_DIRECTORY = "com.softwarrior.file.PICK_DIRECTORY";
+	public static final String ACTION_SET_DIRECTORY = "com.softwarrior.file.SET_DIRECTORY";
 	public static final String EXTRA_TITLE = "com.softwarrior.file.TITLE";
 	public static final String EXTRA_BUTTON_TEXT = "com.softwarrior.file.BUTTON_TEXT";
 	public static final String EXTRA_WRITEABLE_ONLY = "com.softwarrior.file.WRITEABLE_ONLY";
@@ -215,8 +217,12 @@ public class FileManagerActivity extends ListActivity {
         		  mButtonPick.setLayoutParams(new LinearLayout.LayoutParams(
         				  LinearLayout.LayoutParams.FILL_PARENT,
         				  LinearLayout.LayoutParams.WRAP_CONTENT));
-        	  } 
-        	  
+        	  } else if(action.equals(ACTION_SET_DIRECTORY)){
+        		  Button set_dir = (Button) findViewById(R.id.ButtonSelectCurrentDir);
+        		  Button down = (Button) findViewById(R.id.ButtonBackToDownloader);
+        		  down.setVisibility(View.GONE);
+        		  set_dir.setVisibility(View.VISIBLE);
+        	  }        			          	          	  
           } 
           
           if (mState == STATE_BROWSE) {
@@ -298,10 +304,11 @@ public class FileManagerActivity extends ListActivity {
          jumpTo(new File(mSdCardPath));    	 
      }
      public void OnClickButtonBackToDownloader(View v) {
- 		
+ 		RutrackerDownloaderApp.ToDownloaderActivity(this);
  	 }
      public void OnClickButtonSelectCurrentDir(View v) {
- 		
+    	 DownloadPreferencesScreen.SetTorrentSavePath(this, currentDirectory.getAbsolutePath());
+    	 finish();
  	 }
 
      

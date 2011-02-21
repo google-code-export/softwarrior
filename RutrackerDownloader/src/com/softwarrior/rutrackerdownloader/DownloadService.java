@@ -1,6 +1,9 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.io.FileInputStream;
+
 import com.softwarrior.libtorrent.LibTorrent;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -114,9 +117,9 @@ public class DownloadService extends Service {
 		Log.d(RutrackerDownloaderApp.TAG, "Service Starting: " + txt);
 	    showNotification(getString(R.string.service_created)); 
 		
-		int listenPort = 54321;
-		int uploadLimit = -1; //unlimited
-		int downloadLimit = -1; //unlimited
+		int listenPort = DownloadPreferencesScreen.GetListenPort(getApplicationContext());
+		int uploadLimit = DownloadPreferencesScreen.GetUploadLimit(getApplicationContext());
+		int downloadLimit =  DownloadPreferencesScreen.GetDownloadLimit(getApplicationContext());
 		
 		SetSession(listenPort, uploadLimit, downloadLimit);
 		//-----------------------------------------------------------------------------
@@ -130,11 +133,11 @@ public class DownloadService extends Service {
 		//5 - http_pw // http proxy with basic authentication uses username and password
 	    //};
 	    //-----------------------------------------------------------------------------
-		int type = 0; //none 
-		String hostName = new String();
-		int port = 0;
-		String userName = new String();
-		String password = new String();		
+		int type = DownloadPreferencesScreen.GetProxyType(getApplicationContext());
+		String hostName = DownloadPreferencesScreen.GetHostName(getApplicationContext());
+		int port = DownloadPreferencesScreen.GetPortNumber(getApplicationContext());
+		String userName = DownloadPreferencesScreen.GetUserName(getApplicationContext());
+		String password = DownloadPreferencesScreen.GetUserPassword(getApplicationContext());
 
 		SetProxy(type, hostName, port, userName, password);       
     					
@@ -239,6 +242,9 @@ public class DownloadService extends Service {
 										SetCommonStatus();
 									}
 							});
+						}else if(mIsBoundService && mControllerState == ControllerState.Stopped){
+							if(!mTextViewTorrentState.getText().equals(getString(R.string.text_torrent_state_undefined)))
+									SetControllerState(ControllerState.Stopped);															
 						}
 					}
                 }
@@ -354,8 +360,16 @@ public class DownloadService extends Service {
         
 		public void OnClickButtonStartDownload(View v) {
         	if(mIsBoundService){
-        		String savePath = RutrackerDownloaderApp.SavePath; 
-        		String torentFile = RutrackerDownloaderApp.TorrentFullFileName;
+        		String savePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
+        		String torentFile = DownloadPreferencesScreen.GetFullTorrentFileName(this);
+        		try{
+        			FileInputStream fis = new FileInputStream(torentFile); 
+            		fis.close();  		
+            	}
+            	catch(Exception ex){
+                    Toast.makeText(Controller.this, R.string.error_torrent_file_absent, Toast.LENGTH_SHORT).show();
+                    return;
+            	}
         		mBoundService.AddTorrent(savePath, torentFile);
         		SetControllerState(ControllerState.Started);
         	}
@@ -415,6 +429,20 @@ public class DownloadService extends Service {
                 mIsBound = false;
             }
         }
+
+        @Override
+    	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    		switch(ActivityResultType.getValue(resultCode))
+    		{
+    		case RESULT_DOWNLOADER:
+    		case RESULT_PREFERENCES:
+    		case RESULT_EXIT:
+    			setResult(resultCode);
+    			finish();
+    			break;
+    		};		
+    	}
+
         
     	@Override
     	public boolean onCreateOptionsMenu(Menu menu) {

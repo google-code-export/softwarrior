@@ -6,13 +6,13 @@
 	  		<PreferenceCategory android:title="@string/preferences_session_options_cat_title">	    						
 				<EditTextPreference 
 					android:key="preferences_listen_port" 
-					android:title="@string/preferences_listen_port"/>
+					android:title="@string/preferences_listen_port" android:defaultValue="54132"/>
 				<EditTextPreference 
 					android:title="@string/preferences_upload_limit" 
-					android:key="preferences_upload_limit"/>
+					android:key="preferences_upload_limit" android:defaultValue="-1"/>
 				<EditTextPreference 
 					android:title="@string/preferences_download_limit" 
-					android:key="preferences_download_limit"/>
+					android:key="preferences_download_limit" android:defaultValue="-1"/>
 			</PreferenceCategory>
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/preferences_proxy_options_title">
@@ -23,13 +23,13 @@
                 	android:summary="@string/summary_preferences_proxy_type"
                 	android:entries="@array/entries_preferences_proxy_type"
                 	android:entryValues="@array/entryvalues_preferences_proxy_type"
-                	android:dialogTitle="@string/preferences_proxy_type_dialog_title"/>
+                	android:dialogTitle="@string/preferences_proxy_type_dialog_title" android:defaultValue="0"/>
 				<EditTextPreference 
 					android:title="@string/preferences_host_name" 
 					android:key="preferences_host_name"/>
 				<EditTextPreference 
 					android:title="@string/preferences_port_number" 
-					android:key="preferences_port_number"/>
+					android:key="preferences_port_number" android:defaultValue="-1"/>
 				<EditTextPreference 
 					android:title="@string/preferences_user_name" 
 					android:key="preferences_user_name"/>
@@ -42,10 +42,14 @@
 			<PreferenceCategory android:title="@string/preferences_torrent_options_cat_title">    					
 				<EditTextPreference 
 					android:title="@string/preferences_torrent_file_name" 
-					android:key="preferences_torrent_file_name"/>
-				<ListPreference 
+					android:key="preferences_torrent_file_name" android:defaultValue="downloader.torrent"/>
+				<PreferenceScreen 
 					android:title="@string/preferences_torrent_save_path" 
-					android:key="preferences_torrent_save_path"/>
+					android:key="preferences_torrent_save_path">
+					<intent 
+						android:action="com.softwarrior.file.SET_DIRECTORY">
+					</intent>
+				</PreferenceScreen>					
 			</PreferenceCategory>
 		</PreferenceScreen>		
 	</PreferenceCategory>

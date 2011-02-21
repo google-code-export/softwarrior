@@ -6,9 +6,9 @@
         <item>none</item>
         <item>socks4</item>
         <item>socks5</item>
-        <item>socks5_pw</item>
+        <item>socks5 pw</item>
         <item>http</item>
-        <item>http_pw</item>
+        <item>http pw</item>
     </string-array>
 
      <!-- Used in download_preferences.xml -->

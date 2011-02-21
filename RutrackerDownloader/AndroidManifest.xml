@@ -26,6 +26,10 @@
         </activity>
 		<activity android:name="com.softwarrior.file.FileManagerActivity" android:theme="@android:style/Theme.Light">
             <intent-filter>
+                <action android:name="com.softwarrior.file.SET_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="com.softwarrior.file.PICK_FILE"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="file" />
