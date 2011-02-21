@@ -1,11 +1,15 @@
 package com.softwarrior.rutrackerdownloader;
 
 import com.softwarrior.file.FileManagerActivity;
+import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.os.Process;
 
 public class RutrackerDownloaderApp extends Application {	
 		
@@ -46,6 +50,7 @@ public class RutrackerDownloaderApp extends Application {
 	
     static public void PreferencesScreenActivity(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.finish();
     }
     
@@ -53,14 +58,29 @@ public class RutrackerDownloaderApp extends Application {
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	intent.setClassName(activity, FileManagerActivity.class.getName());
-    	activity.startActivityForResult(intent,0);      
+    	activity.startActivityForResult(intent,0); 
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     }
  
     static public void CloseApplication(Activity activity){
     	RutrackerDownloaderApp.ExitState = true;
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.finish();
     }
+        
+    static public void FinalCloseApplication(Activity activity){
+		RutrackerDownloaderApp.ExitState = true;
+		activity.stopService(new Intent(activity,DownloadService.class));
+		NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);
+ 		nm.cancelAll();
+    	SharedPreferences prefs =  activity.getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
+    	SharedPreferences.Editor ed = prefs.edit();
+        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
+        ed.commit();
+        activity.moveTaskToBack(false);
+	  	Process.killProcess(Process.myPid());
+	}
     
     static public void HelpActivity(Activity activity){
     }

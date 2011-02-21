@@ -19,6 +19,7 @@ import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -35,6 +36,8 @@ public class MessageList extends ListActivity {
         super.onCreate(icicle);
         setContentView(R.layout.rss);
         loadFeed(ParserType.ANDROID_SAX);
+        ViewGroup container = (ViewGroup)findViewById(R.id.container);
+        container.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
 

@@ -21,11 +21,14 @@
     <!-- The frame layout is here since we will be showing either the empty view or the list view.  -->
     <FrameLayout
         android:layout_width="fill_parent" 
+        android:id="@+id/container"        
         android:layout_height="0dip"
         android:layout_weight="1" >
         <!-- Here is the list. Since we are using a ListActivity, we have to call 
              it "@android:id/list" so ListActivity will find it -->
         <ListView android:id="@android:id/list"
+            android:persistentDrawingCache="animation|scrolling"
+            android:layoutAnimation="@anim/layout_bottom_to_top_slide"
             android:layout_width="fill_parent" 
             android:layout_height="fill_parent"
             android:fastScrollEnabled="true"
