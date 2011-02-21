@@ -19,6 +19,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -199,7 +200,12 @@ public class DownloadService extends Service {
         private Button mButtonResume;
         private TextView mTextViewTorrentState; 
         private TextView mTextViewCommonStatus;
-                
+
+
+    	StopHandler mStopHandler = null;
+    	Message mStopMessage = null;
+
+        
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
         }          
@@ -242,9 +248,6 @@ public class DownloadService extends Service {
 										SetCommonStatus();
 									}
 							});
-						}else if(mIsBoundService && mControllerState == ControllerState.Stopped){
-							if(!mTextViewTorrentState.getText().equals(getString(R.string.text_torrent_state_undefined)))
-									SetControllerState(ControllerState.Stopped);															
 						}
 					}
                 }
@@ -377,10 +380,20 @@ public class DownloadService extends Service {
 		
         public void OnClickButtonStopDownload(View v) {
         	if(mIsBoundService){
-        		mBoundService.RemoveTorrent();
-    		    SetControllerState(ControllerState.Stopped);
+        		SetControllerState(ControllerState.Stopped);
+        		mBoundService.RemoveTorrent();    		    
+    	    	mStopHandler = new StopHandler();
+    			mStopMessage =  mStopHandler.obtainMessage();
+    			mStopHandler.sendMessageDelayed(mStopMessage, 500);
         	}
-        }        
+        } 
+        
+        private class StopHandler extends Handler {	
+    	    @Override
+    		public void handleMessage(Message message) {
+    	    	SetControllerState(ControllerState.Stopped);
+    	    }
+        } 
 
 		public void OnClickButtonPauseDownload(View v) {
         	if(mIsBoundService){
