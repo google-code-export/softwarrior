@@ -1,5 +1,8 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
@@ -127,9 +130,15 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  
 	  CreateSearchUrlRecursive(getPreferenceScreen());
 
-	  if(mString.length()>0){
-		  RutrackerDownloaderApp.SearchUrl += "?nm=";
-		  RutrackerDownloaderApp.SearchUrl += mString;
+	  if(mString.length()>0){		  	
+			RutrackerDownloaderApp.SearchUrl += "?nm=";		  
+			String enc_text = new String();
+			try {
+				enc_text = URLEncoder.encode(mString, "cp-1251");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			RutrackerDownloaderApp.SearchUrl += enc_text; 
 	  }
   	  Log.d(RutrackerDownloaderApp.TAG,RutrackerDownloaderApp.SearchUrl);
   }

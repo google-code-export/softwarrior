@@ -1,5 +1,8 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.softwarrior.rss.MessageList;
 import com.softwarrior.web.TorrentWebClient;
 
@@ -162,8 +165,14 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 		  RutrackerDownloaderApp.FeedUrl += mDate;
   	  }
   	  if(mName.length()>0){
-  		  RutrackerDownloaderApp.FeedUrl += "&name=";
-		  RutrackerDownloaderApp.FeedUrl += mName;
+  		  	RutrackerDownloaderApp.FeedUrl += "&name=";
+			String enc_text = new String();
+			try {
+				enc_text = URLEncoder.encode(mName, "cp-1251");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			RutrackerDownloaderApp.FeedUrl += enc_text;
   	  }
   	  Log.d(RutrackerDownloaderApp.TAG,RutrackerDownloaderApp.FeedUrl);
   }
