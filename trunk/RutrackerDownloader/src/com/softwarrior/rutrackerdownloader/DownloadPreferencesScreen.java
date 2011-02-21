@@ -1,11 +1,9 @@
 package com.softwarrior.rutrackerdownloader;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.os.Process;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,14 +15,13 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceGroup;
 
-import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
 
 public final class DownloadPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
 
 	public enum MenuType{
-		About, Help, Exit;
+		About, Help, FileManager, Exit;
 	}
 	  	
 	public static final String KEY_XXX = "preferences_xxx"; 
@@ -36,7 +33,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     addPreferencesFromResource(R.xml.download_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.download_preferences);
-    if(RutrackerDownloaderApp.ExitState) CloseApplication();
+    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
   
   @Override
@@ -49,14 +46,15 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
   protected void onResume() {
 	super.onResume();
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	if(RutrackerDownloaderApp.ExitState) CloseApplication();
+	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
-		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
+		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help);
+		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_help);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
@@ -68,23 +66,20 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		switch(type)
 		{
 		case About:{
-			AboutActivity();
+			RutrackerDownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			HelpActivity();
+			RutrackerDownloaderApp.HelpActivity(this);
+		} break;
+		case FileManager:{
+			RutrackerDownloaderApp.FileManagerActivity(this);
 		} break;
 		case Exit:{
-			CloseApplication();
+			RutrackerDownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;
 	}
-
-	private void AboutActivity(){
-    }
-
-    private void HelpActivity(){
-    }
 
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -93,7 +88,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		case RESULT_PREFERENCES:{			
 		} break;
 		case RESULT_EXIT:
-			CloseApplication();
+			RutrackerDownloaderApp.FinalCloseApplication(this);
 		default:{
 		} break;
 		};
@@ -102,23 +97,10 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	@Override 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-			CloseApplication();
+			RutrackerDownloaderApp.FinalCloseApplication(this);
 		return super.onKeyDown(keyCode,event); 
 	}
-	
-	private void CloseApplication(){
-		RutrackerDownloaderApp.ExitState = true;
-		stopService(new Intent(this,DownloadService.class));
-		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
- 		nm.cancelAll();
-    	SharedPreferences prefs = getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
-    	SharedPreferences.Editor ed = prefs.edit();
-        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
-        ed.commit();
-	  	moveTaskToBack(false);
-	  	Process.killProcess(Process.myPid());
-	}
-  
+	  
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {
 	  for (int i = 0; i < pg.getPreferenceCount(); ++i) {

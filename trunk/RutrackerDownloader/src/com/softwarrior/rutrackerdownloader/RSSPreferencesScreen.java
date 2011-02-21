@@ -3,12 +3,10 @@ package com.softwarrior.rutrackerdownloader;
 import com.softwarrior.rss.MessageList;
 import com.softwarrior.web.TorrentWebClient;
 
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.os.Process;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,7 +19,6 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceGroup;
 
-import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
 
 public final class RSSPreferencesScreen extends PreferenceActivity
@@ -64,7 +61,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
     addPreferencesFromResource(R.xml.rss_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
-    if(RutrackerDownloaderApp.ExitState) CloseApplication();
+    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
   
   @Override
@@ -77,7 +74,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
   protected void onResume() {
 	super.onResume();
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	if(RutrackerDownloaderApp.ExitState) CloseApplication();
+	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
 
 	@Override
@@ -106,7 +103,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 			RutrackerDownloaderApp.FileManagerActivity(this);
 		} break;
 		case Exit:{
-			CloseApplication();
+			RutrackerDownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;
@@ -119,7 +116,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 		case RESULT_PREFERENCES:{			
 		} break;
 		case RESULT_EXIT:
-			CloseApplication();
+			RutrackerDownloaderApp.FinalCloseApplication(this);
 		default:{
 		} break;
 		};
@@ -128,23 +125,10 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	@Override 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-			CloseApplication();
+			RutrackerDownloaderApp.FinalCloseApplication(this);
 		return super.onKeyDown(keyCode,event); 
 	}
-	
-	private void CloseApplication(){
-		RutrackerDownloaderApp.ExitState = true;
-		stopService(new Intent(this,DownloadService.class));
-		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
- 		nm.cancelAll();
-    	SharedPreferences prefs = getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
-    	SharedPreferences.Editor ed = prefs.edit();
-        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
-        ed.commit();
-	  	moveTaskToBack(false);
-	  	Process.killProcess(Process.myPid());
-	}
-  
+	  
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {
 	  for (int i = 0; i < pg.getPreferenceCount(); ++i) {

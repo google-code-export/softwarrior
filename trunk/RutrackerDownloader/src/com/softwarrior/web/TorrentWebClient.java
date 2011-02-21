@@ -44,7 +44,7 @@ public class TorrentWebClient extends Activity {
         super.onCreate(icicle);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.web);
-        
+                
         CookieSyncManager.createInstance(this);
         
         Bundle bundle = this.getIntent().getExtras();

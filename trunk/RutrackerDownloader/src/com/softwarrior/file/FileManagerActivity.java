@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -129,6 +130,8 @@ public class FileManagerActivity extends ListActivity {
      private ThumbnailLoader mThumbnailLoader;
           
      private Handler currentHandler;
+     
+     private ViewGroup mContainer;
 
 	private boolean mWritableOnly;
 
@@ -145,10 +148,14 @@ public class FileManagerActivity extends ListActivity {
 			public void handleMessage(Message msg) {
 				FileManagerActivity.this.handleMessage(msg);
 			}
-		};
-
+		};		
 		  requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
           setContentView(R.layout.filelist);
+          
+		  mContainer =  (ViewGroup) findViewById(R.id.container);
+	      // Since we are caching large views, we want to keep their cache
+	      // between each animation
+	      mContainer.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
           
           mEmptyText = (TextView) findViewById(R.id.empty_text);
           mProgressBar = (ProgressBar) findViewById(R.id.scan_progress);
