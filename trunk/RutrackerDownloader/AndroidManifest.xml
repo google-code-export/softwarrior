@@ -71,8 +71,7 @@
                        android:value="@string/about_website_label" />
         <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_URL"
                        android:value="@string/about_website_url" />
-        <meta-data android:name="com.softwarrior.about.metadata.LICENSE"
-                       android:resource="@raw/license_short" />
+        <meta-data android:name="com.softwarrior.about.metadata.LICENSE" android:resource="@raw/license_short"/>
         <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
                        android:value="@string/about_email" />
         

@@ -24,11 +24,8 @@ import android.text.util.Linkify.TransformFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.TabHost;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 public class About extends TabActivity {
@@ -49,13 +46,13 @@ public class About extends TabActivity {
 	/**
 	 * The views.
 	 */
-	protected ImageSwitcher mLogoImage;
-	protected ImageSwitcher mEmailImage;
-	protected TextSwitcher mProgramNameAndVersionText;
-	protected TextSwitcher mCommentsText;
-	protected TextSwitcher mCopyrightText;
-	protected TextSwitcher mWebsiteText;
-	protected TextSwitcher mEmailText;
+	protected ImageView mLogoImage;
+	protected ImageView mEmailImage;
+	protected TextView mProgramNameAndVersionText;
+	protected TextView mCommentsText;
+	protected TextView mCopyrightText;
+	protected TextView mWebsiteText;
+	protected TextView mEmailText;
 	protected TextView mAuthorsLabel;
 	protected TextView mAuthorsText;
 	protected TextView mDocumentersLabel;
@@ -85,8 +82,7 @@ public class About extends TabActivity {
 	    if (packagename == null) {
 	    	// In the worst case, use our own name:
 	    	packagename = getPackageName();
-	    }
-	    
+	    }	    
 	    return packagename;
 	}
 	//Change the logo image using the resource in the string argument.
@@ -348,13 +344,9 @@ public class About extends TabActivity {
 					return websiteUrl;
 				}
 				
-			};
-			
+			};			
 			//Allow a label and url through Linkify
-			Linkify.addLinks((TextView) mWebsiteText.getChildAt(0), Pattern
-					.compile(".*"), "", null, tf);
-			Linkify.addLinks((TextView) mWebsiteText.getChildAt(1), Pattern
-					.compile(".*"), "", null, tf);
+			Linkify.addLinks((TextView) mWebsiteText, Pattern.compile(".*"), "", null, tf);
 		} else {
 			mWebsiteText.setVisibility(View.GONE);
 		}
@@ -372,19 +364,17 @@ public class About extends TabActivity {
 			mEmailImage.setImageURI(null);
 		}
 	}
-	//Check whether any credits are available.
-	//If not, display "no information available".
-	void checkCreditsAvailable() {
-		if (mAuthorsLabel.getVisibility() == View.GONE
-				&& mAuthorsLabel.getVisibility() == View.GONE
-				&& mAuthorsLabel.getVisibility() == View.GONE
-				&& mAuthorsLabel.getVisibility() == View.GONE ) {
-			mNoInformationText.setVisibility(View.VISIBLE);
-		} else {
-			mNoInformationText.setVisibility(View.GONE);
-		}
-				
-	}
+//	//Check whether any credits are available. If not, display "no information available".
+//	void checkCreditsAvailable() {
+//		if (mAuthorsLabel.getVisibility() == View.GONE
+//				&& mAuthorsLabel.getVisibility() == View.GONE
+//				&& mAuthorsLabel.getVisibility() == View.GONE
+//				&& mAuthorsLabel.getVisibility() == View.GONE ) {
+//			mNoInformationText.setVisibility(View.VISIBLE);
+//		} else {
+//			mNoInformationText.setVisibility(View.GONE);
+//		}				
+//	}
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -398,67 +388,33 @@ public class About extends TabActivity {
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.l_info))
                 .setIndicator(getString(R.string.l_info))
                 .setContent(R.id.sv_info));
-        tabHost.addTab(tabHost.newTabSpec(getString(R.string.l_credits))
-                .setIndicator(getString(R.string.l_credits))
-                .setContent(R.id.sv_credits));
+//        tabHost.addTab(tabHost.newTabSpec(getString(R.string.l_credits))
+//                .setIndicator(getString(R.string.l_credits))
+//                .setContent(R.id.sv_credits));
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.l_license))
                 .setIndicator(getString(R.string.l_license))
                 .setContent(R.id.sv_license));
-        
-        //Set the animations for the switchers
-        Animation in = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_in_left);
-        Animation out = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_out_right);
-        
+                
         //Find the views
-        mLogoImage = (ImageSwitcher) findViewById(R.id.i_logo);
-        mLogoImage.setInAnimation(in);
-        mLogoImage.setOutAnimation(out);
-
-        mEmailImage = (ImageSwitcher) findViewById(R.id.i_email);
-        mEmailImage.setInAnimation(in);
-		
-        mProgramNameAndVersionText = (TextSwitcher) 
-        		findViewById(R.id.t_program_name_and_version);
-		mProgramNameAndVersionText.setInAnimation(in);
-		mProgramNameAndVersionText.setOutAnimation(out);
-        
-		mCommentsText = (TextSwitcher) findViewById(R.id.t_comments);
-		mCommentsText.setInAnimation(in);
-		mCommentsText.setOutAnimation(out);
-		
-		mCopyrightText = (TextSwitcher) findViewById(R.id.t_copyright);
-		mCopyrightText.setInAnimation(in);
-		mCopyrightText.setOutAnimation(out);
-		
-		mWebsiteText = (TextSwitcher) findViewById(R.id.t_website);
-		mWebsiteText.setInAnimation(in);
-		mWebsiteText.setOutAnimation(out);
-
-        mEmailImage = (ImageSwitcher) findViewById(R.id.i_email);
-        mEmailImage.setInAnimation(in);
-        mEmailImage.setOutAnimation(out);
-		
-		mEmailText = (TextSwitcher) findViewById(R.id.t_email);
-		mEmailText.setInAnimation(in);
-		mEmailText.setOutAnimation(out);
-
+        mLogoImage = (ImageView) findViewById(R.id.i_logo);
+        mEmailImage = (ImageView) findViewById(R.id.i_email);	
+        mProgramNameAndVersionText = (TextView) findViewById(R.id.t_program_name_and_version);        
+		mCommentsText = (TextView) findViewById(R.id.t_comments);		
+		mCopyrightText = (TextView) findViewById(R.id.t_copyright);
+		mWebsiteText = (TextView) findViewById(R.id.t_website);
+        mEmailImage = (ImageView) findViewById(R.id.i_email);
+		mEmailText = (TextView) findViewById(R.id.t_email);
 		mAuthorsLabel = (TextView) findViewById(R.id.l_authors);
 		mAuthorsText = (TextView) findViewById(R.id.et_authors);
-
 		mDocumentersLabel = (TextView) findViewById(R.id.l_documenters);
 		mDocumentersText = (TextView) findViewById(R.id.et_documenters);
-
 		mTranslatorsLabel = (TextView) findViewById(R.id.l_translators);
 		mTranslatorsText = (TextView) findViewById(R.id.et_translators);
-
 		mArtistsLabel = (TextView) findViewById(R.id.l_artists);
-		mArtistsText = (TextView) findViewById(R.id.et_artists);
-		
+		mArtistsText = (TextView) findViewById(R.id.et_artists);	
 		mNoInformationText = (TextView) findViewById(R.id.tv_no_information);
-
 		mLicenseText = (TextView) findViewById(R.id.et_license);
+        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
 
 	@Override
@@ -491,9 +447,11 @@ public class About extends TabActivity {
     	displayLicense(packagename, intent);
     	displayEmail(packagename, intent);
     	
-    	checkCreditsAvailable();
+//    	checkCreditsAvailable();
     	
     	setResult(RESULT_OK);
+        
+    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	}
 		
 	protected void showAboutDialog() {
