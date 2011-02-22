@@ -22,15 +22,15 @@
     </string-array>
      
     <string-array name="about_authors"><!-- Add your name here if you helped out -->
-        <item>Softwarrior</item>
+        <item></item>
     </string-array>
     
     <string-array name="about_documenters"><!-- Add your name here if you helped out -->
-        <item>Softwarrior</item>
+        <item></item>
     </string-array>
     
     <string-array name="about_translators"><!-- Add your name here if you helped out, but only in the arrays.xml for the localization that you helped to translate into! -->
-        <item>Softwarrior</item> 
+        <item></item> 
     </string-array>
     
     <string-array name="about_artists"><!-- Add your name here if you helped out -->
