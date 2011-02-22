@@ -55,6 +55,41 @@
             </intent-filter>		
 		</activity>
         <service android:name="DownloadService"></service>
+        <meta-data android:name="com.softwarrior.about.metadata.COMMENTS"
+                       android:value="@string/about_comments" />
+        <meta-data android:name="com.softwarrior.about.metadata.COPYRIGHT"
+                       android:value="@string/about_copyright" />
+        <meta-data android:name="com.softwarrior.about.metadata.AUTHORS"
+                       android:resource="@array/about_authors" />
+        <meta-data android:name="com.softwarrior.about.metadata.DOCUMENTERS"
+                       android:resource="@array/about_documenters" />
+        <meta-data android:name="com.softwarrior.about.metadata.TRANSLATORS"
+                       android:resource="@array/about_translators" />
+        <meta-data android:name="com.softwarrior.about.metadata.ARTISTS"
+                       android:resource="@array/about_artists" />
+        <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_LABEL"
+                       android:value="@string/about_website_label" />
+        <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_URL"
+                       android:value="@string/about_website_url" />
+        <meta-data android:name="com.softwarrior.about.metadata.LICENSE"
+                       android:resource="@raw/license_short" />
+        <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
+                       android:value="@string/about_email" />
+        
+        <activity android:label="@string/about_activity_name"
+                  android:name="com.softwarrior.about.About"
+                  android:theme="@android:style/Theme.Light">
+                  <!-- android:launchMode="singleTop" android:screenOrientation="sensor" -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.about.action.SHOW_ABOUT_DIALOG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
 </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" /> 
