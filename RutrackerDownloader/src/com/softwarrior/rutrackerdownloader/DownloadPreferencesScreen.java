@@ -57,8 +57,16 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     setContentView(R.layout.download_preferences);
     
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
   }
-  	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+	}
+
+	
 	public static int GetListenPort(Context context){
 		int result = RutrackerDownloaderApp.ListenPort; 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

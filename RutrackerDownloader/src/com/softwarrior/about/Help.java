@@ -30,6 +30,7 @@ public class Help extends Activity {
 	        //mWebView.loadUrl("file:///android_asset/demo.html");
 	        //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Help");
 	    }
 	    
 	    @Override
@@ -37,5 +38,10 @@ public class Help extends Activity {
 	    	super.onResume();
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	    }
-
+	    
+		@Override
+		protected void onDestroy() {
+			super.onDestroy();
+			RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+		}
 }

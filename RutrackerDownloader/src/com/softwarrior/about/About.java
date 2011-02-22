@@ -415,8 +415,15 @@ public class About extends TabActivity {
 		mNoInformationText = (TextView) findViewById(R.id.tv_no_information);
 		mLicenseText = (TextView) findViewById(R.id.et_license);
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/About");
     }
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+	}
+    
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
