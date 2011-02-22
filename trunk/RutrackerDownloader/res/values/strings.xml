@@ -117,6 +117,9 @@
 	<string name="text_download_stopped">Download Stopped</string>	
 	<string name="text_download_paused">Download Paused</string>
 
+	<string name="url_help">file:///android_asset/help_en.html</string>
+	<string name="help_activity_name">Help</string>
+
     <!-- File manager -->
     <string name="button_home">Home</string>
     <string name="on_click_button_home">OnClickButtonHome</string>
