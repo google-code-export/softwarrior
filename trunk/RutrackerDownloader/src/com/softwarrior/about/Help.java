@@ -2,8 +2,10 @@ package com.softwarrior.about;
 
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -43,5 +45,18 @@ public class Help extends Activity {
 		protected void onDestroy() {
 			super.onDestroy();
 			RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+		}
+		
+		@Override
+		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+			switch(ActivityResultType.getValue(resultCode))
+			{
+			case RESULT_DOWNLOADER:
+			case RESULT_PREFERENCES:
+			case RESULT_EXIT:
+				setResult(resultCode);
+				finish();
+				break;
+			};		
 		}
 }

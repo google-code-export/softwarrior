@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.R;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -430,6 +431,19 @@ public class About extends TabActivity {
 		setIntent(intent);
 	}	
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_DOWNLOADER:
+		case RESULT_PREFERENCES:
+		case RESULT_EXIT:
+			setResult(resultCode);
+			finish();
+			break;
+		};		
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
