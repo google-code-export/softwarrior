@@ -65,7 +65,9 @@
     <string name="on_click_button_resume_download">OnClickButtonResumeDownload</string>
 	<string name="on_click_activate_settings">OnClickButtonActivateSettings</string>
 	<string name="on_click_button_downloaded">OnClickButtonDownloader</string>
+	<string name="on_click_refresh_advertising">OnClickButtonRefreshAdvertising</string>
 	
+	<string name="button_refresh_advertising">Refresh Advertising</string>
 	<string name="button_download">Download distribution</string>
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
@@ -87,6 +89,7 @@
 	<string name="tab_web_search">Web Search</string>
 	<string name="tab_rss_search">RSS Search</string>
 	<string name="tab_download">Download</string>
+	<string name="tab_advertising">Advertising</string>
 	
 	<string name="service_disconnected">Torrent Downloader Service disconnected</string>
 	<string name="service_connected">Torrent Downloader Service connected</string>
@@ -179,7 +182,7 @@
     <string name="error_torrent_file_absent">Torrent file is absent. Search and download distribution</string>
     
     <string name="send_not_available">No application available for sending.</string>    
-    <string name="application_not_available">Application not available</string>    	
+    <string name="application_not_available">Application not available</string>            	
 
     <!-- ABOUT -->
 

@@ -27,6 +27,8 @@ public class AboutUtils {
 		}
 		return text;
 	}
+	
+	
 
 	//Get String array from Extra or from Meta-data through resources.
 	public static String[] getStringArrayMetadata(final Context context, final String packagename,
