@@ -177,5 +177,31 @@
     
     <string name="send_not_available">No application available for sending.</string>    
     <string name="application_not_available">Application not available</string>    	
+
+    <!-- ABOUT -->
+
+	<string name="about_comments">The program to search and download video, music, pictures, etc from biggest Russian tracker:\n *** http://rutracker.org ***</string>  
+	<string name="about_copyright">(c) 2011 Softwarrior </string>
+    <!-- Add your name here, separated with comma's, if you helped out --> 
+	<string name="about_website_label">http://softwarrior.wordpress.com</string> 
+	<string name="about_website_url">http://softwarrior.wordpress.com</string>
+	<string name="about_logo_title">Rutracker Downloader</string>
+	<string name="about_logo_description">torrent downloader</string>
+	<string name="about_email">wise4man@gmail.com</string>
+	
+    <string name="about_chooser_title">About dialog to use:</string>
+	    
+    <string name="about_activity_name">About</string>
+    <string name="about_activity_title">About</string>
+        
+	<string name="l_authors">Written by</string>
+	<string name="l_documenters">Documented by</string>
+	<string name="l_translators">Translated by</string>
+	<string name="l_artists">Artwork by</string>
+	<string name="l_credits">Credits</string>
+	<string name="l_license">Change List</string>
+	<string name="l_info">Info</string>
+	
+	<string name="no_information_available">No information available.</string>
 	
 </resources>
