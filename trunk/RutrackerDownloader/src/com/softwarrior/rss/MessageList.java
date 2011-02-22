@@ -65,8 +65,15 @@ public class MessageList extends ListActivity {
     	mParseHandler = new ParseHandler();
 		mParseMessage =  mParseHandler.obtainMessage();
 		mParseHandler.sendMessageDelayed(mParseMessage, 500);
+	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");
     }
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+	}
+    
     private class ParseHandler extends Handler {	
 	    @Override
 		public void handleMessage(android.os.Message message) {

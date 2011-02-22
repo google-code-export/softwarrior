@@ -41,12 +41,18 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/WEBPreferencesScreen");
   }
-  
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+	}
+	
   @Override
   protected void onPause() {
 	super.onPause();
-	getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this); 
+	getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
   }
   
   @Override

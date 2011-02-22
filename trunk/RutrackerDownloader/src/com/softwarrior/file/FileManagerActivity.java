@@ -269,6 +269,7 @@ public class FileManagerActivity extends ListActivity {
           browseTo(browseto);
           
           if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+  	      RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/FileManager");
      }
      
      @Override
@@ -278,8 +279,7 @@ public class FileManagerActivity extends ListActivity {
     }
      
      public void onDestroy() {
-    	 super.onDestroy();
-    	 
+    	 super.onDestroy();    	 
     	 // Stop the scanner.
     	 DirectoryScanner scanner = mDirectoryScanner;
     	 
@@ -295,6 +295,7 @@ public class FileManagerActivity extends ListActivity {
     		 loader.cancel = true;
     		 mThumbnailLoader = null;
     	 }
+ 		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
      }
      
      public void OnClickButtonHome(View v) {

@@ -253,6 +253,7 @@ public class DownloadService extends Service {
             RestoreControllerState();
 		    doBindService();
 		    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
         }
     	
     	void RestoreControllerState(){
@@ -357,6 +358,7 @@ public class DownloadService extends Service {
     		mStopProgress = true;
             super.onDestroy();            
             doUnbindService();
+    		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
         }        
         
 		public void OnClickButtonStartDownload(View v) {

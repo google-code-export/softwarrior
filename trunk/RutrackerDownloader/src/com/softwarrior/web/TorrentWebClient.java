@@ -109,8 +109,15 @@ public class TorrentWebClient extends Activity {
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentWebClient");
     }
 
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+    }
+    
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(mCatchBackKey){	        	

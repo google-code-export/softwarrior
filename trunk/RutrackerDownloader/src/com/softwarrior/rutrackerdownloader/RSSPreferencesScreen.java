@@ -64,8 +64,15 @@ public final class RSSPreferencesScreen extends PreferenceActivity
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSPreferencesScreen");
   }
-  
+
+	@Override
+  protected void onDestroy() {
+	super.onDestroy();
+	RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+  }
+	
   @Override
   protected void onPause() {
 	super.onPause();

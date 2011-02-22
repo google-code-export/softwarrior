@@ -1,5 +1,6 @@
 package com.softwarrior.rutrackerdownloader;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.softwarrior.about.About;
 import com.softwarrior.about.Help;
 import com.softwarrior.file.FileManagerActivity;
@@ -33,6 +34,8 @@ public class RutrackerDownloaderApp extends Application {
 		}
 	}
 	
+	public static GoogleAnalyticsTracker AnalyticsTracker = GoogleAnalyticsTracker.getInstance();
+
 	//Constants
 	public static final String	TAG = "Softwarrior";
 	public static final String	TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
@@ -57,7 +60,7 @@ public class RutrackerDownloaderApp extends Application {
 	//"http://rutracker.org/forum/search.php?nm=TEST"
 	public static String	SearchUrl = new String();
 	public static boolean	ExitState = false;	
-	
+		
     static public void PreferencesScreenActivity(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
