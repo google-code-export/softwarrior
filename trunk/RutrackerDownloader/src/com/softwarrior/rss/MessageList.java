@@ -11,9 +11,12 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
+import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
@@ -27,6 +30,14 @@ public class MessageList extends ListActivity {
 	
 	private List<Message> messages;
 	
+    ProgressDialog mDialog;
+    private static final int DIALOG_KEY = 1;
+
+    private Handler mHandler = new Handler();        
+    private Thread mThread;
+    ParseHandler mParseHandler = null;
+    android.os.Message mParseMessage = null;
+
     public enum MenuType{
     	About, Help, Preferences, FileManager, Exit;
     }
@@ -39,8 +50,44 @@ public class MessageList extends ListActivity {
         ViewGroup container = (ViewGroup)findViewById(R.id.container);
         container.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+        // Start lengthy operation in a background thread
+		showDialog(DIALOG_KEY);
+		mThread = new Thread(new Runnable() {
+            public void run() {
+					mHandler.post(new Runnable() {
+						public void run() {
+					        loadFeed(ParserType.ANDROID_SAX);
+					        removeDialog(DIALOG_KEY);
+						}
+					});
+            }
+        });
+    	mParseHandler = new ParseHandler();
+		mParseMessage =  mParseHandler.obtainMessage();
+		mParseHandler.sendMessageDelayed(mParseMessage, 500);
     }
 
+    private class ParseHandler extends Handler {	
+	    @Override
+		public void handleMessage(android.os.Message message) {
+	    	mThread.start();
+	    }
+    } 
+    
+    @Override
+    protected Dialog onCreateDialog(int id, Bundle args) {
+        switch (id) {
+        case DIALOG_KEY: {
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setMessage("Please wait while loading...");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(true);
+            return dialog;
+        } 
+        }
+    	return super.onCreateDialog(id, args);
+    }
+    
     @Override
     protected void onResume() {
     	super.onResume();

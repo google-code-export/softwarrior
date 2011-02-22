@@ -201,10 +201,8 @@ public class DownloadService extends Service {
         private TextView mTextViewTorrentState; 
         private TextView mTextViewCommonStatus;
 
-
     	StopHandler mStopHandler = null;
     	Message mStopMessage = null;
-
         
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
