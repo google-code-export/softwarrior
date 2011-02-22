@@ -29,10 +29,10 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 		if(downloadLimit > 0)
 			gSession.set_download_rate_limit(downloadLimit * 1000);
 
-		gWorkState==true;
+		gWorkState=true;
 	}catch(...){
 		LOG_ERR("Exception: failed to set session");
-		gWorkState==false;
+		gWorkState=false;
 	}
 	if(!gWorkState) LOG_ERR("LibTorrent.SetSession WorkState==false");
 	gWorkState==true ? result=JNI_TRUE : result=JNI_FALSE;
@@ -84,7 +84,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to set proxy");
-		gWorkState==false;
+		gWorkState=false;
 	}
 	if(!gWorkState) LOG_ERR("LibTorrent.SetProxy WorkState==false");
 	gWorkState==true ? result=JNI_TRUE : result=JNI_FALSE;
