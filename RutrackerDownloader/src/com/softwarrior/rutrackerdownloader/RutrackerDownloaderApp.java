@@ -1,6 +1,7 @@
 package com.softwarrior.rutrackerdownloader;
 
 import com.softwarrior.about.About;
+import com.softwarrior.about.Help;
 import com.softwarrior.file.FileManagerActivity;
 import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 
@@ -105,6 +106,10 @@ public class RutrackerDownloaderApp extends Application {
 	}
     
     static public void HelpActivity(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, Help.class.getName());
+    	activity.startActivityForResult(intent, 0);
     }
  
     static public void AboutActivity(Activity activity){
