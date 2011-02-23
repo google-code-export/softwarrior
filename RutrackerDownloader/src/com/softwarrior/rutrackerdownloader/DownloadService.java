@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import com.softwarrior.libtorrent.LibTorrent;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -177,7 +176,7 @@ public class DownloadService extends Service {
         mNM.cancel(R.string.service_created);
     }    
     // ----------------------------------------------------------------------
-    public static class Controller extends Activity {
+    public static class Controller extends FullWakeActivity {
         
     	private volatile boolean mIsBound = false;
         private volatile boolean mIsBoundService = false; 
@@ -217,7 +216,7 @@ public class DownloadService extends Service {
         private volatile ControllerState mControllerState = ControllerState.Undefined;
                 
     	@Override
-        protected void onCreate(Bundle savedInstanceState) {
+		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
             setContentView(R.layout.service);
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
