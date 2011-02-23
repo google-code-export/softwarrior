@@ -9,11 +9,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> 
-        <!-- AdMobActivity definition -->
-        <activity android:name="com.admob.android.ads.AdMobActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:configChanges="orientation|keyboard|keyboardHidden">
-        </activity>
         <activity android:name="PreferencesTabs" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="WEBPreferencesScreen" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="RSSPreferencesScreen" android:theme="@android:style/Theme.Light"></activity>
@@ -76,15 +71,42 @@
                   android:name="com.softwarrior.about.Help"
                   android:theme="@android:style/Theme.Light">
         </activity>  
-        <activity android:name="com.softwarrior.about.Advertising"></activity>      
+        <activity android:name="com.softwarrior.about.AdMobAdvertising" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.softwarrior.about.AdWhirlAdvertising" android:screenOrientation="portrait"></activity>
         <service android:name="DownloadService"></service>
-        <!-- Track Market installs -->
+        <!-- AdMob integration -->
+        <activity android:name="com.admob.android.ads.AdMobActivity" 
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:configChanges="orientation|keyboard|keyboardHidden">
+        </activity>
+        <!-- MdotM integration -->
+        <activity android:name="com.mdotm.android.ads.MdotmLandingPage"
+                  android:label="@string/app_name" >
+            <intent-filter>
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <!-- Millennial integration
+        <activity android:name="com.millennialmedia.android.MMAdViewOverlayActivity" 
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:configChanges="orientation|keyboard|keyboardHidden">
+        </activity>
+        -->
+        <activity android:name="com.millennialmedia.android.MMAdViewOverlayActivity" 
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>        
+        <activity android:name="com.millennialmedia.android.VideoPlayer" 
+                    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                    android:configChanges="keyboardHidden|orientation|keyboard" >
+        </activity>        
+        <!-- Track Market installs
         <receiver android:name="com.admob.android.ads.analytics.InstallReceiver"
                   android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
-        </receiver>                
+        </receiver>
+        -->                
         <meta-data android:name="com.softwarrior.about.metadata.COMMENTS"
                        android:value="@string/about_comments" />
         <meta-data android:name="com.softwarrior.about.metadata.COPYRIGHT"
@@ -109,10 +131,25 @@
         <!-- use a separate publisher id here to aid in tracking intersitial statistics -->
         <meta-data android:value="a14d5a500187b19" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
         <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
-
-</application>
+        <!-- Application-wide AdWhirl Key -->
+        <!-- If both Activity-specific and App-wide AdWhirl Keys are specified, the
+             Activity-specific key will override the App-wide key. -->
+        <!-- If Activity-specific key is omitted, the App-wide key will be used. -->     
+        <meta-data android:value="09a0faf9236e480cb1b93417f2e40b11" android:name="ADWHIRL_KEY" />
+        <!-- The application's Adclient ID assigned by ZestADZ -->
+        <meta-data android:value="14131C047A50414A4F5B40534758435E899B2BDF" android:name="ZestADZ_Adclient_ID" />
+                     
+    </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" />  
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />    
-</manifest> 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Optional permissions  -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />  
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <supports-screens android:smallScreens="true"
+                      android:normalScreens="true" 
+                      android:largeScreens="true" 
+                      android:anyDensity="true"/>
+</manifest>
