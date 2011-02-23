@@ -8,11 +8,11 @@ import com.admob.android.ads.InterstitialAdListener;
 import com.admob.android.ads.SimpleAdListener;
 import com.admob.android.ads.InterstitialAd.Event;
 
+import com.softwarrior.rutrackerdownloader.FullWakeActivity;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class AdMobAdvertising extends Activity implements AdListener, InterstitialAdListener {
+public class AdMobAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener {
 
 	  //AdMob 
 	  private InterstitialAd mInterstitialAd;

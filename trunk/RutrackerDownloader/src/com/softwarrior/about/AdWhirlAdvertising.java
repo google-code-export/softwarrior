@@ -7,13 +7,12 @@ import com.adwhirl.AdWhirlLayout;
 import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 import com.adwhirl.AdWhirlManager;
 import com.adwhirl.AdWhirlTargeting;
-import com.adwhirl.adapters.AdWhirlAdapter;
 import com.adwhirl.util.AdWhirlUtil;
+import com.softwarrior.rutrackerdownloader.FullWakeActivity;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -23,7 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-public class AdWhirlAdvertising extends Activity implements AdWhirlInterface {
+public class AdWhirlAdvertising extends FullWakeActivity implements AdWhirlInterface {
 	  
 		public enum MenuType{
 			About, Help, FileManager, Exit;
@@ -54,10 +53,10 @@ public class AdWhirlAdvertising extends Activity implements AdWhirlInterface {
 		    AdWhirlTargeting.setPostalCode("94123");
 		    AdWhirlTargeting.setTestMode(true);
 
-		    AdWhirlAdapter.setGoogleAdSenseAppName("RutrackerDownloader");
-		    AdWhirlAdapter.setGoogleAdSenseCompanyName("Individial");
-		    AdWhirlAdapter.setGoogleAdSenseChannel("games");
-		    AdWhirlAdapter.setGoogleAdSenseExpandDirection("BOTTOM");
+//		    AdWhirlAdapter.setGoogleAdSenseAppName("RutrackerDownloader");
+//		    AdWhirlAdapter.setGoogleAdSenseCompanyName("Individial");
+//		    AdWhirlAdapter.setGoogleAdSenseChannel("games");
+//		    AdWhirlAdapter.setGoogleAdSenseExpandDirection("BOTTOM");
 		    // Optional, will fetch new config if necessary after five minutes.
 		    AdWhirlManager.setConfigExpireTimeout(1000 * 60 * 5);
 
