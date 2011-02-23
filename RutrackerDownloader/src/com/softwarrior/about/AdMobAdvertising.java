@@ -21,7 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Advertising extends Activity implements AdListener, InterstitialAdListener {
+public class AdMobAdvertising extends Activity implements AdListener, InterstitialAdListener {
 
 	  //AdMob 
 	  private InterstitialAd mInterstitialAd;
@@ -34,7 +34,7 @@ public class Advertising extends Activity implements AdListener, InterstitialAdL
 	   @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.advertising);
+	        setContentView(R.layout.admob_advertising);
 
 //	        AdManager.setPublisherId("a14d5a500187b19");
 	        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR, "92D0B17743FC28D496804E97F99B6D10" });        
