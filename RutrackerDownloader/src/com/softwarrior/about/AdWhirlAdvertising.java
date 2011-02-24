@@ -85,7 +85,7 @@ public class AdWhirlAdvertising extends FullWakeActivity implements AdWhirlInter
 //		    layout.setGravity(Gravity.CENTER_HORIZONTAL);
 		    layout.invalidate();
 	    	        	        	        
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Advertising");
 	    }
 
@@ -131,7 +131,7 @@ public class AdWhirlAdvertising extends FullWakeActivity implements AdWhirlInter
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	    }
 	    
 		@Override

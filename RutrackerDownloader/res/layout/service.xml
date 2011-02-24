@@ -11,7 +11,14 @@
 		android:layout_height="wrap_content" 
 		android:layout_alignParentBottom="true" 
 		android:orientation="vertical" 
-		android:layout_width="fill_parent"> 
+		android:layout_width="fill_parent">
+		<com.admob.android.ads.AdView  
+            android:id="@+id/ad"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            app:backgroundColor="#000000"
+            app:primaryTextColor="#FFFFFF"
+            app:secondaryTextColor="#CCCCCC"/>		 
         <com.adwhirl.AdWhirlLayout
             android:id="@+id/adwhirl_layout"
             android:layout_width="fill_parent"
