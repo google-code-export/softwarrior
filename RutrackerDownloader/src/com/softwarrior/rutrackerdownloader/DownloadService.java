@@ -246,7 +246,7 @@ public class DownloadService extends Service {
 		    String keywords[] = { "online", "games", "gaming", "sport", "travel", "girls", "drink", "smoke", "car" };
 		    AdWhirlTargeting.setKeywordSet(new HashSet<String>(Arrays.asList(keywords)));
 		    AdWhirlTargeting.setPostalCode("94123");
-		    AdWhirlTargeting.setTestMode(true);
+		    AdWhirlTargeting.setTestMode(false);
 
 //		    AdWhirlAdapter.setGoogleAdSenseAppName("RutrackerDownloader");
 //		    AdWhirlAdapter.setGoogleAdSenseCompanyName("Individial");
