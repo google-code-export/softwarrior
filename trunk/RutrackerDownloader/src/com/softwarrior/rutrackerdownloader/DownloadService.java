@@ -3,7 +3,16 @@ package com.softwarrior.rutrackerdownloader;
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import com.admob.android.ads.AdListener;
+import com.admob.android.ads.AdManager;
+import com.admob.android.ads.AdView;
+import com.admob.android.ads.InterstitialAd;
+import com.admob.android.ads.InterstitialAdListener;
+import com.admob.android.ads.SimpleAdListener;
+import com.admob.android.ads.InterstitialAd.Event;
 import com.adwhirl.AdWhirlLayout;
 import com.adwhirl.AdWhirlManager;
 import com.adwhirl.AdWhirlTargeting;
@@ -184,7 +193,7 @@ public class DownloadService extends Service {
         mNM.cancel(R.string.service_created);
     }    
     // ----------------------------------------------------------------------
-    public static class Controller extends FullWakeActivity implements AdWhirlInterface {
+    public static class Controller extends FullWakeActivity implements AdListener, InterstitialAdListener, AdWhirlInterface {
         
     	private volatile boolean mIsBound = false;
         private volatile boolean mIsBoundService = false; 
@@ -211,6 +220,12 @@ public class DownloadService extends Service {
     	StopHandler mStopHandler = null;
     	Message mStopMessage = null;
         
+		//AdMob 
+		private InterstitialAd mInterstitialAd;
+	  	private AdView 		 mAdView;
+		private Timer mAdRefreshTimer;
+		private static final int mAdRefreshTime = 30000; //30 seconds
+    	
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
         }          
@@ -261,7 +276,20 @@ public class DownloadService extends Service {
 		    adWhirlLayout.setMaxWidth(width);
 		    adWhirlLayout.setMaxHeight(height);
                                     
-            //-----------------------------------------
+            //--------------AdMob-----------------------
+	        mAdRefreshTimer = new Timer();
+	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
+	        AdManager.setPublisherId("a14d5a500187b19");
+//	        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR, "92D0B17743FC28D496804E97F99B6D10" });        
+//	        AdManager.setTestAction("video_int");
+
+	        mAdView = (AdView) findViewById(R.id.ad);
+	        mAdView.setAdListener(new AdvertisingListener());
+	        
+	        // call for an Interstitial Ad
+	        mInterstitialAd = new InterstitialAd(Event.APP_START, this);
+	        mInterstitialAd.requestAd(this);
+		    //-----------------------------------------
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
             mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
@@ -297,7 +325,14 @@ public class DownloadService extends Service {
 		    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
         }
-    	
+	    private class AdRefreshTimerTask extends TimerTask {
+			
+			@Override
+			public void run() {
+				mAdView.requestFreshAd();
+			}	    	
+	    }
+	    
     	void RestoreControllerState(){
             mPrefs = getSharedPreferences(Controller.class.getName(), MODE_PRIVATE);
             int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
@@ -393,7 +428,19 @@ public class DownloadService extends Service {
     	protected void onPause() {
     		super.onPause();
     		SaveControllerState();
+	    	if(mAdRefreshTimer != null){
+	    		mAdRefreshTimer.cancel(); 
+	    		mAdRefreshTimer = null;
+	    	}
     	}
+
+    	@Override
+	    protected void onRestart() {
+	    	super.onRestart();
+	    	mAdRefreshTimer = new Timer();
+	    	mAdRefreshTimer.schedule(new AdRefreshTimerTask(), 0, mAdRefreshTime);
+	    }
+
 
     	@Override
         protected void onDestroy() {
@@ -494,9 +541,44 @@ public class DownloadService extends Service {
     		case RESULT_EXIT:
     			setResult(resultCode);
     			finish();
-    			break;
-    		};		
+    			return;
+    		};	
+	    	if(data != null && data.getBooleanExtra(InterstitialAd.ADMOB_INTENT_BOOLEAN, false)) {
+	    		//Back to AdView showing
+	    	}
     	}
+
+		private class AdvertisingListener extends SimpleAdListener {
+			@Override
+			public void onFailedToReceiveAd(AdView adView){
+				super.onFailedToReceiveAd(adView);
+			}		
+			@Override
+			public void onFailedToReceiveRefreshedAd(AdView adView){
+				super.onFailedToReceiveRefreshedAd(adView);
+			}		
+			@Override
+			public void onReceiveAd(AdView adView){
+				super.onReceiveAd(adView);
+			}
+			@Override
+			public void onReceiveRefreshedAd(AdView adView){
+				super.onReceiveRefreshedAd(adView);
+			}			
+		}
+		
+		public void onFailedToReceiveAd(AdView adView) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveAd");
+		}
+		public void onFailedToReceiveRefreshedAd(AdView adView) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveRefreshedAd");
+		}
+		public void onReceiveAd(AdView adView){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");
+		}
+		public void onReceiveRefreshedAd(AdView adView){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
+		}
 
         
     	@Override
@@ -534,6 +616,19 @@ public class DownloadService extends Service {
     		}
     		return true;
     	}
-
+    	
+	    //If we fail to receive an interstitial ad, we just keep going on with our application loading and execution.
+		public void onFailedToReceiveInterstitial(InterstitialAd interstitialAd) {
+	      // we couldn't get an interstitial ad before the start. to do ...
+	      if (interstitialAd == mInterstitialAd) {
+	    	//Back to AdView showing
+	      }
+	    }
+	    //If we get an interstitial ad successfully, we can show the ad. 
+		public void onReceiveInterstitial(InterstitialAd interstitialAd) {
+	      if(interstitialAd == mInterstitialAd) {
+	        mInterstitialAd.show(this);
+	      }
+	    }
     }
 }

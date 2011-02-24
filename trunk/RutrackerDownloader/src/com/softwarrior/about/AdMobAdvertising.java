@@ -47,7 +47,7 @@ public class AdMobAdvertising extends FullWakeActivity implements AdListener, In
 	        mInterstitialAd = new InterstitialAd(Event.APP_START, this);
 	        mInterstitialAd.requestAd(this);
 	        	        
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Advertising");
 	    }
 
@@ -93,7 +93,7 @@ public class AdMobAdvertising extends FullWakeActivity implements AdListener, In
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	    }
 	    
 		@Override

@@ -1,6 +1,8 @@
 package com.softwarrior.about;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,6 +14,10 @@ import com.admob.android.ads.InterstitialAd;
 import com.admob.android.ads.InterstitialAdListener;
 import com.admob.android.ads.SimpleAdListener;
 import com.admob.android.ads.InterstitialAd.Event;
+import com.adwhirl.AdWhirlLayout;
+import com.adwhirl.AdWhirlManager;
+import com.adwhirl.AdWhirlTargeting;
+import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 import com.inmobi.androidsdk.EducationType;
 import com.inmobi.androidsdk.EthnicityType;
 import com.inmobi.androidsdk.GenderType;
@@ -28,6 +34,7 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResult
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -36,8 +43,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
-public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, InMobiAdDelegate {
+public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, InMobiAdDelegate, AdWhirlInterface  {
 
 	
 		//declare adview object
@@ -64,8 +72,41 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.all_advertising);
+	        LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
 
-	        
+	        //AdWhirl
+		    // These are density-independent pixel units, as defined in
+		    // http://developer.android.com/guide/practices/screens_support.html
+		    int width = 320;
+		    int height = 52;
+		    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+		    float density = displayMetrics.density;
+		    width = (int) (width * density);
+		    height = (int) (height * density);
+
+		    AdWhirlTargeting.setAge(23);
+		    AdWhirlTargeting.setGender(AdWhirlTargeting.Gender.MALE);
+		    String keywords[] = { "online", "games", "gaming", "sport", "travel", "girls" };
+		    AdWhirlTargeting.setKeywordSet(new HashSet<String>(Arrays.asList(keywords)));
+		    AdWhirlTargeting.setPostalCode("94123");
+		    AdWhirlTargeting.setTestMode(false);
+
+		    // Optional, will fetch new config if necessary after five minutes.
+		    AdWhirlManager.setConfigExpireTimeout(1000 * 60 * 5);
+
+		    // Instantiates AdWhirlLayout from code.
+		    // Note: Showing two ads on the same screen is for illustrative purposes
+		    // only. You should check with ad networks on their specific policies.
+		    //RutrackerDownloader SDK Key:09a0faf9236e480cb1b93417f2e40b11
+		    AdWhirlLayout adWhirlLayout = new AdWhirlLayout(this,"09a0faf9236e480cb1b93417f2e40b11");
+		    adWhirlLayout.setAdWhirlInterface(this);
+		    adWhirlLayout.setMaxWidth(width);
+		    adWhirlLayout.setMaxHeight(height);
+		    RelativeLayout.LayoutParams adWhirlLayoutParams = new RelativeLayout.LayoutParams(
+		    		RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		    adWhirlLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		    myLayout.addView(adWhirlLayout, adWhirlLayoutParams);
+
 	        /* Millennial Media Ad View Integration
 	         * 1) If passing Meta Values to increase ad accuracy, instantiate a
 	         * hashtable and pass in data as Key-Value pairs. All KV pairs are optional.
@@ -106,7 +147,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 			//adview = new MMAdView((Activity) this, MYAPID, "MMFullScreenAdLaunch", 0, true, map);
 			//adview = new MMAdView((Activity) this, MYAPID, "MMFullScreenAdTransition", 0, true, map);
 	        
-	        LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
+	        //LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
 	        //add the object to the view layout
 	        myLayout.addView(mMMAdview, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 	        
@@ -176,7 +217,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	        mInterstitialAd = new InterstitialAd(Event.APP_START, this);
 	        mInterstitialAd.requestAd(this);
 	        	        
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Advertising");
 	    }
 
@@ -237,7 +278,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	    }
 	    
 	    @Override
@@ -422,5 +463,10 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 			{
 				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad Overlay Launched" );
 			}		
-	    }		
+	    }
+
+		public void adWhirlGeneric() {
+			// TODO Auto-generated method stub
+			
+		}		
 }
