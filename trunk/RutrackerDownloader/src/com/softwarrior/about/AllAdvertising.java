@@ -1,6 +1,7 @@
 package com.softwarrior.about;
 
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,6 +17,8 @@ import com.inmobi.androidsdk.EthnicityType;
 import com.inmobi.androidsdk.GenderType;
 import com.inmobi.androidsdk.InMobiAdDelegate;
 import com.inmobi.androidsdk.impl.InMobiAdView;
+import com.millennialmedia.android.MMAdView;
+import com.millennialmedia.android.MMAdView.MMAdListener;
 
 import com.softwarrior.rutrackerdownloader.FullWakeActivity;
 import com.softwarrior.rutrackerdownloader.R;
@@ -30,9 +33,20 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, InMobiAdDelegate {
 
+	
+		//declare adview object
+		MMAdView mMMAdview;
+		MMAdListener mMMListener;
+		//declare your APID, given to you by Millennial Media
+		final static String MYAPID = "36640";
+		AllAdvertising mThis;
+	
 		//InMobi
 //		private InMobiAdView mIMAdView;
 		private Timer mAdRefreshTimer;
@@ -50,6 +64,90 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.all_advertising);
+
+	        
+	        /* Millennial Media Ad View Integration
+	         * 1) If passing Meta Values to increase ad accuracy, instantiate a
+	         * hashtable and pass in data as Key-Value pairs. All KV pairs are optional.
+	         * 
+	         * 2) Required. Instantiate a new MMAdView and pass the following required values:
+	         * 		- Context. "this"
+	         * 		- APID: This number uniquely identifies your application and is given to you by Millennial Media	
+	         * 		- Refresh ads: refresh delay in seconds. Set to 0 for no refresh. Minimum is 30 seconds.
+	         *      - Test Mode: true to test that you are properly receiving ads
+	         * **Optional**:
+	         * 		- Hashtable of meta values, includes: age, gender, marital status, zip code, income, latitude, longitude
+	         * 		- Accelerometer disable: boolean variable to disable accelerometer ads if your app uses the accelerometer. Refer to documentation to implement
+	         */
+	        Hashtable<String, String> map = new Hashtable<String, String>();
+	        map.put("age", "45");
+	        map.put("gender", "male");
+	        map.put("zip", "21224");
+	        map.put("marital", "single");
+	        map.put("orientation", "straight");
+	        map.put("ethnicity", "hispanic");
+			map.put("education", "college");
+			map.put("children", "2");
+			map.put("politics", "moderate");
+	        map.put("income", "50000");
+	        map.put("keywords", "soccer");
+	        map.put("height", "53");  
+	        map.put("width", "320"); 
+	             
+	        //create an adview
+
+	        mMMAdview = new MMAdView(this, MYAPID, "MMBannerAdTop", 30, true, map);
+	        
+	        //adview = new MMAdView(this.getApplicationContext(), MYAPID, "MMBannerAdTop", 30, false);
+
+			/* Use the appropriate instantiation of the MMAdView for the ad type you wish to display */
+			//adview = new MMAdView((Activity) this, MYAPID, "MMBannerAdBottom", 60, true, map);
+			//adview = new MMAdView((Activity) this, MYAPID, "MMBannerAdRectangle", 60, true, map);
+			//adview = new MMAdView((Activity) this, MYAPID, "MMFullScreenAdLaunch", 0, true, map);
+			//adview = new MMAdView((Activity) this, MYAPID, "MMFullScreenAdTransition", 0, true, map);
+	        
+	        LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
+	        //add the object to the view layout
+	        myLayout.addView(mMMAdview, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+	        
+	        /* Implement this code and the listener methods below if you want to received notifications
+	         * of events occurring within the SDK
+	         */
+	        mMMListener = new MyMMAdListener();
+	        mMMAdview.setListener(mMMListener);
+	               
+	        /* Use this to call for an ad if you have disabled automatic ad calls. The refresh
+	         * delay must be set to -1 to use this method.
+	         */
+	        //adview.callForAd();
+	        
+	        /* Use this code if you want to participate in Millennial Media's
+	         * app conversion tracking.
+	         */
+	        //adview.startConversionTrackerWithGoalId("YOUR_GOAL_ID");
+	        
+	        
+	        mThis = this;
+	    	Button button = new Button(this);
+	    	button.setOnClickListener(new OnClickListener() {
+	    	    public void onClick(View v) {
+	    	    	mThis.OnClickButtonRefreshAdvertising(v);
+	    	    }
+	    	});
+
+	    	button.setText(R.string.button_refresh_advertising);
+//	    	android:layout_alignParentBottom="true"
+//			android:text="@string/button_refresh_advertising"
+//			android:onClick="@string/on_click_refresh_advertising"
+//	        android:id="@+id/ButtonRefreshAdvertising"
+//	        android:layout_height="wrap_content"
+//	        android:layout_width="fill_parent"
+	    	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+										LinearLayout.LayoutParams.WRAP_CONTENT);
+	    	myLayout.addView(button, params);	    
+	        
+	        myLayout.invalidate();
 	        
 	        //Zestadz
 	        // RelativeLayout layout = new RelativeLayout(this);
@@ -81,6 +179,12 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Advertising");
 	    }
+
+	    public void OnClickButtonRefreshAdvertising(View v) {			
+			mInterstitialAd = new InterstitialAd(Event.SCREEN_CHANGE, this);
+			mInterstitialAd.requestAd(this); //request an ad now so it's ready when we want to show it			
+		}  
+
 	   
 	    private class AdRefreshTimerTask extends TimerTask {
 			
@@ -142,6 +246,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    	mAdRefreshTimer.cancel(); 
 	    	mAdRefreshTimer = null;
 //	        ZestadzAd.stopAdpull();
+	        mMMAdview.halt();
 	    }
 	    
 	    @Override
@@ -200,12 +305,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    		//Back to AdView showing
 	    	}
 	    }
-	    	    	    		
-		public void OnClickButtonRefreshAdvertising(View v) {			
-			mInterstitialAd = new InterstitialAd(Event.SCREEN_CHANGE, this);
-			mInterstitialAd.requestAd(this); //request an ad now so it's ready when we want to show it			
-		}  
-  
+	    	    	    		  
 		private class AdvertisingListener extends SimpleAdListener {
 			@Override
 			public void onFailedToReceiveAd(AdView adView){
@@ -292,4 +392,33 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		public String searchString() {
 			return null;
 		}
+		//millennialmedia
+	    /* Methods to implement as part of the listener interface */    
+	    public class MyMMAdListener implements MMAdListener 
+	    {
+	    	public void MMAdFailed(MMAdView adview)
+	    	{
+	    		Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad View Failed" );
+	    	}
+
+	    	public void MMAdReturned(MMAdView adview)
+	    	{
+	    		Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad View Success" );
+	    	}
+	    	
+			public void MMAdClickedToNewBrowser(MMAdView adview)
+			{
+				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad clicked, new browser launched" );
+			}
+			
+			public void MMAdClickedToOverlay(MMAdView adview)
+			{
+				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad Clicked to overlay" );
+			}
+			
+			public void MMAdOverlayLaunched(MMAdView adview)
+			{
+				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad Overlay Launched" );
+			}		
+	    }		
 }
