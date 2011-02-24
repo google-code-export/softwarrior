@@ -243,8 +243,10 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    @Override
 	    protected void onPause() {
 	    	super.onPause();
-	    	mAdRefreshTimer.cancel(); 
-	    	mAdRefreshTimer = null;
+	    	if(mAdRefreshTimer != null){
+	    		mAdRefreshTimer.cancel(); 
+	    		mAdRefreshTimer = null;
+	    	}
 //	        ZestadzAd.stopAdpull();
 	        mMMAdview.halt();
 	    }
