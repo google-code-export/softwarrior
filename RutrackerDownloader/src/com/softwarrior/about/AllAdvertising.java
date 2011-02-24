@@ -51,6 +51,13 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.all_advertising);
 	        
+	        //Zestadz
+	        // RelativeLayout layout = new RelativeLayout(this);
+	        //ZestadzAd zestAd = new ZestadzAd(this);
+	        //layout.addView(zestAd);
+	        //setContentView(layout);
+
+	        
 	        //InMoby
 //	        mIMAdView = (InMobiAdView) findViewById(R.id.adview);
 //	        mIMAdView.initialize(this.getApplicationContext(), this, this, InMobiAdDelegate.INMOBI_AD_UNIT_320X48);
@@ -134,7 +141,15 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    	super.onPause();
 	    	mAdRefreshTimer.cancel(); 
 	    	mAdRefreshTimer = null;
+//	        ZestadzAd.stopAdpull();
 	    }
+	    
+	    @Override
+	    protected void onStop() {
+	    	super.onStop();
+//	    	ZestadzAd.stopAdpull();
+	    }
+	    
 	    @Override
 	    protected void onRestart() {
 	    	super.onRestart();

@@ -8,6 +8,17 @@
 	android:gravity="bottom" 
 	android:orientation="vertical">
 	<!--
+	<com.zestadz.android.ZestadzAd 
+	      android:id="@+id/zad" 
+          android:layout_width="fill_parent" 
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:clickable="true"
+          app:backgroundColor="#000000"
+          app:textColor="#FFFFFF"
+          app:keywords="Android game"/>
+	-->
+	<!--
 	<com.inmobi.androidsdk.impl.InMobiAdView
         android:layout_width="wrap_content" 
         android:layout_height="wrap_content"
