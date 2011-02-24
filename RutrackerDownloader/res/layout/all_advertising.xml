@@ -36,7 +36,8 @@
 		android:layout_height="wrap_content"
 		app:backgroundColor="#000000"
 		app:primaryTextColor="#FFFFFF"
-		app:secondaryTextColor="#CCCCCC"/>		
+		app:secondaryTextColor="#CCCCCC"/>
+	<!--		
 	<Button 
 		android:layout_alignParentBottom="true"
 		android:text="@string/button_refresh_advertising"
@@ -44,4 +45,5 @@
         android:id="@+id/ButtonRefreshAdvertising"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"/>
+     -->
 </LinearLayout>
