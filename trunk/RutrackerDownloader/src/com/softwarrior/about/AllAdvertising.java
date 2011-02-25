@@ -1,7 +1,6 @@
 package com.softwarrior.about;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Timer;
@@ -18,11 +17,6 @@ import com.adwhirl.AdWhirlLayout;
 import com.adwhirl.AdWhirlManager;
 import com.adwhirl.AdWhirlTargeting;
 import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
-import com.inmobi.androidsdk.EducationType;
-import com.inmobi.androidsdk.EthnicityType;
-import com.inmobi.androidsdk.GenderType;
-import com.inmobi.androidsdk.InMobiAdDelegate;
-import com.inmobi.androidsdk.impl.InMobiAdView;
 import com.millennialmedia.android.MMAdView;
 import com.millennialmedia.android.MMAdView.MMAdListener;
 
@@ -32,7 +26,6 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -45,7 +38,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, InMobiAdDelegate, AdWhirlInterface  {
+public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, /*InMobiAdDelegate,*/ AdWhirlInterface  {
 
 	
 		//declare adview object
@@ -380,61 +373,61 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		public void onReceiveRefreshedAd(AdView adView){
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
 		}
-		//InMobi
-		public void adRequestCompleted(InMobiAdView arg0) {
-			Log.v(RutrackerDownloaderApp.TAG, "inmobi ad request completed");						
-		}
-		public void adRequestFailed(InMobiAdView arg0) {
-			Log.v(RutrackerDownloaderApp.TAG, "inmobi ad request failed");			
-		}
-		public String siteId() {
-			return "ff8080812e3c9951012e4fed9f2d00ab";
-		}
-		public boolean testMode() {
-			return true;
-		}		
-		public int age() {
-			return 0;
-		}
-		public String areaCode() {
-			return null;
-		}
-		public Location currentLocation() {
-			return null;
-		}
-		public Date dateOfBirth() {
-			return null;
-		}
-		public EducationType education() {
-			return null;
-		}
-		public EthnicityType ethnicity() {
-			return null;
-		}
-		public GenderType gender() {
-			return null;
-		}
-		public int income() {
-			return 0;
-		}
-		public String interests() {
-			return null;
-		}
-		public boolean isLocationInquiryAllowed() {
-			return false;
-		}
-		public boolean isPublisherProvidingLocation() {
-			return false;
-		}
-		public String keywords() {
-			return null;
-		}
-		public String postalCode() {
-			return null;
-		}
-		public String searchString() {
-			return null;
-		}
+//		//InMobi
+//		public void adRequestCompleted(InMobiAdView arg0) {
+//			Log.v(RutrackerDownloaderApp.TAG, "inmobi ad request completed");						
+//		}
+//		public void adRequestFailed(InMobiAdView arg0) {
+//			Log.v(RutrackerDownloaderApp.TAG, "inmobi ad request failed");			
+//		}
+//		public String siteId() {
+//			return "ff8080812e3c9951012e4fed9f2d00ab";
+//		}
+//		public boolean testMode() {
+//			return true;
+//		}		
+//		public int age() {
+//			return 0;
+//		}
+//		public String areaCode() {
+//			return null;
+//		}
+//		public Location currentLocation() {
+//			return null;
+//		}
+//		public Date dateOfBirth() {
+//			return null;
+//		}
+//		public EducationType education() {
+//			return null;
+//		}
+//		public EthnicityType ethnicity() {
+//			return null;
+//		}
+//		public GenderType gender() {
+//			return null;
+//		}
+//		public int income() {
+//			return 0;
+//		}
+//		public String interests() {
+//			return null;
+//		}
+//		public boolean isLocationInquiryAllowed() {
+//			return false;
+//		}
+//		public boolean isPublisherProvidingLocation() {
+//			return false;
+//		}
+//		public String keywords() {
+//			return null;
+//		}
+//		public String postalCode() {
+//			return null;
+//		}
+//		public String searchString() {
+//			return null;
+//		}
 		//millennialmedia
 	    /* Methods to implement as part of the listener interface */    
 	    public class MyMMAdListener implements MMAdListener 
