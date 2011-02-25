@@ -12,7 +12,10 @@
         <activity android:name="PreferencesTabs"></activity>
         <activity android:name="WEBPreferencesScreen"></activity>
         <activity android:name="RSSPreferencesScreen"></activity>
-        <activity android:name="DownloadPreferencesScreen"></activity>       
+        <activity android:name="DownloadPreferencesScreen"></activity>
+        <activity android:name="com.softwarrior.about.AdMobAdvertising"></activity>
+        <activity android:name="com.softwarrior.about.AdWhirlAdvertising"></activity>
+        <activity android:name="com.softwarrior.about.AllAdvertising"></activity>        
         <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>     
         <activity android:name="DownloadService$Controller"
@@ -71,9 +74,6 @@
                   android:name="com.softwarrior.about.Help"
                   android:theme="@android:style/Theme.Light">
         </activity>  
-        <activity android:name="com.softwarrior.about.AdMobAdvertising"></activity>
-        <activity android:name="com.softwarrior.about.AdWhirlAdvertising"></activity>
-        <activity android:name="com.softwarrior.about.AllAdvertising"></activity>
         <service android:name="DownloadService"></service>
         <!-- AdMob integration -->
         <activity android:name="com.admob.android.ads.AdMobActivity" 
