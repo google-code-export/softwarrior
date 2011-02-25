@@ -95,7 +95,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		    adWhirlLayout.setMaxWidth(width);
 		    adWhirlLayout.setMaxHeight(height);
 		    RelativeLayout.LayoutParams adWhirlLayoutParams = new RelativeLayout.LayoutParams(
-		    		RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		    		RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		    adWhirlLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		    myLayout.addView(adWhirlLayout, adWhirlLayoutParams);
 
