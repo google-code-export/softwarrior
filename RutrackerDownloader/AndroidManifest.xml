@@ -135,8 +135,7 @@
         <!-- Application-wide AdWhirl Key -->
         <!-- If both Activity-specific and App-wide AdWhirl Keys are specified, the
              Activity-specific key will override the App-wide key. -->
-        <!-- If Activity-specific key is omitted, the App-wide key will be used. --> 
-        <!-- RutrackerDownloaderSDK Key:09a0faf9236e480cb1b93417f2e40b11 -->        
+        <!-- If Activity-specific key is omitted, the App-wide key will be used. -->        
         <meta-data android:value="09a0faf9236e480cb1b93417f2e40b11" android:name="ADWHIRL_KEY" />
         <!-- The application's Adclient ID assigned by ZestADZ -->
         <meta-data android:value="14131C047A50414A4F5B40534758435E899B2BDF" android:name="ZestADZ_Adclient_ID" />

@@ -45,7 +45,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		MMAdView mMMAdview;
 		MMAdListener mMMListener;
 		//declare your APID, given to you by Millennial Media
-		final static String MYAPID = "36640";
+		final static String MYAPID = "36737";
 		AllAdvertising mThis;
 	
 		//InMobi
@@ -90,7 +90,6 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		    // Instantiates AdWhirlLayout from code.
 		    // Note: Showing two ads on the same screen is for illustrative purposes
 		    // only. You should check with ad networks on their specific policies.
-		    //RutrackerDownloader SDK Key:09a0faf9236e480cb1b93417f2e40b11
 		    AdWhirlLayout adWhirlLayout = new AdWhirlLayout(this,"09a0faf9236e480cb1b93417f2e40b11");
 		    adWhirlLayout.setAdWhirlInterface(this);
 		    adWhirlLayout.setMaxWidth(width);

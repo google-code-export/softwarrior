@@ -1,5 +1,7 @@
 package com.softwarrior.rutrackerdownloader;
 
+import com.softwarrior.about.AllAdvertising;
+
 import android.app.TabActivity;
 import android.os.Bundle;
 import android.widget.TabHost;
@@ -60,9 +62,9 @@ public class PreferencesTabs extends TabActivity {
                 .setIndicator(getString(R.string.tab_download))
                 .setContent(new Intent(this, DownloadPreferencesScreen.class)));      
 
-//        tabHost.addTab(tabHost.newTabSpec("tab_advertising")
-//                .setIndicator(getString(R.string.tab_advertising))
-//                .setContent(new Intent(this, AllAdvertising.class)));      
+        tabHost.addTab(tabHost.newTabSpec("tab_advertising")
+                .setIndicator(getString(R.string.tab_advertising))
+                .setContent(new Intent(this, AllAdvertising.class)));      
         
         Bundle bundle = this.getIntent().getExtras();
         if(bundle != null){
