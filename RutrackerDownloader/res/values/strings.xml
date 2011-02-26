@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
     <string name="app_name">Rutracker Downloader</string>
+    <string name="app_desc">The program to search and download content from rutracker.org</string>
 	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>
@@ -52,7 +53,7 @@
 	<string name="preferences_torrent_options_cat_title">TORRENT OPTIONS</string>
 	<string name="preferences_torrent_file_name">Torrent file name</string>
 	<string name="preferences_torrent_save_path">Torrent save path</string>	
-	<string name="preferences_proxy_type_dialog_title"> Select proxy type</string>
+	<string name="preferences_proxy_type_dialog_title">Select proxy type</string>
 		
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
@@ -122,7 +123,7 @@
 	<string name="text_download_stopped">Download Stopped</string>	
 	<string name="text_download_paused">Download Paused</string>
 
-	<string name="url_help">file:///android_asset/help_en.html</string>
+	<string name="url_help">file:///android_asset/help_en/help.html</string>
 	<string name="help_activity_name">Help</string>
 	
     <!-- File manager -->
@@ -166,8 +167,8 @@
     <!-- Construct a unique file name with number %1$d of a file called %2$s. -->
     <string name="copied_file_name_2">Copy %1$d of %2$s</string>
     
-    <string name="media_scan_included">This folder will be included in the next media scan.</string>
-    <string name="media_scan_excluded">This folder will be excluded during the next media scan.</string>
+    
+    
     
     <string name="error_creating_new_folder">Could not create new folder.</string>
     <string name="error_deleting_file">Could not delete file.</string>
@@ -180,7 +181,7 @@
     <string name="error_file_does_not_exists">File does not exist.</string>
     <string name="error_deleting_child_file">Could not delete child file \'%s\'.</string>
     <string name="error_generic">An error occurred: </string>
-    <string name="error_media_scan">Could not change media scan settings.</string>
+    
     <string name="error_torrent_file_absent">Torrent file is absent. Search and download distribution</string>
     
     <string name="send_not_available">No application available for sending.</string>    
