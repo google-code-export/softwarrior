@@ -41,6 +41,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String	TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
 	public static final String	FeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
 	public static final String	SearchUrlPrefix = "http://rutracker.org/forum/search.php";
+	public static final String	SiteMap = "http://rutracker.org/forum/index.php?c=map";
 	//Default Download Preferences constants
 	public static final int		ListenPort = 54312;
 	public static final int		UploadLimit = -1;

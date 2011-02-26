@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -40,6 +41,8 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     addPreferencesFromResource(R.xml.web_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
+    RelativeLayout buttonsLayoutEx = (RelativeLayout) findViewById(R.id.ButtonsLayoutEx);
+    buttonsLayoutEx.setVisibility(RelativeLayout.VISIBLE);
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/WEBPreferencesScreen");
   }
@@ -203,7 +206,18 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  intent.setClassName(this, TorrentWebClient.class.getName());
 	  startActivityForResult(intent,0);
   }
-  
+
+  public void OnClickButtonSiteMap(View v) {
+	  Bundle bundle = new Bundle();
+	  bundle.putString("LoadUrl", RutrackerDownloaderApp.SiteMap);
+	  bundle.putString("Action", "Search");
+	  Intent intent = new Intent(Intent.ACTION_VIEW);
+	  intent.putExtras(bundle);
+	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	  intent.setClassName(this, TorrentWebClient.class.getName());
+	  startActivityForResult(intent,0);
+  }
+
   public void OnClickButtonLogin(View v) {
 	  Bundle bundle = new Bundle();
 	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);
