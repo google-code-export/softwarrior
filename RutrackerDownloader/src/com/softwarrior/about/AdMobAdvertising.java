@@ -99,7 +99,7 @@ public class AdMobAdvertising extends FullWakeActivity implements AdListener, In
 		@Override
 		protected void onDestroy() {
 			super.onDestroy();
-			RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+			//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
 		}
 		
         //TODO: Need to show animation picture with girl

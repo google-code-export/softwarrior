@@ -31,8 +31,8 @@
 	<string name="preferences_music_pope_dance_title">Попса, диско, танц. музыка</string>
 	
 	<string name="preferences_search_title">ПАРАМЕТРЫ ПОИСКА</string>
-	<string name="preferences_search_year_title">ГОДУ</string>
-	<string name="preferences_search_name_title">НАЗВАНИЮ</string>
+	<string name="preferences_search_year_title">ГОД</string>
+	<string name="preferences_search_name_title">НАЗВАНИЕ</string>
 	
 	<string name="preferences_search_string_title">ИСКАТЬ ПО СТРОКЕ</string>
 	
@@ -40,8 +40,8 @@
 	<string name="preferences_session_options_title">ПАРАМЕТРЫ СЕССИИ</string>
 	<string name="preferences_session_options_cat_title">ПАРАМЕТРЫ СЕССИИ</string>
 	<string name="preferences_listen_port">Слушать порт</string>
-	<string name="preferences_upload_limit">Ограничения раздачи (Байт/сек)</string>
-	<string name="preferences_download_limit">Ограничения скачивания (Байт/сек)</string>
+	<string name="preferences_upload_limit">Огранич. раздачи (Байт/сек)</string>
+	<string name="preferences_download_limit">Огранич. скачивания (Байт/сек)</string>
 	<string name="preferences_proxy_options_title">НАСТРОЙКИ ПРОКСИ</string>
 	<string name="preferences_proxy_options_cat_title">НАСТРОЙКИ ПРОКСИ</string>
 	<string name="preferences_proxy_type">Тип прокси</string>
@@ -51,7 +51,7 @@
 	<string name="preferences_password">Пароль</string>
 	<string name="preferences_torrent_options_title">ПАРАМЕТРЫ ТОРЕНТА</string>
 	<string name="preferences_torrent_options_cat_title">ПАРАМЕТРЫ ТОРЕНТА</string>
-	<string name="preferences_torrent_file_name">Имя торента по умолчанию</string>
+	<string name="preferences_torrent_file_name">Имя торент файла</string>
 	<string name="preferences_torrent_save_path">Путь для сохранения торента</string>	
 	<string name="preferences_proxy_type_dialog_title">Выберите тип прокси</string>
 		
@@ -75,7 +75,7 @@
 	<string name="button_search">Поиск</string>
 	<string name="button_login">Логин на сайт</string>
 	<string name="button_refresh_page">Обновить страницу</string>
-	<string name="button_finish_login">Закончить логин</string>
+	<string name="button_finish_login">Вернуться в поиск</string>
 	<string name="button_start_download">Запустить</string>
     <string name="button_stop_download">Остановить</string>
 	<string name="button_pause_download">Приостановить</string>
@@ -94,12 +94,12 @@
 	<string name="tab_download">Скачивать</string>
 	<string name="tab_advertising">Реклама</string>
 	
-	<string name="service_disconnected">Сервис скачивание торента отсоединен</string>
-	<string name="service_connected">Сервис скачивание торента соединен</string>
+	<string name="service_disconnected">Сервис скачивания торента отсоединен</string>
+	<string name="service_connected">Сервис скачивания торента соединен</string>
 	<string name="service_controller">Управление сервисом скачивание торента</string>	
-	<string name="service_created">Сервис скачивание торента запущен</string>
-	<string name="service_destroyed">Сервис скачивание торента остановлен</string>
-	<string name="service_label">Сервис скачивание торента</string>
+	<string name="service_created">Сервис скачивания торента запущен</string>
+	<string name="service_destroyed">Сервис скачивания торента остановлен</string>
+	<string name="service_label">Сервис скачивания торента</string>
 	<string name="service_notification">Запушен сервис скачивания</string>
 	
 	<string name="activity_service_controller">Управление сервисом скачивания</string>

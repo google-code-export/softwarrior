@@ -75,7 +75,7 @@
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
 	<string name="button_refresh_page">Refresh page</string>
-	<string name="button_finish_login">Finish Login</string>
+	<string name="button_finish_login">Back to search</string>
 	<string name="button_start_download">Start Download</string>
     <string name="button_stop_download">Stop Download</string>
 	<string name="button_pause_download">Pause Download</string>

@@ -447,7 +447,7 @@ public class DownloadService extends Service {
     		mStopProgress = true;
             super.onDestroy();            
             doUnbindService();
-    		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+    		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
         }        
         
 		public void OnClickButtonStartDownload(View v) {

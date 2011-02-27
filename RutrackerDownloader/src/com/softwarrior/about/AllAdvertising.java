@@ -300,7 +300,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		@Override
 		protected void onDestroy() {
 			super.onDestroy();
-			RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+			//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
 		}
 		
         //TODO: Need to show animation picture with girl

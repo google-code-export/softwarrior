@@ -14,7 +14,7 @@ public class PreferencesTabs extends TabActivity {
         super.onCreate(savedInstanceState);
 
         //Start the tracker in manual dispatch mode...
-         RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", this);
+         RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
         // ...alternatively, the tracker can be started with a dispatch interval (in seconds).
         //RutrackerDownloaderApp.start("UA-21583368-2", 20, this);
 

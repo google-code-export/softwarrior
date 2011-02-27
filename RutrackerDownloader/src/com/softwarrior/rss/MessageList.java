@@ -71,7 +71,7 @@ public class MessageList extends ListActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
 	}
     
     private class ParseHandler extends Handler {	
