@@ -44,7 +44,7 @@ public class Help extends Activity {
 		@Override
 		protected void onDestroy() {
 			super.onDestroy();
-			RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+			//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
 		}
 		
 		@Override

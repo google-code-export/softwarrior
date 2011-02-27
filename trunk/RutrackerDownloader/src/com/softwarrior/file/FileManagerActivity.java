@@ -295,7 +295,7 @@ public class FileManagerActivity extends ListActivity {
     		 loader.cancel = true;
     		 mThumbnailLoader = null;
     	 }
- 		RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+ 		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
      }
      
      public void OnClickButtonHome(View v) {
