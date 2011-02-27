@@ -1,5 +1,7 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.io.File;
+
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.softwarrior.about.About;
 import com.softwarrior.about.Help;
@@ -9,6 +11,7 @@ import com.softwarrior.rutrackerdownloader.DownloadService.Controller.Controller
 import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
@@ -105,6 +108,9 @@ public class RutrackerDownloaderApp extends Application {
     	SharedPreferences.Editor ed = prefs.edit();
         ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
         ed.commit();
+        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+        RutrackerDownloaderApp.AnalyticsTracker.stop();
+        RutrackerDownloaderApp.ClearCache(activity);
         activity.moveTaskToBack(false);
 	  	Process.killProcess(Process.myPid());
 	}
@@ -121,5 +127,28 @@ public class RutrackerDownloaderApp extends Application {
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	intent.setClassName(activity, About.class.getName());
     	activity.startActivityForResult(intent, 0);
+    }
+    
+    static public void ClearCache(Context context){    	
+    	try { 
+    		File dir = context.getCacheDir(); 
+    		if (dir != null && dir.isDirectory()) { 
+    			deleteDir(dir); 
+    		} 
+    	} catch (Exception e){}     	
+    }
+    
+    public static boolean deleteDir(File dir) { 
+    	if (dir != null && dir.isDirectory()) { 
+    		String[] children = dir.list(); 
+    		for (int i = 0; i < children.length; i++) { 
+    			boolean success = deleteDir(new File(dir, children[i])); 
+    			if (!success) { 
+    				return false; 
+    			} 
+    		} 
+    	}
+    	// The directory is now empty so delete it 
+    	return dir.delete();
     }
 }

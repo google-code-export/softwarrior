@@ -77,12 +77,5 @@ public class PreferencesTabs extends TabActivity {
         startService(new Intent(this, DownloadService.class));
         
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
-    }
-    
-    @Override
-    protected void onDestroy() {
-    	super.onDestroy();
-        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-        RutrackerDownloaderApp.AnalyticsTracker.stop();
-    }
+    }    
 }
