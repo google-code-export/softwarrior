@@ -30,6 +30,11 @@
 	        android:layout_height="wrap_content"
 	        android:id = "@+id/adview" />
 	    -->	
+	    <com.smaato.SOMA.SOMABanner
+			android:id="@+id/BannerView"
+			android:layout_width="fill_parent"
+			android:layout_height="50dip"
+			android:scaleType="centerInside"/>
 		<!-- Place an AdMob ad at the bottom of the screen. -->
 		<!-- It has white text on a black background. -->
 		<!-- The description of the surrounding context is 'Android game'. -->

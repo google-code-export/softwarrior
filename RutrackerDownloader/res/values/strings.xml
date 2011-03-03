@@ -222,5 +222,19 @@
 	<string name="l_info">Common</string>
 	
 	<string name="no_information_available">No information available.</string>
-	
+    
+    <!-- advertising -->
+    <string name="advertising_view">Advertising</string>
+    <string name="refresh_ads">Refresh Ads</string>
+    <string name="fullscreen_get">Get FullScreen Ad</string>
+    <string name="fullscreen_display">Display FullScreen Ad</string>
+    <string name="fullscreen_get_and_display">Get and Display FullScreen Ad</string>
+    
+    <string name="event_logging">Event Logging</string>
+    <string name="log_event_button">Log Event</string>
+
+    <string name="sync">Sync</string>
+    
+    <string name="reset_notify_user">Reset Notify User</string>
+
 </resources>

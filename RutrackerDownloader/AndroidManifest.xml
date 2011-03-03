@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
-      android:versionName="1.0.0.1" android:versionCode="2" android:installLocation="auto">
+      android:installLocation="auto" android:versionName="1.0.0.2" android:versionCode="3">
     <application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="RutrackerDownloaderApp" android:description="@string/app_desc">        
         <activity android:name="SplashScreen" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> 
+        </activity>         
         <activity android:name="PreferencesTabs"></activity>
         <activity android:name="WEBPreferencesScreen"></activity>
         <activity android:name="RSSPreferencesScreen"></activity>
         <activity android:name="DownloadPreferencesScreen"></activity>
-        <activity android:name="com.softwarrior.about.AdMobAdvertising"></activity>
-        <activity android:name="com.softwarrior.about.AdWhirlAdvertising"></activity>
         <activity android:name="com.softwarrior.about.AllAdvertising"></activity>        
         <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>     
@@ -80,26 +78,17 @@
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:configChanges="orientation|keyboard|keyboardHidden">
         </activity>
-        <!-- MdotM integration -->
-        <activity android:name="com.mdotm.android.ads.MdotmLandingPage"
-                  android:label="@string/app_name" >
-            <intent-filter>
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
-        </activity>
-        <!-- Millennial integration
-        <activity android:name="com.millennialmedia.android.MMAdViewOverlayActivity" 
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                  android:configChanges="orientation|keyboard|keyboardHidden">
-        </activity>
-        -->
-        <activity android:name="com.millennialmedia.android.MMAdViewOverlayActivity" 
-                    android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>        
-        <activity android:name="com.millennialmedia.android.VideoPlayer" 
-                    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                    android:configChanges="keyboardHidden|orientation|keyboard" >
-        </activity>        
+        <!-- Mobclix Required Parameter -->
+        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="599D7269-63A0-46C2-BCF2-98DA8159A36D"/>
+        <activity android:name="com.mobclix.android.sdk.MobclixBrowserActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity> 
+        <activity android:name="com.softwarrior.ads.MobclixActivity"/>
+        <activity android:name="com.softwarrior.ads.MobclixAdvertisingView" android:label="@string/advertising_view"/>
+        <activity android:name="com.softwarrior.ads.EventLoggingActivity"/>
+        <activity android:name="com.softwarrior.ads.MobclixCommentActivity"/>
+        <activity android:name="com.softwarrior.ads.MobclixRatingsActivity"/>
+        <activity android:name="com.softwarrior.ads.MobclixDemographicsActivity"/>               
         <!-- Track Market installs -->
         <receiver android:name="com.admob.android.ads.analytics.InstallReceiver"
                   android:exported="true">
@@ -133,28 +122,25 @@
         <meta-data android:value="a14d5a500187b19" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
         <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
         <!-- Application-wide AdWhirl Key -->
-        <!-- If both Activity-specific and App-wide AdWhirl Keys are specified, the
-             Activity-specific key will override the App-wide key. -->
+        <!-- If both Activity-specific and App-wide AdWhirl Keys are specified, the Activity-specific key will override the App-wide key. -->
         <!-- If Activity-specific key is omitted, the App-wide key will be used. -->        
-        <meta-data android:value="09a0faf9236e480cb1b93417f2e40b11" android:name="ADWHIRL_KEY" />
-        <!-- The application's Adclient ID assigned by ZestADZ -->
-        <meta-data android:value="14131C047A50414A4F5B40534758435E899B2BDF" android:name="ZestADZ_Adclient_ID" />
-                     
+        <meta-data android:value="09a0faf9236e480cb1b93417f2e40b11" android:name="ADWHIRL_KEY" />                     
     </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" />  
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    
-    <!-- Optional permissions  -->  
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />  
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    -->
+    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
+    <!-- Optional Permissions
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+     -->
     <supports-screens android:smallScreens="true"
                       android:normalScreens="true" 
                       android:largeScreens="true" 
-                      android:anyDensity="true" android:resizeable="true"/>
+                      android:anyDensity="true" 
+                      android:resizeable="true"/>
 </manifest>
