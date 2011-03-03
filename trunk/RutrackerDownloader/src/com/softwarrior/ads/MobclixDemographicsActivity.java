@@ -138,7 +138,7 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
   
         ListView list = ((ListView)findViewById(R.id.demo_listview));  
         list.setAdapter(adapter);
-        list.setCacheColorHint(Color.BLACK);
+        list.setCacheColorHint(Color.WHITE);
         
         list.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
