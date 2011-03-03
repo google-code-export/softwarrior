@@ -83,12 +83,12 @@
         <activity android:name="com.mobclix.android.sdk.MobclixBrowserActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity> 
-        <activity android:name="com.softwarrior.ads.MobclixActivity"/>
-        <activity android:name="com.softwarrior.ads.MobclixAdvertisingView" android:label="@string/advertising_view"/>
-        <activity android:name="com.softwarrior.ads.EventLoggingActivity"/>
-        <activity android:name="com.softwarrior.ads.MobclixCommentActivity"/>
-        <activity android:name="com.softwarrior.ads.MobclixRatingsActivity"/>
-        <activity android:name="com.softwarrior.ads.MobclixDemographicsActivity"/>               
+        <activity android:name="com.softwarrior.ads.MobclixActivity" android:theme="@android:style/Theme.Light" />
+        <activity android:name="com.softwarrior.ads.MobclixAdvertisingView" android:theme="@android:style/Theme.Light" android:label="@string/advertising_view"/>
+        <activity android:name="com.softwarrior.ads.EventLoggingActivity" android:theme="@android:style/Theme.Light"/>
+        <activity android:name="com.softwarrior.ads.MobclixCommentActivity" android:theme="@android:style/Theme.Light"/>
+        <activity android:name="com.softwarrior.ads.MobclixRatingsActivity" android:theme="@android:style/Theme.Light"/>
+        <activity android:name="com.softwarrior.ads.MobclixDemographicsActivity" android:theme="@android:style/Theme.Light"/>               
         <!-- Track Market installs -->
         <receiver android:name="com.admob.android.ads.analytics.InstallReceiver"
                   android:exported="true">

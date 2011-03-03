@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- android:background="#FFFFFF"  -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFFFFF">
-
+    android:layout_height="fill_parent">
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   android:orientation="vertical"
   android:padding="10dp">
-  	<TextView android:text="Usability"
+  <!-- android:textColor="#000000" -->
+  	<TextView android:text="@string/ads_usability"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textColor="#000000"/>
+		android:layout_height="wrap_content"/>
 	<RatingBar android:id="@+id/ratingbar0"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -21,11 +20,10 @@
 		android:numStars="5"
 		android:stepSize="1"
 		android:rating="3"/>
-		
-	<TextView android:text="Appearance"
+	<!-- android:textColor="#000000" -->	
+	<TextView android:text="@string/ads_appearance"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textColor="#000000"/>
+		android:layout_height="wrap_content"/>
 	<RatingBar android:id="@+id/ratingbar1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -33,11 +31,11 @@
 		android:numStars="5"
 		android:stepSize="1"
 		android:rating="3"/>
-		
-	<TextView android:text="Recommend"
+	<!-- android:textColor="#000000" -->
+	<TextView android:text="@string/ads_recommend"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textColor="#000000"/>
+		android:layout_height="wrap_content"/>
+		
 	<RatingBar android:id="@+id/ratingbar2"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -45,11 +43,11 @@
 		android:numStars="5"
 		android:stepSize="1"
 		android:rating="3"/>
-
-	<TextView android:text="Performance"
+    <!-- android:textColor="#000000" -->
+	<TextView android:text="@string/ads_performance"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textColor="#000000"/>
+		android:layout_height="wrap_content"/>
+		
 	<RatingBar android:id="@+id/ratingbar3"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -58,10 +56,11 @@
 		android:stepSize="1"
 		android:rating="3"/>
 	
-	<TextView android:text="Overall"
+	<!-- android:textColor="#000000" -->
+	<TextView android:text="@string/ads_overall"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:textColor="#000000"/>
+		android:layout_height="wrap_content"/>
+	
 	<RatingBar android:id="@+id/ratingbar4"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -71,7 +70,7 @@
 		android:rating="3"/>
 	
 	<Button android:id="@+id/submit"
-			android:text="Submit"
+			android:text="@string/ads_submit"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" />
 </LinearLayout>

@@ -39,8 +39,8 @@ import com.softwarrior.rutrackerdownloader.R;
 
 public class MobclixDemographicsActivity extends Activity implements MobclixFeedback.Listener{
 
-	public final static String ITEM_TITLE = "title";  
-    public final static String ITEM_CAPTION = "caption";
+	public static String ITEM_TITLE = null; 
+    public static String ITEM_CAPTION = null;
     
     SimpleAdapter pAdapter;
     SimpleAdapter gAdapter;
@@ -87,6 +87,9 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
         
         setContentView(R.layout.mobclix_demographics_activity);
 
+    	ITEM_TITLE = getString(R.string.ads_title);  
+        ITEM_CAPTION = getString(R.string.ads_caption);
+        
         Button submit = ((Button)findViewById(R.id.submit));
         submit.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -99,23 +102,23 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
         dialogViews = new HashMap<String, EditText>();
         
         List<Map<String,?>> personal = new LinkedList<Map<String,?>>();  
-        personal.add(createItem("Birthdate", ""));  
-        personal.add(createItem("Education", ""));  
-        personal.add(createItem("Ethnicity", ""));
-        personal.add(createItem("Gender", ""));
-        personal.add(createItem("Dating Gender", ""));
-        personal.add(createItem("Income", ""));
-        personal.add(createItem("Marital Status", ""));
-        personal.add(createItem("Religion", ""));
+        personal.add(createItem(getString(R.string.ads_birthdate), ""));  
+        personal.add(createItem(getString(R.string.ads_education), ""));  
+        personal.add(createItem(getString(R.string.ads_ethnicity), ""));
+        personal.add(createItem(getString(R.string.ads_gender), ""));
+        personal.add(createItem(getString(R.string.ads_dating_gender), ""));
+        personal.add(createItem(getString(R.string.ads_income), ""));
+        personal.add(createItem(getString(R.string.ads_marital_status), ""));
+        personal.add(createItem(getString(R.string.ads_religion), ""));
         
         List<Map<String,?>> geography = new LinkedList<Map<String,?>>();  
-        geography.add(createItem("Area Code", ""));  
-        geography.add(createItem("City", ""));  
-        geography.add(createItem("Country", ""));
-        geography.add(createItem("DMA Code", ""));
-        geography.add(createItem("Metro Code", ""));
-        geography.add(createItem("Postal Code", ""));
-        geography.add(createItem("Region", ""));
+        geography.add(createItem(getString(R.string.ads_area_code), ""));  
+        geography.add(createItem(getString(R.string.ads_city), ""));  
+        geography.add(createItem(getString(R.string.ads_country), ""));
+        geography.add(createItem(getString(R.string.ads_dma_code), ""));
+        geography.add(createItem(getString(R.string.ads_metro_code), ""));
+        geography.add(createItem(getString(R.string.ads_postal_code), ""));
+        geography.add(createItem(getString(R.string.ads_region), ""));
         
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -130,12 +133,12 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
         
         // create our list and custom adapter  
         adapter = new SeparatedListAdapter(this);  
-        adapter.addSection("Personal", pAdapter); 
-        adapter.addSection("Geographic", gAdapter);
+        adapter.addSection(getString(R.string.ads_personal), pAdapter); 
+        adapter.addSection(getString(R.string.ads_geographic), gAdapter);
   
         ListView list = ((ListView)findViewById(R.id.demo_listview));  
         list.setAdapter(adapter);
-        list.setCacheColorHint(Color.WHITE);
+        list.setCacheColorHint(Color.BLACK);
         
         list.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
@@ -146,11 +149,11 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
     }
     
     public void onFailure() {
-		Toast.makeText(MobclixDemographicsActivity.this, "Demographics failed!", 10).show();
+		Toast.makeText(MobclixDemographicsActivity.this, getString(R.string.ads_demographics_failed), 10).show();
 	}
 
 	public void onSuccess() {
-		Toast.makeText(MobclixDemographicsActivity.this, "Demographics sent!", 10).show();
+		Toast.makeText(MobclixDemographicsActivity.this, getString(R.string.ads_demographics_sent), 10).show();
 	}
     
     @Override protected void onSaveInstanceState(Bundle savedInstanceState) {
@@ -169,43 +172,72 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
         case BIRTHDATE_DIALOG_ID:
             return buildBirthdateDialog();
         case EDUCATION_DIALOG_ID:
-        	final CharSequence[] educationItems = {"Unknown", "High School", "Some College",
-					 "In College", "Bachelor's Degree", "Master's Degree", "Doctoral Degree"};
-        	return buildEnumDialog("Education", educationItems);
+        	final CharSequence[] educationItems = {
+        			getString(R.string.ads_unknown), 
+        			getString(R.string.ads_high_school),
+        			getString(R.string.ads_some_college),
+        			getString(R.string.ads_in_college), 
+        			getString(R.string.ads_bachelors_degree), 
+        			getString(R.string.ads_masters_degree),
+        			getString(R.string.ads_doctoral_degree)};
+        	return buildEnumDialog(getString(R.string.ads_education), educationItems);
         case ETHNICITY_DIALOG_ID:
-        	final CharSequence[] ethnicityItems = {"Unknown", "Mixed", "Asian",
-					 "Black", "Hispanic", "Native American", "White"};
-        	return buildEnumDialog("Ethnicity", ethnicityItems);
+        	final CharSequence[] ethnicityItems = {
+        			getString(R.string.ads_unknown), 
+        			getString(R.string.ads_mixed), 
+        			getString(R.string.ads_asian),
+        			getString(R.string.ads_black),
+        			getString(R.string.ads_hispanic),
+        			getString(R.string.ads_native_american),
+        			getString(R.string.ads_white)};
+        	return buildEnumDialog(getString(R.string.ads_ethnicity), ethnicityItems);
         case GENDER_DIALOG_ID:
-        	final CharSequence[] genderItems = {"Unknown", "Male", "Female"};
+        	final CharSequence[] genderItems = {
+        			getString(R.string.ads_unknown),
+        			getString(R.string.ads_male),
+        			getString(R.string.ads_female)};
         	return buildEnumDialog("Gender", genderItems);
         case DATING_GENDER_DIALOG_ID:
-        	final CharSequence[] datingGenderItems = {"Unknown", "Male", "Female", "Both"};
-        	return buildEnumDialog("Dating Gender", datingGenderItems);
+        	final CharSequence[] datingGenderItems = {
+        			getString(R.string.ads_unknown),
+        			getString(R.string.ads_male),
+        			getString(R.string.ads_female),
+        			getString(R.string.ads_both)};
+        	return buildEnumDialog(getString(R.string.ads_dating_gender), datingGenderItems);
         case MARITAL_STATUS_DIALOG_ID:
-        	final CharSequence[] maritalStatusItems = {"Unknown", "Single Available",
-        			"Single Unavailable", "Married"};
-        	return buildEnumDialog("Marital Status", maritalStatusItems);
+        	final CharSequence[] maritalStatusItems = {
+        			getString(R.string.ads_unknown),
+        			getString(R.string.ads_single_available),
+        			getString(R.string.ads_single_unavailable),
+        			getString(R.string.ads_married)};
+        	return buildEnumDialog(getString(R.string.ads_marital_status), maritalStatusItems);
         case RELIGION_DIALOG_ID:
-        	final CharSequence[] religionItems = {"Unknown", "Buddhism", "Christianity",
-        			"Hinduism", "Islam", "Judaism", "Unaffiliated", "Other"};
-        	return buildEnumDialog("Religion", religionItems);
+        	final CharSequence[] religionItems = {
+        			getString(R.string.ads_unknown),
+        			getString(R.string.ads_buddhism),
+        			getString(R.string.ads_christianity),
+        			getString(R.string.ads_hinduism),
+        			getString(R.string.ads_islam),
+        			getString(R.string.ads_judaism),
+        			getString(R.string.ads_unaffiliated),
+        			getString(R.string.ads_other)};
+        	return buildEnumDialog(getString(R.string.ads_religion), religionItems);
         case INCOME_DIALOG_ID:
-        	return buildEditTextDialog("Income");
+        	return buildEditTextDialog(getString(R.string.ads_income));
         case AREA_CODE_DIALOG_ID:
-        	return buildEditTextDialog("Area Code");
+        	return buildEditTextDialog(getString(R.string.ads_area_code));
         case CITY_DIALOG_ID:
-        	return buildEditTextDialog("City");
+        	return buildEditTextDialog(getString(R.string.ads_city));
         case COUNTRY_DIALOG_ID:
-        	return buildEditTextDialog("Country");
+        	return buildEditTextDialog(getString(R.string.ads_country));
         case DMA_CODE_DIALOG_ID:
-        	return buildEditTextDialog("DMA Code");
+        	return buildEditTextDialog(getString(R.string.ads_dma_code));
         case METRO_CODE_DIALOG_ID:
-        	return buildEditTextDialog("Metro Code");
+        	return buildEditTextDialog(getString(R.string.ads_metro_code));
         case POSTAL_CODE_DIALOG_ID:
-        	return buildEditTextDialog("Postal Code");
+        	return buildEditTextDialog(getString(R.string.ads_postal_code));
         case REGION_DIALOG_ID:
-        	return buildEditTextDialog("Region");
+        	return buildEditTextDialog(getString(R.string.ads_region));
         }
         return null;
     }
@@ -309,7 +341,7 @@ public class MobclixDemographicsActivity extends Activity implements MobclixFeed
         dialogView.setSingleLine(true);
         dialogViews.put("" + id, dialogView);
     	builder.setView(dialogView);
-    	builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+    	builder.setPositiveButton(getString(R.string.ads_set), new DialogInterface.OnClickListener() {
 			@SuppressWarnings("unchecked")
 			public void onClick(DialogInterface dialog, int which) {
 				String t = dialogView.getText().toString();

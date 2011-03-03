@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- android:background="#888888" -->
 <TextView  
     xmlns:android="http://schemas.android.com/apk/res/android"  
     android:id="@+id/list_header_title"  
@@ -7,5 +8,4 @@
     android:paddingTop="2dip"  
     android:paddingBottom="2dip"  
     android:paddingLeft="5dip"
-    android:background="#888888"
     style="?android:attr/windowTitleStyle" />
