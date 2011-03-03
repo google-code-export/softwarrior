@@ -39,10 +39,10 @@ public class MobclixRatingsActivity extends Activity implements MobclixFeedback.
     }
 
     public void onFailure() {
-		Toast.makeText(MobclixRatingsActivity.this, "Ratings failed!", 10).show();
+		Toast.makeText(MobclixRatingsActivity.this, getString(R.string.ads_ratings_failed), 10).show();
 	}
 
 	public void onSuccess() {
-		Toast.makeText(MobclixRatingsActivity.this, "Ratings sent!", 10).show();
+		Toast.makeText(MobclixRatingsActivity.this, getString(R.string.ads_ratings_sent), 10).show();
 	}
 }

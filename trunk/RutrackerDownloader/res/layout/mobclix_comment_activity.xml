@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- android:background="#FFFFFF" -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFFFFF">
+    android:layout_height="fill_parent">
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +17,7 @@
 		android:paddingBottom="10dp"
 		android:gravity="top" />
  	<Button android:id="@+id/submit"
-		android:text="Submit"
+		android:text="@string/ads_submit"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"/>
 </LinearLayout>

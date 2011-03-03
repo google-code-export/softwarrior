@@ -35,10 +35,10 @@ public class MobclixCommentActivity extends Activity implements MobclixFeedback.
     }
 
 	public void onFailure() {
-		Toast.makeText(MobclixCommentActivity.this, "Comment failed!", 10).show();
+		Toast.makeText(MobclixCommentActivity.this, getString(R.string.ads_comment_failed), 10).show();
 	}
 
 	public void onSuccess() {
-		Toast.makeText(MobclixCommentActivity.this, "Comment sent!", 10).show();
+		Toast.makeText(MobclixCommentActivity.this, getString(R.string.ads_comment_sent), 10).show();
 	}
 }

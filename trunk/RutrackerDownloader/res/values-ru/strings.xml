@@ -123,7 +123,7 @@
 	<string name="text_download_stopped">Скачивание остановлено</string>	
 	<string name="text_download_paused">Скачивание приостановлено</string>
 
-	<string name="url_help">file:///android_asset/help_ru/help.html</string>
+	
 	<string name="help_activity_name">Помощь</string>
 	
     <!-- File manager -->
@@ -184,7 +184,7 @@
     <string name="send_not_available">Нет доступного приложения для передачи.</string>    
     <string name="application_not_available">Приложение не доступно</string>            	
     <string name="mobile_advertising_message">Если у Вас есть свой бизнес или продукт Вы можете использовать Мобильную Рекламу.\n
-    Какие преимущества у Мобильной Рекламы:\n
+ Какие преимущества у Мобильной Рекламы:\n
 - Низкая стоимость\n
 - Большая аудитория\n
 - Удобный мониторинг результатов и онлайн управление всем процессом\n
@@ -232,5 +232,73 @@
     <string name="sync">Синхронизация</string>
     
     <string name="reset_notify_user">Обновить уведомление пользователя</string>
-		
+    
+    <string name="ads_revenue">Реклама</string>
+    <string name="ads_advertising">Реклама</string>
+    <string name="ads_feedback">Обратная связь</string>
+    <string name="ads_ratings">Рейтинг</string>
+    <string name="ads_comment">Комментарии</string>
+    <string name="ads_demographics">Ваши данные</string>
+    <string name="ads_submit">Послать</string>
+    <string name="ads_usability">Удобство использования</string>
+    <string name="ads_appearance">Внешний вид</string>
+    <string name="ads_recommend">Рекомендовать другим</string>
+    <string name="ads_performance">Производительность</string>
+    <string name="ads_overall">Общий рейтинг</string>
+    
+    		
+<string name="ads_white">Европеоид</string>
+    <string name="ads_hinduism">Индуизм</string>
+    <string name="ads_city">Город</string>
+    <string name="ads_christianity">Христианство</string>
+    <string name="ads_native_american">Коренной американец</string>
+    <string name="ads_masters_degree">Степень магистра</string>
+    <string name="ads_geographic">Где живете</string>
+    <string name="ads_other">Другие</string>
+    <string name="ads_dma_code">DMA код (для Американцев)</string>
+    <string name="ads_ratings_sent">Оценки отправлены</string>
+    <string name="ads_ethnicity">Рассовая принадлежность</string>
+    <string name="ads_unknown">Не знаю</string>
+    <string name="ads_education">Образование</string>
+    <string name="ads_buddhism">Буддизм</string>
+    <string name="ads_hispanic">Латиноамериканец</string>
+    <string name="ads_postal_code">Почтовый код</string>
+    <string name="ads_mixed">Метис</string>
+    <string name="ads_income">Доход</string>
+    <string name="ads_unaffiliated">Атэист</string>
+    <string name="ads_caption">Заголовок</string>
+    <string name="ads_doctoral_degree">Докторская</string>
+    <string name="ads_region">Регион</string>
+    <string name="ads_in_college">В колледже</string>
+    <string name="ads_marital_status">Семейное положение</string>
+    <string name="ads_set">Установить</string>
+    <string name="ads_country">Страна</string>
+    <string name="ads_area_code">Код страны (Россия 7)</string>
+    <string name="ads_islam">Ислам</string>
+    <string name="ads_some_college">Колледж</string>
+    <string name="ads_gender">Пол</string>
+    <string name="ads_personal">Личное</string>
+    <string name="ads_married">Женат (замужем)</string>
+    <string name="ads_judaism">Иудаизм</string>
+    <string name="ads_dating_gender">Пол при рождении (ох уж эти американцы)</string>
+    <string name="ads_birthdate">Дата рождения</string>
+    <string name="ads_religion">Религия</string>
+    <string name="ads_demographics_failed">Данные  не отправлены</string>
+    <string name="ads_bachelors_degree">Степень бакалавра</string>
+    <string name="ads_single_unavailable">Один, занят</string>
+    <string name="ads_black">Негроид</string>
+    <string name="ads_female">Женщина</string>
+    <string name="ads_single_available">Один, свободен</string>
+    <string name="ads_both">Оба</string>
+    <string name="ads_ratings_failed">Оценки не отправлены</string>
+    <string name="ads_demographics_sent">Данные отправлены</string>
+    <string name="ads_metro_code">Metro код (для американцев)</string>
+    <string name="ads_title">Название</string>
+    <string name="ads_male">Мужчина</string>
+    <string name="ads_asian">Азиат</string>
+    <string name="ads_high_school">Высокая школы</string>
+    <string name="ads_full_screen_ad_loaded">Полноэкранная реклама загружена</string>  
+    <string name="ads_comment_failed">Комментарии не отосланы</string>
+    <string name="ads_comment_sent">Комментарии отосланы</string>                
+    <string name="url_help">file:///android_asset/help_ru/help.html</string>
 </resources>

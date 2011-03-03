@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- android:background="#FFFFFF" -->
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#FFFFFF">
+    android:layout_height="fill_parent">
     <LinearLayout
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
@@ -11,14 +12,12 @@
 	        android:id="@+id/advertising_rectangle_view"
 	        android:layout_height="250dp"
 	        android:layout_width="300dp"
-	        android:layout_gravity="center"
-	    />
+	        android:layout_gravity="center"/>
 	    <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
 	        android:id="@+id/advertising_banner_view"
 	        android:layout_height="50dp"
 	        android:layout_width="320dp"
-	        android:layout_gravity="center"
-	    />
+	        android:layout_gravity="center"/>
 	    <Button android:id="@+id/refresh_ads"
 			android:text="@string/refresh_ads"
 			android:layout_width="fill_parent"

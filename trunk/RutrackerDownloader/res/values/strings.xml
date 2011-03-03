@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Rutracker Downloader</string>
     <string name="app_desc">The program to search and download content from rutracker.org</string>
-	
+    	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
@@ -123,7 +123,7 @@
 	<string name="text_download_stopped">Download Stopped</string>	
 	<string name="text_download_paused">Download Paused</string>
 
-	<string name="url_help">file:///android_asset/help_en/help.html</string>
+	
 	<string name="help_activity_name">Help</string>
 	
     <!-- File manager -->
@@ -186,15 +186,14 @@
     
     <string name="send_not_available">No application available for sending.</string>    
     <string name="application_not_available">Application not available</string>            	
-    <string name="mobile_advertising_message">
-        If you have business or product you can use Mobile Advertising.\n\n
-        Why Mobile Advertising:\n
-        - Advertisers Ads drive brand awareness and new user acquisition\n 
-        - Agencies Turnkey solutions to extend campaigns to mobile\n
-        - App Developers Distribution and monetization platform\n
-        - Mobile Web Publishers Earn revenue by serving ads\n\n
-        If you would like to use Mobile Advertising, contact to me.\n
-        Please see contact information in the About page.
+    <string name="mobile_advertising_message">If you have business or product you can use Mobile Advertising.\n\n
+Why Mobile Advertising:\n
+- Advertisers Ads drive brand awareness and new user acquisition\n 
+- Agencies Turnkey solutions to extend campaigns to mobile\n
+- App Developers Distribution and monetization platform\n
+- Mobile Web Publishers Earn revenue by serving ads\n\n
+If you would like to use Mobile Advertising, contact to me.\n
+Please see contact information in the About page.
     </string>
 
     <!-- ABOUT -->
@@ -236,5 +235,72 @@
     <string name="sync">Sync</string>
     
     <string name="reset_notify_user">Reset Notify User</string>
-
+    
+    <string name="ads_revenue">Revenue</string>
+    <string name="ads_advertising">Advertising</string>
+    <string name="ads_feedback">Feedback</string>
+    <string name="ads_ratings">Ratings</string>
+    <string name="ads_comment">Comment</string>
+    <string name="ads_demographics">Demographics</string>
+    <string name="ads_submit">Submit</string>
+    <string name="ads_usability">Usability</string>
+    <string name="ads_appearance">Appearance</string>
+    <string name="ads_recommend">Recommend</string>
+    <string name="ads_performance">Performance</string>
+    <string name="ads_overall">Overall</string>
+    <string name="ads_ratings_sent">Ratings sent</string>
+    <string name="ads_ratings_failed">Ratings failed</string>
+    <string name="ads_region">Region</string>
+    <string name="ads_postal_code">Postal code</string>
+    <string name="ads_metro_code">Metro code</string>
+    <string name="ads_dma_code">DMA code</string>
+    <string name="ads_country">Country</string>
+    <string name="ads_city">City</string>
+    <string name="ads_area_code">Area code</string>
+    <string name="ads_income">Income</string>
+    <string name="ads_religion">Religion</string>
+    <string name="ads_other">Other</string>
+    <string name="ads_unaffiliated">Unaffiliated</string>
+    <string name="ads_judaism">Judaism</string>
+    <string name="ads_islam">Islam</string>
+    <string name="ads_hinduism">Hinduism</string>
+    <string name="ads_christianity">Christianity</string>
+    <string name="ads_buddhism">Buddhism</string>
+    <string name="ads_unknown">Unknown</string>
+    <string name="ads_marital_status">Marital status</string>
+    <string name="ads_married">Married</string>
+    <string name="ads_single_unavailable">Single unavailable</string>
+    <string name="ads_single_available">Single available</string>
+    <string name="ads_dating_gender">Dating gender</string>
+    <string name="ads_both">Both</string>
+    <string name="ads_female">Female</string>
+    <string name="ads_male">Male</string>
+    <string name="ads_ethnicity">Ethnicity</string>
+    <string name="ads_white">White</string>
+    <string name="ads_native_american">Native american</string>
+    <string name="ads_hispanic">Hispanic</string>
+    <string name="ads_black">Black</string>
+    <string name="ads_asian">Asian</string>
+    <string name="ads_mixed">Mixed</string>
+    <string name="ads_education">Education</string>
+    <string name="ads_doctoral_degree">Doctoral degree</string>
+    <string name="ads_masters_degree">Masters degree</string>
+    <string name="ads_bachelors_degree">Bachelors degree</string>
+    <string name="ads_in_college">In college</string>
+    <string name="ads_some_college">Some college</string>
+    <string name="ads_high_school">High school</string>
+    <string name="ads_demographics_sent">Demographics sent</string>
+    <string name="ads_demographics_failed">Demographics failed</string>
+    <string name="ads_geographic">Geographic</string>
+    <string name="ads_personal">Personal</string>
+    <string name="ads_gender">Gender</string>
+    <string name="ads_birthdate">Birthdate</string>
+    <string name="ads_caption">Caption</string>
+    <string name="ads_title">Title</string>  
+    <string name="ads_set">Set</string>
+    <string name="ads_full_screen_ad_loaded">Full screen Ad loaded</string>
+    <string name="ads_comment_failed">Comment failed</string>
+    <string name="ads_comment_sent">Comment sent</string>
+    
+<string name="url_help">file:///android_asset/help_en/help.html</string>
 </resources>

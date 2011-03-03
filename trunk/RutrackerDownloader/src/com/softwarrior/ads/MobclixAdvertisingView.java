@@ -100,7 +100,7 @@ public class MobclixAdvertisingView extends Activity implements MobclixAdViewLis
 		return false;
 	}
 	
-	public String keywords()	{ return "demo,mobclix";}
+	public String keywords()	{ return "sport,tabaco,sex,girl,boy,taxy,flowers,eat,fly,train,game,buy";}
 	public String query()		{ return "query";}
 	
 	public void onDismissAd(MobclixFullScreenAdView adview) {
@@ -114,7 +114,7 @@ public class MobclixAdvertisingView extends Activity implements MobclixAdViewLis
 	}
 	public void onFinishLoad(MobclixFullScreenAdView adview) {
 		Log.v(RutrackerDownloaderApp.TAG, "MobclixFullScreenAdView loaded.");
-		Toast.makeText(this, "Full Screen Ad loaded.", 10).show();
+		Toast.makeText(this, getString(R.string.ads_full_screen_ad_loaded), 10).show();
 		getFSAd.setEnabled(false);
 		displayFSAd.setEnabled(true);
 		getAndDisplayFSAd.setEnabled(false);
