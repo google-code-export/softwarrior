@@ -8,4 +8,5 @@
     android:paddingTop="2dip"  
     android:paddingBottom="2dip"  
     android:paddingLeft="5dip"
-    style="?android:attr/windowTitleStyle" />
+    style="?android:attr/windowTitleStyle" 
+    android:textColor="#000000"/>   
