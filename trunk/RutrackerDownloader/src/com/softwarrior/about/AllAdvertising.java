@@ -2,7 +2,6 @@ package com.softwarrior.about;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,9 +16,9 @@ import com.adwhirl.AdWhirlLayout;
 import com.adwhirl.AdWhirlManager;
 import com.adwhirl.AdWhirlTargeting;
 import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
-import com.millennialmedia.android.MMAdView;
-import com.millennialmedia.android.MMAdView.MMAdListener;
 
+import com.smaato.SOMA.SOMABanner;
+import com.smaato.SOMA.SOMADialog;
 import com.softwarrior.rutrackerdownloader.FullWakeActivity;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
@@ -38,25 +37,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, /*InMobiAdDelegate,*/ AdWhirlInterface  {
-
+public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, AdWhirlInterface  {
 	
-		//declare adview object
-		MMAdView mMMAdview;
-		MMAdListener mMMListener;
-		//declare your APID, given to you by Millennial Media
-		final static String MYAPID = "36737";
-		AllAdvertising mThis;
-	
-		//InMobi
-//		private InMobiAdView mIMAdView;
+		private AllAdvertising mThis;
+		
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
 	
 		//AdMob 
 		private InterstitialAd mInterstitialAd;
-	  	private AdView 		 mAdView;
-	  
+	  	private AdView 		 mAdView;	  	
+		//smaato
+	  	private SOMABanner mBanner;
+	  	
 		public enum MenuType{
 			About, Help, FileManager, Exit;
 		}
@@ -67,6 +60,22 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	        setContentView(R.layout.all_advertising);
 	        LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
 
+		  	//smaato
+		  	mBanner = (SOMABanner)findViewById(R.id.BannerView);
+		  	mBanner.setPubID("923834030");
+		  	mBanner.setAdID("65737629");
+		  	mBanner.setDefaultLocation(false);
+		  	mBanner.setLocation(37.331689,-122.030731);
+		  	mBanner.setMediaType("ALL");
+		  	mBanner.nextAd(30);
+		  	mBanner.setAnimationOn(true);
+		  	mBanner.setKeywordSearch("Android,California");
+		  	mBanner.setQuerySearch("red car,mini");
+		  	mBanner.setAge(35);
+		  	mBanner.fetchDrawableOnThread();
+		  	SOMADialog d = new SOMADialog(this);
+		  	d.show();	        
+	        
 	        //AdWhirl
 		    // These are density-independent pixel units, as defined in
 		    // http://developer.android.com/guide/practices/screens_support.html
@@ -99,67 +108,6 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		    adWhirlLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 		    myLayout.addView(adWhirlLayout, adWhirlLayoutParams);
 
-	        /* Millennial Media Ad View Integration
-	         * 1) If passing Meta Values to increase ad accuracy, instantiate a
-	         * hashtable and pass in data as Key-Value pairs. All KV pairs are optional.
-	         * 
-	         * 2) Required. Instantiate a new MMAdView and pass the following required values:
-	         * 		- Context. "this"
-	         * 		- APID: This number uniquely identifies your application and is given to you by Millennial Media	
-	         * 		- Refresh ads: refresh delay in seconds. Set to 0 for no refresh. Minimum is 30 seconds.
-	         *      - Test Mode: true to test that you are properly receiving ads
-	         * **Optional**:
-	         * 		- Hashtable of meta values, includes: age, gender, marital status, zip code, income, latitude, longitude
-	         * 		- Accelerometer disable: boolean variable to disable accelerometer ads if your app uses the accelerometer. Refer to documentation to implement
-	         */
-	        Hashtable<String, String> map = new Hashtable<String, String>();
-	        map.put("age", "45");
-	        map.put("gender", "male");
-	        map.put("zip", "21224");
-	        map.put("marital", "single");
-	        map.put("orientation", "straight");
-	        map.put("ethnicity", "hispanic");
-			map.put("education", "college");
-			map.put("children", "2");
-			map.put("politics", "moderate");
-	        map.put("income", "50000");
-	        map.put("keywords", "soccer");
-	        map.put("height", "53");  
-	        map.put("width", "320"); 
-	             
-	        //create an adview
-
-	        mMMAdview = new MMAdView(this, MYAPID, "MMBannerAdTop", 30, true, map);
-	        
-	        //adview = new MMAdView(this.getApplicationContext(), MYAPID, "MMBannerAdTop", 30, false);
-
-			/* Use the appropriate instantiation of the MMAdView for the ad type you wish to display */
-			//adview = new MMAdView((Activity) this, MYAPID, "MMBannerAdBottom", 60, true, map);
-			//adview = new MMAdView((Activity) this, MYAPID, "MMBannerAdRectangle", 60, true, map);
-			//adview = new MMAdView((Activity) this, MYAPID, "MMFullScreenAdLaunch", 0, true, map);
-			//adview = new MMAdView((Activity) this, MYAPID, "MMFullScreenAdTransition", 0, true, map);
-	        
-	        //LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
-	        //add the object to the view layout
-	        myLayout.addView(mMMAdview, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-	        
-	        /* Implement this code and the listener methods below if you want to received notifications
-	         * of events occurring within the SDK
-	         */
-	        mMMListener = new MyMMAdListener();
-	        mMMAdview.setListener(mMMListener);
-	               
-	        /* Use this to call for an ad if you have disabled automatic ad calls. The refresh
-	         * delay must be set to -1 to use this method.
-	         */
-	        //adview.callForAd();
-	        
-	        /* Use this code if you want to participate in Millennial Media's
-	         * app conversion tracking.
-	         */
-	        //adview.startConversionTrackerWithGoalId("YOUR_GOAL_ID");
-	        
-	        
 	        mThis = this;
 	    	Button button = new Button(this);
 	    	button.setOnClickListener(new OnClickListener() {
@@ -182,20 +130,8 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	        
 	        myLayout.invalidate();
 	        
-	        //Zestadz
-	        // RelativeLayout layout = new RelativeLayout(this);
-	        //ZestadzAd zestAd = new ZestadzAd(this);
-	        //layout.addView(zestAd);
-	        //setContentView(layout);
-
-	        
-	        //InMoby
-//	        mIMAdView = (InMobiAdView) findViewById(R.id.adview);
-//	        mIMAdView.initialize(this.getApplicationContext(), this, this, InMobiAdDelegate.INMOBI_AD_UNIT_320X48);
-//	        mIMAdView.loadNewAd();
 	        mAdRefreshTimer = new Timer();
 	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
-
 	        
 	        //AdMob
 	        AdManager.setPublisherId("a14d5a500187b19");
@@ -217,17 +153,13 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 			mInterstitialAd = new InterstitialAd(Event.SCREEN_CHANGE, this);
 			mInterstitialAd.requestAd(this); //request an ad now so it's ready when we want to show it			
 		}  
-
 	   
-	    private class AdRefreshTimerTask extends TimerTask {
-			
+	    private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
-//				mIMAdView.loadNewAd();
 				mAdView.requestFreshAd();
 			}	    	
-	    }
-	   
+	    }	   
 	   @Override
 		public boolean onCreateOptionsMenu(Menu menu) {
 			super.onCreateOptionsMenu(menu);
@@ -236,8 +168,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 			menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager); 
 			menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 			return true;
-		}
-		
+		}		
 		@Override
 		public boolean onMenuItemSelected(int featureId, MenuItem item) {
 			super.onMenuItemSelected(featureId, item);
@@ -258,21 +189,19 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 			} break;
 			}
 			return true;
-		}
-	   	
+		}	   	
 		@Override 
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
 			if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
 				RutrackerDownloaderApp.FinalCloseApplication(this);
 			return super.onKeyDown(keyCode,event); 
-		}
-		
+		}		
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
+	    	mBanner.setAutoRefresh(true);
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-	    }
-	    
+	    }	    
 	    @Override
 	    protected void onPause() {
 	    	super.onPause();
@@ -280,31 +209,14 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    		mAdRefreshTimer.cancel(); 
 	    		mAdRefreshTimer = null;
 	    	}
-//	        ZestadzAd.stopAdpull();
-	        mMMAdview.halt();
-	    }
-	    
-	    @Override
-	    protected void onStop() {
-	    	super.onStop();
-//	    	ZestadzAd.stopAdpull();
-	    }
-	    
+	    	mBanner.setAutoRefresh(false);
+	    }	    
 	    @Override
 	    protected void onRestart() {
 	    	super.onRestart();
 	    	mAdRefreshTimer = new Timer();
 	    	mAdRefreshTimer.schedule(new AdRefreshTimerTask(), 0, mAdRefreshTime);
-	    }
-	    
-		@Override
-		protected void onDestroy() {
-			super.onDestroy();
-			//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-		}
-		
-        //TODO: Need to show animation picture with girl
-		
+	    }	    		
 	    //If we fail to receive an interstitial ad, we just keep going on with our application loading and execution.
 		public void onFailedToReceiveInterstitial(InterstitialAd interstitialAd) {
 	      // we couldn't get an interstitial ad before the start. to do ...
@@ -312,14 +224,12 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    	//Back to AdView showing
 	      }
 	    }
-
 	    //If we get an interstitial ad successfully, we can show the ad. 
 		public void onReceiveInterstitial(InterstitialAd interstitialAd) {
 	      if(interstitialAd == mInterstitialAd) {
 	        mInterstitialAd.show(this);
 	      }
-	    }
-				
+	    }				
 	    //After the ad has been shown, it will return with an activity result where
 	    //ADMOB_INTENT_BOOLEAN is true.  Once you receive this result you can continue
 	    //application loading and execution.
@@ -339,8 +249,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    	if(data != null && data.getBooleanExtra(InterstitialAd.ADMOB_INTENT_BOOLEAN, false)) {
 	    		//Back to AdView showing
 	    	}
-	    }
-	    	    	    		  
+	    }	    	    	    		  
 		private class AdvertisingListener extends SimpleAdListener {
 			@Override
 			public void onFailedToReceiveAd(AdView adView){
@@ -358,8 +267,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 			public void onReceiveRefreshedAd(AdView adView){
 				super.onReceiveRefreshedAd(adView);
 			}			
-		}
-		
+		}		
 		public void onFailedToReceiveAd(AdView adView) {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveAd");
 		}
@@ -372,93 +280,6 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		public void onReceiveRefreshedAd(AdView adView){
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
 		}
-//		//InMobi
-//		public void adRequestCompleted(InMobiAdView arg0) {
-//			Log.v(RutrackerDownloaderApp.TAG, "inmobi ad request completed");						
-//		}
-//		public void adRequestFailed(InMobiAdView arg0) {
-//			Log.v(RutrackerDownloaderApp.TAG, "inmobi ad request failed");			
-//		}
-//		public String siteId() {
-//			return "ff8080812e3c9951012e4fed9f2d00ab";
-//		}
-//		public boolean testMode() {
-//			return true;
-//		}		
-//		public int age() {
-//			return 0;
-//		}
-//		public String areaCode() {
-//			return null;
-//		}
-//		public Location currentLocation() {
-//			return null;
-//		}
-//		public Date dateOfBirth() {
-//			return null;
-//		}
-//		public EducationType education() {
-//			return null;
-//		}
-//		public EthnicityType ethnicity() {
-//			return null;
-//		}
-//		public GenderType gender() {
-//			return null;
-//		}
-//		public int income() {
-//			return 0;
-//		}
-//		public String interests() {
-//			return null;
-//		}
-//		public boolean isLocationInquiryAllowed() {
-//			return false;
-//		}
-//		public boolean isPublisherProvidingLocation() {
-//			return false;
-//		}
-//		public String keywords() {
-//			return null;
-//		}
-//		public String postalCode() {
-//			return null;
-//		}
-//		public String searchString() {
-//			return null;
-//		}
-		//millennialmedia
-	    /* Methods to implement as part of the listener interface */    
-	    public class MyMMAdListener implements MMAdListener 
-	    {
-	    	public void MMAdFailed(MMAdView adview)
-	    	{
-	    		Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad View Failed" );
-	    	}
-
-	    	public void MMAdReturned(MMAdView adview)
-	    	{
-	    		Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad View Success" );
-	    	}
-	    	
-			public void MMAdClickedToNewBrowser(MMAdView adview)
-			{
-				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad clicked, new browser launched" );
-			}
-			
-			public void MMAdClickedToOverlay(MMAdView adview)
-			{
-				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad Clicked to overlay" );
-			}
-			
-			public void MMAdOverlayLaunched(MMAdView adview)
-			{
-				Log.v(RutrackerDownloaderApp.TAG, "Millennial Ad Overlay Launched" );
-			}		
-	    }
-
-		public void adWhirlGeneric() {
-			// TODO Auto-generated method stub
-			
+		public void adWhirlGeneric() {			
 		}		
 }

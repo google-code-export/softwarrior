@@ -1,6 +1,6 @@
 package com.softwarrior.rutrackerdownloader;
 
-import com.softwarrior.about.AllAdvertising;
+import com.softwarrior.ads.MobclixActivity;
 
 import android.app.TabActivity;
 import android.os.Bundle;
@@ -64,7 +64,7 @@ public class PreferencesTabs extends TabActivity {
 
         tabHost.addTab(tabHost.newTabSpec("tab_advertising")
                 .setIndicator(getString(R.string.tab_advertising))
-                .setContent(new Intent(this, AllAdvertising.class)));      
+                .setContent(new Intent(this, MobclixActivity.class)));      
         
         Bundle bundle = this.getIntent().getExtras();
         if(bundle != null){
@@ -74,7 +74,7 @@ public class PreferencesTabs extends TabActivity {
 	        	tabHost.setCurrentTabByTag(currentTab);
 	        }
         }
-        startService(new Intent(this, DownloadService.class));
+        startService(new Intent(this, MobclixActivity.class));
         
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
     }    

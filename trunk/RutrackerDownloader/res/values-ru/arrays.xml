@@ -38,8 +38,8 @@
     </string-array>
     
     <string-array name="yes_no">
-        <item>Yes</item>
-        <item>No</item>
+        <item>Да</item>
+        <item>Нет</item>
     </string-array>
     
     <string-array name="log_level">
