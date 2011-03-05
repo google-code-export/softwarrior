@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Used in download_preferences.xml -->
+    <string-array name="entries_preferences_proxy_type">
+        <item>none</item>
+        <item>socks4</item>
+        <item>socks5</item>
+        <item>socks5 pw</item>
+        <item>http</item>
+        <item>http pw</item>
+    </string-array>
+
+     <!-- Used in download_preferences.xml -->
+    <string-array name="entryvalues_preferences_proxy_type">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+     
+    <string-array name="about_authors"><!-- Add your name here if you helped out -->
+        <item></item>
+    </string-array>
+    
+    <string-array name="about_documenters"><!-- Add your name here if you helped out -->
+        <item></item>
+    </string-array>
+    
+    <string-array name="about_translators"><!-- Add your name here if you helped out, but only in the arrays.xml for the localization that you helped to translate into! -->
+        <item></item> 
+    </string-array>
+    
+    <string-array name="about_artists"><!-- Add your name here if you helped out -->
+        <!-- <item></item>  -->
+    </string-array>
+    
+    <string-array name="yes_no">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    
+    <string-array name="log_level">
+        <item>DEBUG</item>
+        <item>INFO</item>
+        <item>WARN</item>
+        <item>ERROR</item>
+        <item>FATAL</item>
+    </string-array>
+
+</resources>
