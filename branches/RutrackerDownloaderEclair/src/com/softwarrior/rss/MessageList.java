@@ -82,7 +82,7 @@ public class MessageList extends ListActivity {
     } 
     
     @Override
-    protected Dialog onCreateDialog(int id, Bundle args) {
+    protected Dialog onCreateDialog(int id) {
         switch (id) {
         case DIALOG_KEY: {
             ProgressDialog dialog = new ProgressDialog(this);
@@ -92,7 +92,7 @@ public class MessageList extends ListActivity {
             return dialog;
         } 
         }
-    	return super.onCreateDialog(id, args);
+    	return super.onCreateDialog(id);
     }
     
     @Override

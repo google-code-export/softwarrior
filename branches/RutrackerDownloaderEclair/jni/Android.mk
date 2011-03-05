@@ -13,7 +13,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/libiconv/include \
 	$(LOCAL_PATH)/libiconv/lib \
 	$(LOCAL_PATH)/libiconv \
 	$(LOCAL_PATH)/libiconv/libcharset/lib
-    	
+LOCAL_CPP_EXTENSION := c    	
 LOCAL_SRC_FILES := libiconv/lib/iconv.c \
      libiconv/libcharset/lib/localcharset.c \
      libiconv/lib/relocatable.c
@@ -30,7 +30,7 @@ LOCAL_SRC_FILES := libboost/libboost_filesystem-gcc-mt-s-1_45.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
 LOCAL_EXPORT_LDLIBS := -lz 
 
-include $(PREBUILT_STATIC_LIBRARY) 
+include $(BUILT_STATIC_LIBRARY) 
 
 include $(CLEAR_VARS) 
 
@@ -39,7 +39,7 @@ LOCAL_SRC_FILES := libboost/libboost_system-gcc-mt-s-1_45.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
 LOCAL_EXPORT_LDLIBS := -lz
 
-include $(PREBUILT_STATIC_LIBRARY) 
+include $(BUILT_STATIC_LIBRARY) 
 
 
 include $(CLEAR_VARS) 
@@ -56,17 +56,54 @@ include $(CLEAR_VARS)
 
 LOCAL_CPP_EXTENSION := cpp
 LOCAL_MODULE := libtorrent
-LOCAL_CFLAGS := -DBOOST_NO_INTRINSIC_WCHAR_T \
-	-DBOOST_FILESYSTEM_NARROW_ONLY \
-	-DTORRENT_DISABLE_ENCRYPTION \
-	-DTORRENT_DISABLE_GEO_IP
-
-LOCAL_LDLIBS := -llog
+LOCAL_CFLAGS := -DTORRENT_DISABLE_ENCRYPTION \
+	-DTORRENT_DISABLE_GEO_IP \
+	-D_POSIX_MONOTONIC_CLOCK=1 \
+	-D__linux__ \
+	-nostdlib \
+	-fPIC \
+	-mthumb-interwork \
+	-ffunction-sections \
+	-funwind-tables \
+	-fstack-protector \
+	-DBOOST_THREAD_LINUX \
+	-DBOOST_ASIO_DISABLE_FENCED_BLOCK \
+	-DBOOST_HAS_PTHREADS \
+	-D__arm__ \
+	-D_REENTRANT \
+	-D_GLIBCXX__PTHREADS \
+	-DANDROID \
+	-D__ANDROID__ \
+	-fno-short-enums \
+	-D__ARM_ARCH_5__ \
+	-D__ARM_ARCH_5T__ \
+	-D__ARM_ARCH_5E__ \
+	-D__ARM_ARCH_5TE__ \
+	-march=armv5te \
+	-mtune=xscale \
+	-msoft-float \
+	-mthumb \
+	-fomit-frame-pointer \
+	-fno-strict-aliasing	
+	
+LOCAL_LDLIBS := -llog \
+	-lc \
+	-lm \
+	-lz
+	
 LOCAL_STATIC_LIBRARIES := libiconv \
 	libboost_filesystem \
 	libboost_system \
-	libboost_thread
+	libboost_thread \
+	libboost_iostreams \
+	libboost_date_time
 
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/libiconv/include \
+	$(LOCAL_PATH)/libiconv/lib \
+	$(LOCAL_PATH)/libiconv \
+	$(LOCAL_PATH)/libiconv/libcharset/lib
+
+LOCAL_CPP_EXTENSION := cpp
 LOCAL_SRC_FILES := libtorrent.cpp \
 	libtorrent/alert.cpp \
 	libtorrent/allocator.cpp \
