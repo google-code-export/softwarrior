@@ -13,12 +13,14 @@ import com.admob.android.ads.InterstitialAd.Event;
 
 import com.softwarrior.rutrackerdownloader.R;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -32,6 +34,10 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public static final String KEY_RUTRACKER="preferences_rutracker";
 		public static final String KEY_PORNOLAB="preferences_pornolab";
 
+		public enum SiteType{
+			RUTRACKER, PORNOLAB
+		}
+		
 //		private SiteChoice mThis;
 		
 		private Timer mAdRefreshTimer;
@@ -43,6 +49,16 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	  	
 		public enum MenuType{
 			About, Help, FileManager, Exit;
+		}
+
+		public static SiteType GetSite(Context context){
+			SiteType result = SiteType.RUTRACKER; 
+			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			if(preferences.getBoolean(KEY_RUTRACKER, true))
+				 result = SiteType.RUTRACKER;
+			else if(preferences.getBoolean(KEY_PORNOLAB, false))
+				 result = SiteType.PORNOLAB;
+			return result;
 		}
 
 	   @Override
@@ -226,11 +242,12 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			if(key.equals(KEY_RUTRACKER) && flag){
 				CheckBoxPreference pl = (CheckBoxPreference) preferences.findPreference(KEY_PORNOLAB);
 				pl.setChecked(false);
+				RutrackerDownloaderApp.SetupRutracker();
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
 				CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);
 				rt.setChecked(false);
+				RutrackerDownloaderApp.SetupPornolab();
 			}
-
 		}
 }

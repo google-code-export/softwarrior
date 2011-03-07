@@ -1,7 +1,5 @@
 package com.softwarrior.rutrackerdownloader;
 
-import com.softwarrior.ads.MobclixActivity;
-
 import android.app.TabActivity;
 import android.os.Bundle;
 import android.widget.TabHost;
@@ -72,7 +70,11 @@ public class PreferencesTabs extends TabActivity {
 	        	tabHost.setCurrentTabByTag(currentTab);
 	        }
         }
-        startService(new Intent(this, MobclixActivity.class));        
+        if(SiteChoice.GetSite(this) == SiteChoice.SiteType.RUTRACKER)
+        	RutrackerDownloaderApp.SetupRutracker();
+        else 
+        	RutrackerDownloaderApp.SetupPornolab();
+        startService(new Intent(this, DownloadService.class));         
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
     }    
 }
