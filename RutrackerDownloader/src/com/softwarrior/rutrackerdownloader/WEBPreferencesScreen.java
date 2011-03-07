@@ -22,18 +22,21 @@ import android.preference.PreferenceActivity;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceScreen;
 
 public final class WEBPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
 
 	String mString = new String();
+	PreferenceScreen mPSSearchOnSite;
 
 	public enum MenuType{
 		About, Help, FileManager, Exit;
 	}
-	
+		
 	//TITLE
 	public static final String KEY_SEARCH_STRING = "preferences_search_string";
+	public static final String KEY_SEARCH_ON_SITE = "preferences_search_on_site";
 
 	@Override
   protected void onCreate(Bundle icicle) {
@@ -61,6 +64,10 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   @Override
   protected void onResume() {
 	super.onResume();
+    if(SiteChoice.GetSite(this) == SiteChoice.SiteType.RUTRACKER) 
+    	mPSSearchOnSite.setSummary("rutracker.org");
+    else
+    	mPSSearchOnSite.setSummary("pornolab.net");
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
@@ -125,7 +132,12 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  for (int i = 0; i < pg.getPreferenceCount(); ++i) {
 		  Preference p = pg.getPreference(i);
 		  if (p instanceof PreferenceGroup)
+		  {	
+			  String key = p.getKey();
+			  if(key!= null && key.equals(KEY_SEARCH_ON_SITE))
+				  mPSSearchOnSite = (PreferenceScreen) p;			  
 			  InitSummaries((PreferenceGroup) p); // recursion
+		  }
 		  else
 			  SetSummary(p);
 	  }

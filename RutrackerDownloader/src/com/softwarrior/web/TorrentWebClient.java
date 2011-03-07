@@ -144,9 +144,9 @@ public class TorrentWebClient extends Activity {
 
     private void ManageDownloadButton(String current_url) {
     	if(mAction.equals("Show") || mAction.equals("Search")){        	
-	    	if(current_url.contains("http://rutracker.org/forum/viewtopic.php?t=")){
+	    	if(current_url.contains(RutrackerDownloaderApp.TorrentTopic)){
 	    		mCurrentUrl = current_url;
-	    		mDistributionNumber = current_url.replace("http://rutracker.org/forum/viewtopic.php?t=", "");
+	    		mDistributionNumber = current_url.replace(RutrackerDownloaderApp.TorrentTopic, "");
 	    		mDistributionNumber= mDistributionNumber.trim();
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
 	        	viewAnimator.setVisibility(View.VISIBLE);
@@ -234,7 +234,7 @@ public class TorrentWebClient extends Activity {
 		CookieSyncManager.getInstance().sync();
 		CookieManager cookieManager  = CookieManager.getInstance();	
 //		"http://rutracker.org/forum/viewtopic.php?t=2587860" 
-		RutrackerDownloaderApp.CookieData = cookieManager.getCookie("http://rutracker.org/forum/index.php");
+		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(RutrackerDownloaderApp.CookieUrl);
 		finish();
     }  
 }

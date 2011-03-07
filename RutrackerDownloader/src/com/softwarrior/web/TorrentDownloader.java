@@ -23,7 +23,7 @@ public class TorrentDownloader {
 	
 	public void Download(String DistributionNumber){
 		try{
-			URL url = new URL("http://dl.rutracker.org/forum/dl.php?t=" + DistributionNumber);				
+			URL url = new URL(RutrackerDownloaderApp.TorrentDL + DistributionNumber);				
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httppost = (HttpURLConnection) connection;
 			httppost.setDoInput(true);
@@ -38,7 +38,7 @@ public class TorrentDownloader {
 		    httppost.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.7");
 		    httppost.setRequestProperty("Keep-Alive", "300");
 		    httppost.setRequestProperty("Connection", "keep-alive");
-		    httppost.setRequestProperty("Referer", "http://rutracker.org/forum/viewtopic.php?t=" + DistributionNumber);
+		    httppost.setRequestProperty("Referer", RutrackerDownloaderApp.TorrentTopic + DistributionNumber);
 		    httppost.setRequestProperty("Cookie", mCookieData + "; bb_dl=" + DistributionNumber);
 		    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		    httppost.setRequestProperty("Content-Length", "0");

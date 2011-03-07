@@ -41,10 +41,21 @@ public class RutrackerDownloaderApp extends Application {
 
 	//Constants
 	public static final String	TAG = "Softwarrior";
-	public static final String	TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
 	public static final String	FeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
-	public static final String	SearchUrlPrefix = "http://rutracker.org/forum/search.php";
-	public static final String	SiteMap = "http://rutracker.org/forum/index.php?c=map";
+	
+	public static final String	RT_TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
+	public static final String	RT_SearchUrlPrefix = "http://rutracker.org/forum/search.php";
+	public static final String	RT_SiteMap = "http://rutracker.org/forum/index.php?c=map";
+	public static final String	RT_TorrentDL = "http://dl.rutracker.org/forum/dl.php?t=";
+	public static final String	RT_TorrentTopic = "http://rutracker.org/forum/viewtopic.php?t=";
+	public static final String	RT_CookieUrl = "http://rutracker.org/forum/index.php";
+	
+	public static final String	PL_TorrentLoginUrl = "http://pornolab.net/forum/login.php";
+	public static final String	PL_SearchUrlPrefix = "http://pornolab.net/forum/search.php";
+	public static final String	PL_SiteMap = "http://pornolab.net/forum/index.php?c=map";
+	public static final String	PL_TorrentDL = "http://pornolab.net/forum/dl.php?t=";
+	public static final String	PL_TorrentTopic = "http://pornolab.net/forum/viewtopic.php?t=";
+	public static final String	PL_CookieUrl = "http://pornolab.net/forum/index.php";
 	//Default Download Preferences constants
 	public static final int		ListenPort = 54312;
 	public static final int		UploadLimit = -1;
@@ -58,13 +69,39 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String 	TorrentSavePath = Environment.getExternalStorageDirectory()+"/";// + "/RutrackerDownloader";
 	
 	//Variables
+	public static String	TorrentLoginUrl = RT_TorrentLoginUrl;
+	public static String	SearchUrlPrefix = RT_SearchUrlPrefix;
+	public static String	SiteMap = RT_SiteMap;
+	public static String    TorrentDL = RT_TorrentDL;
+	public static String	TorrentTopic = RT_TorrentTopic;
+	public static String	CookieUrl = RT_CookieUrl;
+	
 	public static String	CookieData = new String();
 	//"http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&type=video_foreign_films&date=2010&name=the";
 	public static String	FeedUrl = new String();
 	//"http://rutracker.org/forum/search.php?nm=TEST"
 	public static String	SearchUrl = new String();
 	public static boolean	ExitState = false;	
+
 		
+	static public void SetupPornolab(){
+    	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
+    	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;
+    	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.PL_SiteMap;
+    	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.PL_TorrentDL;
+    	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.PL_TorrentTopic;
+    	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.PL_CookieUrl;
+	}
+
+	static public void SetupRutracker(){
+    	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.RT_TorrentLoginUrl;
+    	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.RT_SearchUrlPrefix;
+    	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.RT_SiteMap;        			
+    	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.RT_TorrentDL;
+    	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.RT_TorrentTopic;
+    	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.RT_CookieUrl;
+	}
+	
     static public void PreferencesScreenActivity(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
