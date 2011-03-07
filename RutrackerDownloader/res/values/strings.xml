@@ -301,6 +301,9 @@ Please see contact information in the About page.
     <string name="ads_full_screen_ad_loaded">Full screen Ad loaded</string>
     <string name="ads_comment_failed">Comment failed</string>
     <string name="ads_comment_sent">Comment sent</string>
-    
-<string name="url_help">file:///android_asset/help_en/help.html</string>
+    <string name="url_help">file:///android_asset/help_en/help.html</string>
+    <string name="site_choise">To activate the option to choose a site, click 1 time on advertising banner</string>
+    <string name="tab_site_choise">Sites</string>
+    <string name="preferences_pornolab_title">pornolab.net</string>
+    <string name="preferences_rutracker_title">rutracker.org</string>
 </resources>

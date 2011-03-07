@@ -11,8 +11,7 @@ public class PreferencesTabs extends TabActivity {
 		
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+        super.onCreate(savedInstanceState);        
         //Start the tracker in manual dispatch mode...
          RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
         // ...alternatively, the tracker can be started with a dispatch interval (in seconds).
@@ -45,8 +44,7 @@ public class PreferencesTabs extends TabActivity {
 //         Custom Variables:
 //         Custom variables are name-value pair tags that you can insert in your tracking code in order to refine Google Analytics tracking. 
 //         For more information on how you can use custom variables, read the Custom Variable Guide.
-         
-         
+                  
         final TabHost tabHost = getTabHost();        
                 
         tabHost.addTab(tabHost.newTabSpec("tab_web_search")
@@ -62,9 +60,9 @@ public class PreferencesTabs extends TabActivity {
                 .setIndicator(getString(R.string.tab_download))
                 .setContent(new Intent(this, DownloadPreferencesScreen.class)));      
 
-        tabHost.addTab(tabHost.newTabSpec("tab_advertising")
-                .setIndicator(getString(R.string.tab_advertising))
-                .setContent(new Intent(this, MobclixActivity.class)));      
+        tabHost.addTab(tabHost.newTabSpec("tab_site_choise")
+                .setIndicator(getString(R.string.tab_site_choise))
+                .setContent(new Intent(this, SiteChoice.class)));      
         
         Bundle bundle = this.getIntent().getExtras();
         if(bundle != null){
@@ -74,8 +72,7 @@ public class PreferencesTabs extends TabActivity {
 	        	tabHost.setCurrentTabByTag(currentTab);
 	        }
         }
-        startService(new Intent(this, MobclixActivity.class));
-        
+        startService(new Intent(this, MobclixActivity.class));        
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
     }    
 }

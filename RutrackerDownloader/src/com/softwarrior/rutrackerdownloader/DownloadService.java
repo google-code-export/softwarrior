@@ -1,8 +1,6 @@
 package com.softwarrior.rutrackerdownloader;
 
 import java.io.FileInputStream;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,11 +11,6 @@ import com.admob.android.ads.InterstitialAd;
 import com.admob.android.ads.InterstitialAdListener;
 import com.admob.android.ads.SimpleAdListener;
 import com.admob.android.ads.InterstitialAd.Event;
-import com.adwhirl.AdWhirlLayout;
-import com.adwhirl.AdWhirlManager;
-import com.adwhirl.AdWhirlTargeting;
-import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
-import com.adwhirl.util.AdWhirlUtil;
 import com.softwarrior.libtorrent.LibTorrent;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
@@ -35,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -193,7 +185,7 @@ public class DownloadService extends Service {
         mNM.cancel(R.string.service_created);
     }    
     // ----------------------------------------------------------------------
-    public static class Controller extends FullWakeActivity implements AdListener, InterstitialAdListener, AdWhirlInterface {
+    public static class Controller extends FullWakeActivity implements AdListener, InterstitialAdListener {
         
     	private volatile boolean mIsBound = false;
         private volatile boolean mIsBoundService = false; 
@@ -238,43 +230,11 @@ public class DownloadService extends Service {
         
         private volatile ControllerState mControllerState = ControllerState.Undefined;
 
-		public void adWhirlGeneric() {
-			Log.e(AdWhirlUtil.ADWHIRL, "In adWhirlGeneric()");
-		}
 
     	@Override
 		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
             setContentView(R.layout.service);
-            // --------------- AdWhirl ----------------
-		    int width = 320;
-		    int height = 52;
-
-		    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-		    float density = displayMetrics.density;
-
-		    width = (int) (width * density);
-		    height = (int) (height * density);
-
-		    AdWhirlTargeting.setAge(23);
-		    AdWhirlTargeting.setGender(AdWhirlTargeting.Gender.MALE);
-		    String keywords[] = { "online", "games", "gaming", "sport", "travel", "girls", "drink", "smoke", "car" };
-		    AdWhirlTargeting.setKeywordSet(new HashSet<String>(Arrays.asList(keywords)));
-		    AdWhirlTargeting.setPostalCode("94123");
-		    AdWhirlTargeting.setTestMode(false);
-
-//		    AdWhirlAdapter.setGoogleAdSenseAppName("RutrackerDownloader");
-//		    AdWhirlAdapter.setGoogleAdSenseCompanyName("Individial");
-//		    AdWhirlAdapter.setGoogleAdSenseChannel("games");
-//		    AdWhirlAdapter.setGoogleAdSenseExpandDirection("BOTTOM");
-		    // Optional, will fetch new config if necessary after five minutes.
-		    AdWhirlManager.setConfigExpireTimeout(1000 * 60 * 5);
-
-		    // References AdWhirlLayout defined in the layout XML.
-		    AdWhirlLayout adWhirlLayout = (AdWhirlLayout) findViewById(R.id.adwhirl_layout);
-		    adWhirlLayout.setAdWhirlInterface(this);
-		    adWhirlLayout.setMaxWidth(width);
-		    adWhirlLayout.setMaxHeight(height);
                                     
             //--------------AdMob-----------------------
 	        mAdRefreshTimer = new Timer();
