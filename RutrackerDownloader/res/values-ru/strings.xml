@@ -68,6 +68,7 @@
 	<string name="on_click_button_downloaded">OnClickButtonDownloader</string>
 	<string name="on_click_refresh_advertising">OnClickButtonRefreshAdvertising</string>
 	<string name="on_click_button_site_map">OnClickButtonSiteMap</string>
+	<string name="on_click_adview">OnClickAdview</string>
 	
 	<string name="button_site_map">Показать карту сайта</string>
 	<string name="button_refresh_advertising">Обновить рекламу</string>
@@ -301,7 +302,7 @@
     <string name="ads_comment_failed">Комментарии не отосланы</string>
     <string name="ads_comment_sent">Комментарии отосланы</string>                
     <string name="url_help">file:///android_asset/help_ru/help.html</string>
-    <string name="site_choise">Чтобы активировать выбор сайта, нажмите 1 раз на рекламный банер</string>
+    <string name="site_choise">Чтобы активировать выбор сайта, нажмите 1 раз на рекламный банер. Банер появиться через несколько секунд.</string>
     <string name="tab_site_choise">Cайты</string>
     <string name="preferences_pornolab_title">pornolab.net</string>
     <string name="preferences_rutracker_title">rutracker.org</string>
