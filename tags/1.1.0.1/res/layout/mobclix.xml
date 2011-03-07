@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+	<!-- android:background="#FFFFFF" -->
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:padding="10dip">
+	    <TextView 
+            android:id="@+id/text_mobile_advertising_message" 
+            android:textStyle="bold"
+            android:text="@string/mobile_advertising_message"
+            android:textSize="10sp" 
+            android:layout_height="wrap_content" 
+            android:layout_width="fill_parent"/>
+    	<!-- android:textColor="#000000" -->
+    	<TextView android:text="@string/ads_revenue"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+    	<Button android:id="@+id/advertising_view"
+			android:text="@string/ads_advertising"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+		<!-- android:textColor="#000000" -->	
+	   <TextView android:text="@string/ads_feedback"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"/>
+    	<Button android:id="@+id/ratings_button"
+			android:text="@string/ads_ratings"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+    	<Button android:id="@+id/comment_button"
+			android:text="@string/ads_comment"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+    	<Button android:id="@+id/demo_button"
+			android:text="@string/ads_demographics"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />	
+    </LinearLayout>
+</ScrollView>
