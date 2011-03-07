@@ -1,7 +1,5 @@
-package com.softwarrior.about;
+package com.softwarrior.rutrackerdownloader;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,34 +10,29 @@ import com.admob.android.ads.InterstitialAd;
 import com.admob.android.ads.InterstitialAdListener;
 import com.admob.android.ads.SimpleAdListener;
 import com.admob.android.ads.InterstitialAd.Event;
-import com.adwhirl.AdWhirlLayout;
-import com.adwhirl.AdWhirlManager;
-import com.adwhirl.AdWhirlTargeting;
-import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 
-import com.smaato.SOMA.SOMABanner;
-import com.smaato.SOMA.SOMADialog;
-import com.softwarrior.rutrackerdownloader.FullWakeActivity;
 import com.softwarrior.rutrackerdownloader.R;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.preference.CheckBoxPreference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-public class AllAdvertising extends FullWakeActivity implements AdListener, InterstitialAdListener, AdWhirlInterface  {
-	
-		private AllAdvertising mThis;
+public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, AdListener, InterstitialAdListener {
+
+		public static final String KEY_RUTRACKER="preferences_rutracker";
+		public static final String KEY_PORNOLAB="preferences_pornolab";
+
+//		private SiteChoice mThis;
 		
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
@@ -47,8 +40,6 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		//AdMob 
 		private InterstitialAd mInterstitialAd;
 	  	private AdView 		 mAdView;	  	
-		//smaato
-	  	private SOMABanner mBanner;
 	  	
 		public enum MenuType{
 			About, Help, FileManager, Exit;
@@ -56,77 +47,25 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 
 	   @Override
 	    public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.all_advertising);
-	        LinearLayout myLayout = (LinearLayout) findViewById(R.id.container);
-
-		  	//smaato
-		  	mBanner = (SOMABanner)findViewById(R.id.BannerView);
-		  	mBanner.setPubID("923834030");
-		  	mBanner.setAdID("65737629");
-		  	mBanner.setDefaultLocation(false);
-		  	mBanner.setLocation(37.331689,-122.030731);
-		  	mBanner.setMediaType("ALL");
-		  	mBanner.nextAd(30);
-		  	mBanner.setAnimationOn(true);
-		  	mBanner.setKeywordSearch("Android,California");
-		  	mBanner.setQuerySearch("red car,mini");
-		  	mBanner.setAge(35);
-		  	mBanner.fetchDrawableOnThread();
-		  	SOMADialog d = new SOMADialog(this);
-		  	d.show();	        
+		    super.onCreate(savedInstanceState);	        
+	        setContentView(R.layout.site_choise);
+	        addPreferencesFromResource(R.xml.site_choise);
 	        
-	        //AdWhirl
-		    // These are density-independent pixel units, as defined in
-		    // http://developer.android.com/guide/practices/screens_support.html
-		    int width = 320;
-		    int height = 52;
-		    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-		    float density = displayMetrics.density;
-		    width = (int) (width * density);
-		    height = (int) (height * density);
-
-		    AdWhirlTargeting.setAge(23);
-		    AdWhirlTargeting.setGender(AdWhirlTargeting.Gender.MALE);
-		    String keywords[] = { "online", "games", "gaming", "sport", "travel", "girls" };
-		    AdWhirlTargeting.setKeywordSet(new HashSet<String>(Arrays.asList(keywords)));
-		    AdWhirlTargeting.setPostalCode("94123");
-		    AdWhirlTargeting.setTestMode(false);
-
-		    // Optional, will fetch new config if necessary after five minutes.
-		    AdWhirlManager.setConfigExpireTimeout(1000 * 60 * 5);
-
-		    // Instantiates AdWhirlLayout from code.
-		    // Note: Showing two ads on the same screen is for illustrative purposes
-		    // only. You should check with ad networks on their specific policies.
-		    AdWhirlLayout adWhirlLayout = new AdWhirlLayout(this,"09a0faf9236e480cb1b93417f2e40b11");
-		    adWhirlLayout.setAdWhirlInterface(this);
-		    adWhirlLayout.setMaxWidth(width);
-		    adWhirlLayout.setMaxHeight(height);
-		    RelativeLayout.LayoutParams adWhirlLayoutParams = new RelativeLayout.LayoutParams(
-		    		RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		    adWhirlLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-		    myLayout.addView(adWhirlLayout, adWhirlLayoutParams);
-
-	        mThis = this;
-	    	Button button = new Button(this);
-	    	button.setOnClickListener(new OnClickListener() {
-	    	    public void onClick(View v) {
-	    	    	mThis.OnClickButtonRefreshAdvertising(v);
-	    	    }
-	    	});
-
-	    	button.setText(R.string.button_refresh_advertising);
-//	    	android:layout_alignParentBottom="true"
-//			android:text="@string/button_refresh_advertising"
-//			android:onClick="@string/on_click_refresh_advertising"
-//	        android:id="@+id/ButtonRefreshAdvertising"
-//	        android:layout_height="wrap_content"
-//	        android:layout_width="fill_parent"
-	    	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-									LinearLayout.LayoutParams.FILL_PARENT,
-										LinearLayout.LayoutParams.WRAP_CONTENT);
-	    	myLayout.addView(button, params);	    
+	        LinearLayout myLayout = (LinearLayout)findViewById(R.id.container);
+	        
+//	        mThis = this;
+//	    	Button button = new Button(this);
+//	    	button.setOnClickListener(new OnClickListener() {
+//	    	    public void onClick(View v) {
+//	    	    	mThis.OnClickButtonRefreshAdvertising(v);
+//	    	    }
+//	    	});
+//
+//	    	button.setText(R.string.button_refresh_advertising);
+//	    	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//									LinearLayout.LayoutParams.FILL_PARENT,
+//										LinearLayout.LayoutParams.WRAP_CONTENT);
+//	    	myLayout.addView(button, params);	    
 	        
 	        myLayout.invalidate();
 	        
@@ -146,7 +85,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	        mInterstitialAd.requestAd(this);
 	        	        
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Advertising");
+		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/SiteChoice");
 	    }
 
 	    public void OnClickButtonRefreshAdvertising(View v) {			
@@ -199,7 +138,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
-	    	mBanner.setAutoRefresh(true);
+			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	    }	    
 	    @Override
@@ -209,8 +148,8 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    		mAdRefreshTimer.cancel(); 
 	    		mAdRefreshTimer = null;
 	    	}
-	    	mBanner.setAutoRefresh(false);
-	    }	    
+			getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this); 
+	    }
 	    @Override
 	    protected void onRestart() {
 	    	super.onRestart();
@@ -235,7 +174,7 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 	    //application loading and execution.
 	    @Override
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-			switch(ActivityResultType.getValue(resultCode))
+			switch(RutrackerDownloaderApp.ActivityResultType.getValue(resultCode))
 			{
 			case RESULT_DOWNLOADER:
 				RutrackerDownloaderApp.OpenDownloaderActivity(this);
@@ -280,6 +219,18 @@ public class AllAdvertising extends FullWakeActivity implements AdListener, Inte
 		public void onReceiveRefreshedAd(AdView adView){
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
 		}
-		public void adWhirlGeneric() {			
-		}		
+
+		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
+			PreferenceScreen preferences = getPreferenceScreen();
+			boolean flag = sharedPreferences.getBoolean(key, false);
+			if(key.equals(KEY_RUTRACKER) && flag){
+				CheckBoxPreference pl = (CheckBoxPreference) preferences.findPreference(KEY_PORNOLAB);
+				pl.setChecked(false);
+			}				
+			else if(key.equals(KEY_PORNOLAB) && flag){
+				CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);
+				rt.setChecked(false);
+			}
+
+		}
 }
