@@ -6,11 +6,11 @@ import java.util.TimerTask;
 import com.admob.android.ads.AdListener;
 import com.admob.android.ads.AdManager;
 import com.admob.android.ads.AdView;
-import com.admob.android.ads.InterstitialAd;
-import com.admob.android.ads.InterstitialAdListener;
 import com.admob.android.ads.SimpleAdListener;
-import com.admob.android.ads.InterstitialAd.Event;
 
+import com.mobclix.android.sdk.MobclixAdView;
+import com.mobclix.android.sdk.MobclixAdViewListener;
+import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 import com.softwarrior.rutrackerdownloader.R;
 
 import android.content.Context;
@@ -18,6 +18,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -29,28 +31,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, AdListener, InterstitialAdListener {
+public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, AdListener, MobclixAdViewListener {
+		private WakeLock mWakeLock;
 
 		public static final String KEY_RUTRACKER="preferences_rutracker";
 		public static final String KEY_PORNOLAB="preferences_pornolab";
 
+		public static boolean AdClicked=false;
+		
 		public enum SiteType{
 			RUTRACKER, PORNOLAB
-		}
-		
-//		private SiteChoice mThis;
-		
+		}		
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
-	
+		//Mobclix
+		private MobclixMMABannerXLAdView mAdviewBanner;
 		//AdMob 
-		private InterstitialAd mInterstitialAd;
-	  	private AdView 		 mAdView;	  	
+	  	private AdView mAdView;	  	
 	  	
 		public enum MenuType{
 			About, Help, FileManager, Exit;
 		}
-
+		
 		public static SiteType GetSite(Context context){
 			SiteType result = SiteType.RUTRACKER; 
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -63,10 +65,15 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 
 	   @Override
 	    public void onCreate(Bundle savedInstanceState) {
-		    super.onCreate(savedInstanceState);	        
+		    super.onCreate(savedInstanceState);	  
+			PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
+			mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+				| PowerManager.ACQUIRE_CAUSES_WAKEUP, "SHARED");
+			mWakeLock.setReferenceCounted(false);
+		    		    
 	        setContentView(R.layout.site_choise);
 	        addPreferencesFromResource(R.xml.site_choise);
-	        
+	        	        
 	        LinearLayout myLayout = (LinearLayout)findViewById(R.id.container);
 	        
 //	        mThis = this;
@@ -87,6 +94,10 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	        
 	        mAdRefreshTimer = new Timer();
 	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
+
+	        //Mobclix
+	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
+	        mAdviewBanner.addMobclixAdViewListener(this);
 	        
 	        //AdMob
 	        AdManager.setPublisherId("a14d5a500187b19");
@@ -95,24 +106,28 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 
 	        mAdView = (AdView) findViewById(R.id.ad);
 	        mAdView.setAdListener(new AdvertisingListener());
-	        
-	        // call for an Interstitial Ad
-	        mInterstitialAd = new InterstitialAd(Event.APP_START, this);
-	        mInterstitialAd.requestAd(this);
-	        	        
+	        	        	        
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/SiteChoice");
 	    }
 
+	    @Override
+	    protected void onDestroy() {
+			if(mWakeLock.isHeld()) {
+			    Log.w(RutrackerDownloaderApp.TAG, "WakeLock is still held");
+			    mWakeLock.release();
+			}
+			super.onDestroy();
+	    }
+
 	    public void OnClickButtonRefreshAdvertising(View v) {			
-			mInterstitialAd = new InterstitialAd(Event.SCREEN_CHANGE, this);
-			mInterstitialAd.requestAd(this); //request an ad now so it's ready when we want to show it			
 		}  
 	   
 	    private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
 				mAdView.requestFreshAd();
+        		mAdviewBanner.getAd();
 			}	    	
 	    }	   
 	   @Override
@@ -154,11 +169,18 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
+	    	mWakeLock.acquire();
+	    	if(AdClicked){
+	    		getPreferenceScreen().setEnabled(true);
+	    		AdClicked = false;
+	    	} else
+	    		getPreferenceScreen().setEnabled(false);
 			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	    }	    
 	    @Override
 	    protected void onPause() {
+	    	mWakeLock.release();
 	    	super.onPause();
 	    	if(mAdRefreshTimer != null){
 	    		mAdRefreshTimer.cancel(); 
@@ -172,22 +194,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	    	mAdRefreshTimer = new Timer();
 	    	mAdRefreshTimer.schedule(new AdRefreshTimerTask(), 0, mAdRefreshTime);
 	    }	    		
-	    //If we fail to receive an interstitial ad, we just keep going on with our application loading and execution.
-		public void onFailedToReceiveInterstitial(InterstitialAd interstitialAd) {
-	      // we couldn't get an interstitial ad before the start. to do ...
-	      if (interstitialAd == mInterstitialAd) {
-	    	//Back to AdView showing
-	      }
-	    }
-	    //If we get an interstitial ad successfully, we can show the ad. 
-		public void onReceiveInterstitial(InterstitialAd interstitialAd) {
-	      if(interstitialAd == mInterstitialAd) {
-	        mInterstitialAd.show(this);
-	      }
-	    }				
-	    //After the ad has been shown, it will return with an activity result where
-	    //ADMOB_INTENT_BOOLEAN is true.  Once you receive this result you can continue
-	    //application loading and execution.
 	    @Override
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			switch(RutrackerDownloaderApp.ActivityResultType.getValue(resultCode))
@@ -201,9 +207,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				RutrackerDownloaderApp.FinalCloseApplication(this);
 				return;
 			};
-	    	if(data != null && data.getBooleanExtra(InterstitialAd.ADMOB_INTENT_BOOLEAN, false)) {
-	    		//Back to AdView showing
-	    	}
 	    }	    	    	    		  
 		private class AdvertisingListener extends SimpleAdListener {
 			@Override
@@ -235,6 +238,10 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public void onReceiveRefreshedAd(AdView adView){
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
 		}
+		public void OnClickAdview(View v){
+			Log.v(RutrackerDownloaderApp.TAG, "Ad clicked!");
+			AdClicked = true;			
+		}
 
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
 			PreferenceScreen preferences = getPreferenceScreen();
@@ -243,11 +250,37 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				CheckBoxPreference pl = (CheckBoxPreference) preferences.findPreference(KEY_PORNOLAB);
 				pl.setChecked(false);
 				RutrackerDownloaderApp.SetupRutracker();
+	    		getPreferenceScreen().setEnabled(false);
+	    		AdClicked = false;
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
 				CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);
 				rt.setChecked(false);
 				RutrackerDownloaderApp.SetupPornolab();
+	    		getPreferenceScreen().setEnabled(false);
+	    		AdClicked = false;
 			}
 		}
+		//Mobclix
+		public String keywords()	{ return null;}
+		public String query()		{ return null;}
+		public void onAdClick(MobclixAdView arg0) {
+			Log.v(RutrackerDownloaderApp.TAG, "Ad clicked!");
+			AdClicked = true;
+		}
+		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
+			Log.v(RutrackerDownloaderApp.TAG, "The custom ad responded with '" + string + "' when touched!");
+		}
+		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "The ad request returned open allocation code: " + openAllocationCode);
+			return false;
+		}
+		public void onSuccessfulLoad(MobclixAdView view) {
+			Log.v(RutrackerDownloaderApp.TAG, "The ad request was successful!");
+			view.setVisibility(View.VISIBLE);
+		}
+		public void onFailedLoad(MobclixAdView view, int errorCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "The ad request failed with error code: " + errorCode);
+			view.setVisibility(View.GONE);
+		}				
 }

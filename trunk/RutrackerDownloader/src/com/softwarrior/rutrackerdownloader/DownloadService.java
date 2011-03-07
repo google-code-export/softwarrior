@@ -7,10 +7,10 @@ import java.util.TimerTask;
 import com.admob.android.ads.AdListener;
 import com.admob.android.ads.AdManager;
 import com.admob.android.ads.AdView;
-import com.admob.android.ads.InterstitialAd;
-import com.admob.android.ads.InterstitialAdListener;
 import com.admob.android.ads.SimpleAdListener;
-import com.admob.android.ads.InterstitialAd.Event;
+import com.mobclix.android.sdk.MobclixAdView;
+import com.mobclix.android.sdk.MobclixAdViewListener;
+import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 import com.softwarrior.libtorrent.LibTorrent;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
@@ -185,7 +185,7 @@ public class DownloadService extends Service {
         mNM.cancel(R.string.service_created);
     }    
     // ----------------------------------------------------------------------
-    public static class Controller extends FullWakeActivity implements AdListener, InterstitialAdListener {
+    public static class Controller extends FullWakeActivity implements AdListener, MobclixAdViewListener {
         
     	private volatile boolean mIsBound = false;
         private volatile boolean mIsBoundService = false; 
@@ -211,12 +211,14 @@ public class DownloadService extends Service {
 
     	StopHandler mStopHandler = null;
     	Message mStopMessage = null;
-        
-		//AdMob 
-		private InterstitialAd mInterstitialAd;
-	  	private AdView 		 mAdView;
+
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
+
+        //Mobclix
+		private MobclixMMABannerXLAdView mAdviewBanner;
+		//AdMob 
+	  	private AdView mAdView;
     	
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
@@ -230,12 +232,13 @@ public class DownloadService extends Service {
         
         private volatile ControllerState mControllerState = ControllerState.Undefined;
 
-
     	@Override
 		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
             setContentView(R.layout.service);
-                                    
+            //--------------Mobclix-----------------------
+	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
+	        mAdviewBanner.addMobclixAdViewListener(this);            
             //--------------AdMob-----------------------
 	        mAdRefreshTimer = new Timer();
 	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
@@ -244,11 +247,7 @@ public class DownloadService extends Service {
 //	        AdManager.setTestAction("video_int");
 
 	        mAdView = (AdView) findViewById(R.id.ad);
-	        mAdView.setAdListener(new AdvertisingListener());
-	        
-	        // call for an Interstitial Ad
-	        mInterstitialAd = new InterstitialAd(Event.APP_START, this);
-	        mInterstitialAd.requestAd(this);
+	        mAdView.setAdListener(new AdvertisingListener());	        
 		    //-----------------------------------------
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
@@ -285,14 +284,13 @@ public class DownloadService extends Service {
 		    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
         }
-	    private class AdRefreshTimerTask extends TimerTask {
-			
+	    private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
 				mAdView.requestFreshAd();
+        		mAdviewBanner.getAd();
 			}	    	
-	    }
-	    
+	    }	    
     	void RestoreControllerState(){
             mPrefs = getSharedPreferences(Controller.class.getName(), MODE_PRIVATE);
             int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
@@ -503,9 +501,6 @@ public class DownloadService extends Service {
     			finish();
     			return;
     		};	
-	    	if(data != null && data.getBooleanExtra(InterstitialAd.ADMOB_INTENT_BOOLEAN, false)) {
-	    		//Back to AdView showing
-	    	}
     	}
 
 		private class AdvertisingListener extends SimpleAdListener {
@@ -538,9 +533,7 @@ public class DownloadService extends Service {
 		}
 		public void onReceiveRefreshedAd(AdView adView){
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
-		}
-
-        
+		}        
     	@Override
     	public boolean onCreateOptionsMenu(Menu menu) {
     		super.onCreateOptionsMenu(menu);
@@ -576,19 +569,26 @@ public class DownloadService extends Service {
     		}
     		return true;
     	}
-    	
-	    //If we fail to receive an interstitial ad, we just keep going on with our application loading and execution.
-		public void onFailedToReceiveInterstitial(InterstitialAd interstitialAd) {
-	      // we couldn't get an interstitial ad before the start. to do ...
-	      if (interstitialAd == mInterstitialAd) {
-	    	//Back to AdView showing
-	      }
-	    }
-	    //If we get an interstitial ad successfully, we can show the ad. 
-		public void onReceiveInterstitial(InterstitialAd interstitialAd) {
-	      if(interstitialAd == mInterstitialAd) {
-	        mInterstitialAd.show(this);
-	      }
-	    }
+		//Mobclix
+		public String keywords()	{ return null;}
+		public String query()		{ return null;}
+		public void onAdClick(MobclixAdView arg0) {
+			Log.v(RutrackerDownloaderApp.TAG, "Ad clicked!");
+		}
+		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
+			Log.v(RutrackerDownloaderApp.TAG, "The custom ad responded with '" + string + "' when touched!");
+		}
+		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "The ad request returned open allocation code: " + openAllocationCode);
+			return false;
+		}
+		public void onSuccessfulLoad(MobclixAdView view) {
+			Log.v(RutrackerDownloaderApp.TAG, "The ad request was successful!");
+			view.setVisibility(View.VISIBLE);
+		}
+		public void onFailedLoad(MobclixAdView view, int errorCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "The ad request failed with error code: " + errorCode);
+			view.setVisibility(View.GONE);
+		}				    	
     }
 }

@@ -24,7 +24,12 @@
 			android:layout_height="wrap_content"
 			app:backgroundColor="#000000"
 			app:primaryTextColor="#FFFFFF"
+			android:onClick="@string/on_click_adview"
 			app:secondaryTextColor="#CCCCCC"/>
+		 <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
+            android:id="@+id/advertising_banner_view"
+            android:layout_height="50dp"
+            android:layout_width="320dp"/>		
 	</LinearLayout>  
     <ListView 
            android:id="@android:id/list"

@@ -68,6 +68,8 @@
 	<string name="on_click_button_downloaded">OnClickButtonDownloader</string>
 	<string name="on_click_refresh_advertising">OnClickButtonRefreshAdvertising</string>
 	<string name="on_click_button_site_map">OnClickButtonSiteMap</string>
+	<string name="on_click_adview">OnClickAdview</string>
+	
 	
 	<string name="button_site_map">Show site map</string>
 	<string name="button_refresh_advertising">Refresh Advertising</string>
@@ -302,7 +304,7 @@ Please see contact information in the About page.
     <string name="ads_comment_failed">Comment failed</string>
     <string name="ads_comment_sent">Comment sent</string>
     <string name="url_help">file:///android_asset/help_en/help.html</string>
-    <string name="site_choise">To activate the option to choose a site, click 1 time on advertising banner</string>
+    <string name="site_choise">To activate the option to choose a site, click 1 time on advertising banner. Banner will be showed in second</string>
     <string name="tab_site_choise">Sites</string>
     <string name="preferences_pornolab_title">pornolab.net</string>
     <string name="preferences_rutracker_title">rutracker.org</string>
