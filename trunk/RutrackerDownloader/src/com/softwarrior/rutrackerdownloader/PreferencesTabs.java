@@ -2,14 +2,21 @@ package com.softwarrior.rutrackerdownloader;
 
 import android.app.TabActivity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.content.Intent;
 
 public class PreferencesTabs extends TabActivity {
 		
+	static TextView mRightText = null;
+
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);        
+        super.onCreate(savedInstanceState); 
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
         //Start the tracker in manual dispatch mode...
          RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
         // ...alternatively, the tracker can be started with a dispatch interval (in seconds).
@@ -70,11 +77,20 @@ public class PreferencesTabs extends TabActivity {
 	        	tabHost.setCurrentTabByTag(currentTab);
 	        }
         }
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+        mRightText = (TextView) findViewById(R.id.right_text);
+        
         if(SiteChoice.GetSite(this) == SiteChoice.SiteType.RUTRACKER)
-        	RutrackerDownloaderApp.SetupRutracker();
+        	RutrackerDownloaderApp.SetupRutracker(this);
         else 
-        	RutrackerDownloaderApp.SetupPornolab();
+        	RutrackerDownloaderApp.SetupPornolab(this);
+        
         startService(new Intent(this, DownloadService.class));         
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
+    } 
+    
+    public static void SetRightCustomTitle(String text){
+    	if(mRightText != null)
+    		mRightText.setText(text);    	
     }    
 }

@@ -29,7 +29,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
 	(JNIEnv *env, jobject obj, jint Type, jstring HostName, jint Port, jstring UserName, jstring Password);
 //-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
-	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorentFile);
+	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseSession
 	(JNIEnv *, jobject);
@@ -68,6 +68,20 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionStatusText
 	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
+JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFiles
+	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
+//0 - piece is not downloaded at all
+//1 - normal priority. Download order is dependent on availability
+//2 - higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability
+//3 - pieces are as likely to be picked as partial pieces.
+//4 - pieces are preferred over partial pieces, but not over pieces with lower availability
+//5 - currently the same as 4
+//6 - piece is as likely to be picked as any piece with availability 1
+//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrentFilesPriority
+	(JNIEnv *env, jobject obj, jbyteArray FilesPriority);
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }

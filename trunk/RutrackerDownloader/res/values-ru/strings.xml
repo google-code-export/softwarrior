@@ -307,5 +307,7 @@
     <string name="preferences_pornolab_title">pornolab.net</string>
     <string name="preferences_rutracker_title">rutracker.org</string>
     <string name="rss_disable">Активный сайт pornolab.net, RSS поиск только в rutracker.org</string>
-    <string name="active_site">АКТИВНЫЙ САЙТ</string>           
+    <string name="active_site">АКТИВНЫЙ САЙТ</string>
+    <string name="button_select_files">Файлы</string>
+    <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>          
 </resources>

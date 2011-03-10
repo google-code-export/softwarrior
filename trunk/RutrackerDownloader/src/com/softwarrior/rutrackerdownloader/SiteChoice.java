@@ -65,13 +65,14 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 
 	   @Override
 	    public void onCreate(Bundle savedInstanceState) {
-		    super.onCreate(savedInstanceState);	  
+		   super.onCreate(savedInstanceState);	  
+		    		    		    
 			PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
 			mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
 				| PowerManager.ACQUIRE_CAUSES_WAKEUP, "SHARED");
 			mWakeLock.setReferenceCounted(false);
 		    		    
-	        setContentView(R.layout.site_choise);
+	        setContentView(R.layout.site_choise);	        
 	        addPreferencesFromResource(R.xml.site_choise);
 	        	        
 	        LinearLayout myLayout = (LinearLayout)findViewById(R.id.container);
@@ -249,15 +250,14 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			if(key.equals(KEY_RUTRACKER) && flag){
 				CheckBoxPreference pl = (CheckBoxPreference) preferences.findPreference(KEY_PORNOLAB);
 				pl.setChecked(false);
-				RutrackerDownloaderApp.SetupRutracker();
-	    		getPreferenceScreen().setEnabled(false);
+				RutrackerDownloaderApp.SetupRutracker(this);
 	    		AdClicked = false;
+	    		PreferencesTabs.SetRightCustomTitle(getString(R.string.preferences_rutracker_title));
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
 				CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);
 				rt.setChecked(false);
-				RutrackerDownloaderApp.SetupPornolab();
-	    		getPreferenceScreen().setEnabled(false);
+				RutrackerDownloaderApp.SetupPornolab(this);
 	    		AdClicked = false;
 			}
 		}

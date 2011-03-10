@@ -481,3 +481,75 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionS
 	return result;
 }
 //-----------------------------------------------------------------------------
+JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFiles
+	(JNIEnv *env, jobject obj)
+{
+	jstring result = NULL;
+	try {
+		if(gWorkState){
+			std::string out;
+			libtorrent::torrent_status s = gTorrent.status();
+			if(gTorrent.has_metadata()) {
+				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+				int files_num = info.num_files();
+				for (int i = 0; i < info.num_files(); ++i) {
+					out += info.file_at(i).path.string();
+					out += "\n";
+				}
+			}
+			result = env->NewStringUTF(out.c_str());
+		}
+	} catch(...){
+		LOG_ERR("Exception: failed to get torrent files");
+		gWorkState=false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.GetTorrentFiles WorkState==false");
+	return result;
+}
+//-----------------------------------------------------------------------------
+//0 - piece is not downloaded at all
+//1 - normal priority. Download order is dependent on availability
+//2 - higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability
+//3 - pieces are as likely to be picked as partial pieces.
+//4 - pieces are preferred over partial pieces, but not over pieces with lower availability
+//5 - currently the same as 4
+//6 - piece is as likely to be picked as any piece with availability 1
+//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrentFilesPriority
+	(JNIEnv *env, jobject obj, jbyteArray FilesPriority )
+{
+	jboolean result = JNI_FALSE;
+	jbyte* filesPriority  = NULL;
+	try {
+		if(gWorkState){
+			std::string out;
+			libtorrent::torrent_status s = gTorrent.status();
+			if(gTorrent.has_metadata()) {
+				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+				int files_num = info.num_files();
+				jsize arr_size = env->GetArrayLength(FilesPriority);
+				if(files_num == arr_size){
+					filesPriority = env->GetByteArrayElements(FilesPriority, 0);
+					const unsigned char* prioritiesBytes = (const unsigned char*)filesPriority;
+					std::vector<int> priorities;
+					for (int i = 0; i < info.num_files(); ++i) {
+						priorities.push_back(int(filesPriority[i]));
+					}
+					gTorrent.prioritize_files(priorities);
+				} else {
+					LOG_ERR("LibTorrent.SetTorrentFilesPriority priority array size failed");
+					result = JNI_FALSE;
+				}
+			}
+		}
+	} catch(...){
+		LOG_ERR("Exception: failed to set files priority");
+		gWorkState=false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.SetTorrentFilesPriority WorkState==false");
+	gWorkState==true ? result=JNI_TRUE : result=JNI_FALSE;
+	if(filesPriority)
+		env->ReleaseByteArrayElements(FilesPriority, filesPriority, JNI_ABORT);
+	return result;
+}
+//-----------------------------------------------------------------------------

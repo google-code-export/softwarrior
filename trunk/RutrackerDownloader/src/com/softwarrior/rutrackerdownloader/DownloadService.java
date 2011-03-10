@@ -68,7 +68,7 @@ public class DownloadService extends Service {
     //-----------------------------------------------------------------------------
     public boolean RemoveTorrent(){return mLibTorrent.RemoveTorrent();}
     //-----------------------------------------------------------------------------
-    public int GetTorrentProgress(){return mLibTorrent.GetTorrentProgress();}
+    public int GetTorrentProgress(){return mLibTorrent.GetTorrentProgress();}    
     //-----------------------------------------------------------------------------
     //enum state_t
     //{
@@ -92,7 +92,20 @@ public class DownloadService extends Service {
     public String GetTorrentStatusText(){return mLibTorrent.GetTorrentStatusText();}
     //-----------------------------------------------------------------------------        
     public String GetSessionStatusText(){return mLibTorrent.GetSessionStatusText();}
-    //-----------------------------------------------------------------------------  
+    //----------------------------------------------------------------------------- 
+    public String GetTorrentFiles(){return mLibTorrent.GetTorrentFiles();}
+    //-----------------------------------------------------------------------------
+	//0 - piece is not downloaded at all
+	//1 - normal priority. Download order is dependent on availability
+	//2 - higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability
+	//3 - pieces are as likely to be picked as partial pieces.
+	//4 - pieces are preferred over partial pieces, but not over pieces with lower availability
+	//5 - currently the same as 4
+	//6 - piece is as likely to be picked as any piece with availability 1
+	//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
+    public boolean SetTorrentFilesPriority(byte[] FilesPriority){return mLibTorrent.SetTorrentFilesPriority(FilesPriority);}
+    //-----------------------------------------------------------------------------
+
         
     public class LocalBinder extends Binder {
     	DownloadService getService() {
@@ -206,6 +219,7 @@ public class DownloadService extends Service {
         private Button mButtonStop;
         private Button mButtonPause;
         private Button mButtonResume;
+        private Button mButtonSelectFiles;
         private TextView mTextViewTorrentState; 
         private TextView mTextViewCommonStatus;
 
@@ -214,6 +228,7 @@ public class DownloadService extends Service {
 
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
+		private static final int SELECT_FILE_ACTIVITY = 222;		
 
         //Mobclix
 		private MobclixMMABannerXLAdView mAdviewBanner;
@@ -254,7 +269,8 @@ public class DownloadService extends Service {
             mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
             mButtonStop = (Button)findViewById(R.id.ButtonStopDownload);
             mButtonPause = (Button)findViewById(R.id.ButtonPauseDownload);
-            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownload);          
+            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownload); 
+            mButtonSelectFiles = (Button)findViewById(R.id.ButtonSelectFiles);
             mTextViewTorrentState = (TextView)findViewById(R.id.TextViewTorrentState);
             mTextViewCommonStatus = (TextView)findViewById(R.id.TextViewCommonStatus);
             
@@ -306,6 +322,7 @@ public class DownloadService extends Service {
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(true);
 			       mButtonResume.setEnabled(false);
+			       mButtonSelectFiles.setEnabled(true);
 			       if(mIsBoundService)
 			    	   mBoundService.showNotification(getString(R.string.text_download_started));
 			} break;
@@ -325,7 +342,8 @@ public class DownloadService extends Service {
 			       mButtonStart.setEnabled(true);
 			       mButtonStop.setEnabled(false);
 			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(false);	
+			       mButtonResume.setEnabled(false);
+			       mButtonSelectFiles.setEnabled(false);
 			       mTextViewTorrentState.setText(R.string.text_torrent_state_undefined);
 			       mTextViewCommonStatus.setText(R.string.text_common_status);
 			       mProgress.setProgress(0);
@@ -455,7 +473,17 @@ public class DownloadService extends Service {
         		SetControllerState(ControllerState.Started);
         	}
         }
-                                
+
+        public void OnClickButtonSelectFiles(View v) {
+        	if(mIsBoundService){
+	        	Intent intent = new Intent(Intent.ACTION_VIEW);
+	        	TorrentFilesList.FillTorrentFiles(mBoundService.GetTorrentFiles());
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        	intent.setClassName(this, TorrentFilesList.class.getName());
+	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
+        	}
+        }
+        
         private ServiceConnection mConnection = new ServiceConnection() {
            
         	public void onServiceConnected(ComponentName className, IBinder service) {
@@ -491,16 +519,26 @@ public class DownloadService extends Service {
         }
 
         @Override
-    	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    		switch(ActivityResultType.getValue(resultCode))
-    		{
-    		case RESULT_DOWNLOADER:
-    		case RESULT_PREFERENCES:
-    		case RESULT_EXIT:
-    			setResult(resultCode);
-    			finish();
-    			return;
-    		};	
+    	protected void onActivityResult(int requestCode, int resultCode, Intent data) {        	
+			if(requestCode == SELECT_FILE_ACTIVITY){
+                if(mIsBoundService){
+                	int count = TorrentFilesList.TorrentFilesPriority.size();
+                	byte[] priorities = new byte[count];
+                	for(int i=0;i<count;i++) priorities[i] = (byte)TorrentFilesList.TorrentFilesPriority.get(i);	           
+                	mBoundService.SetTorrentFilesPriority(priorities);	    		                	
+                }
+			}
+			else{
+	        	switch(ActivityResultType.getValue(resultCode))
+	    		{
+	    		case RESULT_DOWNLOADER:
+	    		case RESULT_PREFERENCES:
+	    		case RESULT_EXIT:
+	    			setResult(resultCode);
+	    			finish();
+	    			return;
+	    		};
+			}
     	}
 
 		private class AdvertisingListener extends SimpleAdListener {

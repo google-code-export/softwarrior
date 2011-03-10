@@ -19,10 +19,10 @@
             app:backgroundColor="#000000"
             app:primaryTextColor="#FFFFFF"
             app:secondaryTextColor="#CCCCCC"/>
-       <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
+        <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
             android:id="@+id/advertising_banner_view"
             android:layout_height="50dp"
-            android:layout_width="320dp"/>      
+            android:layout_width="320dp"/>   
 		<RelativeLayout
 			xmlns:android="http://schemas.android.com/apk/res/android"    
 			android:layout_width="fill_parent"
@@ -122,6 +122,15 @@
 			android:layout_below="@+id/progress_horizontal" 
 			android:text="@string/text_common_status" 
 			android:layout_alignLeft="@+id/progress_horizontal" 
-			android:id="@+id/TextViewCommonStatus" android:textSize="10dp"/>
+			android:id="@+id/TextViewCommonStatus" 
+			android:textSize="10dp"/>
+		<Button 
+            android:layout_height="wrap_content" 
+            android:layout_width="wrap_content" 
+            android:layout_below="@+id/progress_horizontal"
+            android:onClick="@string/on_click_button_select_files" 
+            android:text="@string/button_select_files" 
+            android:id="@+id/ButtonSelectFiles" 
+            android:layout_alignParentRight="true"/> 		
 </RelativeLayout>	
 </RelativeLayout>
