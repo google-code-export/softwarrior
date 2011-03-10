@@ -31,6 +31,10 @@ public class TorrentFilesList extends ListActivity {
         final ListView listView = getListView();
         listView.setItemsCanFocus(false);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+             
+        int size = listView.getAdapter().getCount();
+        for(int i=0; i<size; i++)
+        	listView.setItemChecked(i, true);
         
 
 	  	listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
