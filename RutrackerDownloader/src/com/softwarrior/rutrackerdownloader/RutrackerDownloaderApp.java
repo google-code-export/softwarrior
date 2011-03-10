@@ -36,7 +36,7 @@ public class RutrackerDownloaderApp extends Application {
 			return result;
 		}
 	}
-	
+		
 	public static GoogleAnalyticsTracker AnalyticsTracker = GoogleAnalyticsTracker.getInstance();
 
 	//Constants
@@ -84,22 +84,24 @@ public class RutrackerDownloaderApp extends Application {
 	public static boolean	ExitState = false;	
 
 		
-	static public void SetupPornolab(){
+	static public void SetupPornolab(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;
     	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.PL_SiteMap;
     	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.PL_TorrentDL;
     	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.PL_TorrentTopic;
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.PL_CookieUrl;
+		PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_pornolab_title));
 	}
 
-	static public void SetupRutracker(){
+	static public void SetupRutracker(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.RT_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.RT_SearchUrlPrefix;
     	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.RT_SiteMap;        			
     	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.RT_TorrentDL;
     	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.RT_TorrentTopic;
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.RT_CookieUrl;
+    	PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_rutracker_title));
 	}
 	
     static public void PreferencesScreenActivity(Activity activity){

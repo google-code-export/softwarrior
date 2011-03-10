@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionCode="3" android:versionName="1.1.0.1">
+      android:installLocation="auto" android:versionCode="4" android:versionName="1.2.0.1">
     <application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="RutrackerDownloaderApp" android:description="@string/app_desc">        
         <activity android:name="SplashScreen" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent">
             <intent-filter>
@@ -9,10 +9,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>         
-        <activity android:name="PreferencesTabs"></activity>
+        <activity android:name="PreferencesTabs" android:windowSoftInputMode="stateVisible|adjustPan"></activity>
         <activity android:name="WEBPreferencesScreen"></activity>
         <activity android:name="RSSPreferencesScreen"></activity>
         <activity android:name="DownloadPreferencesScreen"></activity>
+        <activity android:name="TorrentFilesList"></activity>
         <activity android:name="SiteChoice"></activity>        
         <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>     
