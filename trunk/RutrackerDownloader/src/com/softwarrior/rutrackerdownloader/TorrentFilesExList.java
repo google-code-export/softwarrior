@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -29,6 +31,7 @@ public class TorrentFilesExList extends ExpandableListActivity {
         mAdapter = new MyExpandableListAdapter();
         setListAdapter(mAdapter);
         registerForContextMenu(getExpandableListView());
+        getExpandableListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
     @Override
@@ -87,23 +90,24 @@ public class TorrentFilesExList extends ExpandableListActivity {
             return children[groupPosition].length;
         }
 
-        public TextView getGenericView() {
+        public CheckedTextView getGenericView() {
             // Layout parameters for the ExpandableListView
             AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, 64);
 
-            TextView textView = new TextView(TorrentFilesExList.this);
+            CheckedTextView textView = new CheckedTextView(TorrentFilesExList.this);
             textView.setLayoutParams(lp);
             // Center the text vertically
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
             // Set the text starting position
             textView.setPadding(36, 0, 0, 0);
+            //textView.setCheckMark(android.R.attr.listChoiceIndicatorMultiple);
             return textView;
         }
         
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                 View convertView, ViewGroup parent) {
-            TextView textView = getGenericView();
+        	CheckedTextView textView = getGenericView();
             textView.setText(getChild(groupPosition, childPosition).toString());
             return textView;
         }
@@ -122,7 +126,7 @@ public class TorrentFilesExList extends ExpandableListActivity {
 
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                 ViewGroup parent) {
-            TextView textView = getGenericView();
+        	CheckedTextView textView = getGenericView();
             textView.setText(getGroup(groupPosition).toString());
             return textView;
         }
