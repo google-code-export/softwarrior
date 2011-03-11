@@ -7,12 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ListView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
-import java.util.List;
 import java.util.ArrayList;
 import android.util.Log;
 
@@ -101,7 +98,6 @@ class Color {
 
 class ColorAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
     private ArrayList<String> groups;
     private ArrayList<ArrayList<Color>> colors;
     private LayoutInflater inflater;
@@ -109,7 +105,6 @@ class ColorAdapter extends BaseExpandableListAdapter {
     public ColorAdapter(Context context, 
                         ArrayList<String> groups,
 						ArrayList<ArrayList<Color>> colors ) { 
-        this.context = context;
 		this.groups = groups;
         this.colors = colors;
         inflater = LayoutInflater.from( context );
