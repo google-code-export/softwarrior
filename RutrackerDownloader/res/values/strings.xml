@@ -312,4 +312,6 @@ Please see contact information in the About page.
     <string name="active_site">CURRENT SITE</string>  
     <string name="button_select_files">Files</string>  
     <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
+    <string name="main_no_items">No items</string>
+    <string name="checkbox_text">Selected</string>    
 </resources>
