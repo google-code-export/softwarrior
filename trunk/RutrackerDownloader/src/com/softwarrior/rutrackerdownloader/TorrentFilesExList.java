@@ -16,22 +16,24 @@ import android.util.Log;
 public class TorrentFilesExList extends ExpandableListActivity {
     private TorrentFileAdapter mExpListAdapter;
 
-    private static ArrayList<String> mTorrentFiles = new ArrayList<String>(1);
-    public static ArrayList<Byte> TorrentFilesPriority = new ArrayList<Byte>(1);
-    
+    private static ArrayList<TorrentFile> mTorrentFiles = new ArrayList<TorrentFile>();
+    public static ArrayList<Byte> TorrentFilesPriority = new ArrayList<Byte>();
+                
     String TORRENT_FILES = new String(
     		"CROT\\01_10_01.mp3\n" +
     		"CROT\\02_10_01.mp3\n" +
-    		"CROT\\1980\04\03_10_01.mp3\n" +
+    		"CROT\\1980\\04\\03_10_01.mp3\n" +
     		"CROT\\03_10_01.mp3\n" +
     		"TORT\\01_10_01.mp3\n" +
-    		"TORT\\1977\01_10_01.mp3\n" +
+    		"77_10_01.mp3\n" +
+    		"TORT\\1977\\01_10_01.mp3\n" +
     		"TORT\\02_10_01.mp3\n" +
     		"TORT\\03_10_01.mp3\n" +
     		"TORT\\04_10_01.mp3\n" +
     		"COMPOT\\01_10_01.mp\n" +
-    		"COMPOT\\2010\01\01_10_01.mp3\n"+
-    		"COMPOT\\02_10_01.mp3\n"
+    		"COMPOT\\2010\\01\\01_10_01.mp3\n"+
+    		"COMPOT\\02_10_01.mp3\n" +
+    		"99_10_01.mp3\n"
     );
 
     static public void FillTorrentFiles(String torrentFiles){
@@ -39,13 +41,15 @@ public class TorrentFilesExList extends ExpandableListActivity {
 	    	mTorrentFiles.clear();
 	    	TorrentFilesPriority.clear();
 	    	int last_index = 0;
-	    	int current_index = torrentFiles.indexOf('\n',0);  
+	    	int current_index = torrentFiles.indexOf('\n',0);
+	    	int index = 0;
 	    	while(current_index > 0 ){
-	    		String filename = torrentFiles.substring(last_index, current_index);
-	    		mTorrentFiles.add(filename);
+	    		String filename = torrentFiles.substring(last_index, current_index);	    		
+	    		mTorrentFiles.add(new TorrentFile(filename, index, true));
 	    		TorrentFilesPriority.add((byte)1);
 	    		last_index = current_index+1; 
 	    		current_index = torrentFiles.indexOf('\n',last_index);
+	    		index++;
 	    	}
 	    }
     }
@@ -96,17 +100,100 @@ public class TorrentFilesExList extends ExpandableListActivity {
     }
 }
 
-class TorrentFile {
-    String  mName = null;
-    int     mNumber = -1;
-    boolean mState = false;
-
-    public TorrentFile( String name, int number, boolean state ) { mName = name; mNumber = number; mState = state;}
+abstract class TorrentDirFile {
+    protected String  mName = null;
+    protected int     mNumber = -1;
+    protected boolean mState = false;
+    protected TorrentDirFile mSubdir = null;
+    
+    public TorrentDirFile( String name, int number, boolean state ) { mName = name; mNumber = number; mState = state;}
+    public TorrentDirFile( String name, boolean state ) { mName = name;  mState = state;}
 
     public String getName() { return mName;}
     public int getNumber() { return mNumber;}
     public boolean getState() { return mState; }
+    public TorrentDirFile getSubdir() { return mSubdir; }
+    
+    public static TorrentDirFile CreateDirFileList(String FileNames){
+    	TorrentDir result = new TorrentDir("\\",true);
+        ArrayList<String> fileNames = new ArrayList<String>();
+        if( FileNames!= null){
+	    	int last_index = 0;
+	    	int current_index = FileNames.indexOf('\n',last_index);
+	    	int index = 0;
+	    	while(current_index >= 0 ){
+	    		String filename = FileNames.substring(last_index, current_index);	    		
+	    		fileNames.add(filename);
+	    		last_index = current_index+1; 
+	    		current_index = FileNames.indexOf('\n',last_index);
+	    		index++;
+	    	}
+	    }
+        int [] last_indexs = new int[fileNames.size()];
+    	for(int i=0;i<fileNames.size();i++)last_indexs[i] = 0;
+    	boolean stop = false;
+    	int subdir_level = 0;
+    	TorrentDir subdir = null;
+        while(stop){
+        	stop = true;
+	    	for(int i=0;i<fileNames.size();i++){
+	    		if(last_indexs[i] >= 0){	    			
+			    	int current_index = fileNames.get(i).indexOf('\\',last_indexs[i]);
+			    	if(current_index > 0 ){
+			    		String dirname = fileNames.get(i).substring(last_indexs[i], current_index);	    		
+			    		if(subdir_level == 0)
+			    			result.addDir(new TorrentDir(dirname, true));
+			    		else{
+			    			subdir = new TorrentDir(dirname, true);
+			    		}
+			    		last_indexs[i] = current_index+1;
+			    		stop = false;
+			    	} else {
+			    		String filename = FileNames.substring(last_indexs[i], current_index);	    		
+			    		if(subdir_level == 0)
+			    			result.addFile(new TorrentFile(filename,i, true));
+			    		else{
+			    			
+			    		}
+			    		last_indexs[i] = -1;
+			    	}
+	    		}
+	        }
+	    	subdir_level++;
+        }
+    	return result;
+    }
 }
+
+class TorrentFile extends TorrentDirFile{
+	public TorrentFile(String name, int number, boolean state) {super(name,number,state);}
+	public ArrayList <TorrentDir> getSubdirs(){
+	    ArrayList<TorrentDir> result = null;
+        if( FileNames!= null){
+	    	int last_index = 0;
+	    	int current_index = FileNames.indexOf('\n',last_index);
+	    	int index = 0;
+	    	while(current_index >= 0 ){
+	    		String filename = FileNames.substring(last_index, current_index);	    		
+	    		fileNames.add(filename);
+	    		last_index = current_index+1; 
+	    		current_index = FileNames.indexOf('\n',last_index);
+	    		index++;
+	    	}
+	    }
+	    return result;
+	}
+}
+
+class TorrentDir extends TorrentDirFile{
+    ArrayList<TorrentDirFile> mTorrentDirFiles = new ArrayList<TorrentDirFile>();
+    TorrentDir mSubdir;
+    public TorrentDir(String name, boolean state) {super(name,state);}    
+	public void addDir(TorrentDir dir){mTorrentDirFiles.add(dir);}
+	public void addFile(TorrentFile file){mTorrentDirFiles.add(file);}	
+	public void setSubdir(TorrentDir subdir){mSubdir = subdir;}	
+}
+
 
 class TorrentFileAdapter extends BaseExpandableListAdapter {
 
