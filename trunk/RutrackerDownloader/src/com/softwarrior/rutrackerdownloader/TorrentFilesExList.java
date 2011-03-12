@@ -14,42 +14,72 @@ import java.util.ArrayList;
 import android.util.Log;
 
 public class TorrentFilesExList extends ExpandableListActivity {
-    private ColorAdapter expListAdapter;
+    private TorrentFileAdapter mExpListAdapter;
 
-    /** Called when the activity is first created. */
+    private static ArrayList<String> mTorrentFiles = new ArrayList<String>(1);
+    public static ArrayList<Byte> TorrentFilesPriority = new ArrayList<Byte>(1);
+    
+    String TORRENT_FILES = new String(
+    		"CROT\\01_10_01.mp3\n" +
+    		"CROT\\02_10_01.mp3\n" +
+    		"CROT\\1980\04\03_10_01.mp3\n" +
+    		"CROT\\03_10_01.mp3\n" +
+    		"TORT\\01_10_01.mp3\n" +
+    		"TORT\\1977\01_10_01.mp3\n" +
+    		"TORT\\02_10_01.mp3\n" +
+    		"TORT\\03_10_01.mp3\n" +
+    		"TORT\\04_10_01.mp3\n" +
+    		"COMPOT\\01_10_01.mp\n" +
+    		"COMPOT\\2010\01\01_10_01.mp3\n"+
+    		"COMPOT\\02_10_01.mp3\n"
+    );
+
+    static public void FillTorrentFiles(String torrentFiles){
+    	if( torrentFiles!= null){
+	    	mTorrentFiles.clear();
+	    	TorrentFilesPriority.clear();
+	    	int last_index = 0;
+	    	int current_index = torrentFiles.indexOf('\n',0);  
+	    	while(current_index > 0 ){
+	    		String filename = torrentFiles.substring(last_index, current_index);
+	    		mTorrentFiles.add(filename);
+	    		TorrentFilesPriority.add((byte)1);
+	    		last_index = current_index+1; 
+	    		current_index = torrentFiles.indexOf('\n',last_index);
+	    	}
+	    }
+    }
+    
     @Override
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
         setContentView(R.layout.expandable_list);
+        FillTorrentFiles(TORRENT_FILES);
+        
         ArrayList<String> groupNames = new ArrayList<String>();
-        groupNames.add( "grey" );
-	    groupNames.add( "blue" );
-	    groupNames.add( "yellow" );
-	    groupNames.add( "red" );
-        ArrayList<ArrayList<Color>> colors = new ArrayList<ArrayList<Color>>(); 
-        ArrayList<Color> color = new ArrayList<Color>();
-        color.add( new Color( "lightgrey","#D3D3D3", false ) ); 
-		color.add( new Color( "dimgray","#696969", true ) ); 
-		color.add( new Color( "sgi gray 92","#EAEAEA", false ) );
-        colors.add( color );
-        color = new ArrayList<Color>();
-		color.add( new Color( "dodgerblue 2","#1C86EE",false ) );
-		color.add( new Color(  "steelblue 2","#5CACEE",false ) ); 
-		color.add( new Color( "powderblue","#B0E0E6", true ) );
-        colors.add( color );
-        color = new ArrayList<Color>();
-		color.add( new Color( "yellow 1","#FFFF00",true ) );
-		color.add( new Color( "gold 1","#FFD700",false ) ); 
-		color.add( new Color( "darkgoldenrod 1","#FFB90F", true ) );
-        colors.add( color );
-        color = new ArrayList<Color>();
-		color.add( new Color( "indianred 1","#FF6A6A",true ) );
-		color.add( new Color( "firebrick 1","#FF3030",false ) ); 
-		color.add( new Color( "maroon","#800000", false ) );
-        colors.add( color );
+        groupNames.add( "CROT" );
+	    groupNames.add( "TORT" );
+	    groupNames.add( "COMPOT" );
+        
+	    ArrayList<ArrayList<TorrentFile>> tfiles = new ArrayList<ArrayList<TorrentFile>>(); 
+        ArrayList<TorrentFile> tfile = new ArrayList<TorrentFile>();
+        tfile.add( new TorrentFile( "CROT\\01_10_01.mp3", 1, true ) ); 
+        tfile.add( new TorrentFile( "CROT\\02_10_01.mp3", 2, true ) ); 
+        tfile.add( new TorrentFile( "CROT\\03_10_01.mp3", 3, true ) );
+        tfiles.add( tfile );
+        tfile = new ArrayList<TorrentFile>();
+        tfile.add( new TorrentFile( "TORT\\01_10_01.mp3", 4, true ) );
+        tfile.add( new TorrentFile( "TORT\\02_10_01.mp3", 5, true ) ); 
+        tfile.add( new TorrentFile( "TORT\\03_10_01.mp3", 6, true ) );
+        tfile.add( new TorrentFile( "TORT\\04_10_01.mp3", 7, true ) );
+        tfiles.add( tfile );
+        tfile = new ArrayList<TorrentFile>();
+        tfile.add( new TorrentFile( "COMPOT\\01_10_01.mp3", 8, true ) );
+        tfile.add( new TorrentFile( "COMPOT\\02_10_01.mp3", 9, true ) );
+        tfiles.add( tfile );
 
-		expListAdapter = new ColorAdapter( this,groupNames, colors );
-		setListAdapter( expListAdapter );
+		mExpListAdapter = new TorrentFileAdapter( this,groupNames, tfiles );
+		setListAdapter( mExpListAdapter );
     }
 
     public void onContentChanged  () {
@@ -57,12 +87,7 @@ public class TorrentFilesExList extends ExpandableListActivity {
         Log.d(RutrackerDownloaderApp.TAG, "onContentChanged" );
     }
 
-    public boolean onChildClick(
-            ExpandableListView parent, 
-            View v, 
-            int groupPosition,
-            int childPosition,
-            long id) {
+    public boolean onChildClick( ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Log.d(RutrackerDownloaderApp.TAG, "onChildClick: "+childPosition );
         CheckBox cb = (CheckBox)v.findViewById( R.id.check1 );
         if( cb != null )
@@ -71,51 +96,36 @@ public class TorrentFilesExList extends ExpandableListActivity {
     }
 }
 
-class Color {
-    public String color = null;
-    public String rgb = null;
-    public boolean state = false;
+class TorrentFile {
+    String  mName = null;
+    int     mNumber = -1;
+    boolean mState = false;
 
-    public Color( String color, String rgb, boolean state ) {
-        this.color = color;
-        this.rgb = rgb;
-        this.state = state;
-    }
+    public TorrentFile( String name, int number, boolean state ) { mName = name; mNumber = number; mState = state;}
 
-    public String getColor() {
-	    return color;
-    }
-
-    public String getRgb() {
-	    return rgb;
-    }
-
-    public boolean getState() {
-	    return state;
-    }
-
+    public String getName() { return mName;}
+    public int getNumber() { return mNumber;}
+    public boolean getState() { return mState; }
 }
 
-class ColorAdapter extends BaseExpandableListAdapter {
+class TorrentFileAdapter extends BaseExpandableListAdapter {
 
-    private ArrayList<String> groups;
-    private ArrayList<ArrayList<Color>> colors;
-    private LayoutInflater inflater;
+    ArrayList<String> mGroups;
+    ArrayList<ArrayList<TorrentFile>> mTfiles;
+    LayoutInflater mInflater;
 
-    public ColorAdapter(Context context, 
-                        ArrayList<String> groups,
-						ArrayList<ArrayList<Color>> colors ) { 
-		this.groups = groups;
-        this.colors = colors;
-        inflater = LayoutInflater.from( context );
+    public TorrentFileAdapter(Context context, ArrayList<String> groups, ArrayList<ArrayList<TorrentFile>> tfiles ) { 
+		mGroups = groups;
+        mTfiles = tfiles;
+        mInflater = LayoutInflater.from( context );
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        return colors.get( groupPosition ).get( childPosition );
+        return mTfiles.get( groupPosition ).get( childPosition );
     }
 
     public long getChildId(int groupPosition, int childPosition) {
-        return (long)( groupPosition*1024+childPosition );  // Max 1024 children per group
+        return (long)( groupPosition*2048+childPosition );  // Max 2048 children per group
     }
 
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
@@ -123,60 +133,43 @@ class ColorAdapter extends BaseExpandableListAdapter {
         if( convertView != null )
             v = convertView;
         else
-            v = inflater.inflate(R.layout.child_row, parent, false); 
-        Color c = (Color)getChild( groupPosition, childPosition );
-		TextView color = (TextView)v.findViewById( R.id.childname );
-		if( color != null )
-			color.setText( c.getColor() );
-		TextView rgb = (TextView)v.findViewById( R.id.rgb );
-		if( rgb != null )
-			rgb.setText( c.getRgb() );
+            v = mInflater.inflate(R.layout.child_row, parent, false); 
+        TorrentFile tfile = (TorrentFile)getChild( groupPosition, childPosition );
+		TextView tfile_name = (TextView)v.findViewById( R.id.childname );
+		if( tfile_name != null )
+			tfile_name.setText( tfile.getName() );
 		CheckBox cb = (CheckBox)v.findViewById( R.id.check1 );
-        cb.setChecked( c.getState() );
+        cb.setChecked( tfile.getState() );
         return v;
     }
-
     public int getChildrenCount(int groupPosition) {
-        return colors.get( groupPosition ).size();
+        return mTfiles.get( groupPosition ).size();
     }
-
     public Object getGroup(int groupPosition) {
-        return groups.get( groupPosition );        
+        return mGroups.get( groupPosition );        
     }
-
     public int getGroupCount() {
-        return groups.size();
+        return mTfiles.size();
     }
-
-    public long getGroupId(int groupPosition) {
-        return (long)( groupPosition*1024 );  // To be consistent with getChildId
-    } 
-
+    public long getGroupId(int groupPosition) { 
+    	return (long)( groupPosition*2048 );  // To be consistent with getChildId  
+    }
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View v = null;
         if( convertView != null )
             v = convertView;
         else
-            v = inflater.inflate(R.layout.group_row, parent, false); 
+            v = mInflater.inflate(R.layout.group_row, parent, false); 
         String gt = (String)getGroup( groupPosition );
-		TextView colorGroup = (TextView)v.findViewById( R.id.childname );
+		TextView group = (TextView)v.findViewById( R.id.childname );
 		if( gt != null )
-			colorGroup.setText( gt );
+			group.setText( gt );
         return v;
     }
-
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    } 
-
+    public boolean hasStableIds() {return true;} 
+    public boolean isChildSelectable(int groupPosition, int childPosition) {return true;} 
     public void onGroupCollapsed (int groupPosition) {} 
     public void onGroupExpanded(int groupPosition) {}
-
-
 }
 
 
