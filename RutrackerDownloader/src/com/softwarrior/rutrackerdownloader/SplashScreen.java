@@ -93,7 +93,7 @@ public class SplashScreen extends Activity {
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	//intent.setClassName(this, PreferencesTabs.class.getName());
-    	intent.setClassName(this, TorrentFilesExList.class.getName());
+    	intent.setClassName(this, TorrentFilesList.class.getName());
     	startActivity(intent);
     	overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	finish();
