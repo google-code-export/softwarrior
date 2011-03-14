@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
     <TextView 
          android:id="@+id/childname"         
-         android:paddingLeft="20sp"
+         android:paddingLeft="5sp"
          android:focusable="false"
          android:textSize="14sp"
          android:textStyle="italic"

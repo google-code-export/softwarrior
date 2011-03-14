@@ -479,7 +479,7 @@ public class DownloadService extends Service {
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
 	        	TorrentFilesList.FillTorrentFiles(mBoundService.GetTorrentFiles());
 	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	        	intent.setClassName(this, TorrentFilesExList.class.getName());
+	        	intent.setClassName(this, TorrentFilesList.class.getName());
 	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
         	}
         }
