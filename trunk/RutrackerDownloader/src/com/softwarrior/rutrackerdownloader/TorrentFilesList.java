@@ -19,8 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class TorrentFilesList extends ListActivity {
-    private static ArrayList<String> mTorrentFiles = new ArrayList<String>();
-    public static ArrayList<Byte> TorrentFilesPriority = new ArrayList<Byte>();
     
     String TORRENT_FILES = new String(
     		"CROT\\01_10_01.mp3\n" +
@@ -44,65 +42,63 @@ public class TorrentFilesList extends ListActivity {
     };
 
 	private TorrentDirFileAdapter mDirFileAdapter;
+	private TorrentDir mCurrentDir;
+	private TextView mDirName;
+	private ListView mListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.torrentfilelist);
 
-        TorrentDir rootDir = TorrentDirFile.CreateDirFileList(TORRENT_FILES, FILES_PRIORITY);
-                 
-        mDirFileAdapter = new TorrentDirFileAdapter( this, rootDir.getDirFiles() );
+        mCurrentDir = TorrentDirFile.CreateDirFileList(TORRENT_FILES, FILES_PRIORITY);
+
+        mDirName = (TextView)findViewById(R.id.dir_name);
+        mDirName.setText(mCurrentDir.getName());
+        
+        mDirFileAdapter = new TorrentDirFileAdapter( this, mCurrentDir.getDirFiles() );
 		setListAdapter( mDirFileAdapter );
         
-        final ListView listView = getListView();
-        listView.setItemsCanFocus(false);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		mListView = getListView();
+		mListView.setItemsCanFocus(false);
+		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
              
-        int size = listView.getAdapter().getCount();
-        for(int i=0; i<size; i++)
-        	listView.setItemChecked(i, true);
+//        int size = mListView.getAdapter().getCount();
+//        for(int i=0; i<size; i++)
+//        	mListView.setItemChecked(i, true);
         
-
-	  	listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
 	    	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 	    		//0 - piece is not downloaded at all
 				//1 - normal priority. Download order is dependent on availability				
-	    		TorrentDirFile dirFile = (TorrentDirFile)listView.getItemAtPosition(position);	    		
-	    		if(dirFile instanceof TorrentDir){	    			
-	    			TorrentDir dir =  (TorrentDir)dirFile;
-	    			mDirFileAdapter.setTorrentDirFile(dir.getDirFiles());
-	    		}
-    			CheckBox cb = (CheckBox)view.findViewById(R.id.check1); 
-    			byte priority = 0;	    		
-	    		if(cb.isChecked())
-	    			priority = 1;
-	    		if(dirFile instanceof TorrentFile)	    			
-	    			FILES_PRIORITY[dirFile.getNumber()] = priority;
-//	    		TorrentFilesPriority.set(position, priority);
+	    		TorrentDirFile dirFile = (TorrentDirFile)mListView.getItemAtPosition(position);	    		
+	    		if(dirFile instanceof TorrentDir){
+	    			TorrentDir sub_dir = (TorrentDir)dirFile;
+	    			sub_dir.setUpDir(mCurrentDir);
+	    			mCurrentDir =  (TorrentDir)dirFile;
+	    			mDirFileAdapter.setTorrentDirFile(mCurrentDir.getDirFiles());
+	    	        String dir_name = mDirName.getText() + "\\" + mCurrentDir.getName();
+	    	        mDirName.setText(dir_name);
+	    			setListAdapter(mDirFileAdapter);
+	    		} 
+//	    		else if(dirFile instanceof TorrentFile){
+//		    		byte priority = 0;
+//		            CheckBox cb = (CheckBox)findViewById(R.id.check1);
+//		    		if(cb.isChecked())
+//		    			priority = 1;
+//		    		FILES_PRIORITY[dirFile.getNumber()] = priority;	    			
+//	    		}
 	    	}
 	  	});
-
+//        mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+//			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+//			}        	
+//        });
+        
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 //	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
     }
-    
-    static public void FillTorrentFiles(String torrentFiles){
-    	if( torrentFiles!= null){
-	    	mTorrentFiles.clear();
-	    	TorrentFilesPriority.clear();
-	    	int last_index = 0;
-	    	int current_index = torrentFiles.indexOf('\n',0);  
-	    	while(current_index > 0 ){
-	    		String filename = torrentFiles.substring(last_index, current_index);
-	    		mTorrentFiles.add(filename);
-	    		TorrentFilesPriority.add((byte)1);
-	    		last_index = current_index+1; 
-	    		current_index = torrentFiles.indexOf('\n',last_index);
-	    	}
-	    }
-    }
-    
+        
     @Override
     protected void onResume() {
     	super.onResume();
@@ -120,9 +116,32 @@ public class TorrentFilesList extends ListActivity {
 			finish();
 			break;
 		};		
-	}	
+	}
+	
+   public void OnClickButtonUnselect(View v){	   
+   }
+   public void OnClickButtonSelect(View v){
+//	   for(int i=0; mCurrentDir.getDirFilesSize();
+//	   mCurrentDir.getDirFilesSize();
+   }
+   public void OnClickButtonApply(View v){	   
+   }
+   public void OnClickButtonUp(View v){
+	   TorrentDir upDir = mCurrentDir.getUpDir();
+	   if(upDir != null){
+		   mCurrentDir = upDir;
+		   mDirFileAdapter.setTorrentDirFile(mCurrentDir.getDirFiles());
+		   String dir_name = (String) mDirName.getText();
+	       int current_index = dir_name.lastIndexOf('\\');
+	       if(current_index >= 0 ){
+	    	   dir_name = dir_name.substring(0, current_index);	    		
+	    	}
+		   mDirName.setText(dir_name);
+		   setListAdapter(mDirFileAdapter);
+	   }
+   }
 }
-
+//----------------------------------------------------------------------------------
 abstract class TorrentDirFile {
     protected String  mName = null;
     protected int     mNumber = -1;
@@ -172,6 +191,9 @@ class TorrentFile extends TorrentDirFile{
 	    		mSubdirs .add(new TorrentDir(dirname,true));
 	    		last_index = current_index+1; 
 	    		current_index = mName.indexOf('\\',last_index);
+	    		if(current_index < 0){
+	    			mName = mName.substring(last_index, mName.length());
+	    		}
 	    	}
 	    }
 	}
@@ -180,6 +202,7 @@ class TorrentFile extends TorrentDirFile{
 
 class TorrentDir extends TorrentDirFile{
     ArrayList<TorrentDirFile> mTorrentDirFiles = new ArrayList<TorrentDirFile>();
+    TorrentDir mUpDir = null;
     public TorrentDir(String name, boolean state) {super(name,state);}    
 	public void addFile(TorrentFile file){
 		if(file.getSubdirs().size() == 0){
@@ -208,8 +231,9 @@ class TorrentDir extends TorrentDirFile{
 		}
 		return result;
 	}
-	public int getDirFilesSize(){return mTorrentDirFiles.size();} 
-	
+	public void setUpDir(TorrentDir previos){mUpDir=previos;}
+	public TorrentDir getUpDir(){return mUpDir;}
+	public int getDirFilesSize(){return mTorrentDirFiles.size();} 	
 	public TorrentDirFile[] getDirFiles(){
         int count = mTorrentDirFiles.size();
         TorrentDirFile[] dirFiles = new TorrentDirFile[count];

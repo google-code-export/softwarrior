@@ -311,5 +311,14 @@
     <string name="button_select_files">Файлы</string>
     <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
     <string name="main_no_items">Нет элементов</string>
-    <string name="checkbox_text">Выбран</string>              
+    <string name="checkbox_text">Выбран</string> 
+    <string name="on_click_button_unselect">OnClickButtonUnselect</string>
+    <string name="button_unselect">Снять выделение</string>
+    <string name="on_click_button_select">OnClickButtonSelect</string>
+    <string name="button_select">Выделить все</string>
+    <string name="on_click_button_apply">OnClickButtonApply</string>
+    <string name="button_apply">Применить</string>
+    <string name="on_click_button_up">OnClickButtonUp</string>
+    <string name="button_up">Вверх по каталогу</string>
+                 
 </resources>

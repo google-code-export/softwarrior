@@ -314,4 +314,12 @@ Please see contact information in the About page.
     <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
     <string name="main_no_items">No items</string>
     <string name="checkbox_text">Selected</string>    
+    <string name="on_click_button_unselect">OnClickButtonUnselect</string>
+    <string name="button_unselect">Unselect all</string>
+    <string name="on_click_button_select">OnClickButtonSelect</string>
+    <string name="button_select">Select all</string>
+    <string name="on_click_button_apply">OnClickButtonApply</string>
+    <string name="button_apply">Apply</string>
+    <string name="on_click_button_up">OnClickButtonUp</string>
+    <string name="button_up">Up</string>
 </resources>
