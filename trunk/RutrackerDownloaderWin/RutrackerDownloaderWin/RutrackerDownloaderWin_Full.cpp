@@ -1247,7 +1247,7 @@ int main(int argc, char* argv[])
 			if (queue_pos == -1) out += "-  ";
 			else
 			{
-				snprintf(str, sizeof(str), "%-3d", queue_pos);
+-				snprintf(str, sizeof(str), "%-3d", queue_pos);
 				out += str;
 			}
 

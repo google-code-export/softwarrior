@@ -102,6 +102,36 @@ void StopDownload()
 	}
 }
 //-----------------------------------------------------------------------------------
+void TorrentFiles(libtorrent::torrent_info& info)
+{
+	int num_files= info.num_files();
+	for (int i = 0; i < info.num_files(); ++i)
+	{
+		libtorrent::file_entry const & fe = info.file_at(i);
+		std::cout << fe.path.string() << std::endl;
+		printf("file_entry:\n\r"
+				"executable_attribute=%d\n\r"
+				"file_base=%d\n\r"
+				"hidden_attribute=%d\n\r"
+				"mtime=%d\n\r"
+				"offset=%d\n\r"
+				"pad_file=%d\n\r"
+				"path.filename=\n\r"
+				"size=%d\n\r"
+				"symlink_attribute=%d\n",
+				fe.executable_attribute, 
+				fe.file_base,
+				fe.hidden_attribute,
+				fe.mtime,
+				fe.offset,
+				fe.pad_file,
+				//fe.path.string().c_str(),
+				fe.size,
+				fe.symlink_attribute
+				);
+	}
+}
+//-----------------------------------------------------------------------------------
 // MAIN
 //-----------------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -125,7 +155,7 @@ int main(int argc, char* argv[])
 //----------------------------
 	{
 		StartDownload("./", argv[1], 55425, 0, "", 0, "");
-
+		TorrentFiles();
 		while(true)
 		{
 			::Sleep(100);
