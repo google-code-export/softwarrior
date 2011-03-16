@@ -66,4 +66,6 @@ public class LibTorrent {
 	//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
     public native boolean SetTorrentFilesPriority(byte[] FilesPriority);
     //-----------------------------------------------------------------------------
+    public native byte[] GetTorrentFilesPriority();
+    //-----------------------------------------------------------------------------
 }

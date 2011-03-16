@@ -138,7 +138,11 @@ public class RutrackerDownloaderApp extends Application {
     	activity.finish();
     }
         
-    static public void FinalCloseApplication(Activity activity){
+    static public void FinalCloseApplication(Activity activity){ 
+//        ProgressDialog dialog = new ProgressDialog(activity);
+//        dialog.setMessage(activity.getString(R.string.progress_close));
+//        dialog.setIndeterminate(true);
+//        dialog.setCancelable(true);
 		RutrackerDownloaderApp.ExitState = true;
 		activity.stopService(new Intent(activity,DownloadService.class));
 		NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);

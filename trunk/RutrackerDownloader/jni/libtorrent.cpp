@@ -553,3 +553,35 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrent
 	return result;
 }
 //-----------------------------------------------------------------------------
+JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFilesPriority
+	(JNIEnv *env, jobject obj)
+{
+	jbyteArray result = NULL;
+	jbyte* result_array = NULL;
+	try {
+		if(gWorkState){
+			libtorrent::torrent_status s = gTorrent.status();
+			if(gTorrent.has_metadata()) {
+				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+				int files_num = info.num_files();
+				std::vector<int> priorities = gTorrent.file_priorities();
+				if(files_num == priorities.size() ){
+					result_array = new jbyte[files_num];
+					for(int i=0;i<files_num;i++) result_array[i] = (jbyte)priorities[i];
+					result = env->NewByteArray(files_num);
+					env->SetByteArrayRegion(result,0,files_num,result_array);
+				} else {
+					LOG_ERR("LibTorrent.GetTorrentFilesPriority priority array size failed");
+				}
+			}
+		}
+	} catch(...){
+		LOG_ERR("Exception: failed to get files priority");
+		gWorkState=false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.GetTorrentFilesPriority WorkState==false");
+	if(result_array)
+		delete [] result_array;
+	return result;
+}
+//-----------------------------------------------------------------------------
