@@ -105,6 +105,8 @@ public class DownloadService extends Service {
 	//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
     public boolean SetTorrentFilesPriority(byte[] FilesPriority){return mLibTorrent.SetTorrentFilesPriority(FilesPriority);}
     //-----------------------------------------------------------------------------
+    public byte[] GetTorrentFilesPriority(){return mLibTorrent.GetTorrentFilesPriority();}
+    //-----------------------------------------------------------------------------
 
         
     public class LocalBinder extends Binder {
@@ -477,7 +479,8 @@ public class DownloadService extends Service {
         public void OnClickButtonSelectFiles(View v) {
         	if(mIsBoundService){
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
-	        	//TorrentFilesList.FillTorrentFiles(mBoundService.GetTorrentFiles());
+	        	TorrentFilesList.TORRENT_FILES = mBoundService.GetTorrentFiles();
+	        	TorrentFilesList.FILES_PRIORITY = mBoundService.GetTorrentFilesPriority();
 	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	        	intent.setClassName(this, TorrentFilesList.class.getName());
 	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
@@ -522,10 +525,8 @@ public class DownloadService extends Service {
     	protected void onActivityResult(int requestCode, int resultCode, Intent data) {        	
 			if(requestCode == SELECT_FILE_ACTIVITY){
                 if(mIsBoundService){
-//                	int count = TorrentFilesList.TorrentFilesPriority.size();
-//                	byte[] priorities = new byte[count];
-//                	for(int i=0;i<count;i++) priorities[i] = (byte)TorrentFilesList.TorrentFilesPriority.get(i);	           
-//                	mBoundService.SetTorrentFilesPriority(priorities);	    		                	
+                	if(TorrentFilesList.APPLY)
+                		mBoundService.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY);	    		                	
                 }
 			}
 			else{

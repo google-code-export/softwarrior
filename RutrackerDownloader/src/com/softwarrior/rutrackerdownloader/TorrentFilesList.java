@@ -23,19 +23,19 @@ import android.widget.TextView;
 public class TorrentFilesList extends ListActivity {
     
     public static String TORRENT_FILES = new String(
-    		"CROT\\01_10_01.mp3\n" +
-    		"CROT\\02_10_01.mp3\n" +
-    		"CROT\\1980\\04\\03_10_01.mp3\n" +
-    		"CROT\\03_10_01.mp3\n" +
-    		"TORT\\01_10_01.mp3\n" +
+    		"CROT/01_10_01.mp3\n" +
+    		"CROT/02_10_01.mp3\n" +
+    		"CROT/1980/04/03_10_01.mp3\n" +
+    		"CROT/03_10_01.mp3\n" +
+    		"TORT/01_10_01.mp3\n" +
     		"77_10_01.mp3\n" +
-    		"TORT\\1977\\01_10_01.mp3\n" +
-    		"TORT\\02_10_01.mp3\n" +
-    		"TORT\\03_10_01.mp3\n" +
-    		"TORT\\04_10_01.mp3\n" +
-    		"COMPOT\\01_10_01.mp\n" +
-    		"COMPOT\\2010\\01\\01_10_01.mp3\n"+
-    		"COMPOT\\02_10_01.mp3\n" +
+    		"TORT/1977/01_10_01.mp3\n" +
+    		"TORT/02_10_01.mp3\n" +
+    		"TORT/03_10_01.mp3\n" +
+    		"TORT/04_10_01.mp3\n" +
+    		"COMPOT/01_10_01.mp\n" +
+    		"COMPOT/2010/01/01_10_01.mp3\n"+
+    		"COMPOT/02_10_01.mp3\n" +
     		"99_10_01.mp3\n"
     );
 	//0 - piece is not downloaded at all
@@ -44,6 +44,9 @@ public class TorrentFilesList extends ListActivity {
     		0,1,1,1,1,1,1,1,1,1,1,1,1,0
     };
 
+    public static boolean APPLY = false;
+    
+    
 	private TorrentDirFileAdapter mDirFileAdapter;
 	private TorrentDir mCurrentDir;
 	private TextView mDirName;
@@ -53,7 +56,8 @@ public class TorrentFilesList extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.torrentfilelist);
-
+        
+        APPLY = false;
         mCurrentDir = TorrentDirFile.CreateDirFileList(TORRENT_FILES, FILES_PRIORITY);
 
         mDirName = (TextView)findViewById(R.id.dir_name);
@@ -78,7 +82,7 @@ public class TorrentFilesList extends ListActivity {
 	    			sub_dir.setUpDir(mCurrentDir);
 	    			mCurrentDir =  (TorrentDir)dirFile;
 	    			mDirFileAdapter.setTorrentDirFile(mCurrentDir.getDirFiles());
-	    	        String dir_name = mDirName.getText() + "\\" + mCurrentDir.getName();
+	    	        String dir_name = mDirName.getText() + "/" + mCurrentDir.getName();
 	    	        mDirName.setText(dir_name);
 	    			setListAdapter(mDirFileAdapter);
 	    		} 
@@ -86,7 +90,7 @@ public class TorrentFilesList extends ListActivity {
 	  	});
         
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-//	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
+	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
     }
         
     @Override
@@ -128,6 +132,7 @@ public class TorrentFilesList extends ListActivity {
 	   }	   
    }   
    public void OnClickButtonApply(View v){
+	   APPLY = true;
    }   
    public void OnClickButtonUp(View v){
 	   TorrentDir upDir = mCurrentDir.getUpDir();
@@ -135,7 +140,7 @@ public class TorrentFilesList extends ListActivity {
 		   mCurrentDir = upDir;
 		   mDirFileAdapter.setTorrentDirFile(mCurrentDir.getDirFiles());
 		   String dir_name = (String) mDirName.getText();
-	       int current_index = dir_name.lastIndexOf('\\');
+	       int current_index = dir_name.lastIndexOf('/');
 	       if(current_index >= 0 ){
 	    	   dir_name = dir_name.substring(0, current_index);	    		
 	    	}
@@ -164,7 +169,7 @@ abstract class TorrentDirFile {
     public void setState(boolean state) { mState = state; }
     
     public static TorrentDir CreateDirFileList(String FileNames, byte[] priority){
-    	TorrentDir result = new TorrentDir("\\",true);
+    	TorrentDir result = new TorrentDir("/",true);
         if( FileNames != null && priority != null){
         	boolean checked = true;
 	    	int last_index = 0;
@@ -189,12 +194,12 @@ class TorrentFile extends TorrentDirFile{
 		super(name,number,state);
         if( mName!= null){
 	    	int last_index = 0;
-	    	int current_index = mName.indexOf('\\',last_index);
+	    	int current_index = mName.indexOf('/',last_index);
 	    	while(current_index >= 0 ){
 	    		String dirname = mName.substring(last_index, current_index);	    		
 	    		mSubdirs.add(new TorrentDir(dirname,state));
 	    		last_index = current_index+1; 
-	    		current_index = mName.indexOf('\\',last_index);
+	    		current_index = mName.indexOf('/',last_index);
 	    		if(current_index < 0){
 	    			mName = mName.substring(last_index, mName.length());
 	    		}

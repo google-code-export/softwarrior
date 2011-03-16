@@ -83,6 +83,9 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentF
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrentFilesPriority
 	(JNIEnv *env, jobject obj, jbyteArray FilesPriority);
 //-----------------------------------------------------------------------------
+JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFilesPriority
+	(JNIEnv *env, jobject obj);
+//-----------------------------------------------------------------------------
 #ifdef __cplusplus
 }
 #endif
