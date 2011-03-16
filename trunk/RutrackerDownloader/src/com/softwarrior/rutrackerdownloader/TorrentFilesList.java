@@ -15,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class TorrentFilesList extends ListActivity {
     
-    String TORRENT_FILES = new String(
+    public static String TORRENT_FILES = new String(
     		"CROT\\01_10_01.mp3\n" +
     		"CROT\\02_10_01.mp3\n" +
     		"CROT\\1980\\04\\03_10_01.mp3\n" +
@@ -36,9 +38,10 @@ public class TorrentFilesList extends ListActivity {
     		"COMPOT\\02_10_01.mp3\n" +
     		"99_10_01.mp3\n"
     );
-
-    byte[] FILES_PRIORITY = new byte[]{
-    		1,1,1,1,1,1,1,1,1,1,1,1,1,1
+	//0 - piece is not downloaded at all
+	//1 - normal priority. Download order is dependent on availability				
+    public static byte[] FILES_PRIORITY = new byte[]{
+    		0,1,1,1,1,1,1,1,1,1,1,1,1,0
     };
 
 	private TorrentDirFileAdapter mDirFileAdapter;
@@ -69,8 +72,6 @@ public class TorrentFilesList extends ListActivity {
         
         mListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
 	    	public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-	    		//0 - piece is not downloaded at all
-				//1 - normal priority. Download order is dependent on availability				
 	    		TorrentDirFile dirFile = (TorrentDirFile)mListView.getItemAtPosition(position);	    		
 	    		if(dirFile instanceof TorrentDir){
 	    			TorrentDir sub_dir = (TorrentDir)dirFile;
@@ -81,19 +82,8 @@ public class TorrentFilesList extends ListActivity {
 	    	        mDirName.setText(dir_name);
 	    			setListAdapter(mDirFileAdapter);
 	    		} 
-//	    		else if(dirFile instanceof TorrentFile){
-//		    		byte priority = 0;
-//		            CheckBox cb = (CheckBox)findViewById(R.id.check1);
-//		    		if(cb.isChecked())
-//		    			priority = 1;
-//		    		FILES_PRIORITY[dirFile.getNumber()] = priority;	    			
-//	    		}
 	    	}
 	  	});
-//        mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-//			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-//			}        	
-//        });
         
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 //	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
@@ -119,13 +109,26 @@ public class TorrentFilesList extends ListActivity {
 	}
 	
    public void OnClickButtonUnselect(View v){	   
+	   TorrentDirFile [] tdf = mCurrentDir.getDirFiles();
+	   SelectDirFile(tdf,false);
+	   mDirFileAdapter.setTorrentDirFile(mCurrentDir.getDirFiles());
+	   setListAdapter(mDirFileAdapter);
    }
    public void OnClickButtonSelect(View v){
-//	   for(int i=0; mCurrentDir.getDirFilesSize();
-//	   mCurrentDir.getDirFilesSize();
-   }
-   public void OnClickButtonApply(View v){	   
-   }
+	   TorrentDirFile [] tdf = mCurrentDir.getDirFiles();
+	   SelectDirFile(tdf,true);
+	   mDirFileAdapter.setTorrentDirFile(mCurrentDir.getDirFiles());
+	   setListAdapter(mDirFileAdapter);
+   }   
+   private void SelectDirFile(TorrentDirFile[] tdf, boolean flag){
+	   for(int i=0; i<tdf.length;i++){
+		   if(tdf[i] instanceof TorrentDir)
+			   SelectDirFile(((TorrentDir)tdf[i]).getDirFiles(), flag);
+		   tdf[i].setState(flag);
+	   }	   
+   }   
+   public void OnClickButtonApply(View v){
+   }   
    public void OnClickButtonUp(View v){
 	   TorrentDir upDir = mCurrentDir.getUpDir();
 	   if(upDir != null){
@@ -158,6 +161,7 @@ abstract class TorrentDirFile {
     public String getName() { return mName;}
     public int getNumber() { return mNumber;}
     public boolean getState() { return mState; }
+    public void setState(boolean state) { mState = state; }
     
     public static TorrentDir CreateDirFileList(String FileNames, byte[] priority){
     	TorrentDir result = new TorrentDir("\\",true);
@@ -188,7 +192,7 @@ class TorrentFile extends TorrentDirFile{
 	    	int current_index = mName.indexOf('\\',last_index);
 	    	while(current_index >= 0 ){
 	    		String dirname = mName.substring(last_index, current_index);	    		
-	    		mSubdirs .add(new TorrentDir(dirname,true));
+	    		mSubdirs.add(new TorrentDir(dirname,state));
 	    		last_index = current_index+1; 
 	    		current_index = mName.indexOf('\\',last_index);
 	    		if(current_index < 0){
@@ -198,6 +202,12 @@ class TorrentFile extends TorrentDirFile{
 	    }
 	}
 	public ArrayList <TorrentDir> getSubdirs(){return mSubdirs;}
+	@Override
+	public void setState(boolean state) {
+		mState = state;
+    	byte priority = 1; if(!state) priority = 0;
+    	TorrentFilesList.FILES_PRIORITY[mNumber] = priority; 
+	}
 }
 
 class TorrentDir extends TorrentDirFile{
@@ -263,18 +273,30 @@ class TorrentDirFileAdapter extends BaseAdapter {
         	v = mInflater.inflate(R.layout.child_row, parent, false);
         TextView tv_name = (TextView)v.findViewById( R.id.childname );
         TorrentDirFile dirFile = mTorrentDirFile[position];
-    	if(dirFile instanceof TorrentFile){    		
+		CheckBox cb = (CheckBox)v.findViewById( R.id.check1 );
+		cb.setTag(dirFile);
+		cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	        	TorrentDirFile df = (TorrentDirFile)buttonView.getTag();
+		        if(df instanceof TorrentFile)    		
+		        	df.setState(isChecked);
+			}
+		});
+		if( tv_name != null )
+			tv_name.setText( dirFile.getName() );
+        if(dirFile instanceof TorrentFile){    		
+    		if( cb != null )
+    			cb.setChecked( dirFile.getState() );
     		tv_name.setTypeface(null,Typeface.ITALIC);
     		tv_name.setTextSize(14);
     	}
     	else if(dirFile instanceof TorrentDir){
+    		if( cb != null )
+    			cb.setVisibility(View.GONE);
     		tv_name.setTypeface(null,Typeface.BOLD);
     		tv_name.setTextSize(20);
     	}
-		if( tv_name != null )
-			tv_name.setText( dirFile.getName() );
-		CheckBox cb = (CheckBox)v.findViewById( R.id.check1 );
-        cb.setChecked( dirFile.getState() );
         return v;
     }
 }
+
