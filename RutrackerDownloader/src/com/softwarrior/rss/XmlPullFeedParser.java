@@ -16,25 +16,25 @@ public class XmlPullFeedParser extends BaseFeedParser {
 		super(feedUrl);
 	}
 
-	public List<Message> parse() {
-		List<Message> messages = null;
+	public List<RSSMessage> parse() {
+		List<RSSMessage> messages = null;
 		XmlPullParser parser = Xml.newPullParser();
 		try {
 			// auto-detect the encoding from the stream
 			parser.setInput(this.getInputStream(), null);
 			int eventType = parser.getEventType();
-			Message currentMessage = null;
+			RSSMessage currentMessage = null;
 			boolean done = false;
 			while (eventType != XmlPullParser.END_DOCUMENT && !done){
 				String name = null;
 				switch (eventType){
 					case XmlPullParser.START_DOCUMENT:
-						messages = new ArrayList<Message>();
+						messages = new ArrayList<RSSMessage>();
 						break;
 					case XmlPullParser.START_TAG:
 						name = parser.getName();
 						if (name.equalsIgnoreCase(ITEM)){
-							currentMessage = new Message();
+							currentMessage = new RSSMessage();
 						} else if (currentMessage != null){
 							if (name.equalsIgnoreCase(LINK)){
 								currentMessage.setLink(parser.nextText());

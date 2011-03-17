@@ -17,16 +17,16 @@ public class DomFeedParser extends BaseFeedParser {
 		super(feedUrl);
 	}
 
-	public List<Message> parse() {
+	public List<RSSMessage> parse() {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		List<Message> messages = new ArrayList<Message>();
+		List<RSSMessage> messages = new ArrayList<RSSMessage>();
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document dom = builder.parse(this.getInputStream());
 			Element root = dom.getDocumentElement();
 			NodeList items = root.getElementsByTagName(ITEM);
 			for (int i=0;i<items.getLength();i++){
-				Message message = new Message();
+				RSSMessage message = new RSSMessage();
 				Node item = items.item(i);
 				NodeList properties = item.getChildNodes();
 				for (int j=0;j<properties.getLength();j++){
