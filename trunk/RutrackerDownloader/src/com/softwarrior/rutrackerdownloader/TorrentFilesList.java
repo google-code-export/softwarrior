@@ -144,6 +144,7 @@ public class TorrentFilesList extends ListActivity {
    }   
    public void OnClickButtonApply(View v){
 	   APPLY = true;
+	   finish();
    }   
    public void OnClickButtonUp(View v){
 	   TorrentDir upDir = mCurrentDir.getUpDir();

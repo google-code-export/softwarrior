@@ -64,10 +64,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   @Override
   protected void onResume() {
 	super.onResume();
-    if(SiteChoice.GetSite(this) == SiteChoice.SiteType.RUTRACKER) 
-    	mPSSearchOnSite.setSummary("rutracker.org");
-    else
-    	mPSSearchOnSite.setSummary("pornolab.net");
+    mPSSearchOnSite.setSummary(PreferencesTabs.GetRightCustomTitle());
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }

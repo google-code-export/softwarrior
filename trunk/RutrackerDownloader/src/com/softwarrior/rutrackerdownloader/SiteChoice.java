@@ -252,7 +252,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				pl.setChecked(false);
 				RutrackerDownloaderApp.SetupRutracker(this);
 	    		AdClicked = false;
-	    		PreferencesTabs.SetRightCustomTitle(getString(R.string.preferences_rutracker_title));
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
 				CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);

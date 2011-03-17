@@ -10,7 +10,6 @@ import android.content.Intent;
 public class PreferencesTabs extends TabActivity {
 		
 	static TextView mRightText = null;
-
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,5 +91,11 @@ public class PreferencesTabs extends TabActivity {
     public static void SetRightCustomTitle(String text){
     	if(mRightText != null)
     		mRightText.setText(text);    	
-    }    
+    }
+    public static String GetRightCustomTitle(){
+    	String result = new String("");
+    	if(mRightText != null)    	
+    		result = (String)mRightText.getText();
+    	return result;
+    }
 }
