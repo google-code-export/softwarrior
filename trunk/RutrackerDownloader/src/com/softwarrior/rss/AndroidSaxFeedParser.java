@@ -16,10 +16,10 @@ public class AndroidSaxFeedParser extends BaseFeedParser {
 		super(feedUrl);
 	}
 
-	public List<Message> parse() {
-		final Message currentMessage = new Message();
+	public List<RSSMessage> parse() {
+		final RSSMessage currentMessage = new RSSMessage();
 		RootElement root = new RootElement(RSS);
-		final List<Message> messages = new ArrayList<Message>();
+		final List<RSSMessage> messages = new ArrayList<RSSMessage>();
 		Element channel = root.getChild(CHANNEL);
 		Element item = channel.getChild(ITEM);
 		item.setEndElementListener(new EndElementListener(){

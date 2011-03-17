@@ -11,12 +11,12 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
@@ -28,15 +28,7 @@ import android.widget.ListView;
 
 public class MessageList extends ListActivity {
 	
-	private List<Message> messages;
-	
-    ProgressDialog mDialog;
-    private static final int DIALOG_KEY = 1;
-
-    private Handler mHandler = new Handler();        
-    private Thread mThread;
-    ParseHandler mParseHandler = null;
-    android.os.Message mParseMessage = null;
+	private List<RSSMessage> messages;	
 
     public enum MenuType{
     	About, Help, Preferences, FileManager, Exit;
@@ -50,21 +42,24 @@ public class MessageList extends ListActivity {
         ViewGroup container = (ViewGroup)findViewById(R.id.container);
         container.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-        // Start lengthy operation in a background thread
-		showDialog(DIALOG_KEY);
-		mThread = new Thread(new Runnable() {
+    	final ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.progress_read), true, false);
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+            }
+        };            	
+    	// Start lengthy operation in a background thread
+		new Thread(new Runnable() {
             public void run() {
-					mHandler.post(new Runnable() {
+					handler.post(new Runnable() {
 						public void run() {
 					        loadFeed(ParserType.ANDROID_SAX);
-					        removeDialog(DIALOG_KEY);
+					        handler.sendEmptyMessage(0);
 						}
 					});
             }
-        });
-    	mParseHandler = new ParseHandler();
-		mParseMessage =  mParseHandler.obtainMessage();
-		mParseHandler.sendMessageDelayed(mParseMessage, 500);
+        }).start();
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");
     }
 
@@ -73,28 +68,7 @@ public class MessageList extends ListActivity {
 		super.onDestroy();
 		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
 	}
-    
-    private class ParseHandler extends Handler {	
-	    @Override
-		public void handleMessage(android.os.Message message) {
-	    	mThread.start();
-	    }
-    } 
-    
-    @Override
-    protected Dialog onCreateDialog(int id, Bundle args) {
-        switch (id) {
-        case DIALOG_KEY: {
-            ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setMessage("Please wait while loading...");
-            dialog.setIndeterminate(true);
-            dialog.setCancelable(true);
-            return dialog;
-        } 
-        }
-    	return super.onCreateDialog(id, args);
-    }
-    
+            
     @Override
     protected void onResume() {
     	super.onResume();
@@ -177,7 +151,7 @@ public class MessageList extends ListActivity {
 	    	String xml = writeXml();
 	    	Log.i(RutrackerDownloaderApp.TAG, xml);
 	    	List<String> titles = new ArrayList<String>(messages.size());
-	    	for (Message msg : messages){
+	    	for (RSSMessage msg : messages){
 	    		titles.add(msg.getTitle());
 	    	}
 	    	ArrayAdapter<String> adapter = 
@@ -196,7 +170,7 @@ public class MessageList extends ListActivity {
 			serializer.startDocument("UTF-8", true);
 			serializer.startTag("", "messages");
 			serializer.attribute("", "number", String.valueOf(messages.size()));
-			for (Message msg: messages){
+			for (RSSMessage msg: messages){
 				serializer.startTag("", "message");				
 				serializer.attribute("", "date", msg.getDate());
 				String title = msg.getTitle();

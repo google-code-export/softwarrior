@@ -11,10 +11,13 @@ import com.softwarrior.rutrackerdownloader.DownloadService.Controller.Controller
 import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Process;
 
 public class RutrackerDownloaderApp extends Application {	
@@ -138,12 +141,9 @@ public class RutrackerDownloaderApp extends Application {
     	activity.finish();
     }
         
-    static public void FinalCloseApplication(Activity activity){ 
-//        ProgressDialog dialog = new ProgressDialog(activity);
-//        dialog.setMessage(activity.getString(R.string.progress_close));
-//        dialog.setIndeterminate(true);
-//        dialog.setCancelable(true);
-		RutrackerDownloaderApp.ExitState = true;
+    static public void FinalCloseApplication(final Activity activity){ 
+    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
+    	RutrackerDownloaderApp.ExitState = true;
 		activity.stopService(new Intent(activity,DownloadService.class));
 		NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);
  		nm.cancelAll();
@@ -153,11 +153,22 @@ public class RutrackerDownloaderApp extends Application {
         ed.commit();
         RutrackerDownloaderApp.AnalyticsTracker.dispatch();
         RutrackerDownloaderApp.AnalyticsTracker.stop();
-        RutrackerDownloaderApp.ClearCache(activity);
-        activity.moveTaskToBack(false);
-	  	Process.killProcess(Process.myPid());
-	}
-    
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+                activity.moveTaskToBack(false);
+        	  	Process.killProcess(Process.myPid());
+            }
+        };        
+        // Start lengthy operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+		        RutrackerDownloaderApp.ClearCache(activity);
+		        handler.sendEmptyMessage(0);
+            }
+        }).start();
+	}    
     static public void HelpActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

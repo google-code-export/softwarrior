@@ -11,7 +11,7 @@ public class SaxFeedParser extends BaseFeedParser {
 		super(feedUrl);
 	}
 	
-	public List<Message> parse() {
+	public List<RSSMessage> parse() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 			SAXParser parser = factory.newSAXParser();

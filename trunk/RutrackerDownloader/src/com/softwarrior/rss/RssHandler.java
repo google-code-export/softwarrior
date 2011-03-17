@@ -9,11 +9,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import static com.softwarrior.rss.BaseFeedParser.*;
 
 public class RssHandler extends DefaultHandler{
-	private List<Message> messages;
-	private Message currentMessage;
+	private List<RSSMessage> messages;
+	private RSSMessage currentMessage;
 	private StringBuilder builder;
 	
-	public List<Message> getMessages(){
+	public List<RSSMessage> getMessages(){
 		return this.messages;
 	}
 	@Override
@@ -46,7 +46,7 @@ public class RssHandler extends DefaultHandler{
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
-		messages = new ArrayList<Message>();
+		messages = new ArrayList<RSSMessage>();
 		builder = new StringBuilder();
 	}
 
@@ -55,7 +55,7 @@ public class RssHandler extends DefaultHandler{
 			Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, name, attributes);
 		if (localName.equalsIgnoreCase(ITEM)){
-			this.currentMessage = new Message();
+			this.currentMessage = new RSSMessage();
 		}
 	}
 }

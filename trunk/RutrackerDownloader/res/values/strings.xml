@@ -323,4 +323,5 @@ Please see contact information in the About page.
     <string name="on_click_button_up">OnClickButtonUp</string>
     <string name="button_up">Up</string>
     <string name="progress_close">Please wait while program clean unused cache...</string>
+    <string name="progress_read">Please wait while program read RSS...</string>
 </resources>

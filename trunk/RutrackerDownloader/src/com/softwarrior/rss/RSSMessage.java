@@ -5,7 +5,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Message implements Comparable<Message>{
+public class RSSMessage implements Comparable<RSSMessage>{
 	static SimpleDateFormat FORMATTER = 
 		new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 	private String title;
@@ -60,8 +60,8 @@ public class Message implements Comparable<Message>{
 		this.date.parse(date.trim());
 	}
 	
-	public Message copy(){
-		Message copy = new Message();
+	public RSSMessage copy(){
+		RSSMessage copy = new RSSMessage();
 		copy.title = title;
 		copy.link = link;
 		copy.description = description;
@@ -106,7 +106,7 @@ public class Message implements Comparable<Message>{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Message other = (Message) obj;
+		RSSMessage other = (RSSMessage) obj;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -130,7 +130,7 @@ public class Message implements Comparable<Message>{
 		return true;
 	}
 
-	public int compareTo(Message another) {
+	public int compareTo(RSSMessage another) {
 		if (another == null) return 1;
 		// sort descending, most recent first
 		return another.date.compareTo(date);
