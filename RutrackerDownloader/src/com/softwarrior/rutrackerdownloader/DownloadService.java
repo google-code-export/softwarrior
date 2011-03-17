@@ -571,8 +571,12 @@ public class DownloadService extends Service {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");
 		}
 		public void onReceiveRefreshedAd(AdView adView){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
-		}        
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");			
+		}
+		public void OnClickAdview(View v){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
+			RutrackerDownloaderApp.ActivateTorrentFileList = true;		
+		}
     	@Override
     	public boolean onCreateOptionsMenu(Menu menu) {
     		super.onCreateOptionsMenu(menu);
@@ -612,7 +616,8 @@ public class DownloadService extends Service {
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
 		public void onAdClick(MobclixAdView arg0) {
-			Log.v(RutrackerDownloaderApp.TAG, "Ad clicked!");
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix clicked");
+			RutrackerDownloaderApp.ActivateTorrentFileList = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
 			Log.v(RutrackerDownloaderApp.TAG, "The custom ad responded with '" + string + "' when touched!");
