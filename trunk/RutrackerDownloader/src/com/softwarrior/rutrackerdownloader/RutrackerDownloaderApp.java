@@ -86,7 +86,8 @@ public class RutrackerDownloaderApp extends Application {
 	public static String	SearchUrl = new String();
 	public static boolean	ExitState = false;	
 
-		
+	public static boolean 	ActivateTorrentFileList=false;
+			
 	static public void SetupPornolab(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;
@@ -182,7 +183,7 @@ public class RutrackerDownloaderApp extends Application {
     	intent.setClassName(activity, About.class.getName());
     	activity.startActivityForResult(intent, 0);
     }
-    
+
     static public void ClearCache(Context context){    	
     	try { 
     		File dir = context.getCacheDir(); 

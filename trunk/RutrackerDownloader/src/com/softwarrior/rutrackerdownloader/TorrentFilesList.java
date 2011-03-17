@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -55,8 +56,7 @@ public class TorrentFilesList extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.torrentfilelist);
-        
+        setContentView(R.layout.torrentfilelist);        
         APPLY = false;
         mCurrentDir = TorrentDirFile.CreateDirFileList(TORRENT_FILES, FILES_PRIORITY);
 
@@ -88,7 +88,18 @@ public class TorrentFilesList extends ListActivity {
 	    		} 
 	    	}
 	  	});
-        
+	    if(!RutrackerDownloaderApp.ActivateTorrentFileList) {
+	        mDirName.setTypeface(null,Typeface.BOLD);
+	        mDirName.setText(R.string.file_list_activation);
+	        Button button = (Button)findViewById(R.id.ButtonApply);
+	        button.setEnabled(false);
+	        button = (Button)findViewById(R.id.ButtonSelect);
+	        button.setEnabled(false);
+	        button = (Button)findViewById(R.id.ButtonUnselect);
+	        button.setEnabled(false);
+	        button = (Button)findViewById(R.id.ButtonUp);	        
+	        button.setEnabled(false);
+	    }	    
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
     }

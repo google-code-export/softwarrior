@@ -240,7 +240,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
 		}
 		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "Ad clicked!");
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
 			AdClicked = true;			
 		}
 
@@ -265,7 +265,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
 		public void onAdClick(MobclixAdView arg0) {
-			Log.v(RutrackerDownloaderApp.TAG, "Ad clicked!");
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix clicked");
 			AdClicked = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {

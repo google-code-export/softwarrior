@@ -7,10 +7,10 @@
     <TextView 
         android:id="@+id/dir_name"
         android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:paddingTop="5sp" 
         android:paddingBottom="5sp" 
-        android:singleLine="false"/> 
+        android:singleLine="false"/>
     <!--
     <TextView 
         android:id="@+id/android:empty"
@@ -39,7 +39,7 @@
                 android:layout_centerHorizontal="true" 
                 android:layout_centerVertical="true"/>       
             <Button 
-                android:id="@+id/ButtonStopDownload"
+                android:id="@+id/ButtonUnselect"
                 android:onClick="@string/on_click_button_unselect"
                 android:text="@string/button_unselect" 
                 android:layout_alignParentRight="true" 
@@ -48,7 +48,7 @@
                 android:layout_toRightOf="@id/TextView1"/>
                 <requestFocus />
             <Button 
-                android:id="@+id/ButtonStartDownload"
+                android:id="@+id/ButtonSelect"
                 android:onClick="@string/on_click_button_select" 
                 android:text="@string/button_select" 
                 android:layout_height="wrap_content"  
@@ -71,7 +71,7 @@
                 android:layout_centerHorizontal="true" 
                 android:layout_centerVertical="true"/>       
             <Button 
-                android:id="@+id/ButtonPauseDownload"
+                android:id="@+id/ButtonApply"
                 android:onClick="@string/on_click_button_apply"
                 android:text="@string/button_apply"  
                 android:layout_alignParentRight="true" 
@@ -80,7 +80,7 @@
                 android:layout_toRightOf="@id/TextView2"/>
                 <requestFocus />
             <Button 
-                android:id="@+id/ButtonResumeDownload" 
+                android:id="@+id/ButtonUp" 
                 android:onClick="@string/on_click_button_up"
                 android:text="@string/button_up"           
                 android:layout_height="wrap_content"  
@@ -94,5 +94,5 @@
         android:layout_width="fill_parent" 
         android:layout_height="fill_parent"
         android:layout_below="@id/dir_name"
-        android:layout_above="@id/ButtonsLayout"/>     
+        android:layout_above="@id/ButtonsLayout"/> 
 </RelativeLayout>

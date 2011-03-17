@@ -322,4 +322,5 @@
     <string name="button_up">Вверх по каталогу</string>
     <string name="progress_close">Пожалуйста подождите пока программа очистит свой кэш...</string>             
     <string name="progress_read">Пожалуйста подождите пока программа загружает RSS...</string>
+    <string name="file_list_activation">Для включения опции Выбора Файла, нажмите 1 раз на рекламный баннер на предыдущем экране. 1 клик активирует опцию на полную сессию программы.</string>
 </resources>

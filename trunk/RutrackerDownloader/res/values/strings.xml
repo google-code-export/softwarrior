@@ -324,4 +324,5 @@ Please see contact information in the About page.
     <string name="button_up">Up</string>
     <string name="progress_close">Please wait while program clean unused cache...</string>
     <string name="progress_read">Please wait while program read RSS...</string>
+    <string name="file_list_activation">To activate the options to select file, click 1 time on advertising banner on the previous screen. 1 click activates option for complete program session.</string>
 </resources>
