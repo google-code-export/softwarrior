@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+    <LinearLayout
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content">
+	    <EditText android:id="@+id/filename"
+			    android:layout_width="0dip"
+			    android:layout_weight="1" 
+			    android:layout_height="wrap_content" />
+		<Button android:id="@+id/button_pick"
+				android:text="@android:string/ok"
+			    android:layout_width="wrap_content" 
+			    android:layout_height="wrap_content"
+			    android:minWidth="64dip" />
+	</LinearLayout>     
+    <!-- The frame layout is here since we will be showing either the empty view or the list view.  -->
+    <FrameLayout
+        android:layout_width="fill_parent" 
+        android:id="@+id/container"        
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+        <!-- Here is the list. Since we are using a ListActivity, we have to call 
+             it "@android:id/list" so ListActivity will find it -->
+        <ListView android:id="@android:id/list"
+            android:persistentDrawingCache="animation|scrolling"
+            android:layoutAnimation="@anim/layout_bottom_to_top_slide"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:fastScrollEnabled="true"
+            android:drawSelectorOnTop="false"/>        
+        <!-- Here is the view to show if the list is empty -->        
+        <LinearLayout android:id="@+id/empty"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent">
+		<!--  If the list is empty because there are no files... -->        
+        <TextView android:id="@+id/empty_text"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:text="@string/this_folder_is_empty"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:gravity="center" />        	
+        <!--  If the list is empty because we're still scanning... -->
+		<ProgressBar android:id="@+id/scan_progress" 
+			android:layout_height="wrap_content"
+			style="?android:attr/progressBarStyleHorizontal"
+			android:layout_width="fill_parent"
+			android:progress="0"
+			android:max="10"
+			android:secondaryProgress="0"
+			android:layout_gravity="center"
+			android:visibility="gone"/>
+        </LinearLayout>            
+    </FrameLayout>
+        <FrameLayout
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content">
+	    <LinearLayout 
+	    	android:id="@+id/directory_buttons"
+		    android:orientation="horizontal"
+		    android:layout_weight="1" 
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+		    <!-- Buttons added here dynamically -->
+			 <Button 
+				android:text="@string/button_home"
+				android:onClick="@string/on_click_button_home"
+	            android:id="@+id/ButtonHome"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>	            		    
+		 	<Button 
+				android:text="@string/button_sdcard"
+				android:onClick="@string/on_click_button_sdcard"
+	            android:id="@+id/ButtonSDCard"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>
+          	<Button 
+				android:text="@string/button_back_to_downloader"
+				android:onClick="@string/on_click_back_to_downloader"
+	            android:id="@+id/ButtonBackToDownloader"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:layout_weight="1"/>	            		              			            		    
+          	<Button 
+				android:text="@string/button_select_current_dir"
+				android:onClick="@string/on_click_select_current_dir"
+	            android:id="@+id/ButtonSelectCurrentDir"
+		        android:gravity="center_horizontal"
+          		android:layout_width="wrap_content"
+          		android:layout_height="fill_parent"
+          		android:visibility="gone"
+          		android:layout_weight="1"/>	            		              			            		    
+		</LinearLayout>
+		<!--
+		<LinearLayout android:id="@+id/directory_input"
+		    android:orientation="horizontal"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:visibility="gone">
+		    <EditText android:id="@+id/directory_text"
+				    android:layout_width="0dip"
+				    android:layout_weight="1" 
+				    android:layout_height="wrap_content" />
+			<ImageButton android:id="@+id/button_directory_pick"
+					android:src="@drawable/ic_menu_forward_small"
+				    android:layout_width="wrap_content" 
+				    android:layout_height="wrap_content" />
+		  </LinearLayout>
+		  -->
+	</FrameLayout>    
+</LinearLayout>

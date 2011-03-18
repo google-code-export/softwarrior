@@ -1,0 +1,8 @@
+For the complete list of changes and a list of frequently asked questions, please visit:
+
+http://softwarrior.wordpress.com
+
+Rutracker Downloader is distributed under the terms of the GNU General Public License version 2.
+You should have received a copy of the GNU General Public License from:
+
+http://www.gnu.org/licenses
