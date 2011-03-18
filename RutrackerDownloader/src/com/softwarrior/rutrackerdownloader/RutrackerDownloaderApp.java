@@ -72,6 +72,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String 	TorrentSavePath = Environment.getExternalStorageDirectory()+"/";// + "/RutrackerDownloader";
 	
 	//Variables
+	public static String	TorrentFullFileName = new String("undefined");
 	public static String	TorrentLoginUrl = RT_TorrentLoginUrl;
 	public static String	SearchUrlPrefix = RT_SearchUrlPrefix;
 	public static String	SiteMap = RT_SiteMap;
@@ -87,7 +88,13 @@ public class RutrackerDownloaderApp extends Application {
 	public static boolean	ExitState = false;	
 
 	public static boolean 	ActivateTorrentFileList=false;
-			
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+        RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
+	}
+	
 	static public void SetupPornolab(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;

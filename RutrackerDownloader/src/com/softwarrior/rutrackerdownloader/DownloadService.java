@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -253,6 +254,12 @@ public class DownloadService extends Service {
 		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
             setContentView(R.layout.service);
+            Intent intent = getIntent();
+            if(intent != null){
+            	Uri localUri = getIntent().getData();
+            	if(localUri != null)
+            		RutrackerDownloaderApp.TorrentFullFileName = localUri.getPath();
+            }
             //--------------Mobclix-----------------------
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
 	        mAdviewBanner.addMobclixAdViewListener(this);            
@@ -431,16 +438,15 @@ public class DownloadService extends Service {
 		public void OnClickButtonStartDownload(View v) {
         	if(mIsBoundService){
         		String savePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
-        		String torentFile = DownloadPreferencesScreen.GetFullTorrentFileName(this);
         		try{
-        			FileInputStream fis = new FileInputStream(torentFile); 
+        			FileInputStream fis = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName); 
             		fis.close();  		
             	}
             	catch(Exception ex){
                     Toast.makeText(Controller.this, R.string.error_torrent_file_absent, Toast.LENGTH_SHORT).show();
                     return;
             	}
-        		mBoundService.AddTorrent(savePath, torentFile);
+        		mBoundService.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);
         		SetControllerState(ControllerState.Started);
         	}
 		}

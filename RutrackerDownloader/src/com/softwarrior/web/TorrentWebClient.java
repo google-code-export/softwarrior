@@ -167,7 +167,7 @@ public class TorrentWebClient extends Activity {
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
-    		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetFullTorrentFileName(this));
+    		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(this));
     		torrentDownloader.Download(mDistributionNumber);
     		
 			Intent intent = new Intent(Intent.ACTION_VIEW);

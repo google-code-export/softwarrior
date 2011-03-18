@@ -36,7 +36,6 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static final String KEY_PORT_NUMBER="preferences_port_number";
 	public static final String KEY_USER_NAME="preferences_user_name";
 	public static final String KEY_PASSWORD="preferences_password";
-	public static final String KEY_TORRENT_FILE_NAME="preferences_torrent_file_name";
 	public static final String KEY_TORRENT_SAVE_PATH="preferences_torrent_save_path";
 	
 	@Override
@@ -46,12 +45,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     
     String savePath =  GetTorrentSavePath(this);
     if(savePath == null || savePath.length() < 3)
-    	SetTorrentSavePath(this, RutrackerDownloaderApp.TorrentSavePath);
-    
-    String fileName =  GetTorrentFileName(this);
-    if(fileName == null || fileName.length() < 1)
-    	SetTorrentFileName(this, RutrackerDownloaderApp.TorrentFileName);
-
+    	SetTorrentSavePath(this, RutrackerDownloaderApp.TorrentSavePath);    
     
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.download_preferences);
@@ -142,13 +136,6 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return preferences.getString(KEY_PASSWORD, RutrackerDownloaderApp.UserPassword);												
 	}
-	public static String GetTorrentFileName(Context context){
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_TORRENT_FILE_NAME, RutrackerDownloaderApp.TorrentFileName);														
-	}
-	public static String GetFullTorrentFileName(Context context){
-		return GetTorrentSavePath(context) + "/" + GetTorrentFileName(context);
-	}	
 	public static String GetTorrentSavePath(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return preferences.getString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.TorrentSavePath);																
@@ -160,15 +147,6 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 			editor.putString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.TorrentSavePath);
 		else
 			editor.putString(KEY_TORRENT_SAVE_PATH, SavePath);
-		editor.commit();
-	}
-	public static void SetTorrentFileName(Context context, String fileName){
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		SharedPreferences.Editor editor = preferences.edit();
-		if(fileName == null || fileName.length() < 1)
-			editor.putString(KEY_TORRENT_FILE_NAME, RutrackerDownloaderApp.TorrentFileName);
-		else
-			editor.putString(KEY_TORRENT_FILE_NAME, fileName);
 		editor.commit();
 	}
 	public static void SetListenPort(Context context, String listenPort){
@@ -357,11 +335,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		else if(key.equals(KEY_PROXY_TYPE) && value < 0)
 			pr.setText(Integer.toString(RutrackerDownloaderApp.ProxyType));
 	  } 
-	  else if(key.equals(KEY_TORRENT_FILE_NAME)){
-		  String fileName = sharedPreferences.getString(key, RutrackerDownloaderApp.TorrentFileName);
-		  if(fileName == null || fileName.length() < 1)
-			  pr.setText(RutrackerDownloaderApp.TorrentFileName);		    	
-	  }else if(key.equals(KEY_TORRENT_SAVE_PATH)){
+	  else if(key.equals(KEY_TORRENT_SAVE_PATH)){
 		  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.TorrentSavePath);
 		  if(savePath == null || savePath.length() < 3)
 			  pr.setText(RutrackerDownloaderApp.TorrentSavePath);		    	
