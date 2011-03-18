@@ -13,16 +13,17 @@ import android.util.Log;
 public class TorrentDownloader {
 	
 	String mCookieData;
-	String mTorrentFullFileName; 
+	String mTorrentSavePath; 
 
-	public TorrentDownloader(String CookieData, String TorrentFullFileName)
+	public TorrentDownloader(String CookieData, String TorrentSavePath)
 	{
 		mCookieData = CookieData;
-		mTorrentFullFileName = TorrentFullFileName;
+		mTorrentSavePath = TorrentSavePath;
 	}
 	
 	public void Download(String DistributionNumber){
 		try{
+			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";
 			URL url = new URL(RutrackerDownloaderApp.TorrentDL + DistributionNumber);				
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httppost = (HttpURLConnection) connection;
@@ -52,7 +53,7 @@ public class TorrentDownloader {
 	        if(inputStream != null) {
 				//StringBuffer sb = new StringBuffer();
 		        int chr = 0;
-				FileOutputStream fos = new FileOutputStream(mTorrentFullFileName); 
+				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName); 
 		        while ((chr = inputStream.read()) != -1) {
 		            //sb.append((char) chr);
 		            fos.write(chr);

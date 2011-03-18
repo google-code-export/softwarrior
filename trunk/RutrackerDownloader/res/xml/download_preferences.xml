@@ -40,9 +40,6 @@
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/preferences_torrent_options_title">
 			<PreferenceCategory android:title="@string/preferences_torrent_options_cat_title">    					
-				<EditTextPreference 
-					android:title="@string/preferences_torrent_file_name" 
-					android:key="preferences_torrent_file_name" android:defaultValue="downloader.torrent"/>
 				<PreferenceScreen 
 					android:title="@string/preferences_torrent_save_path" 
 					android:key="preferences_torrent_save_path">
