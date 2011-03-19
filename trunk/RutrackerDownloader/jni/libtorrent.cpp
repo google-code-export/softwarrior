@@ -585,3 +585,29 @@ JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorre
 	return result;
 }
 //-----------------------------------------------------------------------------
+JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentName
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
+{
+	jstring result = NULL;
+	try{
+		std::string torrentFile;
+		JniToStdString(env, &torrentFile, TorrentFile);
+
+		boost::intrusive_ptr<libtorrent::torrent_info> t;
+		libtorrent::error_code ec;
+		t = new libtorrent::torrent_info(torrentFile.c_str(), ec);
+		if (ec){
+			LOG_ERR("%s: %s\n", torrentFile.c_str(), ec.message().c_str());
+		}
+		else{
+			LOG_INFO("%s\n", t->name().c_str());
+			result = env->NewStringUTF((t->name() + ".torrent").c_str());
+		}
+	}catch(...){
+		LOG_ERR("Exception: failed to add torrent");
+		gWorkState = false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.GetTorrentName WorkState==false");
+	return result;
+}
+//-----------------------------------------------------------------------------

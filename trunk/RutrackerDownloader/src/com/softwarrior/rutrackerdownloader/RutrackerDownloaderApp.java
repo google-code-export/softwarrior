@@ -72,6 +72,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String 	TorrentSavePath = Environment.getExternalStorageDirectory()+"/";// + "/RutrackerDownloader";
 	
 	//Variables
+	public static boolean	DownloadServiceMode = true;
 	public static String	TorrentFullFileName = new String("undefined");
 	public static String	TorrentLoginUrl = RT_TorrentLoginUrl;
 	public static String	SearchUrlPrefix = RT_SearchUrlPrefix;
@@ -93,6 +94,7 @@ public class RutrackerDownloaderApp extends Application {
 	public void onCreate() {
 		super.onCreate();
         RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
+        startService(new Intent(this, DownloadService.class));         
 	}
 	
 	static public void SetupPornolab(Activity activity){
@@ -118,13 +120,22 @@ public class RutrackerDownloaderApp extends Application {
     static public void PreferencesScreenActivity(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    	if(DownloadServiceMode)
+    		OpenPreferenceTabsActivity(activity);
     	activity.finish();
     }
 
     static public void ToDownloaderActivity(Activity activity){
-    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
+    	if(!DownloadServiceMode)
+    		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.finish();
+    }
+    static public void OpenPreferenceTabsActivity(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, PreferencesTabs.class.getName());
+    	activity.startActivity(intent);
     }
 
     static public void OpenDownloaderActivity(Activity activity){
@@ -143,10 +154,14 @@ public class RutrackerDownloaderApp extends Application {
     }
  
     static public void CloseApplication(Activity activity){
-    	RutrackerDownloaderApp.ExitState = true;
-    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
-    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-    	activity.finish();
+    	if(DownloadServiceMode)
+    		FinalCloseApplication(activity);
+    	else{
+	    	RutrackerDownloaderApp.ExitState = true;
+	    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+	    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+	    	activity.finish();
+    	}
     }
         
     static public void FinalCloseApplication(final Activity activity){ 

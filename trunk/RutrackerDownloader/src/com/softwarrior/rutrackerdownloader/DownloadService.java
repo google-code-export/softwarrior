@@ -108,7 +108,8 @@ public class DownloadService extends Service {
     //-----------------------------------------------------------------------------
     public byte[] GetTorrentFilesPriority(){return mLibTorrent.GetTorrentFilesPriority();}
     //-----------------------------------------------------------------------------
-
+    static public String GetTorrentName(String TorrentFile){return mLibTorrent.GetTorrentName(TorrentFile);}
+    //-----------------------------------------------------------------------------
         
     public class LocalBinder extends Binder {
     	DownloadService getService() {
@@ -126,7 +127,7 @@ public class DownloadService extends Service {
     @Override
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        Toast.makeText(this, R.string.service_created,Toast.LENGTH_SHORT).show();        
+//      Toast.makeText(this, R.string.service_created,Toast.LENGTH_SHORT).show();        
 //      mInvokeIntent = new Intent(this, Controller.class); //This is who should be launched if the user selects our persistent notification.
     }
     
@@ -174,7 +175,7 @@ public class DownloadService extends Service {
         RemoveTorrent();
         hideNotification();
         // Tell the user we stopped.
-        Toast.makeText(DownloadService.this, R.string.service_destroyed, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(DownloadService.this, R.string.service_destroyed, Toast.LENGTH_SHORT).show();
     }
 
     @Override

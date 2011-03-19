@@ -62,6 +62,27 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }
+//			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+//			if(torrentName != null){
+//				if(torrentName.length() > 16){
+//					torrentName = torrentName.substring(0, 8);
+//					torrentName += ".torrent";
+//				}
+//				inputStream = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName);	
+//		        if(inputStream != null) {
+//			        int chr = 0;
+//					FileOutputStream fos = new FileOutputStream(mTorrentSavePath + "/" + torrentName); 
+//			        while ((chr = inputStream.read()) != -1) {
+//			            fos.write(chr);
+//			        }
+//			        inputStream.close();
+//		    		fos.flush();
+//		    		fos.close();
+//		    		File file = new File(RutrackerDownloaderApp.TorrentFullFileName); 
+//		    		file.delete();
+//			        RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + torrentName;
+//		        }
+//			}
 	       // String reply = sb.toString();		        	    		
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());

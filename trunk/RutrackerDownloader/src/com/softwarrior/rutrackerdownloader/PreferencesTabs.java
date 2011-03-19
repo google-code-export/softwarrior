@@ -51,7 +51,7 @@ public class PreferencesTabs extends TabActivity {
         else 
         	RutrackerDownloaderApp.SetupPornolab(this);
         
-        startService(new Intent(this, DownloadService.class));         
+        RutrackerDownloaderApp.DownloadServiceMode = false;        
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
     } 
     
