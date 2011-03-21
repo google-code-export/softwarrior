@@ -31,9 +31,12 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResult
 import com.softwarrior.rutrackerdownloader.SiteChoice;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -58,6 +61,8 @@ public class TorrentWebClient extends Activity {
     private String  mCurrentUrl = new String();
     private String  mDistributionNumber = new String();
     private boolean mCatchBackKey = false;
+    private boolean mNNSearch = false;
+    private String mSearchString = new String("");
     
     final Activity activity = this;
     
@@ -108,6 +113,8 @@ public class TorrentWebClient extends Activity {
             
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            	if(mNNSearch && url.equals(RutrackerDownloaderApp.NN_SearchUrlPrefix))
+            		NNMClubSearchResultThread(mSearchString);
             	activity.setTitle(url);
             	ManageDownloadButton(url);
             	super.onPageStarted(view, url, favicon);
@@ -135,7 +142,8 @@ public class TorrentWebClient extends Activity {
         	mCatchBackKey = true;
         	if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB){
         		activity.setTitle(RutrackerDownloaderApp.NN_SearchUrlPrefix);
-        		ShowNNMClubSearchResult(mLoadUrl);
+        		mSearchString = mLoadUrl;
+        		NNMClubSearchResultThread(mSearchString);
         	}
         }    	
         
@@ -195,8 +203,27 @@ public class TorrentWebClient extends Activity {
         }
         return sb.toString();
     }
+    
+    private void NNMClubSearchResultThread(final String SearchString ){
+    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_search), true, false);
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                dialog.dismiss();
+            	mNNSearch = true;
+            }
+        };        
+        // Start lengthy operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+            	ShowNNMClubSearchResult(SearchString);
+		        handler.sendEmptyMessage(0);
+            }
+        }).start();    	
+    }
+   
     private void ShowNNMClubSearchResult(String SearchString ){
-		try{			
+		try{	    	
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(RutrackerDownloaderApp.CookieUrl);
@@ -246,13 +273,14 @@ public class TorrentWebClient extends Activity {
             GZIPInputStream gzipInput = new GZIPInputStream(new BufferedInputStream(httppost.getInputStream()));
             InputStreamReader inputStream = new InputStreamReader(gzipInput, "cp-1251");
             if(inputStream != null) {
-		        int chr = 0;
-		        while ((chr = inputStream.read()) != -1) {
-		            sb.append((char) chr);
+		        int length = 0;
+		        char [] readArray = new char[1024];
+		        while ((length = inputStream.read(readArray)) != -1) {
+		        	sb.append(readArray, 0, length);
 		        }
 		        inputStream.close();
 	        }
-		    mWebView.loadDataWithBaseURL(RutrackerDownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",null);		    
+		    mWebView.loadDataWithBaseURL(RutrackerDownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",RutrackerDownloaderApp.NN_SearchUrlPrefix);		    
 		    
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
