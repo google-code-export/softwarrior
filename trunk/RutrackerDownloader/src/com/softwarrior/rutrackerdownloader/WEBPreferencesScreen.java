@@ -148,15 +148,19 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  
 	  CreateSearchUrlRecursive(getPreferenceScreen());
 
-	  if(mString.length()>0){		  	
-			RutrackerDownloaderApp.SearchUrl += "?nm=";		  
-			String enc_text = new String();
-			try {
-				enc_text = URLEncoder.encode(mString, "cp-1251");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-			RutrackerDownloaderApp.SearchUrl += enc_text; 
+	  if(mString.length()>0){
+		  	if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB){
+		  		RutrackerDownloaderApp.SearchUrl = mString; 
+		  	} else {
+				RutrackerDownloaderApp.SearchUrl += "?nm=";		  
+				String enc_text = new String();
+				try {
+					enc_text = URLEncoder.encode(mString, "cp-1251");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				RutrackerDownloaderApp.SearchUrl += enc_text;
+		  	}
 	  }
   	  Log.d(RutrackerDownloaderApp.TAG,RutrackerDownloaderApp.SearchUrl);
   }
@@ -219,7 +223,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   public void OnClickButtonSiteMap(View v) {
 	  Bundle bundle = new Bundle();
 	  bundle.putString("LoadUrl", RutrackerDownloaderApp.SiteMap);
-	  bundle.putString("Action", "Search");
+	  bundle.putString("Action", "SiteMap");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

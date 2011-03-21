@@ -1,15 +1,40 @@
 package com.softwarrior.web;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloader.SiteChoice;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,20 +75,7 @@ public class TorrentWebClient extends Activity {
         
         Bundle bundle = this.getIntent().getExtras();
         mAction = bundle.getString("Action");
-        if(mAction.equals("Login")) {
-        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
-        	viewAnimator.setVisibility(View.VISIBLE);
-        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
-        	buttonsLayout.setVisibility(View.VISIBLE);
-        	viewAnimator.bringChildToFront(buttonsLayout);
-        }
-        else if(mAction.equals("Show")){        	
-        }
-        else if(mAction.equals("Search")){
-        	mCatchBackKey = true;
-        }        
-        mLoadUrl = bundle.getString("LoadUrl"); 
-        activity.setTitle(mLoadUrl);
+        mLoadUrl = bundle.getString("LoadUrl");
         
         mWebView = (WebView) findViewById(R.id.webview);
 
@@ -73,7 +85,7 @@ public class TorrentWebClient extends Activity {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportZoom(true);
         webSettings.setPluginState(WebSettings.PluginState.OFF); 
-        
+               
         mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress){
                 activity.setProgress(progress * 100);
@@ -82,7 +94,6 @@ public class TorrentWebClient extends Activity {
                 	setProgressBarIndeterminateVisibility(false);
             }
         });
- 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
@@ -102,14 +113,150 @@ public class TorrentWebClient extends Activity {
             	super.onPageStarted(view, url, favicon);
             }
         }); 
+        if(mAction.equals("Login")) {
+        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+        	viewAnimator.setVisibility(View.VISIBLE);
+        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
+        	buttonsLayout.setVisibility(View.VISIBLE);
+        	viewAnimator.bringChildToFront(buttonsLayout);
+    		activity.setTitle(mLoadUrl);        
+    		mWebView.loadUrl(mLoadUrl);
+        }
+        else if(mAction.equals("Show")){
+    		activity.setTitle(mLoadUrl);        
+    		mWebView.loadUrl(mLoadUrl);
+        }
+        else if(mAction.equals("SiteMap")){
+        	mCatchBackKey = true;
+    		activity.setTitle(mLoadUrl);        
+    		mWebView.loadUrl(mLoadUrl);
+        }
+        else if(mAction.equals("Search")){
+        	mCatchBackKey = true;
+        	if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB){
+        		activity.setTitle(RutrackerDownloaderApp.NN_SearchUrlPrefix);
+        		ShowNNMClubSearchResult(mLoadUrl);
+        	}
+        }    	
         
-        mWebView.loadUrl(mLoadUrl);       
         //mWebView.loadUrl("http://rutracker.org/forum/index.php");
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentWebClient");
+    }
+
+    public String getPostRequest(String url, String user, String pass) {
+        HttpClient postClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(url);
+        HttpResponse response;
+
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("f", user));
+            nameValuePairs.add(new BasicNameValuePair("nm", pass));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            response = postClient.execute(httpPost);
+
+            if(response.getStatusLine().getStatusCode() == 200) {
+                HttpEntity entity = response.getEntity();
+
+                if (entity != null) {
+                    InputStream instream = entity.getContent();  
+                    String result = convertStreamToString(instream);
+                    instream.close();
+                    return result; // here is a string of the result!!!
+                }
+            }
+        } catch (Exception e) {}
+
+        return null; // if it gets here, something wrong happens with the connection
+    }
+
+    private String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
+    private void ShowNNMClubSearchResult(String SearchString ){
+		try{			
+    		CookieSyncManager.getInstance().sync();
+    		CookieManager cookieManager  = CookieManager.getInstance();	
+    		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(RutrackerDownloaderApp.CookieUrl);
+
+			URL url = new URL(RutrackerDownloaderApp.NN_SearchUrlPrefix);				
+			URLConnection connection = url.openConnection();
+			HttpURLConnection httppost = (HttpURLConnection) connection;
+			httppost.setDoInput(true);
+		    httppost.setDoOutput(true);
+
+		    httppost.setRequestMethod("POST");
+		    httppost.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+		    httppost.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.3");
+		    httppost.setRequestProperty("Accept-Encoding", "gzip,deflate");
+		    httppost.setRequestProperty("Accept-Language", "en-US,ru-RU;q=0.8,ru;q=0.6,en;q=0.4");
+		    httppost.setRequestProperty("Cache-Control", "max-age=0");
+		    httppost.setRequestProperty("Connection", "keep-alive");
+		    
+		    String query=""; 
+		    query += URLEncoder.encode("f", "cp-1251") + "=" + URLEncoder.encode("-1", "cp-1251"); 
+		    query += "&" + URLEncoder.encode("nm", "cp-1251") + "=" + URLEncoder.encode(SearchString, "cp-1251"); 
+		    int contetLength = query.length(); 		    
+		    httppost.setRequestProperty("Content-Length", Integer.toString(contetLength));
+
+		    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		    httppost.setRequestProperty("Cookie", RutrackerDownloaderApp.CookieData);
+		    httppost.setRequestProperty("Host", "www.nnm-club.ru");
+		    httppost.setRequestProperty("Origin", "http://www.nnm-club.ru");
+		    
+		    String sid = RutrackerDownloaderApp.NN_SearchUrlPrefix + "?";
+		    int sidStart = RutrackerDownloaderApp.CookieData.indexOf("sid=");
+		    int sidEnd = RutrackerDownloaderApp.CookieData.indexOf(";", sidStart);	
+		    if(sidEnd == -1)
+		    	sidEnd = RutrackerDownloaderApp.CookieData.length();
+		    if(sidStart>0 && sidEnd >0 && sidStart<sidEnd && sidEnd <= RutrackerDownloaderApp.CookieData.length())
+		    	sid += RutrackerDownloaderApp.CookieData.substring(sidStart, sidEnd);		    
+		    httppost.setRequestProperty("Referer", sid);
+		    
+		    httppost.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16");
+		    		    
+			OutputStreamWriter wr = new OutputStreamWriter(httppost.getOutputStream());
+            wr.write(query);		    
+            wr.flush();
+            wr.close();
+            
+            StringBuffer sb = new StringBuffer();
+            GZIPInputStream gzipInput = new GZIPInputStream(new BufferedInputStream(httppost.getInputStream()));
+            InputStreamReader inputStream = new InputStreamReader(gzipInput, "cp-1251");
+            if(inputStream != null) {
+		        int chr = 0;
+		        while ((chr = inputStream.read()) != -1) {
+		            sb.append((char) chr);
+		        }
+		        inputStream.close();
+	        }
+		    mWebView.loadDataWithBaseURL(RutrackerDownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",null);		    
+		    
+		} catch (Exception ex){
+			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+	    }
     }
 
     @Override

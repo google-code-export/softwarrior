@@ -36,11 +36,12 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 
 		public static final String KEY_RUTRACKER="preferences_rutracker";
 		public static final String KEY_PORNOLAB="preferences_pornolab";
+		public static final String KEY_NNMCLUB="preferences_nnmclub";
 
 		public static boolean AdClicked=false;
 		
 		public enum SiteType{
-			RUTRACKER, PORNOLAB
+			RUTRACKER, PORNOLAB, NNMCLUB
 		}		
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
@@ -56,10 +57,12 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public static SiteType GetSite(Context context){
 			SiteType result = SiteType.RUTRACKER; 
 			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(preferences.getBoolean(KEY_RUTRACKER, true))
+			if(preferences.getBoolean(KEY_RUTRACKER, false))
 				 result = SiteType.RUTRACKER;
 			else if(preferences.getBoolean(KEY_PORNOLAB, false))
 				 result = SiteType.PORNOLAB;
+			else if(preferences.getBoolean(KEY_NNMCLUB, false))
+				 result = SiteType.NNMCLUB;
 			return result;
 		}
 
@@ -247,16 +250,25 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
 			PreferenceScreen preferences = getPreferenceScreen();
 			boolean flag = sharedPreferences.getBoolean(key, false);
+			CheckBoxPreference pl = (CheckBoxPreference) preferences.findPreference(KEY_PORNOLAB);
+			CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);
+			CheckBoxPreference nn = (CheckBoxPreference) preferences.findPreference(KEY_NNMCLUB);
 			if(key.equals(KEY_RUTRACKER) && flag){
-				CheckBoxPreference pl = (CheckBoxPreference) preferences.findPreference(KEY_PORNOLAB);
 				pl.setChecked(false);
+				nn.setChecked(false);
 				RutrackerDownloaderApp.SetupRutracker(this);
 	    		AdClicked = false;
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
-				CheckBoxPreference rt = (CheckBoxPreference) preferences.findPreference(KEY_RUTRACKER);
 				rt.setChecked(false);
+				nn.setChecked(false);
 				RutrackerDownloaderApp.SetupPornolab(this);
+	    		AdClicked = false;
+			}
+			else if(key.equals(KEY_NNMCLUB) && flag){
+				rt.setChecked(false);
+				pl.setChecked(false);
+				RutrackerDownloaderApp.SetupNnmclub(this);
 	    		AdClicked = false;
 			}
 		}
