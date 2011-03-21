@@ -21,6 +21,38 @@ public class TorrentDownloader {
 		mTorrentSavePath = TorrentSavePath;
 	}
 	
+	public void DownloadNNM(String DistributionNumber){				
+		try{
+			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";
+			URL url = new URL(RutrackerDownloaderApp.NN_TorrentDL + DistributionNumber);				
+			URLConnection connection = url.openConnection();
+			HttpURLConnection httpget = (HttpURLConnection) connection;
+			httpget.setDoInput(true);
+
+			httpget.setRequestMethod("GET");
+
+			httpget.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; ru; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2");
+			httpget.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+			httpget.setRequestProperty("Referer", RutrackerDownloaderApp.TorrentTopic + DistributionNumber);
+
+			httpget.connect();
+			InputStream inputStream = httpget.getInputStream();
+	        if(inputStream != null) {
+				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
+				int length = 0;
+				byte [] data = new byte[256];
+		        while ((length = inputStream.read(data)) != -1) {
+		            fos.write(data,0,length);
+		        }
+		        inputStream.close();
+	    		fos.flush();
+	    		fos.close();  
+	        }
+		} catch (Exception ex){
+			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+	    }
+	}
+	
 	public void Download(String DistributionNumber){
 		try{
 			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";
