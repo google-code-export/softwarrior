@@ -6,11 +6,14 @@
      </PreferenceScreen>                         
      <CheckBoxPreference 
          android:key="preferences_rutracker" 
-         android:title="@string/preferences_rutracker_title" 
-         android:selectable="true">
+         android:title="@string/preferences_rutracker_title">
      </CheckBoxPreference>
      <CheckBoxPreference 
          android:key="preferences_pornolab" 
          android:title="@string/preferences_pornolab_title"> 
+     </CheckBoxPreference>
+     <CheckBoxPreference 
+         android:key="preferences_nnmclub" 
+         android:title="@string/preferences_nnmclub_title"> 
      </CheckBoxPreference>
 </PreferenceScreen>

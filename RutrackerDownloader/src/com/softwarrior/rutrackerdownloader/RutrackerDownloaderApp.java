@@ -38,27 +38,33 @@ public class RutrackerDownloaderApp extends Application {
 			}
 			return result;
 		}
-	}
-		
+	}	
 	public static GoogleAnalyticsTracker AnalyticsTracker = GoogleAnalyticsTracker.getInstance();
 
 	//Constants
 	public static final String	TAG = "Softwarrior";
 	public static final String	FeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
-	
+	//rutracker.org
 	public static final String	RT_TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
 	public static final String	RT_SearchUrlPrefix = "http://rutracker.org/forum/search.php";
 	public static final String	RT_SiteMap = "http://rutracker.org/forum/index.php?c=map";
 	public static final String	RT_TorrentDL = "http://dl.rutracker.org/forum/dl.php?t=";
 	public static final String	RT_TorrentTopic = "http://rutracker.org/forum/viewtopic.php?t=";
 	public static final String	RT_CookieUrl = "http://rutracker.org/forum/index.php";
-	
+	//pornolab.net
 	public static final String	PL_TorrentLoginUrl = "http://pornolab.net/forum/login.php";
 	public static final String	PL_SearchUrlPrefix = "http://pornolab.net/forum/search.php";
 	public static final String	PL_SiteMap = "http://pornolab.net/forum/index.php?c=map";
 	public static final String	PL_TorrentDL = "http://pornolab.net/forum/dl.php?t=";
 	public static final String	PL_TorrentTopic = "http://pornolab.net/forum/viewtopic.php?t=";
 	public static final String	PL_CookieUrl = "http://pornolab.net/forum/index.php";
+	//nnm-club.ru
+	public static final String	NN_TorrentLoginUrl = "http://nnm-club.ru/forum/login.php";
+	public static final String	NN_SearchUrlPrefix = "http://nnm-club.ru/forum/tracker.php";
+	public static final String	NN_SiteMap = "http://www.nnm-club.ru";
+	public static final String	NN_TorrentDL = "http://nnm-club.ru/forum/download.php?id=";
+	public static final String	NN_TorrentTopic = "http://nnm-club.ru/forum/viewtopic.php?t=";
+	public static final String	NN_CookieUrl = "http://www.nnm-club.ru/forum/index.php";	
 	//Default Download Preferences constants
 	public static final int		ListenPort = 54312;
 	public static final int		UploadLimit = -1;
@@ -74,6 +80,7 @@ public class RutrackerDownloaderApp extends Application {
 	//Variables
 	public static boolean	DownloadServiceMode = true;
 	public static String	TorrentFullFileName = new String("undefined");
+	//Site Settings
 	public static String	TorrentLoginUrl = RT_TorrentLoginUrl;
 	public static String	SearchUrlPrefix = RT_SearchUrlPrefix;
 	public static String	SiteMap = RT_SiteMap;
@@ -106,7 +113,6 @@ public class RutrackerDownloaderApp extends Application {
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.PL_CookieUrl;
 		PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_pornolab_title));
 	}
-
 	static public void SetupRutracker(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.RT_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.RT_SearchUrlPrefix;
@@ -116,7 +122,15 @@ public class RutrackerDownloaderApp extends Application {
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.RT_CookieUrl;
     	PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_rutracker_title));
 	}
-	
+	static public void SetupNnmclub(Activity activity){
+    	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.NN_TorrentLoginUrl;
+    	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.NN_SearchUrlPrefix;
+    	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.NN_SiteMap;        			
+    	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.NN_TorrentDL;
+    	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.NN_TorrentTopic;
+    	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.NN_CookieUrl;
+    	PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_nnmclub_title));
+	}	
     static public void PreferencesScreenActivity(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);

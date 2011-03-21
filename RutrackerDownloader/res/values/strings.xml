@@ -240,7 +240,8 @@ Please see contact information in the About page.
     <string name="tab_site_choise">Sites</string>
     <string name="preferences_pornolab_title">pornolab.net</string>
     <string name="preferences_rutracker_title">rutracker.org</string>
-    <string name="rss_disable">Current site pornolab.net, RSS is enable only for rutracker.org</string>    
+    <string name="preferences_nnmclub_title">nnm-club.ru</string>
+    <string name="rss_disable">RSS is enable only for rutracker.org</string>    
     <string name="active_site">CURRENT SITE</string>  
     <string name="button_select_files">Files</string>  
     <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
