@@ -51,12 +51,11 @@ public class TorrentDownloader {
 
 			InputStream inputStream = httppost.getInputStream();
 	        if(inputStream != null) {
-				//StringBuffer sb = new StringBuffer();
-		        int chr = 0;
-				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName); 
-		        while ((chr = inputStream.read()) != -1) {
-		            //sb.append((char) chr);
-		            fos.write(chr);
+				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
+				int length = 0;
+				byte [] data = new byte[256];
+		        while ((length = inputStream.read(data)) != -1) {
+		            fos.write(data,0,length);
 		        }
 		        inputStream.close();
 	    		fos.flush();
