@@ -258,8 +258,10 @@ public class DownloadService extends Service {
             Intent intent = getIntent();
             if(intent != null){
             	Uri localUri = getIntent().getData();
-            	if(localUri != null)
+            	if(localUri != null){
             		RutrackerDownloaderApp.TorrentFullFileName = localUri.getPath();
+            		Log.i(RutrackerDownloaderApp.TAG, "TorrentFullFileName: " + RutrackerDownloaderApp.TorrentFullFileName);      
+            	}
             }
             //--------------Mobclix-----------------------
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);

@@ -62,6 +62,7 @@ public class TorrentWebClient extends Activity {
     private String  mDistributionNumber = new String();
     private boolean mCatchBackKey = false;
     private boolean mNNSearch = false;
+    private boolean mRefreshNNSearch = false;
     private String mSearchString = new String("");
     
     final Activity activity = this;
@@ -104,22 +105,23 @@ public class TorrentWebClient extends Activity {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
                 // Handle the error
             }
- 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url){            	
             	view.loadUrl(url);
                 return true;
-            }
-            
+            }            
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            	if(mNNSearch && url.equals(RutrackerDownloaderApp.NN_SearchUrlPrefix))
+            	if(mNNSearch && mRefreshNNSearch && url.equals(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
+            		mRefreshNNSearch = false;
             		NNMClubSearchResultThread(mSearchString);
+            	}
             	activity.setTitle(url);
             	ManageDownloadButton(url);
             	super.onPageStarted(view, url, favicon);
             }
         }); 
+                
         if(mAction.equals("Login")) {
         	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
         	viewAnimator.setVisibility(View.VISIBLE);
@@ -145,8 +147,11 @@ public class TorrentWebClient extends Activity {
         		mSearchString = mLoadUrl;
         		NNMClubSearchResultThread(mSearchString);
         	}
-        }    	
-        
+        	else {
+        		activity.setTitle(mLoadUrl);        
+        		mWebView.loadUrl(mLoadUrl);        		
+        	}
+        }    	        
         //mWebView.loadUrl("http://rutracker.org/forum/index.php");
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
@@ -179,7 +184,6 @@ public class TorrentWebClient extends Activity {
                 }
             }
         } catch (Exception e) {}
-
         return null; // if it gets here, something wrong happens with the connection
     }
 
@@ -297,7 +301,8 @@ public class TorrentWebClient extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(mCatchBackKey){	        	
 	    	if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
-	        	mWebView.goBack();
+	    		if(mNNSearch) mRefreshNNSearch = true;
+	    		mWebView.goBack();
 	            return true;
 	        }
         }
@@ -346,9 +351,9 @@ public class TorrentWebClient extends Activity {
     		if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
     			torrentDownloader.DownloadNNM(mDistributionNumber);
     		else
-    			torrentDownloader.Download(mDistributionNumber);
-    		
-			Intent intent = new Intent(Intent.ACTION_VIEW);
+    			torrentDownloader.Download(mDistributionNumber);    		
+			
+    		Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			intent.setClassName(this, DownloadService.Controller.class.getName());
 			startActivityForResult(intent, 0);

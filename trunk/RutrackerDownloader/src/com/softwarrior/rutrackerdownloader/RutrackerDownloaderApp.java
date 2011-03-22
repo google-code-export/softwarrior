@@ -59,11 +59,11 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String	PL_TorrentTopic = "http://pornolab.net/forum/viewtopic.php?t=";
 	public static final String	PL_CookieUrl = "http://pornolab.net/forum/index.php";
 	//nnm-club.ru
-	public static final String	NN_TorrentLoginUrl = "http://nnm-club.ru/forum/login.php";
-	public static final String	NN_SearchUrlPrefix = "http://nnm-club.ru/forum/tracker.php";
+	public static final String	NN_TorrentLoginUrl = "http://www.nnm-club.ru/forum/login.php";
+	public static final String	NN_SearchUrlPrefix = "http://www.nnm-club.ru/forum/tracker.php";
 	public static final String	NN_SiteMap = "http://www.nnm-club.ru";
-	public static final String	NN_TorrentDL = "http://nnm-club.ru/forum/download.php?id=";
-	public static final String	NN_TorrentTopic = "http://nnm-club.ru/forum/viewtopic.php?t=";
+	public static final String	NN_TorrentDL = "http://www.nnm-club.ru/forum/download.php?id=";
+	public static final String	NN_TorrentTopic = "http://www.nnm-club.ru/forum/viewtopic.php?t=";
 	public static final String	NN_CookieUrl = "http://www.nnm-club.ru/forum/index.php";	
 	//Default Download Preferences constants
 	public static final int		ListenPort = 54312;

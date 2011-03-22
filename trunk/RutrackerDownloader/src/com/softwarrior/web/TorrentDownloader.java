@@ -1,11 +1,17 @@
 package com.softwarrior.web;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.zip.GZIPInputStream;
 
+import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
 import android.util.Log;
@@ -15,27 +21,77 @@ public class TorrentDownloader {
 	String mCookieData;
 	String mTorrentSavePath; 
 
-	public TorrentDownloader(String CookieData, String TorrentSavePath)
-	{
+	public TorrentDownloader(String CookieData, String TorrentSavePath){
 		mCookieData = CookieData;
 		mTorrentSavePath = TorrentSavePath;
 	}
 	
-	public void DownloadNNM(String DistributionNumber){				
+	private String GetNNMDistributionNumber(String DistributionNumber){				
+		String result = DistributionNumber;
 		try{
-			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";
-			URL url = new URL(RutrackerDownloaderApp.NN_TorrentDL + DistributionNumber);				
+			URL url = new URL(RutrackerDownloaderApp.NN_TorrentTopic + DistributionNumber);				
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httpget = (HttpURLConnection) connection;
 			httpget.setDoInput(true);
 
 			httpget.setRequestMethod("GET");
 
-			httpget.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; ru; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2");
-			httpget.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-			httpget.setRequestProperty("Referer", RutrackerDownloaderApp.TorrentTopic + DistributionNumber);
+			httpget.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+			httpget.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.3");
+			httpget.setRequestProperty("Accept-Encoding", "gzip,deflate");
+			httpget.setRequestProperty("Accept-Language", "en-US,ru-RU;q=0.8,ru;q=0.6,en;q=0.4");
+			httpget.setRequestProperty("Connection", "keep-alive");
+			httpget.setRequestProperty("Cookie", mCookieData);
+			httpget.setRequestProperty("Host","www.nnm-club.ru");
+			httpget.setRequestProperty("Referer", RutrackerDownloaderApp.NN_SearchUrlPrefix);
+			httpget.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16");
 
 			httpget.connect();
+			
+            StringBuffer sb = new StringBuffer();
+            GZIPInputStream gzipInput = new GZIPInputStream(new BufferedInputStream(httpget.getInputStream()));
+            InputStreamReader inputStream = new InputStreamReader(gzipInput, "cp-1251");
+            if(inputStream != null) {
+		        int length = 0;
+		        char [] readArray = new char[1024];
+		        while ((length = inputStream.read(readArray)) != -1) {
+		        	sb.append(readArray, 0, length);
+		        }
+		        inputStream.close();
+	        }
+            String topicText = sb.toString();            
+            int downStart = topicText.indexOf("download.php?id=");
+		    int downEnd = topicText.indexOf("\"", downStart);	
+		    if(downStart>0 && downEnd>0 && downStart<downEnd && downEnd <= topicText.length()){
+		    	result = topicText.substring(downStart, downEnd);
+		    	if(result!= null){
+		    		downStart = result.lastIndexOf("=");
+		    		if(downStart>0 && downStart+1<result.length())
+		    		result = result.substring(downStart+1, result.length());
+		    	}		    		
+		    }			
+		} catch (Exception ex){
+			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+	    }
+		return result;
+	}	
+	
+	public void DownloadNNM(String DistributionNumber){						
+		try{
+			String distributionNumber =  GetNNMDistributionNumber(DistributionNumber);
+			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";			
+			URL url = new URL(RutrackerDownloaderApp.NN_TorrentDL + distributionNumber);
+			URLConnection connection = url.openConnection();
+			HttpURLConnection httpget = (HttpURLConnection) connection;
+			httpget.setDoInput(true);
+			httpget.setUseCaches(false);
+		
+			httpget.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+			httpget.setRequestProperty("Referer", RutrackerDownloaderApp.NN_TorrentTopic + DistributionNumber);
+			httpget.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			httpget.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.134 Safari/534.16");
+		    httpget.setRequestProperty("Cookie", mCookieData);			 
+
 			InputStream inputStream = httpget.getInputStream();
 	        if(inputStream != null) {
 				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
@@ -47,7 +103,8 @@ public class TorrentDownloader {
 		        inputStream.close();
 	    		fos.flush();
 	    		fos.close();  
-	        }
+	        }	
+	        RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
@@ -76,11 +133,8 @@ public class TorrentDownloader {
 		    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		    httppost.setRequestProperty("Content-Length", "0");
 
-		    //PrintMapWithList(httppost.getHeaderFields());
+		    //PrintMapWithList(httppost.getHeaderFields());		    
 		    
-		    //DataOutputStream dos = new DataOutputStream(httppost.getOutputStream());
-		    //dos.write(b); // bytes[] b of post data
-
 			InputStream inputStream = httppost.getInputStream();
 	        if(inputStream != null) {
 				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
@@ -93,27 +147,37 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }
-//			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
-//			if(torrentName != null){
+	        RenameTorrentFiles();
+		} catch (Exception ex){
+			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+	    }
+	}
+	
+	public void RenameTorrentFiles(){
+		try{
+			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+			if(torrentName != null){
 //				if(torrentName.length() > 16){
 //					torrentName = torrentName.substring(0, 8);
 //					torrentName += ".torrent";
 //				}
-//				inputStream = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName);	
-//		        if(inputStream != null) {
-//			        int chr = 0;
-//					FileOutputStream fos = new FileOutputStream(mTorrentSavePath + "/" + torrentName); 
-//			        while ((chr = inputStream.read()) != -1) {
-//			            fos.write(chr);
-//			        }
-//			        inputStream.close();
-//		    		fos.flush();
-//		    		fos.close();
-//		    		File file = new File(RutrackerDownloaderApp.TorrentFullFileName); 
-//		    		file.delete();
-//			        RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + torrentName;
-//		        }
-//			}
+				torrentName = torrentName.trim();
+				torrentName = torrentName.replace(" ", "");
+				InputStream inputStream = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName);	
+		        if(inputStream != null) {
+			        int chr = 0;
+					FileOutputStream fos = new FileOutputStream(mTorrentSavePath + "/" + torrentName); 
+			        while ((chr = inputStream.read()) != -1) {
+			            fos.write(chr);
+			        }
+			        inputStream.close();
+		    		fos.flush();
+		    		fos.close();
+		    		File file = new File(RutrackerDownloaderApp.TorrentFullFileName); 
+		    		file.delete();
+			        RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + torrentName;
+		        }
+			}
 	       // String reply = sb.toString();		        	    		
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
