@@ -544,7 +544,10 @@ public class FileManagerActivity extends ListActivity {
           intent.setDataAndType(data, type);
           
           try {
-        	  startActivity(intent); 
+        	  startActivity(intent);
+        	  //TODO: need analyze
+        	  if(type.equals("application/x-bittorrent"))
+        		  finish();
           } catch (ActivityNotFoundException e) {
         	  Toast.makeText(this, R.string.application_not_available, Toast.LENGTH_SHORT).show();
           };
