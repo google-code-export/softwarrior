@@ -258,4 +258,5 @@
     <string name="progress_read">Пожалуйста подождите пока программа загружает RSS...</string>
     <string name="file_list_activation">Для включения опции Выбора Файла, нажмите 1 раз на рекламный баннер на предыдущем экране. 1 клик активирует опцию на полную сессию программы.</string>
     <string name="progress_search">Пожалуйста подождите пока программа исчет...</string>
+    <string name="torrent_file_undefined">Torrent файл не выбран</string>
 </resources>
