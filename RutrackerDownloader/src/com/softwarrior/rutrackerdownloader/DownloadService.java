@@ -309,7 +309,12 @@ public class DownloadService extends Service {
             }).start();
             RestoreControllerState();
 		    doBindService();
-		    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    		if(RutrackerDownloaderApp.ExitState){
+    			if(RutrackerDownloaderApp.DownloadServiceMode)
+    				RutrackerDownloaderApp.FinalCloseApplication(this);
+    			else
+    				RutrackerDownloaderApp.CloseApplication(this);    			
+    		}
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
         }
 	    private class AdRefreshTimerTask extends TimerTask {			
@@ -409,7 +414,20 @@ public class DownloadService extends Service {
     	@Override
     	protected void onResume() {
     		super.onResume();
-    		if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    		if(RutrackerDownloaderApp.ExitState){
+    			if(RutrackerDownloaderApp.DownloadServiceMode)
+    				RutrackerDownloaderApp.FinalCloseApplication(this);
+    			else
+    				RutrackerDownloaderApp.CloseApplication(this);    			
+    		}
+            if(RutrackerDownloaderApp.TorrentFullFileName.equals("undefined"))
+            	setTitle(R.string.torrent_file_undefined);
+            else
+            {
+        		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
+        		String fileName = file.getName();
+				setTitle(fileName);
+            }
     	}
     	
     	@Override
@@ -569,13 +587,20 @@ public class DownloadService extends Service {
 	        	switch(ActivityResultType.getValue(resultCode))
 	    		{
 	    		case RESULT_DOWNLOADER:
+	    			return;
 	    		case RESULT_PREFERENCES:
-	    		case RESULT_EXIT:
 	    			setResult(resultCode);
 	    			finish();
 	    			return;
+	    		case RESULT_EXIT:
+	    			if(RutrackerDownloaderApp.DownloadServiceMode)
+	    				RutrackerDownloaderApp.FinalCloseApplication(this);
+	    			else
+	    				RutrackerDownloaderApp.CloseApplication(this);
+	    			return;
 	    		};
 			}
+			super.onActivityResult(requestCode, resultCode, data);
     	}
 
 		private class AdvertisingListener extends SimpleAdListener {
@@ -643,7 +668,10 @@ public class DownloadService extends Service {
     			RutrackerDownloaderApp.FileManagerActivity(this);
     		} break;
     		case Exit:{
-    			RutrackerDownloaderApp.CloseApplication(this);
+    			if(RutrackerDownloaderApp.DownloadServiceMode)
+    				RutrackerDownloaderApp.FinalCloseApplication(this);
+    			else
+    				RutrackerDownloaderApp.CloseApplication(this);
     		} break;
     		}
     		return true;

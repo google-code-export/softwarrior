@@ -143,18 +143,11 @@ public class RutrackerDownloaderApp extends Application {
     }
 
     static public void ToDownloaderActivity(Activity activity){
-    	if(DownloadServiceMode){
-        	Intent intent = new Intent(Intent.ACTION_VIEW);
-        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        	intent.setClassName(activity, DownloadService.Controller.class.getName());
-        	activity.startActivity(intent);	
-        	activity.finish();
-    	} else {
-    		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
-    		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-    		activity.finish();
-    	}
+		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
+		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		activity.finish();
     }
+    
     static public void OpenPreferenceTabsActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -179,13 +172,9 @@ public class RutrackerDownloaderApp extends Application {
  
     static public void CloseApplication(Activity activity){
     	RutrackerDownloaderApp.ExitState = true;
-    	if(DownloadServiceMode && !StartFinalClose)
-    		FinalCloseApplication(activity);    	
-    	else{
-	    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
-	    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-	    	activity.finish();
-    	}
+    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    	activity.finish();
     }
         
     static public void FinalCloseApplication(final Activity activity){

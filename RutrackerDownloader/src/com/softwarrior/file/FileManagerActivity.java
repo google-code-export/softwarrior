@@ -544,10 +544,11 @@ public class FileManagerActivity extends ListActivity {
           intent.setDataAndType(data, type);
           
           try {
-        	  startActivity(intent);
-        	  //TODO: need analyze
-        	  if(type.equals("application/x-bittorrent"))
-        		  finish();
+        	  if(type.equals("application/x-bittorrent")){
+        		  RutrackerDownloaderApp.TorrentFullFileName = data.getPath();
+        		  RutrackerDownloaderApp.ToDownloaderActivity(this);
+        	  } else
+            	  startActivity(intent);        		  
           } catch (ActivityNotFoundException e) {
         	  Toast.makeText(this, R.string.application_not_available, Toast.LENGTH_SHORT).show();
           };
