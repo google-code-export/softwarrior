@@ -40,7 +40,7 @@
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.torrent" />
             </intent-filter>            
         </activity>
-        <activity android:name="com.softwarrior.file.FileManagerActivity" android:theme="@android:style/Theme.Light">
+        <activity android:name="com.softwarrior.file.FileManagerActivity" android:launchMode="singleTop" android:theme="@android:style/Theme.Light">
             <intent-filter>
                 <action android:name="com.softwarrior.file.SET_DIRECTORY"/>
                 <category android:name="android.intent.category.DEFAULT" />
