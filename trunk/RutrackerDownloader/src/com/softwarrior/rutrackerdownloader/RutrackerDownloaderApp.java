@@ -148,6 +148,7 @@ public class RutrackerDownloaderApp extends Application {
         	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         	intent.setClassName(activity, DownloadService.Controller.class.getName());
         	activity.startActivity(intent);	
+        	activity.finish();
     	} else {
     		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
     		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
