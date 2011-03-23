@@ -13,18 +13,6 @@ static std::string 				  gSavePath;
 static std::string 				  gTorrentFile;
 static volatile bool			  gWorkState = false;
 //-----------------------------------------------------------------------------
-const char* ASCII = "ASCII";
-const char* ISO88591 = "ISO-8859-1";
-const char* UTF8 = "UTF-8";
-const char* SHIFT_JIS = "SHIFT_JIS";
-const char* EUC_JP = "EUC-JP";
-#ifndef NO_ICONV
-#include <iconv.h>
-#endif
-#ifndef ICONV_CONST
-#define ICONV_CONST /**/
-#endif
-//-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 	(JNIEnv *env, jobject obj, jint ListenPort, jint UploadLimit, jint DownloadLimit)
 {
@@ -60,173 +48,12 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 	return result;
 }
 //-----------------------------------------------------------------------------
-void AppendString(std::string &result, const unsigned char *bufIn, size_t nIn, const char *src) {
-#ifndef NO_ICONV
-  if (nIn == 0) {
-    return;
-  }
-  iconv_t cd = iconv_open(UTF8, src);
-  const int maxOut = 4 * nIn + 1;
-  unsigned char* bufOut = new unsigned char[maxOut];
-
-  ICONV_CONST char *fromPtr = (ICONV_CONST char *)bufIn;
-  size_t nFrom = nIn;
-  char *toPtr = (char *)bufOut;
-  size_t nTo = maxOut;
-
-  while (nFrom > 0) {
-    size_t oneway = iconv(cd, &fromPtr, &nFrom, &toPtr, &nTo);
-    if (oneway == (size_t)(-1)) {
-      iconv_close(cd);
- 	  LOG_INFO("error converting characters");
-	  return;
-    }
-  }
-  iconv_close(cd);
-
-  int nResult = maxOut - nTo;
-  bufOut[nResult] = '\0';
-  result.append((const char *)bufOut);
-  delete[] bufOut;
- #else
-  result.append((const char *)bufIn, nIn);
- #endif
-}
-//-----------------------------------------------------------------------------
-const char* GuessEncoding(unsigned char *bytes, int length) {
-	const bool ASSUME_SHIFT_JIS = false;
-	char const* const PLATFORM_DEFAULT_ENCODING="UTF-8";
-
-	// Does it start with the UTF-8 byte order mark? then guess it's UTF-8
-	if (length > 3 && bytes[0] == (unsigned char)0xEF && bytes[1] == (unsigned char)0xBB && bytes[2]
-		== (unsigned char)0xBF) {
-		return UTF8;
-	}
-
-	// For now, merely tries to distinguish ISO-8859-1, UTF-8 and Shift_JIS,
-	// which should be by far the most common encodings. ISO-8859-1
-	// should not have bytes in the 0x80 - 0x9F range, while Shift_JIS
-	// uses this as a first byte of a two-byte character. If we see this
-	// followed by a valid second byte in Shift_JIS, assume it is Shift_JIS.
-	// If we see something else in that second byte, we'll make the risky guess
-	// that it's UTF-8.
-
-	bool canBeISO88591 = true;
-	bool canBeShiftJIS = true;
-	bool canBeUTF8 = true;
-	int utf8BytesLeft = 0;
-	int maybeDoubleByteCount = 0;
-	int maybeSingleByteKatakanaCount = 0;
-	bool sawLatin1Supplement = false;
-	bool sawUTF8Start = false;
-	bool lastWasPossibleDoubleByteStart = false;
-
-	for (int i = 0;
-		 i < length && (canBeISO88591 || canBeShiftJIS || canBeUTF8);
-		 i++)
-	{
-		int value = bytes[i] & 0xFF;
-
-		// UTF-8 stuff
-		if (value >= 0x80 && value <= 0xBF) {
-			if (utf8BytesLeft > 0) {
-				utf8BytesLeft--;
-			}
-		} else {
-			if (utf8BytesLeft > 0) {
-				canBeUTF8 = false;
-			}
-			if (value >= 0xC0 && value <= 0xFD) {
-				sawUTF8Start = true;
-				int valueCopy = value;
-				while ((valueCopy & 0x40) != 0) {
-					utf8BytesLeft++;
-					valueCopy <<= 1;
-				}
-			}
-		}
-		// Shift_JIS stuff
-		if (value >= 0xA1 && value <= 0xDF) {
-			// count the number of characters that might be a Shift_JIS single-byte Katakana character
-			if (!lastWasPossibleDoubleByteStart) {
-				maybeSingleByteKatakanaCount++;
-			}
-		}
-		if (!lastWasPossibleDoubleByteStart &&
-			((value >= 0xF0 && value <= 0xFF) || value == 0x80 || value == 0xA0)) {
-			canBeShiftJIS = false;
-		}
-		if (((value >= 0x81 && value <= 0x9F) || (value >= 0xE0 && value <= 0xEF))) {
-			// These start double-byte characters in Shift_JIS. Let's see if it's followed by a valid
-			// second byte.
-			if (lastWasPossibleDoubleByteStart) {
-				// If we just checked this and the last byte for being a valid double-byte
-				// char, don't check starting on this byte. If this and the last byte
-				// formed a valid pair, then this shouldn't be checked to see if it starts
-				// a double byte pair of course.
-				lastWasPossibleDoubleByteStart = false;
-			} else {
-				// ... otherwise do check to see if this plus the next byte form a valid
-				// double byte pair encoding a character.
-				lastWasPossibleDoubleByteStart = true;
-				if (i >= length - 1) {
-					canBeShiftJIS = false;
-				} else {
-					int nextValue = bytes[i + 1] & 0xFF;
-					if (nextValue < 0x40 || nextValue > 0xFC) {
-						canBeShiftJIS = false;
-					} else {
-						maybeDoubleByteCount++;
-					}
-					// There is some conflicting information out there about which bytes can follow which in
-					// double-byte Shift_JIS characters. The rule above seems to be the one that matches practice.
-				}
-			}
-		} else {
-			lastWasPossibleDoubleByteStart = false;
-		}
-	}
-	if (utf8BytesLeft > 0) {
-		canBeUTF8 = false;
-	}
-
-	// Easy -- if assuming Shift_JIS and no evidence it can't be, done
-	if (canBeShiftJIS && ASSUME_SHIFT_JIS) {
-		return SHIFT_JIS;
-	}
-	if (canBeUTF8 && sawUTF8Start) {
-		return UTF8;
-	}
-	// Distinguishing Shift_JIS and ISO-8859-1 can be a little tough. The crude heuristic is:
-	// - If we saw
-	//   - at least 3 bytes that starts a double-byte value (bytes that are rare in ISO-8859-1), or
-	//   - over 5% of bytes could be single-byte Katakana (also rare in ISO-8859-1),
-	// - and, saw no sequences that are invalid in Shift_JIS, then we conclude Shift_JIS
-	if (canBeShiftJIS && (maybeDoubleByteCount >= 3 || 20 * maybeSingleByteKatakanaCount > length)) {
-		return SHIFT_JIS;
-	}
-	// Otherwise, we default to ISO-8859-1 unless we know it can't be
-	if (!sawLatin1Supplement && canBeISO88591) {
-		return ISO88591;
-	}
-	// Otherwise, we take a wild guess with platform encoding
-	return PLATFORM_DEFAULT_ENCODING;
-}
-//-----------------------------------------------------------------------------
 void JniToStdString(JNIEnv *env, std::string* StdString, jstring JniString){
 	if(JniString){
 		StdString->clear();
 		const jchar* ch = env->GetStringChars(JniString, false);
 		int chLen =  env->GetStringLength(JniString);
-		// The spec isn't clear on this mode; see
-		// section 6.4.5: t does not say which encoding to assuming
-		// upon decoding. I have seen ISO-8859-1 used as well as
-		// Shift_JIS -- without anything like an ECI designator to
-		// give a hint.
-		const char* encoding = GuessEncoding((unsigned char*)ch, chLen);
-		LOG_INFO("String: %s\n", ch);
-		LOG_INFO("Encoding: %s\n", encoding);
-		AppendString(*StdString, (unsigned char*)ch, chLen, encoding);
+		for(int i=0; i<chLen; i++) StdString->push_back((char)ch[i]);
 		env->ReleaseStringChars(JniString,ch);
 	}
 }
@@ -281,18 +108,16 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 		JniToStdString(env, &gSavePath, SavePath);
 		JniToStdString(env, &gTorrentFile, TorrentFile);
 
-		LOG_INFO("SavePath: %s\n", gSavePath.c_str());
-		LOG_INFO("TorrentFile: %s\n", gTorrentFile.c_str());
+		LOG_INFO("SavePath: %s", gSavePath.c_str());
+		LOG_INFO("TorrentFile: %s", gTorrentFile.c_str());
 
 		boost::intrusive_ptr<libtorrent::torrent_info> t;
 		libtorrent::error_code ec;
 		t = new libtorrent::torrent_info(gTorrentFile.c_str(), ec);
-		if (ec)
-		{
+		if (ec){
 			LOG_ERR("%s: %s\n", gTorrentFile.c_str(), ec.message().c_str());
 		}
-		else
-		{
+		else{
 			LOG_INFO("%s\n", t->name().c_str());
 
 			libtorrent::add_torrent_params torrentParams;
@@ -777,7 +602,7 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentN
 		}
 		else{
 			LOG_INFO("%s\n", t->name().c_str());
-			result = env->NewStringUTF((t->name() + ".torrent").c_str());
+			result = env->NewStringUTF((t->name()).c_str());
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to add torrent");

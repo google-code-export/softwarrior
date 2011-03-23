@@ -1,6 +1,8 @@
 package com.softwarrior.rutrackerdownloader;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.softwarrior.about.About;
@@ -74,7 +76,6 @@ public class RutrackerDownloaderApp extends Application {
 	public static final int 	PortNumber = -1;
 	public static final String 	UserName = new String();
 	public static final String 	UserPassword = new String();
-	public static final String 	TorrentFileName = "downloader.torrent";
 	public static final String 	TorrentSavePath = Environment.getExternalStorageDirectory()+"/";// + "/RutrackerDownloader";
 	
 	//Variables
@@ -168,8 +169,10 @@ public class RutrackerDownloaderApp extends Application {
     }
  
     static public void CloseApplication(Activity activity){
-    	if(DownloadServiceMode)
+    	if(DownloadServiceMode){
+    		DownloadServiceMode = false;
     		FinalCloseApplication(activity);
+    	}
     	else{
 	    	RutrackerDownloaderApp.ExitState = true;
 	    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
@@ -242,4 +245,30 @@ public class RutrackerDownloaderApp extends Application {
     	// The directory is now empty so delete it 
     	return dir.delete();
     }
+    
+	static public boolean CopyFile(File oldFile, File newFile) {
+		boolean result = false;
+		final int COPY_BUFFER_SIZE = 32 * 1024;
+		try {
+			FileInputStream input = new FileInputStream(oldFile);
+			FileOutputStream output = new FileOutputStream(newFile);
+		
+			byte[] buffer = new byte[COPY_BUFFER_SIZE];
+			
+			while (true) {
+				int bytes = input.read(buffer);
+				
+				if (bytes <= 0) {
+					break;
+				}				
+				output.write(buffer, 0, bytes);
+			}			
+			output.close();
+			input.close();
+			result = true;	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}    
 }
