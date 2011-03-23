@@ -2,11 +2,11 @@ package com.softwarrior.web;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
@@ -154,31 +154,22 @@ public class TorrentDownloader {
 	}
 	
 	public void RenameTorrentFiles(){
-		try{
-			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+		try{			
+			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
-//				if(torrentName.length() > 16){
-//					torrentName = torrentName.substring(0, 8);
-//					torrentName += ".torrent";
-//				}
-				torrentName = torrentName.trim();
-				torrentName = torrentName.replace(" ", "");
-				InputStream inputStream = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName);	
-		        if(inputStream != null) {
-			        int chr = 0;
-					FileOutputStream fos = new FileOutputStream(mTorrentSavePath + "/" + torrentName); 
-			        while ((chr = inputStream.read()) != -1) {
-			            fos.write(chr);
-			        }
-			        inputStream.close();
-		    		fos.flush();
-		    		fos.close();
-		    		File file = new File(RutrackerDownloaderApp.TorrentFullFileName); 
-		    		file.delete();
-			        RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + torrentName;
-		        }
+				torrentName = torrentName.replace(".", "_");
+				torrentName = torrentName.replace(" ", "_");
+				URI torrentFullName =  new URI(mTorrentSavePath + "/" + torrentName + ".torrent");
+				String filepath = torrentFullName.getPath();
+				if (filepath != null) {
+					File newFile =  new File(filepath);
+					File oldfile = new File(RutrackerDownloaderApp.TorrentFullFileName); 
+					if(newFile != null && oldfile != null){
+						if(oldfile.renameTo(newFile))
+							RutrackerDownloaderApp.TorrentFullFileName = filepath;
+					}
+				}
 			}
-	       // String reply = sb.toString();		        	    		
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }

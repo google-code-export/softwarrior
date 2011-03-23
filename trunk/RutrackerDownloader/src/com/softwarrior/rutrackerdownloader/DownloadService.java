@@ -1,6 +1,8 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.net.URI;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -212,7 +214,7 @@ public class DownloadService extends Service {
         private volatile int mTorrentProgress = 0;
         private volatile int mTorrentState = 0;
         private volatile String mTorrentStatus = new String();
-        private volatile String mSessionStatus = new String();
+        private volatile String mSessionStatus = new String();       
         
         private ProgressBar mProgress;
         private SharedPreferences mPrefs;
@@ -250,7 +252,7 @@ public class DownloadService extends Service {
         }
         
         private volatile ControllerState mControllerState = ControllerState.Undefined;
-
+        
     	@Override
 		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
@@ -258,10 +260,8 @@ public class DownloadService extends Service {
             Intent intent = getIntent();
             if(intent != null){
             	Uri localUri = getIntent().getData();
-            	if(localUri != null){
+            	if(localUri != null)
             		RutrackerDownloaderApp.TorrentFullFileName = localUri.getPath();
-            		Log.i(RutrackerDownloaderApp.TAG, "TorrentFullFileName: " + RutrackerDownloaderApp.TorrentFullFileName);      
-            	}
             }
             //--------------Mobclix-----------------------
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
@@ -438,6 +438,30 @@ public class DownloadService extends Service {
     		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
         }        
         
+    	private String CopyTorrentFiles(String torrentName){    		
+    		String result =  RutrackerDownloaderApp.TorrentFullFileName;
+    		try{			
+				URI torrentFullName =  new URI(RutrackerDownloaderApp.TorrentSavePath + "/" + torrentName);
+				String filepath = torrentFullName.getPath();
+				if (filepath != null) {
+					File newFile =  new File(filepath);
+					File oldFile = new File(RutrackerDownloaderApp.TorrentFullFileName); 
+					if(newFile != null && oldFile != null){
+						if(RutrackerDownloaderApp.CopyFile(oldFile, newFile)){
+							result = filepath;
+						}
+					}
+				}
+    		} catch (Exception ex){
+    			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+    	    }
+    		return result;
+    	}        
+    	private void DeleteFile(String FullFileName){
+			File file =  new File(FullFileName);
+			if(file != null)
+				file.delete();    		
+    	}
 		public void OnClickButtonStartDownload(View v) {
         	if(mIsBoundService){
         		String savePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
@@ -449,7 +473,10 @@ public class DownloadService extends Service {
                     Toast.makeText(Controller.this, R.string.error_torrent_file_absent, Toast.LENGTH_SHORT).show();
                     return;
             	}
-        		mBoundService.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);
+        		String tempName = CopyTorrentFiles("downloader_temp.torrent");
+            	mBoundService.AddTorrent(savePath, tempName);
+            	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
+            		DeleteFile(tempName);
         		SetControllerState(ControllerState.Started);
         	}
 		}
