@@ -196,7 +196,7 @@
 
     <!-- ABOUT -->
 
-	<string name="about_comments">Программа для поиска и скачивания видео, музыки, картинок, программ и т.п. с популярного в России трекера:\n *** http://rutracker.org ***</string>  
+	<string name="about_comments">Программа - Bit Torrent клиент (как mTorrent), с дополнительными возможностями поиска и загрузки контента с сайтов.</string>  
 	<string name="about_copyright">(c) 2011 Softwarrior </string>
     <!-- Add your name here, separated with comma's, if you helped out --> 
 	<string name="about_website_label">Softwarrior сайт</string> 

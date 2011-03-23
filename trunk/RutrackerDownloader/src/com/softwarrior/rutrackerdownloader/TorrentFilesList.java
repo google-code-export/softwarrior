@@ -93,12 +93,6 @@ public class TorrentFilesList extends ListActivity {
 	        mDirName.setText(R.string.file_list_activation);
 	        Button button = (Button)findViewById(R.id.ButtonApply);
 	        button.setEnabled(false);
-	        button = (Button)findViewById(R.id.ButtonSelect);
-	        button.setEnabled(false);
-	        button = (Button)findViewById(R.id.ButtonUnselect);
-	        button.setEnabled(false);
-	        button = (Button)findViewById(R.id.ButtonUp);	        
-	        button.setEnabled(false);
 	    }	    
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
