@@ -79,7 +79,9 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String 	TorrentSavePath = Environment.getExternalStorageDirectory()+"/";// + "/RutrackerDownloader";
 	
 	//Variables
-	public static boolean	DownloadServiceMode = true;
+	public static volatile boolean	DownloadServiceMode = true;
+	public static volatile boolean	StartFinalClose = false;
+	
 	public static String	TorrentFullFileName = new String("undefined");
 	//Site Settings
 	public static String	TorrentLoginUrl = RT_TorrentLoginUrl;
@@ -141,10 +143,16 @@ public class RutrackerDownloaderApp extends Application {
     }
 
     static public void ToDownloaderActivity(Activity activity){
-    	if(!DownloadServiceMode)
+    	if(DownloadServiceMode){
+        	Intent intent = new Intent(Intent.ACTION_VIEW);
+        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        	intent.setClassName(activity, DownloadService.Controller.class.getName());
+        	activity.startActivity(intent);	
+    	} else {
     		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
-    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-    	activity.finish();
+    		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    		activity.finish();
+    	}
     }
     static public void OpenPreferenceTabsActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -169,45 +177,46 @@ public class RutrackerDownloaderApp extends Application {
     }
  
     static public void CloseApplication(Activity activity){
-    	if(DownloadServiceMode){
-    		DownloadServiceMode = false;
-    		FinalCloseApplication(activity);
-    	}
+    	RutrackerDownloaderApp.ExitState = true;
+    	if(DownloadServiceMode && !StartFinalClose)
+    		FinalCloseApplication(activity);    	
     	else{
-	    	RutrackerDownloaderApp.ExitState = true;
 	    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
 	    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	    	activity.finish();
     	}
     }
         
-    static public void FinalCloseApplication(final Activity activity){ 
-    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
+    static public void FinalCloseApplication(final Activity activity){
     	RutrackerDownloaderApp.ExitState = true;
-		activity.stopService(new Intent(activity,DownloadService.class));
-		NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);
- 		nm.cancelAll();
-    	SharedPreferences prefs =  activity.getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
-    	SharedPreferences.Editor ed = prefs.edit();
-        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
-        ed.commit();
-        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-        RutrackerDownloaderApp.AnalyticsTracker.stop();
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                dialog.dismiss();
-                activity.moveTaskToBack(false);
-        	  	Process.killProcess(Process.myPid());
-            }
-        };        
-        // Start lengthy operation in a background thread
-        new Thread(new Runnable() {
-            public void run() {
-		        RutrackerDownloaderApp.ClearCache(activity);
-		        handler.sendEmptyMessage(0);
-            }
-        }).start();
+    	if(!StartFinalClose){
+    		StartFinalClose = true;
+	    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
+			activity.stopService(new Intent(activity,DownloadService.class));
+			NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);
+	 		nm.cancelAll();
+	    	SharedPreferences prefs =  activity.getSharedPreferences(DownloadService.Controller.class.getName(), MODE_PRIVATE);
+	    	SharedPreferences.Editor ed = prefs.edit();
+	        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
+	        ed.commit();
+	        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+	        RutrackerDownloaderApp.AnalyticsTracker.stop();
+	        final Handler handler = new Handler() {
+	            @Override
+	            public void handleMessage(Message msg) {
+	                dialog.dismiss();
+	                activity.moveTaskToBack(false);
+	        	  	Process.killProcess(Process.myPid());
+	            }
+	        };        
+	        // Start lengthy operation in a background thread
+	        new Thread(new Runnable() {
+	            public void run() {
+			        RutrackerDownloaderApp.ClearCache(activity);
+			        handler.sendEmptyMessage(0);
+	            }
+	        }).start();
+    	}
 	}    
     static public void HelpActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);

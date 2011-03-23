@@ -197,7 +197,7 @@ Please see contact information in the About page.
 
     <!-- ABOUT -->
 
-	<string name="about_comments">The program to search and download video, music, pictures, etc from biggest Russian tracker:\n *** http://rutracker.org ***</string>  
+	<string name="about_comments">The program - bit torrent client (like mTorrent), with additional search capabilities, and downloading content from the sites</string>  
 	<string name="about_copyright">(c) 2011 Softwarrior </string>
     <!-- Add your name here, separated with comma's, if you helped out --> 
 	<string name="about_website_label">Softwarrior site</string> 
