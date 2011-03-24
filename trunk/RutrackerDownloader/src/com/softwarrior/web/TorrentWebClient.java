@@ -323,7 +323,7 @@ public class TorrentWebClient extends Activity {
 	}
 
     private void ManageDownloadButton(String current_url) {
-    	if(mAction.equals("Show") || mAction.equals("Search")){        	
+    	if(mAction.equals("Show") || mAction.equals("Search") || mAction.equals("SiteMap")){        	
 	    	if(current_url.contains(RutrackerDownloaderApp.TorrentTopic)){
 	    		mCurrentUrl = current_url;
 	    		mDistributionNumber = current_url.replace(RutrackerDownloaderApp.TorrentTopic, "");
