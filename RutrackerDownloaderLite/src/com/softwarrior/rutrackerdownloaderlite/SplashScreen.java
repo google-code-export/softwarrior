@@ -94,7 +94,7 @@ public class SplashScreen extends Activity {
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	intent.setClassName(this, PreferencesTabs.class.getName());
     	startActivity(intent);
-    	overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+//    	overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	finish();
     }
     

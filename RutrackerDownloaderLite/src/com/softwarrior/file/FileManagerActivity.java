@@ -308,7 +308,7 @@ public class FileManagerActivity extends ListActivity {
  		RutrackerDownloaderApp.ToDownloaderActivity(this);
  	 }
      public void OnClickButtonSelectCurrentDir(View v) {
-    	 DownloadPreferencesScreen.SetTorrentSavePath(this, currentDirectory.getAbsolutePath());
+    	 DownloadPreferencesScreen.SetTorrentSavePath(this, currentDirectory.getAbsolutePath() + "/");
     	 finish();
  	 }
 
@@ -544,10 +544,6 @@ public class FileManagerActivity extends ListActivity {
           intent.setDataAndType(data, type);
           
           try {
-        	  if(type.equals("application/x-bittorrent")){
-        		  RutrackerDownloaderApp.TorrentFullFileName = data.getPath();
-        		  RutrackerDownloaderApp.ToDownloaderActivity(this);
-        	  } else
             	  startActivity(intent);        		  
           } catch (ActivityNotFoundException e) {
         	  Toast.makeText(this, R.string.application_not_available, Toast.LENGTH_SHORT).show();

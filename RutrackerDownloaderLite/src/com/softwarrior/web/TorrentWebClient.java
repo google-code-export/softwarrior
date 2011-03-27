@@ -49,6 +49,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 public class TorrentWebClient extends Activity {
@@ -89,7 +90,7 @@ public class TorrentWebClient extends Activity {
         webSettings.setSaveFormData(true);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setSupportZoom(true);
-        webSettings.setPluginState(WebSettings.PluginState.OFF); 
+        //webSettings.setPluginState(WebSettings.PluginState.OFF); 
                
         mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress){
@@ -351,7 +352,9 @@ public class TorrentWebClient extends Activity {
     			torrentDownloader.DownloadNNM(mDistributionNumber);
     		else
     			torrentDownloader.Download(mDistributionNumber);    					
-    	}    	
+    	} 
+    	String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+    	Toast.makeText(this, text,Toast.LENGTH_SHORT).show();        
     }
     
     @Override

@@ -73,7 +73,7 @@
 	
 	<string name="button_site_map">Show site map</string>
 	<string name="button_refresh_advertising">Refresh Advertising</string>
-	<string name="button_download">Download distribution</string>
+	<string name="button_download">Download torrent</string>
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
 	<string name="button_refresh_page">Refresh page</string>
@@ -260,4 +260,5 @@ Please see contact information in the About page.
     <string name="file_list_activation">To activate the options to select file, click 1 time on advertising banner on the previous screen. 1 click activates option for complete program session.</string>
     <string name="progress_search">Please wait while program search...</string>
     <string name="torrent_file_undefined">Torrent file is undefined</string>
+    <string name="torrent_file_downloaded">The file was downloaded</string>    
 </resources>

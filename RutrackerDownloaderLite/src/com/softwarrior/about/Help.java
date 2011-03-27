@@ -24,7 +24,7 @@ public class Help extends Activity {
 	        WebSettings webSettings = mWebViewHelp.getSettings();
 	        webSettings.setJavaScriptEnabled(true);
 	        webSettings.setSupportZoom(true);
-	        webSettings.setPluginState(WebSettings.PluginState.OFF); 
+	        //webSettings.setPluginState(WebSettings.PluginState.OFF); 
 	        
 	        
 	        mWebViewHelp.loadUrl(getString(R.string.url_help));       
