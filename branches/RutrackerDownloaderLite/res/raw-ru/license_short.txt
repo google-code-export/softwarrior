@@ -1,0 +1,7 @@
+Ознакомиться с последними изменениями, задать вопросы, указать недочеты, можно на сайте:
+
+http://softwarrior.wordpress.com
+
+Rutracker Downloader распространяется под лицензией GNU General Public License версии 2. Подробно с GPL версии 2, вы можете ознакомиться на сайте:
+
+http://www.gnu.org/licenses
