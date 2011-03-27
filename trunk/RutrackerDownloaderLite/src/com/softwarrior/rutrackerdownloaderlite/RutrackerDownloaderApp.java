@@ -101,7 +101,7 @@ public class RutrackerDownloaderApp extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
+        RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-3", 30, this);
 	}
 	
 	static public void SetupPornolab(Activity activity){
@@ -133,7 +133,7 @@ public class RutrackerDownloaderApp extends Application {
 	}	
     static public void PreferencesScreenActivity(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
-    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+//    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	if(DownloadServiceMode)
     		OpenPreferenceTabsActivity(activity);
     	activity.finish();
@@ -141,7 +141,7 @@ public class RutrackerDownloaderApp extends Application {
 
     static public void ToDownloaderActivity(Activity activity){
 		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
-		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+//		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 		activity.finish();
     }
     
@@ -160,21 +160,22 @@ public class RutrackerDownloaderApp extends Application {
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	intent.setClassName(activity, FileManagerActivity.class.getName());
     	activity.startActivityForResult(intent,0); 
-    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+//    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     }
  
     static public void CloseApplication(Activity activity){
     	RutrackerDownloaderApp.ExitState = true;
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
-    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+//    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.finish();
     }
-        
+
+	static ProgressDialog dialog = null;
     static public void FinalCloseApplication(final Activity activity){
     	RutrackerDownloaderApp.ExitState = true;
     	if(!StartFinalClose){
     		StartFinalClose = true;
-	    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
+	    	dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
 			NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);
 	 		nm.cancelAll();
 	        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
@@ -182,7 +183,11 @@ public class RutrackerDownloaderApp extends Application {
 	        final Handler handler = new Handler() {
 	            @Override
 	            public void handleMessage(Message msg) {
-	                dialog.dismiss();
+	                try{
+	                	dialog.dismiss();
+	                } catch(Exception ex){
+	                	ex.printStackTrace();
+	                }
 	                activity.moveTaskToBack(false);
 	        	  	Process.killProcess(Process.myPid());
 	            }

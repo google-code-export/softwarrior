@@ -72,7 +72,7 @@
 	
 	<string name="button_site_map">Показать карту сайта</string>
 	<string name="button_refresh_advertising">Обновить рекламу</string>
-	<string name="button_download">Скачать раздачу</string>
+	<string name="button_download">Скачать torrent</string>
 	<string name="button_search">Поиск</string>
 	<string name="button_login">Логин на сайт</string>
 	<string name="button_refresh_page">Обновить страницу</string>
@@ -259,4 +259,5 @@
     <string name="file_list_activation">Для включения опции Выбора Файла, нажмите 1 раз на рекламный баннер на предыдущем экране. 1 клик активирует опцию на полную сессию программы.</string>
     <string name="progress_search">Пожалуйста подождите пока программа исчет...</string>
     <string name="torrent_file_undefined">Torrent файл не выбран</string>
+    <string name="torrent_file_downloaded">Файл был сохранен</string>        
 </resources>
