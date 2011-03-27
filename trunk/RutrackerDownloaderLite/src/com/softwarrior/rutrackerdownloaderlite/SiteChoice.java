@@ -104,7 +104,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	        mAdviewBanner.addMobclixAdViewListener(this);
 	        
 	        //AdMob
-	        AdManager.setPublisherId("a14d5a500187b19");
+	        AdManager.setPublisherId("a14d8f9063dd1a4");
 //	        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR, "92D0B17743FC28D496804E97F99B6D10" });        
 //	        AdManager.setTestAction("video_int");
 

@@ -61,7 +61,7 @@
                   android:configChanges="orientation|keyboard|keyboardHidden">
         </activity>
         <!-- Mobclix Required Parameter -->
-        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="599D7269-63A0-46C2-BCF2-98DA8159A36D"/>
+        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="5747DB07-5754-41F2-B51A-39B3C61E2AAA"/>
         <activity android:name="com.mobclix.android.sdk.MobclixBrowserActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity> 
@@ -92,9 +92,9 @@
         <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
                        android:value="@string/about_email" />
         <!-- The application's publisher ID assigned by AdMob -->
-        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_PUBLISHER_ID" />
+        <meta-data android:value="a14d8f9063dd1a4" android:name="ADMOB_PUBLISHER_ID" />
         <!-- use a separate publisher id here to aid in tracking intersitial statistics -->
-        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
+        <meta-data android:value="a14d8f9063dd1a4" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
         <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
     </application>
     <uses-sdk android:minSdkVersion="8" />
