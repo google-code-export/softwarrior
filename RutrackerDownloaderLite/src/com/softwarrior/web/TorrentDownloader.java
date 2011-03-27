@@ -1,18 +1,15 @@
 package com.softwarrior.web;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
-import com.softwarrior.rutrackerdownloader.DownloadService;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
 
 import android.util.Log;
 
@@ -104,7 +101,6 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }	
-	        RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
@@ -147,33 +143,11 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }
-	        RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
 	}
 	
-	public void RenameTorrentFiles(){
-		try{			
-			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
-			if(torrentName != null){
-				torrentName = torrentName.replace(".", "_");
-				torrentName = torrentName.replace(" ", "_");
-				URI torrentFullName =  new URI(mTorrentSavePath + "/" + torrentName + ".torrent");
-				String filepath = torrentFullName.getPath();
-				if (filepath != null) {
-					File newFile =  new File(filepath);
-					File oldfile = new File(RutrackerDownloaderApp.TorrentFullFileName); 
-					if(newFile != null && oldfile != null){
-						if(oldfile.renameTo(newFile))
-							RutrackerDownloaderApp.TorrentFullFileName = filepath;
-					}
-				}
-			}
-		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
-	    }
-	}
 	
 //    void PrintMapWithList(Map<String, List<String>> MapList)
 //    {

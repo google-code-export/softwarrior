@@ -11,29 +11,6 @@
 		android:orientation="horizontal" 
 		android:layout_height="wrap_content" 
 		android:layout_alignParentBottom="true"> 
-		<TextView 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:id="@+id/TextView" 
-			android:text="" 
-			android:layout_centerHorizontal="true" 
-			android:layout_centerVertical="true"/> 		 
-		<Button 
-			android:text="@string/button_activate_settings"
-			android:onClick="@string/on_click_activate_settings"
-            android:id="@+id/ButtonActivateSettings"
-            android:layout_alignParentRight="true" 
-            android:layout_height="wrap_content" 
-            android:layout_width="fill_parent" 
-            android:layout_toRightOf="@id/TextView"/>
-		<Button 
-			android:text="@string/button_downloaded"
-			android:onClick="@string/on_click_button_downloaded"
-            android:id="@+id/ButtonDownloaded" 
-			android:layout_height="wrap_content" 
-            android:layout_alignParentLeft="true" 
-            android:layout_width="fill_parent"
-            android:layout_toLeftOf="@id/TextView"/>                          
 	</RelativeLayout>              
     <ListView android:id="@android:id/list"
               android:layout_width="fill_parent"

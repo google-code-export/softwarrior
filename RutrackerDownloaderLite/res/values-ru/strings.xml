@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">Rutracker Downloader</string>
-    <string name="app_desc">Программа для поиска и скачивания контента с сайта rutracker.org</string>
+    <string name="app_name">Rutracker Downloader Lite</string>
+    <string name="app_desc">Программа для поиска и скачивания torrent файла с сайта rutracker.org</string>
 	
 	<string name="menu_exit">Выход</string>
     <string name="menu_help">Помощь</string>
@@ -92,7 +92,7 @@
 	
 	<string name="tab_web_search">Web поиск</string>
 	<string name="tab_rss_search">RSS поиск</string>
-	<string name="tab_download">Скачивать</string>
+	<string name="tab_download">Настройки</string>
 	<string name="tab_advertising">Реклама</string>
 	
 	<string name="service_disconnected">Сервис скачивания торента отсоединен</string>
@@ -196,12 +196,12 @@
 
     <!-- ABOUT -->
 
-	<string name="about_comments">Программа - Bit Torrent клиент (как mTorrent), с дополнительными возможностями поиска и загрузки контента с сайтов.</string>  
+	<string name="about_comments">Программа для поиска и скачивания torrent файла с сайта rutracker.org и других сайтов</string>  
 	<string name="about_copyright">(c) 2011 Softwarrior </string>
     <!-- Add your name here, separated with comma's, if you helped out --> 
 	<string name="about_website_label">Softwarrior сайт</string> 
 	<string name="about_website_url">http://softwarrior.wordpress.com</string>
-	<string name="about_logo_title">Rutracker Downloader</string>
+	<string name="about_logo_title">Rutracker Downloader Lite</string>
 	<string name="about_logo_description">torrent downloader</string>
 	<string name="about_email">wise4man@gmail.com</string>
 	

@@ -17,7 +17,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.softwarrior.rutrackerdownloader.R;
+import com.softwarrior.rutrackerdownloaderlite.R;
 
 public class DirectoryScanner extends Thread {
 

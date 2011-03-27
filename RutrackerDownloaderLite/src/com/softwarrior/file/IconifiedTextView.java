@@ -1,7 +1,7 @@
 package com.softwarrior.file;
 
 
-import com.softwarrior.rutrackerdownloader.R;
+import com.softwarrior.rutrackerdownloaderlite.R;
 
 import android.content.Context; 
 import android.graphics.drawable.Drawable; 

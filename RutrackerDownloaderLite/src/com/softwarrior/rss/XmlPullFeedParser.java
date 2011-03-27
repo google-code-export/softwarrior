@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
 
 import android.util.Log;
 import android.util.Xml;

@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlSerializer;
 
-import com.softwarrior.rutrackerdownloader.R;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.R;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
 import android.app.ListActivity;

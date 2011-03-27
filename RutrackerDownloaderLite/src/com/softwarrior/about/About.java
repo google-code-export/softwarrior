@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloader.R;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.R;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
 
 import android.app.TabActivity;
 import android.content.Intent;

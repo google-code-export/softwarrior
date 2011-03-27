@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-    <string name="app_name">Rutracker Downloader</string>
-    <string name="app_desc">The program to search and download content from rutracker.org</string>
+    <string name="app_name">Rutracker Downloader Lite</string>
+    <string name="app_desc">The program to search and download torrent from rutracker.org</string>
     	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>
@@ -93,7 +93,7 @@
 	
 	<string name="tab_web_search">Web Search</string>
 	<string name="tab_rss_search">RSS Search</string>
-	<string name="tab_download">Download</string>
+	<string name="tab_download">Options</string>
 	<string name="tab_advertising">Advertising</string>
 	
 	<string name="service_disconnected">Torrent Downloader Service disconnected</string>
@@ -197,12 +197,12 @@ Please see contact information in the About page.
 
     <!-- ABOUT -->
 
-	<string name="about_comments">The program - bit torrent client (like mTorrent), with additional search capabilities, and downloading content from the sites</string>  
+	<string name="about_comments">The program to search and download torrent file from rutracker.org and other sites</string>  
 	<string name="about_copyright">(c) 2011 Softwarrior </string>
     <!-- Add your name here, separated with comma's, if you helped out --> 
 	<string name="about_website_label">Softwarrior site</string> 
 	<string name="about_website_url">http://softwarrior.wordpress.com</string>
-	<string name="about_logo_title">Rutracker Downloader</string>
+	<string name="about_logo_title">Rutracker Downloader Lite</string>
 	<string name="about_logo_description">torrent downloader</string>
 	<string name="about_email">wise4man@gmail.com</string>
 	

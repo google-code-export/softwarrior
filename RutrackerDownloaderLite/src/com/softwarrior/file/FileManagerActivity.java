@@ -47,9 +47,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
-import com.softwarrior.rutrackerdownloader.R;
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloadPreferencesScreen;
+import com.softwarrior.rutrackerdownloaderlite.R;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
 
 public class FileManagerActivity extends ListActivity { 
 	
