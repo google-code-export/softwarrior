@@ -1,6 +1,6 @@
 package com.softwarrior.rss;
 
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
 
 public abstract class FeedParserFactory {
 	//static String feedUrl = "http://www.androidster.com/android_news.rss";

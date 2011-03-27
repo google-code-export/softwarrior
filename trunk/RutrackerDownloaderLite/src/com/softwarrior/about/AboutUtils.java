@@ -1,6 +1,6 @@
 package com.softwarrior.about;
 
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
 
 import android.content.Context;
 import android.content.Intent;

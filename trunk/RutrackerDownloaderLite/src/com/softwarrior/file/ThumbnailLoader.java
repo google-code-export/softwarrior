@@ -3,7 +3,7 @@ package com.softwarrior.file;
 import java.io.File;
 import java.util.List;
 
-import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
