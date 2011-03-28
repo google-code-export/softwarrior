@@ -1,0 +1,10 @@
+<LinearLayout android:id="@+id/LinearLayout01" xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_gravity="center_vertical"><TextView android:layout_height="wrap_content" android:id="@+id/TrackTitle" android:text="Track Title" android:textSize="10pt" android:layout_gravity="center_horizontal" android:layout_width="wrap_content" android:padding="10pt"></TextView><LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="fill_parent"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewElapsed" android:text="0:00" android:layout_gravity="center_vertical"></TextView><SeekBar android:layout_height="wrap_content" android:id="@+id/AudioPlaybackSeekBar" android:padding="10pt" android:layout_width="fill_parent" android:layout_weight="0.5"></SeekBar><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextViewRemaining" android:text="0:00" android:layout_gravity="center_vertical"></TextView>
+
+</LinearLayout>
+
+
+
+<LinearLayout android:id="@+id/LinearLayout03" android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center_horizontal"><ImageButton android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:id="@+id/ImageButtonStop" android:src="@drawable/stop" android:adjustViewBounds="true" android:padding="5pt"></ImageButton><ImageButton android:layout_height="wrap_content" android:id="@+id/ImageButtonPlayPause" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:adjustViewBounds="true" android:src="@drawable/play" android:padding="5pt"></ImageButton></LinearLayout>
+
+
+</LinearLayout>

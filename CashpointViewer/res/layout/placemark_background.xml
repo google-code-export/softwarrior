@@ -1,0 +1,17 @@
+
+
+
+<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_height="fill_parent"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/placemark_name" android:text="placemark name" android:layout_gravity="center_horizontal"></TextView><ImageView android:layout_width="fill_parent" android:id="@+id/placemark_photo" android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center_horizontal" android:layout_marginBottom="10px" android:scaleType="centerCrop"></ImageView>
+
+
+<LinearLayout android:id="@+id/LinearLayout02" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_gravity="bottom|center_horizontal" android:layout_height="wrap_content"><LinearLayout android:id="@+id/LinearLayout03" android:orientation="vertical" android:layout_width="fill_parent" android:layout_weight="0.5" android:layout_height="wrap_content" android:layout_gravity="bottom"></LinearLayout><LinearLayout android:id="@+id/LinearLayout04" android:orientation="vertical" android:layout_width="fill_parent" android:layout_weight="0.5" android:layout_gravity="bottom" android:layout_height="wrap_content"></LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>
