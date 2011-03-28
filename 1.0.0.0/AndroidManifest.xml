@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.softwarrior.rutrackerdownloader"
+      android:versionName="1.0.0.0" android:versionCode="1">
+    <application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="RutrackerDownloaderApp" android:description="@string/app_desc">        
+        <activity android:name="SplashScreen" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> 
+        <activity android:name="PreferencesTabs"></activity>
+        <activity android:name="WEBPreferencesScreen"></activity>
+        <activity android:name="RSSPreferencesScreen"></activity>
+        <activity android:name="DownloadPreferencesScreen"></activity>
+        <activity android:name="com.softwarrior.about.AdMobAdvertising"></activity>
+        <activity android:name="com.softwarrior.about.AdWhirlAdvertising"></activity>
+        <activity android:name="com.softwarrior.about.AllAdvertising"></activity>        
+        <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
+        <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>     
+        <activity android:name="DownloadService$Controller"
+                android:theme="@android:style/Theme.Light"
+                android:label="@string/activity_service_controller"
+                android:launchMode="singleTop" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.softwarrior.file.FileManagerActivity" android:theme="@android:style/Theme.Light">
+            <intent-filter>
+                <action android:name="com.softwarrior.file.SET_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_FILE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_FILE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.GET_CONTENT" />
+                <data android:mimeType="*/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>        
+        </activity>
+        <activity android:label="@string/about_activity_name"
+                android:name="com.softwarrior.about.About"
+                android:theme="@android:style/Theme.Light">
+                <!-- android:launchMode="singleTop" android:screenOrientation="sensor" -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.about.action.SHOW_ABOUT_DIALOG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/help_activity_name"
+                  android:name="com.softwarrior.about.Help"
+                  android:theme="@android:style/Theme.Light">
+        </activity>  
+        <service android:name="DownloadService"></service>
+        <!-- AdMob integration -->
+        <activity android:name="com.admob.android.ads.AdMobActivity" 
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:configChanges="orientation|keyboard|keyboardHidden">
+        </activity>
+        <!-- MdotM integration -->
+        <activity android:name="com.mdotm.android.ads.MdotmLandingPage"
+                  android:label="@string/app_name" >
+            <intent-filter>
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <!-- Millennial integration
+        <activity android:name="com.millennialmedia.android.MMAdViewOverlayActivity" 
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:configChanges="orientation|keyboard|keyboardHidden">
+        </activity>
+        -->
+        <activity android:name="com.millennialmedia.android.MMAdViewOverlayActivity" 
+                    android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>        
+        <activity android:name="com.millennialmedia.android.VideoPlayer" 
+                    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                    android:configChanges="keyboardHidden|orientation|keyboard" >
+        </activity>        
+        <!-- Track Market installs -->
+        <receiver android:name="com.admob.android.ads.analytics.InstallReceiver"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+                        
+        <meta-data android:name="com.softwarrior.about.metadata.COMMENTS"
+                       android:value="@string/about_comments" />
+        <meta-data android:name="com.softwarrior.about.metadata.COPYRIGHT"
+                       android:value="@string/about_copyright" />
+        <meta-data android:name="com.softwarrior.about.metadata.AUTHORS"
+                       android:resource="@array/about_authors" />
+        <meta-data android:name="com.softwarrior.about.metadata.DOCUMENTERS"
+                       android:resource="@array/about_documenters" />
+        <meta-data android:name="com.softwarrior.about.metadata.TRANSLATORS"
+                       android:resource="@array/about_translators" />
+        <meta-data android:name="com.softwarrior.about.metadata.ARTISTS"
+                       android:resource="@array/about_artists" />
+        <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_LABEL"
+                       android:value="@string/about_website_label" />
+        <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_URL"
+                       android:value="@string/about_website_url" />
+        <meta-data android:name="com.softwarrior.about.metadata.LICENSE" android:resource="@raw/license_short"/>
+        <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
+                       android:value="@string/about_email" />
+        <!-- The application's publisher ID assigned by AdMob -->
+        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_PUBLISHER_ID" />
+        <!-- use a separate publisher id here to aid in tracking intersitial statistics -->
+        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
+        <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
+        <!-- Application-wide AdWhirl Key -->
+        <!-- If both Activity-specific and App-wide AdWhirl Keys are specified, the
+             Activity-specific key will override the App-wide key. -->
+        <!-- If Activity-specific key is omitted, the App-wide key will be used. -->        
+        <meta-data android:value="09a0faf9236e480cb1b93417f2e40b11" android:name="ADWHIRL_KEY" />
+        <!-- The application's Adclient ID assigned by ZestADZ -->
+        <meta-data android:value="14131C047A50414A4F5B40534758435E899B2BDF" android:name="ZestADZ_Adclient_ID" />
+                     
+    </application>
+    <uses-sdk android:minSdkVersion="8" />
+    <uses-permission android:name="android.permission.INTERNET" />  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    
+    <!-- Optional permissions  -->  
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />  
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    -->
+    <supports-screens android:smallScreens="true"
+                      android:normalScreens="true" 
+                      android:largeScreens="true" 
+                      android:anyDensity="true" android:resizeable="true"/>
+</manifest>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloader"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/container"
+		android:gravity = "bottom" 
+		android:layout_alignParentBottom="true"
+		android:orientation="vertical">
+		<!--
+		<com.zestadz.android.ZestadzAd 
+		      android:id="@+id/zad" 
+	          android:layout_width="fill_parent" 
+	          android:layout_height="wrap_content"
+	          android:layout_alignParentBottom="true"
+	          android:clickable="true"
+	          app:backgroundColor="#000000"
+	          app:textColor="#FFFFFF"
+	          app:keywords="Android game"/>
+		-->
+		<!--
+		<com.inmobi.androidsdk.impl.InMobiAdView
+	        android:layout_width="wrap_content" 
+	        android:layout_height="wrap_content"
+	        android:id = "@+id/adview" />
+	    -->	
+		<!-- Place an AdMob ad at the bottom of the screen. -->
+		<!-- It has white text on a black background. -->
+		<!-- The description of the surrounding context is 'Android game'. -->
+		<!-- app:keywords="Android game" -->
+		<!-- android:visibility="gone" -->
+		<!-- android:layout_alignParentBottom="true" -->
+		<!-- com.admob.android.ads.AdView -->	
+		<com.admob.android.ads.AdView
+			android:id="@+id/ad"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			app:backgroundColor="#000000"
+			app:primaryTextColor="#FFFFFF"
+			app:secondaryTextColor="#CCCCCC"/>
+		<!--		
+		<Button 
+			android:layout_alignParentBottom="true"
+			android:text="@string/button_refresh_advertising"
+			android:onClick="@string/on_click_refresh_advertising"
+	        android:id="@+id/ButtonRefreshAdvertising"
+	        android:layout_height="wrap_content"
+	        android:layout_width="fill_parent"/>
+	     -->
+	</LinearLayout>  
+	<TextView 
+        android:id="@+id/text_mobile_advertising_message" 
+        android:paddingTop="15sp"
+        android:textStyle="bold"
+        android:text="@string/mobile_advertising_message"
+        android:textSize="10sp" 
+        android:layout_height="fill_parent" 
+        android:layout_above="@id/container"
+        android:layout_width="fill_parent"/>
+</RelativeLayout>	
