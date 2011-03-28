@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+     <PreferenceScreen
+         android:summary="@string/site_choise">
+     </PreferenceScreen>                         
+     <CheckBoxPreference 
+         android:key="preferences_rutracker" 
+         android:title="@string/preferences_rutracker_title" 
+         android:selectable="true">
+     </CheckBoxPreference>
+     <CheckBoxPreference 
+         android:key="preferences_pornolab" 
+         android:title="@string/preferences_pornolab_title"> 
+     </CheckBoxPreference>
+</PreferenceScreen>
