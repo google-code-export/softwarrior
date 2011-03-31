@@ -47,6 +47,7 @@ public class Placemark {
 
     private float mBearing;
     private float mDistance;
+    private float mResizePercent;
 
     private static Paint mPaintRect;
     private static Paint mPaintTextBlack;
@@ -86,6 +87,7 @@ public class Placemark {
 		mContext = context;
 		
 		boolean nameRead = false;
+		mResizePercent = 1;
 	
 		NodeList children = placemarkElement.getChildNodes();
 		int numChildren = children.getLength();
@@ -165,13 +167,16 @@ public class Placemark {
 		    Log.e(CashpointViewerApp.TAG, "<name> element is missing or incorrect");
 	
 		if (mDot == null)
-		    mDot = context.getResources().getDrawable(R.drawable.dot);
+		    mDot = context.getResources().getDrawable(R.drawable.map);
 		if (mPhotoNotFound == null) {
 		    mPhotoNotFound = BitmapFactory.decodeResource(context.getResources(), R.raw.photo_not_found);
 		}	
 		mId = id;
     }
-
+   
+    public void SetResizePercent(float percent){
+    	mResizePercent = percent;
+    }    
     public int getId() { return mId; }
     public float getLatitude() { return mLatitude; }
     public float getLongitude() { return mLongitude; }
@@ -196,9 +201,14 @@ public class Placemark {
     public boolean isQRCoded() { return !mQRCodes.isEmpty(); }
     public void draw(int x, int y, Canvas canvas) {
 		// Draw the dot
-		mDot.setBounds(x - mDot.getIntrinsicWidth() / 2, y
-			- mDot.getIntrinsicHeight() / 2, x + mDot.getIntrinsicWidth()
-			/ 2, y + mDot.getIntrinsicHeight() / 2);
+    	int intrinsic_width = (int)(mDot.getIntrinsicWidth() * mResizePercent);
+    	int intrinsic_height = (int)(mDot.getIntrinsicHeight() * mResizePercent);    	
+    	int left = x - intrinsic_width / 2;
+    	int top = y - intrinsic_height / 2;
+    	int right =  x + intrinsic_width / 2;
+    	int bottom = y + intrinsic_height / 2;
+    	
+		mDot.setBounds(left, top, right, bottom);   
 		mDot.draw(canvas);
     }
 

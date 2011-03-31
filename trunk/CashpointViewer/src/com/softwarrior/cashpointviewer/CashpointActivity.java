@@ -1,5 +1,7 @@
 package com.softwarrior.cashpointviewer;
 
+import com.softwarrior.cashpointviewer.anim.GraphicsActivity;
+
 import android.content.Context;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -22,7 +24,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.net.Uri;
 
-public class CashpointActivity extends FullWakeActivity implements AccelerometerObserver {
+public class CashpointActivity extends /*FullWakeActivity*/ GraphicsActivity implements AccelerometerObserver {
     private CompassView mCompassView;
     private PlacemarkView mPlacemarkView;
     private ImageButton mMapImageButton;
@@ -49,6 +51,42 @@ public class CashpointActivity extends FullWakeActivity implements Accelerometer
     	mFocused = hasFocus;
     }
 
+//    private static class SampleView extends View {
+//        private AnimateDrawable mDrawable;
+//        private AnimateDrawable mDrawable1;
+//
+//        public SampleView(Context context) {
+//            super(context);
+//            setFocusable(true);
+//            setFocusableInTouchMode(true);
+//
+//            Drawable dr = context.getResources().getDrawable(R.drawable.map);
+//            dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
+//            
+//            Animation an = new TranslateAnimation(0, 100, 0, 200);
+//            an.setDuration(2000);
+//            an.setRepeatCount(-1);
+//            an.initialize(10, 10, 10, 10);
+//            
+//            Animation an1 = new TranslateAnimation(0, 200, 0, 300);
+//            an1.setDuration(1000);
+//            an1.setRepeatCount(-1);
+//            an1.initialize(20, 20, 20, 20);
+//
+//            mDrawable = new AnimateDrawable(dr, an);
+//            an.startNow();        
+//            mDrawable1 = new AnimateDrawable(dr, an1);
+//            an1.startNow();        
+//        }
+//        
+//        @Override protected void onDraw(Canvas canvas) {
+////            canvas.drawColor(Color.WHITE);
+//            mDrawable.draw(canvas);
+//            mDrawable1.draw(canvas);
+//            invalidate();
+//        }
+//    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	Log.i(CashpointViewerApp.TAG, "onCreate");
@@ -81,6 +119,8 @@ public class CashpointActivity extends FullWakeActivity implements Accelerometer
         mPlacemarkView = new PlacemarkView(this, fov);
         addContentView(mPlacemarkView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
+//        addContentView(new SampleView(this), new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        
 	    /*
          * Add map launching button
          */        
@@ -97,6 +137,7 @@ public class CashpointActivity extends FullWakeActivity implements Accelerometer
 	    }
         });
         
+         
 	LinearLayout linearLayout = new LinearLayout(getApplicationContext());
         linearLayout.setHorizontalGravity(Gravity.CENTER);
         linearLayout.setVerticalGravity(Gravity.BOTTOM);
@@ -283,5 +324,5 @@ public class CashpointActivity extends FullWakeActivity implements Accelerometer
 		 * Launch or finish map sub-activity depending on the tilt angle
 		 */		
 		ShowMap(horizontal);
-    }
+    }    
 }
