@@ -166,8 +166,9 @@ public class Placemark {
 		if (!nameRead)
 		    Log.e(CashpointViewerApp.TAG, "<name> element is missing or incorrect");
 	
-		if (mDot == null)
+		if (mDot == null){
 		    mDot = context.getResources().getDrawable(R.drawable.map);
+		}
 		if (mPhotoNotFound == null) {
 		    mPhotoNotFound = BitmapFactory.decodeResource(context.getResources(), R.raw.photo_not_found);
 		}	
@@ -200,16 +201,19 @@ public class Placemark {
     public boolean checkQRCode(String qrCode) { return mQRCodes.contains(qrCode); }
     public boolean isQRCoded() { return !mQRCodes.isEmpty(); }
     public void draw(int x, int y, Canvas canvas) {
-		// Draw the dot
-    	int intrinsic_width = (int)(mDot.getIntrinsicWidth() * mResizePercent);
-    	int intrinsic_height = (int)(mDot.getIntrinsicHeight() * mResizePercent);    	
+    	// Draw the dot
+    	int intrinsic_width = mDot.getIntrinsicWidth();
+    	int intrinsic_height = mDot.getIntrinsicHeight();    	
+    	intrinsic_width = (int)(intrinsic_width * mResizePercent);
+    	intrinsic_height = (int)(intrinsic_height * mResizePercent);    	
     	int left = x - intrinsic_width / 2;
     	int top = y - intrinsic_height / 2;
     	int right =  x + intrinsic_width / 2;
     	int bottom = y + intrinsic_height / 2;
     	
-		mDot.setBounds(left, top, right, bottom);   
+		mDot.setBounds(left, top, right, bottom); 
 		mDot.draw(canvas);
+		canvas.drawText("70 κμ", x, y, mPaintTextWhite);
     }
 
     //Private methods

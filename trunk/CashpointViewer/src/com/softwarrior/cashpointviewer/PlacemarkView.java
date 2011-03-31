@@ -59,31 +59,37 @@ public class PlacemarkView extends LinearLayout implements GPSObserver, CompassO
 				int y = (canvas.getHeight() * 2 / 3); //default position
 				float distance_km = pm.getDistance() / 1000.0f;
 				float picture_scale_percent = 1; //100 %
-				int canvas_height = (canvas.getHeight() * 2 / 3); //default position
+				int canvas_height = canvas.getHeight();
+				canvas_height = (int)(canvas_height*0.75f);
 				
+				int distance_scale = 1; 
 				if(mMaxDistanceKm == SettingsActivity.INFINITY_KM){
-					picture_scale_percent = 0.1f;
-				}				
-				if(distance_km < 1){
+					distance_scale = 1;
+					
+				} else {				
+					distance_scale = mMaxDistanceKm / 10;
+				}
+				
+				if(distance_km < distance_scale*1){
 					picture_scale_percent = 1;
-				} else if(distance_km > 1 && distance_km < 2){
-					picture_scale_percent = 0.9f;
-				}else if(distance_km > 2 && distance_km < 3){
-					picture_scale_percent = 0.8f;
-				}else if(distance_km > 3 && distance_km < 4){
-					picture_scale_percent = 0.7f;
-				}else if(distance_km > 4 && distance_km < 5){
-					picture_scale_percent = 0.6f;					
-				}else if(distance_km > 5 && distance_km < 6){
-					picture_scale_percent = 0.5f;					
-				}else if(distance_km > 6 && distance_km < 7){
-					picture_scale_percent = 0.4f;					
-				}else if(distance_km > 7 && distance_km < 8){
-					picture_scale_percent = 0.3f;					
-				}else if(distance_km > 8 && distance_km < 9){
-					picture_scale_percent = 0.2f;					
-				}else if(distance_km > 9){
-					picture_scale_percent = 0.1f;					
+				} else if(distance_km > distance_scale*1 && distance_km < distance_scale*2){
+					picture_scale_percent = 0.95f;
+				}else if(distance_km > distance_scale*2 && distance_km < distance_scale*3){
+					picture_scale_percent = 0.85f;
+				}else if(distance_km > distance_scale*3 && distance_km < distance_scale*4){
+					picture_scale_percent = 0.75f;
+				}else if(distance_km > distance_scale*4 && distance_km < distance_scale*5){
+					picture_scale_percent = 0.65f;					
+				}else if(distance_km > distance_scale*5 && distance_km < distance_scale*6){
+					picture_scale_percent = 0.55f;					
+				}else if(distance_km > distance_scale*6 && distance_km < distance_scale*7){
+					picture_scale_percent = 0.45f;					
+				}else if(distance_km > distance_scale*7 && distance_km < distance_scale*8){
+					picture_scale_percent = 0.35f;					
+				}else if(distance_km > distance_scale*8 && distance_km < distance_scale*9){
+					picture_scale_percent = 0.30f;					
+				}else if(distance_km > distance_scale*9){
+					picture_scale_percent = 0.25f;					
 				}
 				y = (int)(canvas_height * picture_scale_percent);
 				pm.SetResizePercent(picture_scale_percent);

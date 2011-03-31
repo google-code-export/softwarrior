@@ -8,10 +8,12 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -29,6 +31,40 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public static final int MSG_SURFACE_CREATED  = 1;
     public static final int MSG_SURFACE_DESTROED = 2;
     public static final int MSG_SURFACE_CHANGED  = 3;
+    
+    
+    @Override
+    public boolean onTouchEvent(final MotionEvent ev) {
+    	switch (ev.getAction()) {
+	    case MotionEvent.ACTION_DOWN: {
+	    // Code on finger down
+	    float posX = ev.getX();
+	    float posY = ev.getY();
+	
+	    // 80x80 pixel square located 20 pixels left, 20 pixels top.
+	    float x1 = 20, x2 = 100, y1 = 20, y2 = 100;
+	
+	    if ((posX >= x1 && posX <= x2) && (posY >= y1 && posY <= y2)) {
+	    	Toast.makeText(mContext, "YESSSSSS", Toast.LENGTH_SHORT).show();
+	    // we are in the square
+	    } else {
+	    // we are somewhere else on the canvas
+	    }
+	
+	    break;
+	    }
+	    case MotionEvent.ACTION_UP: {
+	    // Code on finger up
+	    break;
+	    }
+	    case MotionEvent.ACTION_MOVE: {
+	    // Code on finger move
+	    break;
+	    }
+	    }
+    	return super.onTouchEvent(ev);
+    }
+    
     
     public CameraPreview(Context context) 
     {
