@@ -24,12 +24,12 @@ public class SettingsActivity extends Activity {
     private CheckBox mCheckBoxShowMapHoriz;
     private CheckBox mCheckBoxShowMapKey;
     
-    private static final int MAX_DISTANCE_KM = 10;
-    private static final int DEFAULT_DIST_KM = 9;
-    private static final int INFINITY_KM = 10000;
-    private static final boolean SHOW_COMPASS_BY_DEFAULT = false;
-    private static final boolean SHOW_MAP_HORIZ_BY_DEFAULT = false;
-    private static final boolean SHOW_MAP_KEY_BY_DEFAULT = false;
+    public static final int MAX_DISTANCE_KM = 10;
+    public static final int DEFAULT_DIST_KM = 9;
+    public static final int INFINITY_KM = 10000;
+    public static final boolean SHOW_COMPASS_BY_DEFAULT = false;
+    public static final boolean SHOW_MAP_HORIZ_BY_DEFAULT = false;
+    public static final boolean SHOW_MAP_KEY_BY_DEFAULT = false;
     
     public static final int getDefaultDistanceKm() {
     	return DEFAULT_DIST_KM;
@@ -49,6 +49,12 @@ public class SettingsActivity extends Activity {
 
     public static final boolean showMapKeyByDefault() {
     	return SHOW_MAP_KEY_BY_DEFAULT;
+    }
+
+    
+    public static int GetMaxDistanceKm(Context context) {
+		SharedPreferences settings = context.getSharedPreferences("CashpointViewer", Context.MODE_PRIVATE);
+		return settings.getInt("MaxDistanceKm", DEFAULT_DIST_KM);    	
     }
     
     @Override

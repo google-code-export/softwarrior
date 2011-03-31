@@ -6,65 +6,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.view.Gravity;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class PlacemarkView extends LinearLayout implements GPSObserver, CompassObserver {
-    private Context mContext;
-    private Gallery mGallery;
-    private PlacemarkCollectionAdapter mPCollAdapter;
     private List<Placemark> mVisiblePlacemarks = new LinkedList<Placemark>();
     private TextView mTextView;
-    private Animation mFadeInAnimation;
-    private Animation mFadeOutAnimation;
-    
+        
     private float mFOV;
+    private int	mMaxDistanceKm;
     
-    private static Paint mPaintLine;
-    
-    static {
-		mPaintLine = new Paint();
-		mPaintLine.setColor(0xFFFF7F27);
-		mPaintLine.setAntiAlias(true);
-		mPaintLine.setStrokeWidth(3.0f);
-    }
-
     public PlacemarkView(Context context, float fov) {
 		super(context);
 		setOrientation(LinearLayout.VERTICAL);
 		
-		mContext = context;
 		mFOV = fov;
 	
-		//Prepare animations	
-		mFadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-		mFadeOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-	
-		mFadeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
-		    @Override
-		    public void onAnimationStart(Animation animation) {
-		    }		    
-		    @Override
-		    public void onAnimationRepeat(Animation animation) {
-		    }
-		    @Override
-		    public void onAnimationEnd(Animation animation) {
-				// Gallery was not empty when animated, make it so.
-				mPCollAdapter.setPlacemarks(mVisiblePlacemarks);
-				mPCollAdapter.notifyDataSetChanged();
-		    }
-		});
 		//Text view where placemark name will be shown
 		mTextView = new TextView(context);
 		mTextView.setTextSize(16.0f);
@@ -72,41 +33,14 @@ public class PlacemarkView extends LinearLayout implements GPSObserver, CompassO
 		mTextView.setTypeface(Typeface.create((String)null, Typeface.BOLD));
 		mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
 		addView(mTextView, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-	
-		mPCollAdapter = new PlacemarkCollectionAdapter(context);
-	
-		//Gallery containing placemark images
 		
-		mGallery = new Gallery(context);
-		mGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-	    @Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Placemark pm = (Placemark) mGallery.getSelectedItem();
-				if (pm != null) {
-				    PlacemarkCollection.getInstance().setActive(pm);
-				    Intent intent = new Intent(view.getContext(), PlacemarkActivity.class);
-				    mContext.startActivity(intent);
-				}
-		    }
-		});
-		mGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-		    @Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				Placemark pm = (Placemark)mGallery.getSelectedItem();
-				if(pm != null)
-				    mTextView.setText(pm.getName() + String.format("(%.1f km)", pm.getDistance() / 1000.0f));
-		    }
-		    @Override
-			public void onNothingSelected(AdapterView<?> parent) {
-		    	mTextView.setText("");
-		    }
-		});
-		mGallery.setAdapter(mPCollAdapter);
-		addView(mGallery, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+		//mTextView.setText(pm.getName() + String.format("(%.1f km)", pm.getDistance() / 1000.0f));
 	
 		GPS.getInstance().addObserver(this);
 		CompassSensor.getInstance().addObserver(this);
 	
+		mMaxDistanceKm = SettingsActivity.GetMaxDistanceKm(context);
+		
 		setWillNotDraw(false);
     }
 
@@ -117,21 +51,42 @@ public class PlacemarkView extends LinearLayout implements GPSObserver, CompassO
 		if(!mVisiblePlacemarks.isEmpty()) {
 		    
 		    float azimuth = CompassSensor.getInstance().getLastData();
-		    int canvasWidth = canvas.getWidth();
-		    long selectedId = mGallery.getSelectedItemId();
-		    
+		    int canvasWidth = canvas.getWidth();		    
 		    // Draw placemarks
 		    for(Placemark pm : mVisiblePlacemarks) {
 				float a = pm.getBearing() - azimuth;
 				int x = canvasWidth / 2 + angleToPixels(canvasWidth, a);
-				int y = (canvas.getHeight() * 2 / 3);
-				if(pm.getId() == selectedId) {
-				    // Draw a line between the selected placemark and the corresponding ImageView.
-				    View v = mGallery.getSelectedView();
-				    int xline = (v.getLeft() + v.getRight()) / 2;
-				    int yline = v.getBottom();		  
-				    canvas.drawLine(x, y, xline, yline, mPaintLine);
+				int y = (canvas.getHeight() * 2 / 3); //default position
+				float distance_km = pm.getDistance() / 1000.0f;
+				float picture_scale_percent = 1; //100 %
+				int canvas_height = (canvas.getHeight() * 2 / 3); //default position
+				
+				if(mMaxDistanceKm == SettingsActivity.INFINITY_KM){
+					picture_scale_percent = 0.1f;
+				}				
+				if(distance_km < 1){
+					picture_scale_percent = 1;
+				} else if(distance_km > 1 && distance_km < 2){
+					picture_scale_percent = 0.9f;
+				}else if(distance_km > 2 && distance_km < 3){
+					picture_scale_percent = 0.8f;
+				}else if(distance_km > 3 && distance_km < 4){
+					picture_scale_percent = 0.7f;
+				}else if(distance_km > 4 && distance_km < 5){
+					picture_scale_percent = 0.6f;					
+				}else if(distance_km > 5 && distance_km < 6){
+					picture_scale_percent = 0.5f;					
+				}else if(distance_km > 6 && distance_km < 7){
+					picture_scale_percent = 0.4f;					
+				}else if(distance_km > 7 && distance_km < 8){
+					picture_scale_percent = 0.3f;					
+				}else if(distance_km > 8 && distance_km < 9){
+					picture_scale_percent = 0.2f;					
+				}else if(distance_km > 9){
+					picture_scale_percent = 0.1f;					
 				}
+				y = (int)(canvas_height * picture_scale_percent);
+				pm.SetResizePercent(picture_scale_percent);
 				pm.draw(x, y, canvas);
 		    }
 		}
@@ -160,30 +115,7 @@ public class PlacemarkView extends LinearLayout implements GPSObserver, CompassO
 		
 		// Update only when actually changed
 		if(!mVisiblePlacemarks.equals(visiblePlacemarks)) {
-		    mVisiblePlacemarks = visiblePlacemarks;
-		    
-		    if (mVisiblePlacemarks.isEmpty()) {
-			// Do not change gallery contents, just fade out.
-			// Placemark dot and the line are already invisible,
-			// not need to fade out anything except the gallery.
-		    	mGallery.startAnimation(mFadeOutAnimation);
-		    } else {
-			if(mPCollAdapter.isEmpty())
-			    startAnimation(mFadeInAnimation);
-			
-			long selected = mGallery.getSelectedItemId();
-			mPCollAdapter.setPlacemarks(mVisiblePlacemarks);
-			mPCollAdapter.notifyDataSetChanged();
-	
-			// Keep selected element centered
-			for (int i = 0; i < mGallery.getCount(); ++i) {
-			    long id = mGallery.getItemIdAtPosition(i);
-			    if (id == selected) {
-				mGallery.setSelection(i);
-				break;
-			    }
-			}
-		    }
+		    mVisiblePlacemarks = visiblePlacemarks;		    
 		}
     }
     

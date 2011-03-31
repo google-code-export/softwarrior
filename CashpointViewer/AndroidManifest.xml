@@ -16,13 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name="com.softwarrior.cashpointviewer.CashpointActivity"></activity>
-        <activity android:name="com.softwarrior.cashpointviewer.ChooseLayersActivity"></activity>
-        <activity android:name="com.softwarrior.cashpointviewer.PlacemarkActivity"></activity>
-        <activity android:name="com.softwarrior.cashpointviewer.PlanActivity"></activity>
-        <activity android:name="com.softwarrior.cashpointviewer.SettingsActivity"></activity>
-        <activity android:name="com.softwarrior.cashpointviewer.AudioPlayerActivity"></activity>
-        <activity android:name="AboutActivity"></activity>
+        <activity android:name=".CashpointActivity"></activity>
+        <activity android:name=".ChooseLayersActivity"></activity>
+        <activity android:name=".PlacemarkActivity"></activity>
+        <activity android:name=".PlanActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".AudioPlayerActivity"></activity>
+        <activity android:name=".anim.AnimateDrawables"></activity>
+        <activity android:name=".AboutActivity"></activity>
         <receiver android:enabled="true" android:name="SDCardBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_MOUNTED"/>
@@ -30,6 +31,7 @@
             </intent-filter>
         </receiver>
         <uses-library android:name="com.google.android.maps"></uses-library>
+        <activity android:name=".anim.AnimateDrawables"></activity>
     </application>    
     <uses-sdk android:minSdkVersion="7"/>
     <uses-permission android:name="android.permission.CAMERA"></uses-permission>

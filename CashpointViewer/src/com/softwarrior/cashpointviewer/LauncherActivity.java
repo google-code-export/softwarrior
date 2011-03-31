@@ -54,10 +54,7 @@ public class LauncherActivity  extends FullWakeActivity {
     	}
     
     private void chooseLayers() {
-    	setContentView(R.layout.launcher);
-    	Intent intent = new Intent(this,ChooseLayersActivity.class);
-    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    	startActivityForResult(intent, 0);
+		StartActivity();
     }
     
     @Override
@@ -70,10 +67,14 @@ public class LauncherActivity  extends FullWakeActivity {
     private class SplashHandler extends Handler {
 		@Override
 		public void handleMessage(Message message) {
-		    setContentView(R.layout.launcher);
-		    Intent intent = new Intent(LauncherActivity.this,ChooseLayersActivity.class);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		    startActivityForResult(intent,0);
+			StartActivity();
 		}
+    }
+    
+    private void StartActivity(){
+	    setContentView(R.layout.launcher);
+	    Intent intent = new Intent(LauncherActivity.this,ChooseLayersActivity.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	    startActivityForResult(intent,0);
     }
 }
