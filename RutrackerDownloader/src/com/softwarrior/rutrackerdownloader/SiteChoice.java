@@ -3,10 +3,8 @@ package com.softwarrior.rutrackerdownloader;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.admob.android.ads.AdListener;
-import com.admob.android.ads.AdManager;
-import com.admob.android.ads.AdView;
-import com.admob.android.ads.SimpleAdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 
 import com.mobclix.android.sdk.MobclixAdView;
 import com.mobclix.android.sdk.MobclixAdViewListener;
@@ -18,6 +16,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.CheckBoxPreference;
@@ -29,9 +29,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
-public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, AdListener, MobclixAdViewListener {
+public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, MobclixAdViewListener {
 		private WakeLock mWakeLock;
 
 		public static final String KEY_RUTRACKER="preferences_rutracker";
@@ -45,10 +44,12 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		}		
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
+		private Handler mAdRefreshTimerHandler;
 		//Mobclix
 		private MobclixMMABannerXLAdView mAdviewBanner;
 		//AdMob 
-	  	private AdView mAdView;	  	
+	  	private AdView mAdView;
+	  	private AdRequest mAdRequest;
 	  	
 		public enum MenuType{
 			About, Help, FileManager, Exit;
@@ -77,40 +78,28 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		    		    
 	        setContentView(R.layout.site_choise);	        
 	        addPreferencesFromResource(R.xml.site_choise);
-	        	        
-	        LinearLayout myLayout = (LinearLayout)findViewById(R.id.container);
-	        
-//	        mThis = this;
-//	    	Button button = new Button(this);
-//	    	button.setOnClickListener(new OnClickListener() {
-//	    	    public void onClick(View v) {
-//	    	    	mThis.OnClickButtonRefreshAdvertising(v);
-//	    	    }
-//	    	});
-//
-//	    	button.setText(R.string.button_refresh_advertising);
-//	    	LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//									LinearLayout.LayoutParams.FILL_PARENT,
-//										LinearLayout.LayoutParams.WRAP_CONTENT);
-//	    	myLayout.addView(button, params);	    
-	        
-	        myLayout.invalidate();
-	        
-	        mAdRefreshTimer = new Timer();
-	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
-
+	        	        	        	        
 	        //Mobclix
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
 	        mAdviewBanner.addMobclixAdViewListener(this);
+    		mAdviewBanner.getAd();
 	        
 	        //AdMob
-	        AdManager.setPublisherId("a14d5a500187b19");
-//	        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR, "92D0B17743FC28D496804E97F99B6D10" });        
-//	        AdManager.setTestAction("video_int");
-
-	        mAdView = (AdView) findViewById(R.id.ad);
-	        mAdView.setAdListener(new AdvertisingListener());
+	        mAdView = (AdView) findViewById(R.id.adView);
+	        mAdRequest = new AdRequest();
+//	        mAdRequest.setTesting(true);
+	        mAdView.loadAd(mAdRequest);            
 	        	        	        
+	        mAdRefreshTimer = new Timer();
+	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
+	        mAdRefreshTimerHandler = new Handler() {
+	            @Override
+	            public void handleMessage(Message msg) {
+					mAdView.loadAd(mAdRequest);
+	        		mAdviewBanner.getAd();
+	            }
+	        };        
+	        
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/SiteChoice");
 	    }
@@ -123,15 +112,11 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			}
 			super.onDestroy();
 	    }
-
-	    public void OnClickButtonRefreshAdvertising(View v) {			
-		}  
 	   
 	    private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
-				mAdView.requestFreshAd();
-        		mAdviewBanner.getAd();
+				mAdRefreshTimerHandler.sendEmptyMessage(0);
 			}	    	
 	    }	   
 	   @Override
@@ -212,41 +197,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				return;
 			};
 	    }	    	    	    		  
-		private class AdvertisingListener extends SimpleAdListener {
-			@Override
-			public void onFailedToReceiveAd(AdView adView){
-				super.onFailedToReceiveAd(adView);
-			}		
-			@Override
-			public void onFailedToReceiveRefreshedAd(AdView adView){
-				super.onFailedToReceiveRefreshedAd(adView);
-			}		
-			@Override
-			public void onReceiveAd(AdView adView){
-				super.onReceiveAd(adView);
-			}
-			@Override
-			public void onReceiveRefreshedAd(AdView adView){
-				super.onReceiveRefreshedAd(adView);
-			}			
-		}		
-		public void onFailedToReceiveAd(AdView adView) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveAd");
-		}
-		public void onFailedToReceiveRefreshedAd(AdView adView) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveRefreshedAd");
-		}
-		public void onReceiveAd(AdView adView){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");
-		}
-		public void onReceiveRefreshedAd(AdView adView){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");
-		}
-		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			AdClicked = true;			
-		}
-
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {	
 			PreferenceScreen preferences = getPreferenceScreen();
 			boolean flag = sharedPreferences.getBoolean(key, false);
@@ -271,6 +221,11 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				RutrackerDownloaderApp.SetupNnmclub(this);
 	    		AdClicked = false;
 			}
+		}
+		//AdMob
+		public void OnClickAdview(View v){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
+			AdClicked = true;			
 		}
 		//Mobclix
 		public String keywords()	{ return null;}

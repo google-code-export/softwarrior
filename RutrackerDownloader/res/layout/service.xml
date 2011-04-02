@@ -2,7 +2,7 @@
 
 <RelativeLayout 
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloader"	
+	xmlns:ads="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloader"	
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
@@ -12,18 +12,17 @@
 		android:layout_alignParentBottom="true" 
 		android:orientation="vertical" 
 		android:layout_width="fill_parent">
-		<com.admob.android.ads.AdView  
-            android:id="@+id/ad"
-            android:layout_width="fill_parent" 
+        <com.google.ads.AdView 
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundColor="#000000"
-            app:primaryTextColor="#FFFFFF"
             android:onClick="@string/on_click_adview"
-            app:secondaryTextColor="#CCCCCC"/>
+            ads:adUnitId="a14d5a500187b19"
+            ads:adSize="BANNER"/>
         <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
             android:id="@+id/advertising_banner_view"
             android:layout_height="50dp"
-            android:layout_width="320dp"/>   
+            android:layout_width="320dp"/>  
 		<RelativeLayout
 			xmlns:android="http://schemas.android.com/apk/res/android"    
 			android:layout_width="fill_parent"

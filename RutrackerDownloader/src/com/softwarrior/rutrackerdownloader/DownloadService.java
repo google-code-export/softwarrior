@@ -6,13 +6,13 @@ import java.net.URI;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.admob.android.ads.AdListener;
-import com.admob.android.ads.AdManager;
-import com.admob.android.ads.AdView;
-import com.admob.android.ads.SimpleAdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
+
 import com.mobclix.android.sdk.MobclixAdView;
 import com.mobclix.android.sdk.MobclixAdViewListener;
 import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
+
 import com.softwarrior.libtorrent.LibTorrent;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
@@ -204,7 +204,7 @@ public class DownloadService extends Service {
         mNM.cancel(R.string.service_created);
     }    
     // ----------------------------------------------------------------------
-    public static class Controller extends FullWakeActivity implements AdListener, MobclixAdViewListener {
+    public static class Controller extends FullWakeActivity implements MobclixAdViewListener {
         
     	private volatile boolean mIsBound = false;
         private volatile boolean mIsBoundService = false; 
@@ -234,12 +234,15 @@ public class DownloadService extends Service {
 
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
+		private Handler mAdRefreshTimerHandler;
+
 		private static final int SELECT_FILE_ACTIVITY = 222;		
 
         //Mobclix
 		private MobclixMMABannerXLAdView mAdviewBanner;
 		//AdMob 
 	  	private AdView mAdView;
+	  	private AdRequest mAdRequest;
     	
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
@@ -267,15 +270,21 @@ public class DownloadService extends Service {
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
 	        mAdviewBanner.addMobclixAdViewListener(this);            
             //--------------AdMob-----------------------
+	        mAdView = (AdView) findViewById(R.id.adView);
+	        mAdRequest = new AdRequest();
+//	        mAdRequest.setTesting(true);
+	        mAdView.loadAd(mAdRequest);
+	        //-----------------------------------------
 	        mAdRefreshTimer = new Timer();
 	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
-	        AdManager.setPublisherId("a14d5a500187b19");
-//	        AdManager.setTestDevices(new String[] { AdManager.TEST_EMULATOR, "92D0B17743FC28D496804E97F99B6D10" });        
-//	        AdManager.setTestAction("video_int");
-
-	        mAdView = (AdView) findViewById(R.id.ad);
-	        mAdView.setAdListener(new AdvertisingListener());	        
-		    //-----------------------------------------
+	        mAdRefreshTimerHandler = new Handler() {
+	            @Override
+	            public void handleMessage(Message msg) {
+					mAdView.loadAd(mAdRequest);
+	        		mAdviewBanner.getAd();
+	            }
+	        };        
+	        
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
             mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
@@ -320,8 +329,7 @@ public class DownloadService extends Service {
 	    private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
-				mAdView.requestFreshAd();
-        		mAdviewBanner.getAd();
+				mAdRefreshTimerHandler.sendEmptyMessage(0);
 			}	    	
 	    }	    
     	void RestoreControllerState(){
@@ -603,41 +611,6 @@ public class DownloadService extends Service {
 			super.onActivityResult(requestCode, resultCode, data);
     	}
 
-		private class AdvertisingListener extends SimpleAdListener {
-			@Override
-			public void onFailedToReceiveAd(AdView adView){
-				super.onFailedToReceiveAd(adView);
-			}		
-			@Override
-			public void onFailedToReceiveRefreshedAd(AdView adView){
-				super.onFailedToReceiveRefreshedAd(adView);
-			}		
-			@Override
-			public void onReceiveAd(AdView adView){
-				super.onReceiveAd(adView);
-			}
-			@Override
-			public void onReceiveRefreshedAd(AdView adView){
-				super.onReceiveRefreshedAd(adView);
-			}			
-		}
-		
-		public void onFailedToReceiveAd(AdView adView) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveAd");
-		}
-		public void onFailedToReceiveRefreshedAd(AdView adView) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onFailedToReceiveRefreshedAd");
-		}
-		public void onReceiveAd(AdView adView){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");
-		}
-		public void onReceiveRefreshedAd(AdView adView){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveRefreshedAd");			
-		}
-		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			RutrackerDownloaderApp.ActivateTorrentFileList = true;		
-		}
     	@Override
     	public boolean onCreateOptionsMenu(Menu menu) {
     		super.onCreateOptionsMenu(menu);
@@ -676,6 +649,11 @@ public class DownloadService extends Service {
     		}
     		return true;
     	}
+		//AdMob
+		public void OnClickAdview(View v){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
+			RutrackerDownloaderApp.ActivateTorrentFileList = true;
+		}
 		//Mobclix
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}

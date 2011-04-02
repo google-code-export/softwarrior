@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionName="1.4.2.1" android:versionCode="8">
+      android:installLocation="auto" android:versionName="1.4.2.2" android:versionCode="9">
     <application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:name="RutrackerDownloaderApp" android:description="@string/app_desc">        
         <activity android:name="SplashScreen" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent">
             <intent-filter>
@@ -79,22 +79,22 @@
         </activity>  
         <service android:name="DownloadService"></service>
         <!-- AdMob integration -->
-        <activity android:name="com.admob.android.ads.AdMobActivity" 
-                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-                  android:configChanges="orientation|keyboard|keyboardHidden">
-        </activity>
-        <!-- Mobclix Required Parameter -->
+        <meta-data android:name="ADMOB_PUBLISHER_ID" android:value="a14d5a500187b19"/>       
+        <activity android:name="com.google.ads.AdActivity" 
+              android:configChanges="keyboard|keyboardHidden|orientation">
+        </activity> 
+        <!-- Mobclix Required Parameter -->        
         <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="599D7269-63A0-46C2-BCF2-98DA8159A36D"/>
         <activity android:name="com.mobclix.android.sdk.MobclixBrowserActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity> 
-        <!-- Track Market installs -->
-        <receiver android:name="com.admob.android.ads.analytics.InstallReceiver"
-                  android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>                        
+        <!-- Analytics Receiver -->
+	    <receiver android:name="com.google.android.apps.analytics.AnalyticsReceiver"
+	           android:exported="true">
+	       <intent-filter>
+	           <action android:name="com.android.vending.INSTALL_REFERRER" />
+	       </intent-filter>
+	    </receiver>
         <meta-data android:name="com.softwarrior.about.metadata.COMMENTS"
                        android:value="@string/about_comments" />
         <meta-data android:name="com.softwarrior.about.metadata.COPYRIGHT"
@@ -114,11 +114,6 @@
         <meta-data android:name="com.softwarrior.about.metadata.LICENSE" android:resource="@raw/license_short"/>
         <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
                        android:value="@string/about_email" />
-        <!-- The application's publisher ID assigned by AdMob -->
-        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_PUBLISHER_ID" />
-        <!-- use a separate publisher id here to aid in tracking intersitial statistics -->
-        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
-        <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
     </application>
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" />  
