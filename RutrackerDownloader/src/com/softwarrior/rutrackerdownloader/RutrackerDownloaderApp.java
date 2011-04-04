@@ -3,8 +3,6 @@ package com.softwarrior.rutrackerdownloader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Collections;
-import java.util.List;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.softwarrior.about.About;
@@ -16,17 +14,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
-import android.widget.Toast;
 
 public class RutrackerDownloaderApp extends Application {	
 		
@@ -105,14 +100,13 @@ public class RutrackerDownloaderApp extends Application {
 	public static boolean	ExitState = false;	
 
 	public static boolean 	ActivateTorrentFileList=false;
-	public static boolean 	IsDonatePresent=false;
-
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
         RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);        
         startService(new Intent(this, DownloadService.class));
+        StartServiceActivity(getApplicationContext());
 	}
         	
 	static public void SetupPornolab(Activity activity){
@@ -281,25 +275,34 @@ public class RutrackerDownloaderApp extends Application {
 	
 	public static boolean CheckService(Context context){
 		boolean result = false;
-   		SharedPreferences sp = context.getSharedPreferences("RutrackerDownloader", Context.MODE_PRIVATE);
-  		String info = sp.getString("Service", "no"); 
+  		String info = System.getProperty("ServiceActivity", "no"); 
         if(info.equals("yes"))
         	result = true;
         return result;
 	}
-	
+
+	public static void StartServiceActivity(Context context){ 
+        try {
+			String keyPkg = "com.softwarrior.rutrackerdownloaderdonate"; 
+      	    Intent intent = new Intent();
+    	    intent.setClassName(keyPkg, keyPkg + ".ServiceActivity");
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        context.startActivity(intent);
+        }catch(Exception ex){
+        }
+	} 
+		
 	public static boolean CheckMode(Context context){ 
 		boolean result = false;
         try {
-			String mainAppPkg = "com.softwarrior.rutrackerrownloader"; 
-			String keyPkg = "com.softwarrior.RutrackerDownloaderDonate"; 
+			String mainAppPkg = "com.softwarrior.rutrackerdownloader"; 
+			String keyPkg = "com.softwarrior.rutrackerdownloaderdonate"; 
 			int sigMatch = context.getPackageManager().checkSignatures(mainAppPkg, keyPkg); 
-			if(sigMatch == PackageManager.SIGNATURE_MATCH){
-	        	  Intent intent = new Intent("com.softwarrior.action.SAVE");
-	        	  context.startActivity(intent);
+			if(sigMatch == PackageManager.SIGNATURE_MATCH)
 	        	  result = true;
-			}
-        }catch(Exception ex){}
+        }catch(Exception ex){
+        	ex.printStackTrace();
+        }
 		return result; 
 	} 
 }

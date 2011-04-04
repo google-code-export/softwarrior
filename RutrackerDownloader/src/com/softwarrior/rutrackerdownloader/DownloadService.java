@@ -266,24 +266,35 @@ public class DownloadService extends Service {
             	if(localUri != null)
             		RutrackerDownloaderApp.TorrentFullFileName = localUri.getPath();
             }
-            //--------------Mobclix-----------------------
+            //Mobclix
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
-	        mAdviewBanner.addMobclixAdViewListener(this);            
-            //--------------AdMob-----------------------
+            //AdMob
 	        mAdView = (AdView) findViewById(R.id.adView);
-	        mAdRequest = new AdRequest();
-//	        mAdRequest.setTesting(true);
-	        mAdView.loadAd(mAdRequest);
-	        //-----------------------------------------
-	        mAdRefreshTimer = new Timer();
-	        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
-	        mAdRefreshTimerHandler = new Handler() {
-	            @Override
-	            public void handleMessage(Message msg) {
-					mAdView.loadAd(mAdRequest);
-	        		mAdviewBanner.getAd();
-	            }
-	        };        
+	        
+	        Context context = getApplicationContext();
+	        if(RutrackerDownloaderApp.CheckMode(context) && RutrackerDownloaderApp.CheckService(context)){
+	        	mAdviewBanner.setVisibility(View.GONE);
+	        	mAdView.setVisibility(View.GONE);
+	        	RutrackerDownloaderApp.ActivateTorrentFileList = true;
+	        } else{
+	            //Mobclix
+	        	mAdviewBanner.addMobclixAdViewListener(this);
+	    		mAdviewBanner.getAd();
+	    		//AdMob
+		        mAdRequest = new AdRequest();
+//		        mAdRequest.setTesting(true);
+		        mAdView.loadAd(mAdRequest);
+
+		        mAdRefreshTimer = new Timer();
+		        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
+		        mAdRefreshTimerHandler = new Handler() {
+		            @Override
+		            public void handleMessage(Message msg) {
+						mAdView.loadAd(mAdRequest);
+		        		mAdviewBanner.getAd();
+		            }
+		        };        	        	
+	        }
 	        
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
@@ -329,7 +340,8 @@ public class DownloadService extends Service {
 	    private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
-				mAdRefreshTimerHandler.sendEmptyMessage(0);
+				if(mAdRefreshTimerHandler!=null)
+					mAdRefreshTimerHandler.sendEmptyMessage(0);
 			}	    	
 	    }	    
     	void RestoreControllerState(){
