@@ -79,7 +79,7 @@ public class TorrentDownloader {
 	public void DownloadNNM(String DistributionNumber){						
 		try{
 			String distributionNumber =  GetNNMDistributionNumber(DistributionNumber);
-			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";			
+			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";			
 			URL url = new URL(RutrackerDownloaderApp.NN_TorrentDL + distributionNumber);
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httpget = (HttpURLConnection) connection;
@@ -112,7 +112,7 @@ public class TorrentDownloader {
 	
 	public void Download(String DistributionNumber){
 		try{
-			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "/" + "[" + DistributionNumber + "]" + ".torrent";
+			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";
 			URL url = new URL(RutrackerDownloaderApp.TorrentDL + DistributionNumber);				
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httppost = (HttpURLConnection) connection;

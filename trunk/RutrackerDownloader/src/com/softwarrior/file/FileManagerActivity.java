@@ -308,7 +308,7 @@ public class FileManagerActivity extends ListActivity {
  		RutrackerDownloaderApp.ToDownloaderActivity(this);
  	 }
      public void OnClickButtonSelectCurrentDir(View v) {
-    	 DownloadPreferencesScreen.SetTorrentSavePath(this, currentDirectory.getAbsolutePath());
+    	 DownloadPreferencesScreen.SetTorrentSavePath(this, currentDirectory.getAbsolutePath() + "/");
     	 finish();
  	 }
 
