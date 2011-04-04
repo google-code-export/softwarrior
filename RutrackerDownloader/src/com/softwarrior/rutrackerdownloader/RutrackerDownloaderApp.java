@@ -3,6 +3,8 @@ package com.softwarrior.rutrackerdownloader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Collections;
+import java.util.List;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.softwarrior.about.About;
@@ -14,13 +16,17 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
+import android.widget.Toast;
 
 public class RutrackerDownloaderApp extends Application {	
 		
@@ -99,14 +105,16 @@ public class RutrackerDownloaderApp extends Application {
 	public static boolean	ExitState = false;	
 
 	public static boolean 	ActivateTorrentFileList=false;
+	public static boolean 	IsDonatePresent=false;
 
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);
-        startService(new Intent(this, DownloadService.class));         
+        RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);        
+        startService(new Intent(this, DownloadService.class));
 	}
-	
+        	
 	static public void SetupPornolab(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;
@@ -269,5 +277,29 @@ public class RutrackerDownloaderApp extends Application {
 			e.printStackTrace();
 		}
 		return result;
-	}    
+	} 
+	
+	public static boolean CheckService(Context context){
+		boolean result = false;
+   		SharedPreferences sp = context.getSharedPreferences("RutrackerDownloader", Context.MODE_PRIVATE);
+  		String info = sp.getString("Service", "no"); 
+        if(info.equals("yes"))
+        	result = true;
+        return result;
+	}
+	
+	public static boolean CheckMode(Context context){ 
+		boolean result = false;
+        try {
+			String mainAppPkg = "com.softwarrior.rutrackerrownloader"; 
+			String keyPkg = "com.softwarrior.RutrackerDownloaderDonate"; 
+			int sigMatch = context.getPackageManager().checkSignatures(mainAppPkg, keyPkg); 
+			if(sigMatch == PackageManager.SIGNATURE_MATCH){
+	        	  Intent intent = new Intent("com.softwarrior.action.SAVE");
+	        	  context.startActivity(intent);
+	        	  result = true;
+			}
+        }catch(Exception ex){}
+		return result; 
+	} 
 }

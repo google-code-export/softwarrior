@@ -50,6 +50,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 public class TorrentWebClient extends Activity {
@@ -353,6 +354,9 @@ public class TorrentWebClient extends Activity {
     		else
     			torrentDownloader.Download(mDistributionNumber);    		
 			
+        	String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+        	Toast.makeText(this, text,Toast.LENGTH_SHORT).show();        
+
     		Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			intent.setClassName(this, DownloadService.Controller.class.getName());
