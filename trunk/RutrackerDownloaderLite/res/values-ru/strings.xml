@@ -235,7 +235,7 @@
     <string name="reset_notify_user">Обновить уведомление пользователя</string>
     
     <string name="url_help">file:///android_asset/help_ru/help.html</string>
-    <string name="site_choise">Чтобы активировать выбор сайта, нажмите 1 раз на рекламный банер. Банер появиться через несколько секунд.</string>
+    <string name="site_choise">Чтобы активировать выбор сайта, нажмите 1 раз на рекламный банер. Банер появиться через несколько секунд. 1 клик активирует опцию на полную сессию программы.</string>
     <string name="tab_site_choise">Cайты</string>
     <string name="preferences_pornolab_title">pornolab.net</string>
     <string name="preferences_rutracker_title">rutracker.org</string>
