@@ -36,8 +36,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public static final String KEY_RUTRACKER="preferences_rutracker";
 		public static final String KEY_PORNOLAB="preferences_pornolab";
 		public static final String KEY_NNMCLUB="preferences_nnmclub";
-
-		public static boolean AdClicked=false;
 		
 		public enum SiteType{
 			RUTRACKER, PORNOLAB, NNMCLUB
@@ -83,6 +81,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	        //Mobclix
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
 	        mAdviewBanner.addMobclixAdViewListener(this);
+	        mAdviewBanner.getAd();
 	        
 	        //AdMob
 	        mAdView = (AdView) findViewById(R.id.adView);
@@ -162,10 +161,9 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	    protected void onResume() {
 	    	super.onResume();
 	    	mWakeLock.acquire();
-	    	if(AdClicked){
+	    	if(RutrackerDownloaderApp.ActivateSiteChoise)
 	    		getPreferenceScreen().setEnabled(true);
-	    		AdClicked = false;
-	    	} else
+	    	else
 	    		getPreferenceScreen().setEnabled(false);
 			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
@@ -211,32 +209,29 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				pl.setChecked(false);
 				nn.setChecked(false);
 				RutrackerDownloaderApp.SetupRutracker(this);
-	    		AdClicked = false;
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
 				rt.setChecked(false);
 				nn.setChecked(false);
 				RutrackerDownloaderApp.SetupPornolab(this);
-	    		AdClicked = false;
 			}
 			else if(key.equals(KEY_NNMCLUB) && flag){
 				rt.setChecked(false);
 				pl.setChecked(false);
 				RutrackerDownloaderApp.SetupNnmclub(this);
-	    		AdClicked = false;
 			}
 		}
 		//AdMob
 		public void OnClickAdview(View v){
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			AdClicked = true;			
+			RutrackerDownloaderApp.ActivateSiteChoise = true;
 		}
 		//Mobclix
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
 		public void onAdClick(MobclixAdView arg0) {
 			Log.v(RutrackerDownloaderApp.TAG, "Mobclix clicked");
-			AdClicked = true;
+			RutrackerDownloaderApp.ActivateSiteChoise = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
 			Log.v(RutrackerDownloaderApp.TAG, "The custom ad responded with '" + string + "' when touched!");

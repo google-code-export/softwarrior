@@ -96,7 +96,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static String	SearchUrl = new String();
 	public static boolean	ExitState = false;	
 
-	public static boolean 	ActivateTorrentFileList=false;
+	public static boolean 	ActivateSiteChoise=false;
 
 	@Override
 	public void onCreate() {
