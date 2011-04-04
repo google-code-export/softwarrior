@@ -2,7 +2,7 @@
 <RelativeLayout 
     android:id="@+id/screen"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloaderlite"
+    xmlns:ads="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloaderlite"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
@@ -20,25 +20,17 @@
         android:layout_alignParentBottom="true" 
         android:orientation="vertical" 
         android:layout_width="fill_parent">
-		<!-- Place an AdMob ad at the bottom of the screen. -->
-		<!-- It has white text on a black background. -->
-		<!-- The description of the surrounding context is 'Android game'. -->
-		<!-- app:keywords="Android game" -->
-		<!-- android:visibility="gone" -->
-		<!-- android:layout_alignParentBottom="true" -->
-		<!-- com.admob.android.ads.AdView -->	
-		<com.admob.android.ads.AdView
-			android:id="@+id/ad"
-			android:layout_width="fill_parent" 
-			android:layout_height="wrap_content"
-			app:backgroundColor="#000000"
-			app:primaryTextColor="#FFFFFF"
-			android:onClick="@string/on_click_adview"
-			app:secondaryTextColor="#CCCCCC"/>
-		 <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
+        <com.google.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@string/on_click_adview"
+            ads:adUnitId="a14d8f9063dd1a4"
+            ads:adSize="BANNER"/>
+        <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
             android:id="@+id/advertising_banner_view"
             android:layout_height="50dp"
-            android:layout_width="320dp"/>		
+            android:layout_width="320dp"/>  
 	</LinearLayout>  
     <ListView 
            android:id="@android:id/list"
