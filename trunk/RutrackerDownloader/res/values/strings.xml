@@ -73,7 +73,7 @@
 	
 	<string name="button_site_map">Show site map</string>
 	<string name="button_refresh_advertising">Refresh Advertising</string>
-	<string name="button_download">Download distribution</string>
+	<string name="button_download">Download torrent</string>
 	<string name="button_search">Search</string>
 	<string name="button_login">Login</string>
 	<string name="button_refresh_page">Refresh page</string>

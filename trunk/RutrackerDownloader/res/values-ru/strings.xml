@@ -72,7 +72,7 @@
 	
 	<string name="button_site_map">Показать карту сайта</string>
 	<string name="button_refresh_advertising">Обновить рекламу</string>
-	<string name="button_download">Скачать раздачу</string>
+	<string name="button_download">Скачать torrent</string>
 	<string name="button_search">Поиск</string>
 	<string name="button_login">Логин на сайт</string>
 	<string name="button_refresh_page">Обновить страницу</string>

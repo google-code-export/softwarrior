@@ -275,7 +275,7 @@ public class RutrackerDownloaderApp extends Application {
 	
 	public static boolean CheckService(Context context){
 		boolean result = false;
-  		String info = System.getProperty("ServiceActivity", "no"); 
+  		String info = System.getProperty("ServiceActivity", "no");
         if(info.equals("yes"))
         	result = true;
         return result;
@@ -288,8 +288,7 @@ public class RutrackerDownloaderApp extends Application {
     	    intent.setClassName(keyPkg, keyPkg + ".ServiceActivity");
 	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	        context.startActivity(intent);
-        }catch(Exception ex){
-        }
+        }catch(Exception ex){}
 	} 
 		
 	public static boolean CheckMode(Context context){ 
@@ -298,8 +297,9 @@ public class RutrackerDownloaderApp extends Application {
 			String mainAppPkg = "com.softwarrior.rutrackerdownloader"; 
 			String keyPkg = "com.softwarrior.rutrackerdownloaderdonate"; 
 			int sigMatch = context.getPackageManager().checkSignatures(mainAppPkg, keyPkg); 
-			if(sigMatch == PackageManager.SIGNATURE_MATCH)
+			if(sigMatch == PackageManager.SIGNATURE_MATCH){
 	        	  result = true;
+			}
         }catch(Exception ex){
         	ex.printStackTrace();
         }
