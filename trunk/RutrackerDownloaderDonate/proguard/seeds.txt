@@ -1,0 +1,7 @@
+com.android.vending.licensing.ILicensingService
+com.android.vending.licensing.Policy$LicenseResponse: com.android.vending.licensing.Policy$LicenseResponse[] values()
+com.android.vending.licensing.Policy$LicenseResponse: com.android.vending.licensing.Policy$LicenseResponse valueOf(java.lang.String)
+com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode: com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode[] values()
+com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode: com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode valueOf(java.lang.String)
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity
+com.softwarrior.rutrackerdownloaderdonate.ServiceActivity
