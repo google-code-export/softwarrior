@@ -2,4 +2,15 @@
 <resources>
     <string name="app_name">Rutracker Downloader Donate</string>
     <string name="app_desc">Программа удаляет рекламу из Rutracker Downloader</string>
+    <!-- License checking status messages -->
+    <string name="check_license">Проверьте лицензию</string>
+    <string name="checking_license">Проверка лицензии...</string>
+    <string name="dont_allow">Доступ пользователю запрещен</string>
+    <string name="allow">Доступ пользователю разрешен</string>
+    <string name="application_error">Ошибка приложения: %1$s</string>
+    <!-- Unlicensed dialog messages -->
+    <string name="unlicensed_dialog_title">Приложение без лицензии</string>
+    <string name="unlicensed_dialog_body">Приложение без лицензии. Пожалуйста купить приложение в Android Market.</string>
+    <string name="buy_button">Купить приложение</string>
+    <string name="quit_button">Выход</string>
 </resources>
