@@ -1,0 +1,195 @@
+com.android.vending.licensing.AESObfuscator -> com.android.vending.licensing.o:
+    byte[] IV -> a
+    javax.crypto.Cipher mEncryptor -> b
+    javax.crypto.Cipher mDecryptor -> c
+    java.lang.String obfuscate(java.lang.String) -> a
+    java.lang.String unobfuscate(java.lang.String) -> b
+com.android.vending.licensing.DeviceLimiter -> com.android.vending.licensing.g:
+    com.android.vending.licensing.Policy$LicenseResponse isDeviceAllowed$414f77c5() -> a
+com.android.vending.licensing.ILicenseResultListener -> com.android.vending.licensing.m:
+    void verifyLicense(int,java.lang.String,java.lang.String) -> a
+com.android.vending.licensing.ILicenseResultListener$Stub -> com.android.vending.licensing.a:
+    android.os.IBinder asBinder() -> asBinder
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.android.vending.licensing.ILicenseResultListener$Stub$Proxy -> com.android.vending.licensing.k:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    void verifyLicense(int,java.lang.String,java.lang.String) -> a
+com.android.vending.licensing.ILicensingService -> com.android.vending.licensing.ILicensingService:
+    void checkLicense(long,java.lang.String,com.android.vending.licensing.ILicenseResultListener) -> a
+com.android.vending.licensing.ILicensingService$Stub -> com.android.vending.licensing.e:
+    boolean onTransact(int,android.os.Parcel,android.os.Parcel,int) -> onTransact
+com.android.vending.licensing.ILicensingService$Stub$Proxy -> com.android.vending.licensing.p:
+    android.os.IBinder mRemote -> a
+    android.os.IBinder asBinder() -> asBinder
+    void checkLicense(long,java.lang.String,com.android.vending.licensing.ILicenseResultListener) -> a
+com.android.vending.licensing.LicenseChecker -> com.android.vending.licensing.b:
+    java.security.SecureRandom RANDOM -> a
+    com.android.vending.licensing.ILicensingService mService -> b
+    java.security.PublicKey mPublicKey -> c
+    android.content.Context mContext -> d
+    com.android.vending.licensing.Policy mPolicy -> e
+    android.os.Handler mHandler -> f
+    java.lang.String mPackageName -> g
+    java.lang.String mVersionCode -> h
+    java.util.Set mChecksInProgress -> i
+    java.util.Queue mPendingChecks -> j
+    java.security.PublicKey generatePublicKey(java.lang.String) -> a
+    void checkAccess(com.android.vending.licensing.LicenseCheckerCallback) -> a
+    void runChecks() -> b
+    void finishCheck(com.android.vending.licensing.LicenseValidator) -> a
+    void onServiceConnected(android.content.ComponentName,android.os.IBinder) -> onServiceConnected
+    void onServiceDisconnected(android.content.ComponentName) -> onServiceDisconnected
+    void handleServiceConnectionError(com.android.vending.licensing.LicenseValidator) -> b
+    void cleanupService() -> c
+    void onDestroy() -> a
+    java.lang.String getVersionCode(android.content.Context,java.lang.String) -> a
+    void access$0(com.android.vending.licensing.LicenseChecker,com.android.vending.licensing.LicenseValidator) -> a
+    void access$1(com.android.vending.licensing.LicenseChecker,com.android.vending.licensing.LicenseValidator) -> b
+    android.os.Handler access$2(com.android.vending.licensing.LicenseChecker) -> a
+    java.util.Set access$3(com.android.vending.licensing.LicenseChecker) -> b
+    java.security.PublicKey access$4(com.android.vending.licensing.LicenseChecker) -> c
+com.android.vending.licensing.LicenseChecker$ResultListener -> com.android.vending.licensing.q:
+    com.android.vending.licensing.LicenseValidator mValidator -> b
+    java.lang.Runnable mOnTimeout -> c
+    com.android.vending.licensing.LicenseChecker this$0 -> a
+    void verifyLicense(int,java.lang.String,java.lang.String) -> a
+    com.android.vending.licensing.LicenseValidator access$0(com.android.vending.licensing.LicenseChecker$ResultListener) -> a
+    void access$1(com.android.vending.licensing.LicenseChecker$ResultListener) -> b
+com.android.vending.licensing.LicenseChecker$ResultListener$1 -> com.android.vending.licensing.r:
+    com.android.vending.licensing.LicenseChecker$ResultListener this$1 -> a
+    void run() -> run
+com.android.vending.licensing.LicenseChecker$ResultListener$2 -> com.android.vending.licensing.t:
+    com.android.vending.licensing.LicenseChecker$ResultListener this$1 -> a
+    int val$responseCode -> b
+    java.lang.String val$signedData -> c
+    java.lang.String val$signature -> d
+    void run() -> run
+com.android.vending.licensing.LicenseCheckerCallback -> com.android.vending.licensing.s:
+    void allow() -> a
+    void dontAllow() -> b
+    void applicationError(com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode) -> a
+com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode -> com.android.vending.licensing.j:
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode INVALID_PACKAGE_NAME -> a
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode NON_MATCHING_UID -> b
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode NOT_MARKET_MANAGED -> c
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode CHECK_IN_PROGRESS -> f
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode INVALID_PUBLIC_KEY -> d
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode MISSING_PERMISSION -> e
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode[] ENUM$VALUES -> g
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode[] values() -> values
+    com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode valueOf(java.lang.String) -> valueOf
+com.android.vending.licensing.LicenseValidator -> com.android.vending.licensing.c:
+    com.android.vending.licensing.Policy mPolicy -> a
+    com.android.vending.licensing.LicenseCheckerCallback mCallback -> b
+    int mNonce -> c
+    java.lang.String mPackageName -> d
+    java.lang.String mVersionCode -> e
+    com.android.vending.licensing.DeviceLimiter mDeviceLimiter -> f
+    com.android.vending.licensing.LicenseCheckerCallback getCallback() -> a
+    int getNonce() -> b
+    java.lang.String getPackageName() -> c
+    void verify(java.security.PublicKey,int,java.lang.String,java.lang.String) -> a
+    void handleResponse(com.android.vending.licensing.Policy$LicenseResponse,com.android.vending.licensing.ResponseData) -> a
+    void handleApplicationError(com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode) -> a
+    void handleInvalidResponse() -> d
+com.android.vending.licensing.NullDeviceLimiter -> com.android.vending.licensing.h:
+    com.android.vending.licensing.Policy$LicenseResponse isDeviceAllowed$414f77c5() -> a
+com.android.vending.licensing.Obfuscator -> com.android.vending.licensing.d:
+    java.lang.String obfuscate(java.lang.String) -> a
+    java.lang.String unobfuscate(java.lang.String) -> b
+com.android.vending.licensing.Policy -> com.android.vending.licensing.u:
+    void processServerResponse(com.android.vending.licensing.Policy$LicenseResponse,com.android.vending.licensing.ResponseData) -> a
+    boolean allowAccess() -> a
+com.android.vending.licensing.Policy$LicenseResponse -> com.android.vending.licensing.f:
+    com.android.vending.licensing.Policy$LicenseResponse LICENSED -> a
+    com.android.vending.licensing.Policy$LicenseResponse NOT_LICENSED -> b
+    com.android.vending.licensing.Policy$LicenseResponse RETRY -> c
+    com.android.vending.licensing.Policy$LicenseResponse[] ENUM$VALUES -> d
+    com.android.vending.licensing.Policy$LicenseResponse[] values() -> values
+    com.android.vending.licensing.Policy$LicenseResponse valueOf(java.lang.String) -> valueOf
+com.android.vending.licensing.PreferenceObfuscator -> com.android.vending.licensing.l:
+    android.content.SharedPreferences mPreferences -> a
+    com.android.vending.licensing.Obfuscator mObfuscator -> b
+    android.content.SharedPreferences$Editor mEditor -> c
+    void putString(java.lang.String,java.lang.String) -> a
+    java.lang.String getString(java.lang.String,java.lang.String) -> b
+    void commit() -> a
+com.android.vending.licensing.ResponseData -> com.android.vending.licensing.i:
+    int responseCode -> a
+    int nonce -> b
+    java.lang.String packageName -> c
+    java.lang.String versionCode -> d
+    java.lang.String userId -> e
+    long timestamp -> f
+    java.lang.String extra -> g
+    java.lang.String toString() -> toString
+com.android.vending.licensing.ServerManagedPolicy -> com.android.vending.licensing.v:
+    long mValidityTimestamp -> a
+    long mRetryUntil -> b
+    long mMaxRetries -> c
+    long mRetryCount -> d
+    long mLastResponseTime -> e
+    com.android.vending.licensing.Policy$LicenseResponse mLastResponse -> f
+    com.android.vending.licensing.PreferenceObfuscator mPreferences -> g
+    void processServerResponse(com.android.vending.licensing.Policy$LicenseResponse,com.android.vending.licensing.ResponseData) -> a
+    void setRetryCount(long) -> a
+    void setValidityTimestamp(java.lang.String) -> a
+    void setRetryUntil(java.lang.String) -> b
+    void setMaxRetries(java.lang.String) -> c
+    boolean allowAccess() -> a
+    java.util.Map decodeExtras(java.lang.String) -> d
+com.android.vending.licensing.ValidationException -> com.android.vending.licensing.n:
+com.android.vending.licensing.util.Base64 -> com.android.vending.licensing.a.b:
+    byte[] ALPHABET -> a
+    byte[] WEBSAFE_ALPHABET -> b
+    byte[] DECODABET -> c
+    byte[] WEBSAFE_DECODABET -> d
+    boolean $assertionsDisabled -> e
+    java.lang.String encode(byte[]) -> a
+    int decode4to3$355785af(byte[],byte[],int,byte[]) -> a
+    byte[] decode(java.lang.String) -> a
+com.android.vending.licensing.util.Base64DecoderException -> com.android.vending.licensing.a.a:
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity -> com.softwarrior.rutrackerdownloaderdonate.LicenseActivity:
+    byte[] SALT -> a
+    android.widget.TextView mStatusText -> b
+    android.widget.Button mCheckLicenseButton -> c
+    com.android.vending.licensing.LicenseCheckerCallback mLicenseCheckerCallback -> d
+    com.android.vending.licensing.LicenseChecker mChecker -> e
+    android.os.Handler mHandler -> f
+    void onCreate(android.os.Bundle) -> onCreate
+    android.app.Dialog onCreateDialog(int) -> onCreateDialog
+    void doCheck() -> a
+    void onDestroy() -> onDestroy
+    void access$0(com.softwarrior.rutrackerdownloaderdonate.LicenseActivity,java.lang.String) -> a
+    void access$1(com.softwarrior.rutrackerdownloaderdonate.LicenseActivity) -> a
+    android.widget.TextView access$2(com.softwarrior.rutrackerdownloaderdonate.LicenseActivity) -> b
+    android.widget.Button access$3(com.softwarrior.rutrackerdownloaderdonate.LicenseActivity) -> c
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity$1 -> com.softwarrior.rutrackerdownloaderdonate.d:
+    com.softwarrior.rutrackerdownloaderdonate.LicenseActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity$2 -> com.softwarrior.rutrackerdownloaderdonate.c:
+    com.softwarrior.rutrackerdownloaderdonate.LicenseActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity$3 -> com.softwarrior.rutrackerdownloaderdonate.f:
+    com.softwarrior.rutrackerdownloaderdonate.LicenseActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity$4 -> com.softwarrior.rutrackerdownloaderdonate.e:
+    com.softwarrior.rutrackerdownloaderdonate.LicenseActivity this$0 -> a
+    java.lang.String val$result -> b
+    void run() -> run
+com.softwarrior.rutrackerdownloaderdonate.LicenseActivity$MyLicenseCheckerCallback -> com.softwarrior.rutrackerdownloaderdonate.b:
+    com.softwarrior.rutrackerdownloaderdonate.LicenseActivity this$0 -> a
+    void allow() -> a
+    void dontAllow() -> b
+    void applicationError(com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode) -> a
+com.softwarrior.rutrackerdownloaderdonate.ServiceActivity -> com.softwarrior.rutrackerdownloaderdonate.ServiceActivity:
+    com.android.vending.licensing.LicenseChecker mChecker -> a
+    void onCreate(android.os.Bundle) -> onCreate
+    void onDestroy() -> onDestroy
+    void access$0(com.softwarrior.rutrackerdownloaderdonate.ServiceActivity) -> a
+com.softwarrior.rutrackerdownloaderdonate.ServiceActivity$MyLicenseCheckerCallback -> com.softwarrior.rutrackerdownloaderdonate.a:
+    com.softwarrior.rutrackerdownloaderdonate.ServiceActivity this$0 -> a
+    void allow() -> a
+    void dontAllow() -> b
+    void applicationError(com.android.vending.licensing.LicenseCheckerCallback$ApplicationErrorCode) -> a
