@@ -14,4 +14,5 @@
           android:name="ServiceActivity">
        </activity>        
     </application>
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 </manifest>
