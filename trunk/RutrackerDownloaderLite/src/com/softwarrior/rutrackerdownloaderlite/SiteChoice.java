@@ -3,8 +3,11 @@ package com.softwarrior.rutrackerdownloaderlite;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.google.ads.AdRequest.ErrorCode;
 
 import com.mobclix.android.sdk.MobclixAdView;
 import com.mobclix.android.sdk.MobclixAdViewListener;
@@ -30,7 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, MobclixAdViewListener {
+public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, AdListener, MobclixAdViewListener {
 		private WakeLock mWakeLock;
 
 		public static final String KEY_RUTRACKER="preferences_rutracker";
@@ -221,11 +224,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				RutrackerDownloaderApp.SetupNnmclub(this);
 			}
 		}
-		//AdMob
-		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			RutrackerDownloaderApp.ActivateSiteChoise = true;
-		}
 		//Mobclix
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
@@ -247,5 +245,25 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public void onFailedLoad(MobclixAdView view, int errorCode) {
 			Log.v(RutrackerDownloaderApp.TAG, "The ad request failed with error code: " + errorCode);
 			view.setVisibility(View.GONE);
+		}
+		//AdMob
+		public void OnClickAdview(View v){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
+			RutrackerDownloaderApp.ActivateSiteChoise = true;
+		}
+		public void onDismissScreen(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onDismissScreen");
+		}
+		public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
+		}
+		public void onLeaveApplication(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+		}
+		public void onPresentScreen(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+		}
+		public void onReceiveAd(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");						
 		}				
 }
