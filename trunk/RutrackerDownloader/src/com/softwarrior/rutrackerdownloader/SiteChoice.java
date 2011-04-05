@@ -3,7 +3,10 @@ package com.softwarrior.rutrackerdownloader;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
 import com.google.ads.AdRequest;
+import com.google.ads.AdRequest.ErrorCode;
 import com.google.ads.AdView;
 
 import com.mobclix.android.sdk.MobclixAdView;
@@ -31,7 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, MobclixAdViewListener {
+public class SiteChoice extends PreferenceActivity implements OnSharedPreferenceChangeListener, AdListener, MobclixAdViewListener {
 		private WakeLock mWakeLock;
 
 		public static final String KEY_RUTRACKER="preferences_rutracker";
@@ -105,8 +108,9 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		        mAdviewBanner.addMobclixAdViewListener(this);
 	    		mAdviewBanner.getAd();
 		        //AdMob
+	    		mAdView.setAdListener(this);
 		        mAdRequest = new AdRequest();
-//		        mAdRequest.setTesting(true);
+		        //mAdRequest.setTesting(true);
 		        mAdView.loadAd(mAdRequest);
 
 		        mAdRefreshTimer = new Timer();
@@ -119,8 +123,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		            }
 		        };        
 	        }
-	        
-	        
+	        	        
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/SiteChoice");
 	    }
@@ -244,11 +247,6 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	    		SetAdClicked(false);
 			}
 		}
-		//AdMob
-		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			SetAdClicked(true);			
-		}
 		//Mobclix
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
@@ -270,5 +268,25 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public void onFailedLoad(MobclixAdView view, int errorCode) {
 			Log.v(RutrackerDownloaderApp.TAG, "The ad request failed with error code: " + errorCode);
 			view.setVisibility(View.GONE);
+		}
+		//AdMob
+		public void OnClickAdview(View v){
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
+			SetAdClicked(true);			
+		}
+		public void onDismissScreen(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onDismissScreen");
+		}
+		public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
+		}
+		public void onLeaveApplication(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+		}
+		public void onPresentScreen(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+		}
+		public void onReceiveAd(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");						
 		}				
 }
