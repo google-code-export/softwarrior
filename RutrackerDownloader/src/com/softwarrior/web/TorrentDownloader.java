@@ -159,7 +159,7 @@ public class TorrentDownloader {
 			if(torrentName != null){
 				torrentName = torrentName.replace(".", "_");
 				torrentName = torrentName.replace(" ", "_");
-				URI torrentFullName =  new URI(mTorrentSavePath + "/" + torrentName + ".torrent");
+				URI torrentFullName =  new URI(mTorrentSavePath + torrentName + ".torrent");
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
 					File newFile =  new File(filepath);

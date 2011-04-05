@@ -235,6 +235,9 @@ public class DownloadService extends Service {
 		private Timer mAdRefreshTimer;
 		private static final int mAdRefreshTime = 30000; //30 seconds
 		private Handler mAdRefreshTimerHandler;
+		private Timer mAdInitTimer;
+		private static final int mAdInitTime = 500; //0.5 seconds
+		private Handler mAdInitTimerHandler;
 
 		private static final int SELECT_FILE_ACTIVITY = 222;		
 
@@ -243,7 +246,7 @@ public class DownloadService extends Service {
 		//AdMob 
 	  	private AdView mAdView;
 	  	private AdRequest mAdRequest;
-    	
+	  	
         enum ControllerState{
         	Undefined, Started, Stopped, Paused
         }          
@@ -270,32 +273,41 @@ public class DownloadService extends Service {
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
             //AdMob
 	        mAdView = (AdView) findViewById(R.id.adView);
-	        
-	        Context context = getApplicationContext();
-	        if(RutrackerDownloaderApp.CheckMode(context) && RutrackerDownloaderApp.CheckService(context)){
-	        	mAdviewBanner.setVisibility(View.GONE);
-	        	mAdView.setVisibility(View.GONE);
-	        	RutrackerDownloaderApp.ActivateTorrentFileList = true;
-	        } else{
-	            //Mobclix
-	        	mAdviewBanner.addMobclixAdViewListener(this);
-	    		mAdviewBanner.getAd();
-	    		//AdMob
-		        mAdRequest = new AdRequest();
-//		        mAdRequest.setTesting(true);
-		        mAdView.loadAd(mAdRequest);
 
-		        mAdRefreshTimer = new Timer();
-		        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
-		        mAdRefreshTimerHandler = new Handler() {
-		            @Override
-		            public void handleMessage(Message msg) {
-						mAdView.loadAd(mAdRequest);
-		        		mAdviewBanner.getAd();
-		            }
-		        };        	        	
-	        }
+	        if(RutrackerDownloaderApp.DownloadServiceMode)
+	        	RutrackerDownloaderApp.StartServiceActivity(this);
 	        
+	        mAdInitTimer = new Timer();
+	        mAdInitTimer.schedule(new AdInitTimerTask(), mAdInitTime);
+	        mAdInitTimerHandler = new Handler() {
+	            @Override
+	            public void handleMessage(Message msg) {
+	    	        if(RutrackerDownloaderApp.CheckMode(Controller.this) && RutrackerDownloaderApp.CheckService(Controller.this)){
+	    	        	mAdviewBanner.setVisibility(View.GONE);
+	    	        	mAdView.setVisibility(View.GONE);
+	    	        	RutrackerDownloaderApp.ActivateTorrentFileList = true;
+	    	        } else{
+	    	            //Mobclix
+	    	        	mAdviewBanner.addMobclixAdViewListener(Controller.this);
+	    	    		mAdviewBanner.getAd();
+	    	    		//AdMob
+	    		        mAdRequest = new AdRequest();
+//	    		        mAdRequest.setTesting(true);
+	    		        mAdView.loadAd(mAdRequest);
+
+	    		        mAdRefreshTimer = new Timer();
+	    		        mAdRefreshTimer.schedule(new AdRefreshTimerTask(), mAdRefreshTime, mAdRefreshTime);
+	    		        mAdRefreshTimerHandler = new Handler() {
+	    		            @Override
+	    		            public void handleMessage(Message msg) {
+	    						mAdView.loadAd(mAdRequest);
+	    		        		mAdviewBanner.getAd();
+	    		            }
+	    		        };        	        	
+	    	        }
+	            }
+	        };        	        	
+	        	        
             mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
 
             mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
@@ -337,7 +349,14 @@ public class DownloadService extends Service {
     		}
 		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
         }
-	    private class AdRefreshTimerTask extends TimerTask {			
+	    private class AdInitTimerTask extends TimerTask {			
+			@Override
+			public void run() {
+				if(mAdInitTimerHandler!=null)
+					mAdInitTimerHandler.sendEmptyMessage(0);
+			}	    	
+	    }	    
+    	private class AdRefreshTimerTask extends TimerTask {			
 			@Override
 			public void run() {
 				if(mAdRefreshTimerHandler!=null)
