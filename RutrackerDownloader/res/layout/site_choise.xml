@@ -24,7 +24,6 @@
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@string/on_click_adview"
             ads:adUnitId="a14d5a500187b19"
             ads:adSize="BANNER"/>
 		<com.mobclix.android.sdk.MobclixMMABannerXLAdView 

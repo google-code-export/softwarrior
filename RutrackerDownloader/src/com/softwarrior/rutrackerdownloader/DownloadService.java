@@ -6,8 +6,11 @@ import java.net.URI;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
 import com.google.ads.AdRequest;
 import com.google.ads.AdView;
+import com.google.ads.AdRequest.ErrorCode;
 
 import com.mobclix.android.sdk.MobclixAdView;
 import com.mobclix.android.sdk.MobclixAdViewListener;
@@ -204,7 +207,7 @@ public class DownloadService extends Service {
         mNM.cancel(R.string.service_created);
     }    
     // ----------------------------------------------------------------------
-    public static class Controller extends FullWakeActivity implements MobclixAdViewListener {
+    public static class Controller extends FullWakeActivity implements AdListener, MobclixAdViewListener {
         
     	private volatile boolean mIsBound = false;
         private volatile boolean mIsBoundService = false; 
@@ -680,11 +683,6 @@ public class DownloadService extends Service {
     		}
     		return true;
     	}
-		//AdMob
-		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			RutrackerDownloaderApp.ActivateTorrentFileList = true;
-		}
 		//Mobclix
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
@@ -693,19 +691,36 @@ public class DownloadService extends Service {
 			RutrackerDownloaderApp.ActivateTorrentFileList = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
-			Log.v(RutrackerDownloaderApp.TAG, "The custom ad responded with '" + string + "' when touched!");
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
 		}
 		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "The ad request returned open allocation code: " + openAllocationCode);
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + openAllocationCode);
 			return false;
 		}
 		public void onSuccessfulLoad(MobclixAdView view) {
-			Log.v(RutrackerDownloaderApp.TAG, "The ad request was successful!");
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request was successful!");
 			view.setVisibility(View.VISIBLE);
 		}
 		public void onFailedLoad(MobclixAdView view, int errorCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "The ad request failed with error code: " + errorCode);
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request failed with error code: " + errorCode);
 			view.setVisibility(View.GONE);
-		}				    	
+		}
+		//AdMob
+		public void onDismissScreen(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onDismissScreen");
+		}
+		public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
+		}
+		public void onLeaveApplication(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");
+			RutrackerDownloaderApp.ActivateTorrentFileList = true;
+		}
+		public void onPresentScreen(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+		}
+		public void onReceiveAd(Ad ad) {
+			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");						
+		}				
     }
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
       android:sharedUserId="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionName="1.4.2.2" android:versionCode="9">
+      android:installLocation="auto" android:versionCode="10" android:versionName="1.4.2.3">
     <application 
         android:process="com.softwarrior.rutrackerdownloaderprocess"    
         android:icon="@drawable/ic_launcher" 
