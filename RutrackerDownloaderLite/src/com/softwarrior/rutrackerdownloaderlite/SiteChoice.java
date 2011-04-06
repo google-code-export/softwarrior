@@ -232,25 +232,21 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			RutrackerDownloaderApp.ActivateSiteChoise = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
-			Log.v(RutrackerDownloaderApp.TAG, "The custom ad responded with '" + string + "' when touched!");
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
 		}
 		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "The ad request returned open allocation code: " + openAllocationCode);
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + openAllocationCode);
 			return false;
 		}
 		public void onSuccessfulLoad(MobclixAdView view) {
-			Log.v(RutrackerDownloaderApp.TAG, "The ad request was successful!");
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request was successful!");
 			view.setVisibility(View.VISIBLE);
 		}
 		public void onFailedLoad(MobclixAdView view, int errorCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "The ad request failed with error code: " + errorCode);
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request failed with error code: " + errorCode);
 			view.setVisibility(View.GONE);
 		}
 		//AdMob
-		public void OnClickAdview(View v){
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob clicked");
-			RutrackerDownloaderApp.ActivateSiteChoise = true;
-		}
 		public void onDismissScreen(Ad ad) {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onDismissScreen");
 		}
@@ -259,6 +255,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		}
 		public void onLeaveApplication(Ad ad) {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+			RutrackerDownloaderApp.ActivateSiteChoise = true;
 		}
 		public void onPresentScreen(Ad ad) {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
