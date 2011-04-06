@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
+import android.util.Log;
 
 public class RutrackerDownloaderApp extends Application {	
 		
@@ -101,7 +102,11 @@ public class RutrackerDownloaderApp extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-3", 30, this);
+		try{
+			RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-3", 30, this);
+		}catch(Exception ex){
+			Log.e(TAG, ex.toString());
+		}
 	}
 	
 	static public void SetupPornolab(Activity activity){
