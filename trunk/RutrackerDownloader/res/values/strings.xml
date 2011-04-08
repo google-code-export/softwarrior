@@ -83,7 +83,7 @@
 	<string name="button_pause_download">Pause Download</string>
     <string name="button_resume_download">Resume Download</string>
 	<string name="button_activate_settings">Activate Settings</string>
-	<string name="button_downloaded">Downloaded</string>
+	<string name="button_downloaded">To Download</string>
 	
 	<string name="summary_chechbox_enable">Enable this setting</string>
 	<string name="summary_chechbox_disable">Disable this setting</string>
@@ -261,4 +261,6 @@ Please see contact information in the About page.
     <string name="progress_search">Please wait while program search...</string>
     <string name="torrent_file_undefined">Torrent file is undefined</string>
     <string name="torrent_file_downloaded">The file was downloaded</string>
+    <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
+    <string name="button_torrent_manager">Torrent Manager</string>     
 </resources>

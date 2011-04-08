@@ -165,7 +165,7 @@ public class RutrackerDownloaderApp extends Application {
     static public void OpenDownloaderActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(activity, DownloadService.Controller.class.getName());
+    	intent.setClassName(activity, TorrentsList.class.getName());
     	activity.startActivityForResult(intent, 0);
     }
     

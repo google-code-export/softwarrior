@@ -260,4 +260,6 @@
     <string name="progress_search">Пожалуйста подождите пока программа исчет...</string>
     <string name="torrent_file_undefined">Torrent файл не выбран</string>
     <string name="torrent_file_downloaded">Файл был сохранен</string>
+    <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
+    <string name="button_torrent_manager">Управление загрузкой</string>         
 </resources>

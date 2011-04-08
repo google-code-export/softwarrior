@@ -6,11 +6,29 @@
 #include "libtorrent/alert_types.hpp"
 #include "libtorrent/size_type.hpp"
 //-----------------------------------------------------------------------------
+void JniToStdString(JNIEnv *env, std::string* StdString, jstring JniString);
+//-----------------------------------------------------------------------------
+class TorrentFileInfo {
+public:
+	std::string SavePath;
+	std::string FileName;
+public:
+	TorrentFileInfo(){}
+	TorrentFileInfo(JNIEnv *env, jstring savePath, jstring torrentFile){
+		JniToStdString(env, &SavePath, savePath);
+		JniToStdString(env, &FileName, torrentFile);
+	}
+	TorrentFileInfo(JNIEnv *env, jstring torrentFile){
+		JniToStdString(env, &FileName, torrentFile);
+	}
+public:
+	bool operator<(const TorrentFileInfo& tfi){return FileName < tfi.FileName;}
+	bool operator<(const TorrentFileInfo& tfi) const {return FileName < tfi.FileName;}
+};
+//-----------------------------------------------------------------------------
+static std::map<TorrentFileInfo, libtorrent::torrent_handle> gTorrents;
 static libtorrent::session  	  gSession;
-static libtorrent::torrent_handle gTorrent;
 static libtorrent::proxy_settings gProxy;
-static std::string 				  gSavePath;
-static std::string 				  gTorrentFile;
 static volatile bool			  gWorkState = false;
 //-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
@@ -33,11 +51,14 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 		int uploadLimit = UploadLimit;
 		if(uploadLimit > 0)
 			gSession.set_upload_rate_limit(uploadLimit * 1000);
+		else
+			gSession.set_upload_rate_limit(0);
 
 		int downloadLimit = DownloadLimit;
 		if(downloadLimit > 0)
 			gSession.set_download_rate_limit(downloadLimit * 1000);
-
+		else
+			gSession.set_download_rate_limit(0);
 		gWorkState=true;
 	}catch(...){
 		LOG_ERR("Exception: failed to set session");
@@ -100,22 +121,48 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
 	return result;
 }
 //-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSessionOptions
+	(JNIEnv *env, jobject obj, jboolean LSD, jboolean UPNP, jboolean NATPMP)
+{
+	jboolean result = JNI_FALSE;
+	try{
+		if(LSD == JNI_TRUE)
+			gSession.start_lsd();
+		else
+			gSession.stop_lsd();
+		if(UPNP == JNI_TRUE)
+			gSession.start_upnp();
+		else
+			gSession.stop_upnp();
+		if(NATPMP == JNI_TRUE)
+			gSession.start_natpmp();
+		else
+			gSession.stop_natpmp();
+		gWorkState=true;
+	}catch(...){
+		LOG_ERR("Exception: failed to set session options");
+		gWorkState=false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.SetSessionOptions WorkState==false");
+	gWorkState==true ? result=JNI_TRUE : result=JNI_FALSE;
+	return result;
+}
+//-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile)
 {
 	jboolean result = JNI_FALSE;
 	try{
-		JniToStdString(env, &gSavePath, SavePath);
-		JniToStdString(env, &gTorrentFile, TorrentFile);
+		TorrentFileInfo torrentFileInfo(env, SavePath, TorrentFile);
 
-		LOG_INFO("SavePath: %s", gSavePath.c_str());
-		LOG_INFO("TorrentFile: %s", gTorrentFile.c_str());
+		LOG_INFO("SavePath: %s", torrentFileInfo.SavePath.c_str());
+		LOG_INFO("TorrentFile: %s", torrentFileInfo.FileName.c_str());
 
 		boost::intrusive_ptr<libtorrent::torrent_info> t;
 		libtorrent::error_code ec;
-		t = new libtorrent::torrent_info(gTorrentFile.c_str(), ec);
+		t = new libtorrent::torrent_info(torrentFileInfo.FileName.c_str(), ec);
 		if (ec){
-			LOG_ERR("%s: %s\n", gTorrentFile.c_str(), ec.message().c_str());
+			LOG_ERR("%s: %s\n", torrentFileInfo.FileName.c_str(), ec.message().c_str());
 		}
 		else{
 			LOG_INFO("%s\n", t->name().c_str());
@@ -123,15 +170,15 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 			libtorrent::add_torrent_params torrentParams;
 			libtorrent::lazy_entry resume_data;
 
-			boost::filesystem::path save_path = gSavePath;
+			boost::filesystem::path save_path = torrentFileInfo.SavePath;
 			std::string filename = (save_path / (t->name() + ".resume")).string();
 			std::vector<char> buf;
 			if (libtorrent::load_file(filename.c_str(), buf) == 0)
 				torrentParams.resume_data = &buf;
 
 			torrentParams.ti = t;
-			torrentParams.save_path = gSavePath;
-			gTorrent = gSession.add_torrent(torrentParams,ec);
+			torrentParams.save_path = torrentFileInfo.SavePath;
+			gTorrents[torrentFileInfo] = gSession.add_torrent(torrentParams,ec);
 			if(ec) {
 				LOG_ERR("failed to add torrent: %s\n", ec.message().c_str());
 				gWorkState = false;
@@ -174,6 +221,21 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeSess
 		gWorkState=false;
 	}
 	if(!gWorkState) LOG_ERR("LibTorrent.ResumeSession WorkState==false");
+	gWorkState==true ? result=JNI_TRUE : result=JNI_FALSE;
+	return result;
+}
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AbortSession
+	(JNIEnv *, jobject)
+{
+	jboolean result = JNI_FALSE;
+	try {
+		gSession.abort();
+	} catch(...){
+		LOG_ERR("Exception: failed to abort session");
+		gWorkState=false;
+	}
+	if(!gWorkState) LOG_ERR("LibTorrent.AbortSession WorkState==false");
 	gWorkState==true ? result=JNI_TRUE : result=JNI_FALSE;
 	return result;
 }
@@ -222,14 +284,15 @@ void HandleAlert(libtorrent::alert* a)
 
 //-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorrent
-	(JNIEnv *env, jobject obj)
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
 {
 	jboolean result = JNI_FALSE;
 	try {
-		gTorrent.pause();
+		libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
+		torrent.pause();
 		// the alert handler for save_resume_data_alert
 		// will save it to disk
-		gTorrent.save_resume_data();
+		torrent.save_resume_data();
 		// loop through the alert queue to see if anything has happened.
 		std::auto_ptr<libtorrent::alert> a;
 		a = gSession.pop_alert();
@@ -250,16 +313,17 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
-	(JNIEnv *env, jobject obj)
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
 {
 	jint result = 0;
 	try {
 		if(gWorkState) {
-			libtorrent::torrent_status s = gTorrent.status();
-			if(s.state != libtorrent::torrent_status::seeding && gTorrent.has_metadata()) {
+			libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
+			libtorrent::torrent_status s = torrent.status();
+			if(s.state != libtorrent::torrent_status::seeding && torrent.has_metadata()) {
 				std::vector<libtorrent::size_type> file_progress;
-				gTorrent.file_progress(file_progress);
-				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+				torrent.file_progress(file_progress);
+				libtorrent::torrent_info const& info = torrent.get_torrent_info();
 				int files_num = info.num_files();
 				for (int i = 0; i < info.num_files(); ++i)
 				{
@@ -268,7 +332,7 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 				}
 				result = result/files_num;
 			}
-			else if(s.state == libtorrent::torrent_status::seeding && gTorrent.has_metadata())
+			else if(s.state == libtorrent::torrent_status::seeding && torrent.has_metadata())
 					result = 1000;
 		}
 	}catch(...){
@@ -294,14 +358,15 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 // + 9 queued
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentState
-	(JNIEnv *, jobject)
+	(JNIEnv *env, jobject, jstring TorrentFile)
 {
 	jint result = -1;
 	try {
 		if(gWorkState) {
-			libtorrent::torrent_status t_s = gTorrent.status();
-			bool paused = gTorrent.is_paused();
-			bool auto_managed = gTorrent.is_auto_managed();
+			libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
+			libtorrent::torrent_status t_s = torrent.status();
+			bool paused = torrent.is_paused();
+			bool auto_managed = torrent.is_auto_managed();
 			if(paused && !auto_managed)
 				result = 8; //paused
 			else if(paused && !auto_managed)
@@ -355,11 +420,12 @@ static char const* state_str[] =
 {"checking (q)", "checking", "dl metadata", "downloading", "finished", "seeding", "allocating", "checking (r)"};
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentStatusText
-	(JNIEnv *env, jobject obj)
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
 {
 	jstring result = NULL;
 	try {
 		if(gWorkState){
+			libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
 			std::string out;
 			char str[500]; memset(str,0,500);
 			//------- NAME --------
@@ -367,11 +433,11 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 			//if (name.size() > 80) name.resize(80);
 			//snprintf(str, sizeof(str), "%-80s\n", name.c_str());
 			//out += str;
-			out += gTorrent.name(); out += "\n";
+			out += torrent.name(); out += "\n";
 			//------- ERROR --------
-			libtorrent::torrent_status t_s = gTorrent.status();
-			bool paused = gTorrent.is_paused();
-			bool auto_managed = gTorrent.is_auto_managed();
+			libtorrent::torrent_status t_s = torrent.status();
+			bool paused = torrent.is_paused();
+			bool auto_managed = torrent.is_auto_managed();
 			if (!t_s.error.empty())
 			{
 				out += "error ";
@@ -483,15 +549,16 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionS
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFiles
-	(JNIEnv *env, jobject obj)
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
 {
 	jstring result = NULL;
 	try {
 		if(gWorkState){
+			libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
 			std::string out;
-			libtorrent::torrent_status s = gTorrent.status();
-			if(gTorrent.has_metadata()) {
-				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+			libtorrent::torrent_status s = torrent.status();
+			if(torrent.has_metadata()) {
+				libtorrent::torrent_info const& info = torrent.get_torrent_info();
 				int files_num = info.num_files();
 				for (int i = 0; i < info.num_files(); ++i) {
 					out += info.file_at(i).path.string();
@@ -517,16 +584,17 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentF
 //6 - piece is as likely to be picked as any piece with availability 1
 //7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrentFilesPriority
-	(JNIEnv *env, jobject obj, jbyteArray FilesPriority )
+	(JNIEnv *env, jobject obj, jbyteArray FilesPriority, jstring TorrentFile)
 {
 	jboolean result = JNI_FALSE;
 	jbyte* filesPriority  = NULL;
 	try {
 		if(gWorkState){
+			libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
 			std::string out;
-			libtorrent::torrent_status s = gTorrent.status();
-			if(gTorrent.has_metadata()) {
-				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+			libtorrent::torrent_status s = torrent.status();
+			if(torrent.has_metadata()) {
+				libtorrent::torrent_info const& info = torrent.get_torrent_info();
 				int files_num = info.num_files();
 				jsize arr_size = env->GetArrayLength(FilesPriority);
 				if(files_num == arr_size){
@@ -536,7 +604,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrent
 					for (int i = 0; i < info.num_files(); ++i) {
 						priorities.push_back(int(filesPriority[i]));
 					}
-					gTorrent.prioritize_files(priorities);
+					torrent.prioritize_files(priorities);
 				} else {
 					LOG_ERR("LibTorrent.SetTorrentFilesPriority priority array size failed");
 					result = JNI_FALSE;
@@ -555,17 +623,18 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrent
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFilesPriority
-	(JNIEnv *env, jobject obj)
+	(JNIEnv *env, jobject obj, jstring TorrentFile )
 {
 	jbyteArray result = NULL;
 	jbyte* result_array = NULL;
 	try {
 		if(gWorkState){
-			libtorrent::torrent_status s = gTorrent.status();
-			if(gTorrent.has_metadata()) {
-				libtorrent::torrent_info const& info = gTorrent.get_torrent_info();
+			libtorrent::torrent_handle const& torrent = gTorrents[TorrentFileInfo(env,TorrentFile)];
+			libtorrent::torrent_status s = torrent.status();
+			if(torrent.has_metadata()) {
+				libtorrent::torrent_info const& info = torrent.get_torrent_info();
 				int files_num = info.num_files();
-				std::vector<int> priorities = gTorrent.file_priorities();
+				std::vector<int> priorities = torrent.file_priorities();
 				if(files_num == priorities.size() ){
 					result_array = new jbyte[files_num];
 					for(int i=0;i<files_num;i++) result_array[i] = (jbyte)priorities[i];

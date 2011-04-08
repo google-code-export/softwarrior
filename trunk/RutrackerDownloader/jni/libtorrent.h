@@ -28,6 +28,9 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
 	(JNIEnv *env, jobject obj, jint Type, jstring HostName, jint Port, jstring UserName, jstring Password);
 //-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSessionOptions
+	(JNIEnv *env, jobject obj, jboolean LSD, jboolean UPNP, jboolean NATPMP);
+//-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile);
 //-----------------------------------------------------------------------------
@@ -37,11 +40,14 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseSessi
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeSession
 	(JNIEnv *, jobject);
 //-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AbortSession
+	(JNIEnv *, jobject);
+//-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorrent
-	(JNIEnv *env, jobject obj);
+	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
-	(JNIEnv *env, jobject obj);
+	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 //enum state_t
 //{
@@ -58,19 +64,19 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 // + 9 queued
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentState
-	(JNIEnv *, jobject);
+	(JNIEnv *, jobject, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 //static char const* state_str[] =
 //{"checking (q)", "checking", "dl metadata", "downloading", "finished", "seeding", "allocating", "checking (r)"};
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentStatusText
-	(JNIEnv *env, jobject obj);
+	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionStatusText
 	(JNIEnv *env, jobject obj);
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFiles
-	(JNIEnv *env, jobject obj);
+	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 //0 - piece is not downloaded at all
 //1 - normal priority. Download order is dependent on availability
@@ -81,10 +87,10 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentF
 //6 - piece is as likely to be picked as any piece with availability 1
 //7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrentFilesPriority
-	(JNIEnv *env, jobject obj, jbyteArray FilesPriority);
+	(JNIEnv *env, jobject obj, jbyteArray FilesPriority, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFilesPriority
-	(JNIEnv *env, jobject obj);
+	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentName
 	(JNIEnv *env, jobject obj, jstring TorrentFile);

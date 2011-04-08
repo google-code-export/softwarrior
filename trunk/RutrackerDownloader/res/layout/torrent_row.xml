@@ -9,13 +9,25 @@
          android:paddingLeft="5sp"
          android:focusable="false"
          android:textSize="14sp"
+         android:text="xdfsdfsdfsd"
          android:textStyle="italic"
          android:layout_width="wrap_content"
-         android:layout_height="wrap_content"/>
+         android:layout_height="wrap_content" 
+         android:layout_alignParentLeft="true" 
+         android:layout_alignParentBottom="true"/>
     <CheckBox 
         android:id="@+id/check1"
         android:focusable="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
-        android:layout_alignParentRight="true"/>    
+        android:layout_alignParentRight="true"/>
+    <ProgressBar 
+        android:layout_height="wrap_content" 
+        android:id="@+id/progress_horizontal" 
+        style="?android:attr/progressBarStyleHorizontal" 
+        android:layout_toLeftOf="@+id/check1" 
+        android:max="1000" 
+        android:progress="0" 
+        android:secondaryProgress="0" 
+        android:layout_width="fill_parent"/>
 </RelativeLayout>
