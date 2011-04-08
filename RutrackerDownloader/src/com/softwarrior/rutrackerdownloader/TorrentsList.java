@@ -2,6 +2,7 @@ package com.softwarrior.rutrackerdownloader;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,27 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import java.util.ArrayList;
 
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+//----------------------------------------------------------------------------------
+class TorrentContainer{
+	private String  mName = "Name";
+	private boolean mState = false;
+	
+	public TorrentContainer(String FileName){mName = FileName;}
+	public void setState(boolean flag){mState=flag;}
+	public String getName(){ return mName;}
+	public boolean getState() { return mState;}		
+}
+//----------------------------------------------------------------------------------
 public class TorrentsList extends ListActivity {
 
-    TorrentAdapter mAdapter;
+    static private ArrayList<TorrentContainer> mTorrents = new ArrayList<TorrentContainer>();
+    
+    static public void SetTorrent(String TorrentFileName){
+        mTorrents.add(new TorrentContainer(TorrentFileName));
+    }
+    
+	TorrentAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,21 +76,30 @@ public class TorrentsList extends ListActivity {
             public void onClick(View v) {
                 mAdapter.addTorrent();
             } });
+        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentsList");
     }
     
-    public class TorrentContainer{
-    	private String  mName = "Name";
-    	private boolean mState = false;
-		
-    	public void setState(boolean flag){mState=flag;}
-		public String getName(){ return mName;}
-		public boolean getState() { return mState;}		
+    @Override
+    protected void onResume() {
+    	super.onResume();
+        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
-    //A simple adapter which maintains an ArrayList of photo resource Ids. 
-    //Each photo is displayed as an image. This adapter supports clearing the
-    //list of photos and adding a new photo.
+            
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_DOWNLOADER:
+		case RESULT_PREFERENCES:
+		case RESULT_EXIT:
+			setResult(resultCode);
+			finish();
+			break;
+		};		
+	}
+    
     public class TorrentAdapter extends BaseAdapter {
-        private ArrayList<TorrentContainer> mTorrents = new ArrayList<TorrentContainer>();        
     	private LayoutInflater mInflater;
 
         public TorrentAdapter(Context c) { 
@@ -111,7 +139,7 @@ public class TorrentsList extends ListActivity {
             notifyDataSetChanged();
         }        
         public void addTorrent() {
-            mTorrents.add(new TorrentContainer());
+            mTorrents.add(new TorrentContainer("Test"));
             notifyDataSetChanged();
         }
     }

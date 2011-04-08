@@ -17,7 +17,11 @@ public class PreferencesTabs extends TabActivity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
                   
         final TabHost tabHost = getTabHost();        
-                
+
+        tabHost.addTab(tabHost.newTabSpec("tab_download")
+                .setIndicator(getString(R.string.tab_download))
+                .setContent(new Intent(this, DownloadPreferencesScreen.class)));      
+        
         tabHost.addTab(tabHost.newTabSpec("tab_web_search")
                 .setIndicator(getString(R.string.tab_web_search))
                 .setContent(new Intent(this, WEBPreferencesScreen.class)));
@@ -26,10 +30,6 @@ public class PreferencesTabs extends TabActivity {
                 .setIndicator(getString(R.string.tab_rss_search))
                 .setContent(new Intent(this, RSSPreferencesScreen.class)));      
         		//.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))); This tab sets the intent flag so that it is recreated each time the tab is clicked.
-
-        tabHost.addTab(tabHost.newTabSpec("tab_download")
-                .setIndicator(getString(R.string.tab_download))
-                .setContent(new Intent(this, DownloadPreferencesScreen.class)));      
 
         tabHost.addTab(tabHost.newTabSpec("tab_site_choise")
                 .setIndicator(getString(R.string.tab_site_choise))

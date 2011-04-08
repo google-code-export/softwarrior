@@ -31,14 +31,15 @@
             android:orientation="horizontal" 
             android:layout_height="wrap_content" 
             android:layout_alignParentBottom="true"> 
-            <TextView 
+            <TextView
                 android:layout_width="wrap_content" 
                 android:layout_height="wrap_content" 
                 android:id="@+id/TextView1" 
                 android:text="" 
                 android:layout_centerHorizontal="true" 
-                android:layout_centerVertical="true"/>       
-            <Button 
+                android:layout_centerVertical="true"/>
+            <Button
+                style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonUnselect"
                 android:onClick="@string/on_click_button_unselect"
                 android:text="@string/button_unselect" 
@@ -47,7 +48,8 @@
                 android:layout_width="fill_parent" 
                 android:layout_toRightOf="@id/TextView1"/>
                 <requestFocus />
-            <Button 
+            <Button
+                style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonSelect"
                 android:onClick="@string/on_click_button_select" 
                 android:text="@string/button_select" 
@@ -70,7 +72,8 @@
                 android:text="" 
                 android:layout_centerHorizontal="true" 
                 android:layout_centerVertical="true"/>       
-            <Button 
+            <Button
+                style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonApply"
                 android:onClick="@string/on_click_button_apply"
                 android:text="@string/button_apply"  
@@ -79,14 +82,15 @@
                 android:layout_width="fill_parent" 
                 android:layout_toRightOf="@id/TextView2"/>
                 <requestFocus />
-            <Button 
+            <Button
+                style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonUp" 
                 android:onClick="@string/on_click_button_up"
-                android:text="@string/button_up"           
-                android:layout_height="wrap_content"  
-                android:layout_alignParentLeft="true" 
+                android:text="@string/button_up"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_width="fill_parent"
-                android:layout_toLeftOf="@id/TextView2"/>  
+                android:layout_toLeftOf="@id/TextView2"/>
          </RelativeLayout>
     </LinearLayout>
     <ListView 

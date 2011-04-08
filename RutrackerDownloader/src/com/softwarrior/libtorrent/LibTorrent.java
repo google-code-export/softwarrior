@@ -19,15 +19,19 @@ public class LibTorrent {
     //-----------------------------------------------------------------------------
     public native boolean SetProxy(int Type, String HostName, int Port, String UserName, String Password);        
     //-----------------------------------------------------------------------------
+    public native boolean SetSessionOptions(boolean LSD, boolean UPNP, boolean NATPMP);
+    //-----------------------------------------------------------------------------
     public native boolean AddTorrent(String SavePath, String TorentFile);
     //-----------------------------------------------------------------------------
     public native boolean PauseSession();
     //-----------------------------------------------------------------------------
     public native boolean ResumeSession();
     //-----------------------------------------------------------------------------
-    public native boolean RemoveTorrent();
+    public native boolean AbortSession();
     //-----------------------------------------------------------------------------
-    public native int GetTorrentProgress();
+    public native boolean RemoveTorrent(String TorentFile);
+    //-----------------------------------------------------------------------------
+    public native int GetTorrentProgress(String TorentFile);
     //-----------------------------------------------------------------------------
     //enum state_t
     //{
@@ -43,18 +47,18 @@ public class LibTorrent {
     // + 8 paused
     // + 9 queued
     //-----------------------------------------------------------------------------
-    public native int GetTorrentState();        	
+    public native int GetTorrentState(String TorentFile);        	
     //-----------------------------------------------------------------------------
     //static char const* state_str[] =
     //{"checking (q)", "checking", "dl metadata", "downloading", "finished", "seeding", "allocating", "checking (r)"};
     //-----------------------------------------------------------------------------
-    public native String GetTorrentStatusText();
+    public native String GetTorrentStatusText(String TorentFile);
     //-----------------------------------------------------------------------------        
     public native String GetSessionStatusText();
     //-----------------------------------------------------------------------------
     //separator between files '\n' 
     //-----------------------------------------------------------------------------
-    public native String GetTorrentFiles();
+    public native String GetTorrentFiles(String TorentFile);
     //-----------------------------------------------------------------------------
 	//0 - piece is not downloaded at all
 	//1 - normal priority. Download order is dependent on availability
@@ -64,9 +68,9 @@ public class LibTorrent {
 	//5 - currently the same as 4
 	//6 - piece is as likely to be picked as any piece with availability 1
 	//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
-    public native boolean SetTorrentFilesPriority(byte[] FilesPriority);
+    public native boolean SetTorrentFilesPriority(byte[] FilesPriority, String TorentFile);
     //-----------------------------------------------------------------------------
-    public native byte[] GetTorrentFilesPriority();
+    public native byte[] GetTorrentFilesPriority(String TorentFile);
     //-----------------------------------------------------------------------------
     public native String GetTorrentName(String TorrentFile);
     //-----------------------------------------------------------------------------
