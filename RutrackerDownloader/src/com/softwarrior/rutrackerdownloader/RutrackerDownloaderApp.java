@@ -14,10 +14,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -109,11 +113,47 @@ public class RutrackerDownloaderApp extends Application {
 			RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);        
 			startService(new Intent(this, DownloadService.class));
 			StartServiceActivity(getApplicationContext());
+			RestoryTorrentsFromDB(getApplicationContext());
 		}catch(Exception ex){
 			Log.e(TAG, ex.toString());
 		}
-	}
-        	
+	}		
+	static public void RestoryTorrentsFromDB(Context context){
+		TorrentsSQLHelper torrentsDB = new TorrentsSQLHelper(context);
+		try {
+	        SQLiteDatabase db = torrentsDB.getReadableDatabase();
+	        Cursor cursor = db.query(TorrentsSQLHelper.TABLE, null, null, null, null, null, null);
+	        //startManagingCursor(cursor);        
+	        while (cursor.moveToNext()) {
+	          //long id = cursor.getLong(0);
+	          long progress = cursor.getLong(1);
+	          String fileName = cursor.getString(2);
+	          TorrentsList.AddTorrent(fileName,progress);
+	        }
+	     } catch (SQLiteException sqle){
+	    	 Log.w(TAG, "Error while opening database", sqle);
+		 } finally {
+			torrentsDB.close();
+		 }
+	}	
+	static public void StoreTorrentsToDB(Context context) {
+		TorrentsSQLHelper torrentsDB = new TorrentsSQLHelper(context);
+		try {
+			SQLiteDatabase db = torrentsDB.getWritableDatabase();
+	        ContentValues values = new ContentValues();
+	        db.delete(TorrentsSQLHelper.TABLE, null, null);	        	
+	    	for(int i=0;i<TorrentsList.Torrents.size();i++){
+	    		TorrentContainer tc = TorrentsList.Torrents.get(i);
+	            values.put(TorrentsSQLHelper.PROGRESS, tc.getProgress());
+	            values.put(TorrentsSQLHelper.FILE, tc.getName());
+	            db.insert(TorrentsSQLHelper.TABLE, null, values);
+	    	}
+	     } catch (SQLiteException sqle){
+	    	 Log.w(TAG, "Error while opening database", sqle);
+		 } finally {
+			torrentsDB.close();
+		 }
+    }
 	static public void SetupPornolab(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
     	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;
@@ -168,7 +208,14 @@ public class RutrackerDownloaderApp extends Application {
     	intent.setClassName(activity, TorrentsList.class.getName());
     	activity.startActivityForResult(intent, 0);
     }
-    
+
+    static public void OpenTorrentDownloadActivity(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, DownloadService.Controller.class.getName());
+    	activity.startActivityForResult(intent, 0);
+    }
+
     static public void FileManagerActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -209,6 +256,7 @@ public class RutrackerDownloaderApp extends Application {
 	        // Start lengthy operation in a background thread
 	        new Thread(new Runnable() {
 	            public void run() {
+	            	StoreTorrentsToDB(activity);
 			        RutrackerDownloaderApp.ClearCache(activity);
 			        handler.sendEmptyMessage(0);
 	            }
