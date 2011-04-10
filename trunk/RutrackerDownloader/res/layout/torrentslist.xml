@@ -4,23 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent" 
     android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent" 
-        android:layout_height="wrap_content">
-        <Button 
-            style="?android:attr/buttonStyleSmall"
-            android:id="@+id/add"
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content"
-            android:text="add torrent"/>
-        <Button 
-            style="?android:attr/buttonStyleSmall"
-            android:id="@+id/clear"
-            android:layout_width="wrap_content" 
-            android:layout_height="wrap_content"
-            android:text="clear torrents"/>
-    </LinearLayout>
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
     <FrameLayout
@@ -36,8 +19,47 @@
             android:drawSelectorOnTop="false"/>        
         <!-- Here is the view to show if the list is emtpy -->
         <TextView android:id="@+id/empty"
-            android:layout_width="match_parent" 
-            android:layout_height="match_parent"
-            android:text="no torrents"/>
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:text="@string/no_torrents"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:gravity="center" />                                             
     </FrameLayout>
+    <FrameLayout
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content">
+	    <RelativeLayout 
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="fill_parent"
+	        android:id="@+id/ButtonsLayout" 
+	        android:orientation="horizontal" 
+	        android:layout_height="wrap_content" 
+	        android:layout_alignParentBottom="true"> 
+	        <TextView 
+	            android:layout_width="wrap_content" 
+	            android:layout_height="wrap_content" 
+	            android:id="@+id/TextView" 
+	            android:text="" 
+	            android:layout_centerHorizontal="true" 
+	            android:layout_centerVertical="true"/>       
+	        <Button 
+	            style="?android:attr/buttonStyleSmall"
+                android:text="@string/button_remove_torrents"
+                android:onClick="@string/on_click_button_remove_torrents"
+                android:id="@+id/ButtonRemoveTorrents" 
+	            android:layout_alignParentRight="true" 
+	            android:layout_height="wrap_content" 
+	            android:layout_width="fill_parent" 
+	            android:layout_toRightOf="@id/TextView"/>
+	        <Button
+	            style="?android:attr/buttonStyleSmall" 
+                android:text="@string/button_add_torrent"
+                android:onClick="@string/on_click_button_add_torrent"
+                android:id="@+id/ButtonAddTorrent"
+	            android:layout_height="wrap_content" 
+	            android:layout_alignParentLeft="true" 
+	            android:layout_width="fill_parent"
+	            android:layout_toLeftOf="@id/TextView"/>                          
+	    </RelativeLayout>              
+    </FrameLayout>        
 </LinearLayout>

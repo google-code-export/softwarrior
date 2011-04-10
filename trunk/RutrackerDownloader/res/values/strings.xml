@@ -262,5 +262,10 @@ Please see contact information in the About page.
     <string name="torrent_file_undefined">Torrent file is undefined</string>
     <string name="torrent_file_downloaded">The file was downloaded</string>
     <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
-    <string name="button_torrent_manager">Torrent Manager</string>     
+    <string name="button_torrent_manager">Torrent Manager</string>
+    <string name="button_add_torrent">Add Torrent</string>
+    <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
+    <string name="button_remove_torrents">Remove Torrents</string>
+    <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>
+    <string name="no_torrents">no torrents</string>
 </resources>

@@ -261,5 +261,10 @@
     <string name="torrent_file_undefined">Torrent файл не выбран</string>
     <string name="torrent_file_downloaded">Файл был сохранен</string>
     <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
-    <string name="button_torrent_manager">Управление загрузкой</string>         
+    <string name="button_torrent_manager">Управление загрузкой</string>
+    <string name="button_add_torrent">Добавить torrent</string>
+    <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
+    <string name="button_remove_torrents">Удалить все torrents</string>
+    <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>  
+    <string name="no_torrents">torrent файлов нет</string>        
 </resources>

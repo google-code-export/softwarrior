@@ -279,8 +279,10 @@ public class DownloadService extends Service {
             //AdMob
 	        mAdView = (AdView) findViewById(R.id.adView);
 
-	        if(RutrackerDownloaderApp.DownloadServiceMode)
+	        if(RutrackerDownloaderApp.DownloadServiceMode){
 	        	RutrackerDownloaderApp.StartServiceActivity(this);
+	        	RutrackerDownloaderApp.RestoryTorrentsFromDB(this);
+	        }
 	        
 	        mAdInitTimer = new Timer();
 	        mAdInitTimer.schedule(new AdInitTimerTask(), mAdInitTime);
@@ -471,7 +473,6 @@ public class DownloadService extends Service {
         		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
         		String fileName = file.getName();
 				setTitle(fileName);
-	            TorrentsList.SetTorrent(RutrackerDownloaderApp.TorrentFullFileName);
             }
     	}
     	
@@ -561,7 +562,8 @@ public class DownloadService extends Service {
     	    }
         } 
 		public void OnClickButtonTorrentManager(View v){
-			RutrackerDownloaderApp.OpenDownloaderActivity(this);	
+			RutrackerDownloaderApp.OpenDownloaderActivity(this);
+			finish();
 		}
 		public void OnClickButtonPauseDownload(View v){
         	if(mIsBoundService){
