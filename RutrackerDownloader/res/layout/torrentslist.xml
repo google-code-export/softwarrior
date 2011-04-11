@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloader"
     android:orientation="vertical"
     android:layout_width="match_parent" 
     android:layout_height="match_parent">
@@ -25,6 +26,23 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:gravity="center" />                                             
     </FrameLayout>
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true" 
+        android:orientation="vertical" 
+        android:layout_width="fill_parent">
+        <com.google.ads.AdView 
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adUnitId="a14d5a500187b19"
+            ads:adSize="BANNER"/>
+        <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
+            android:id="@+id/advertising_banner_view"
+            android:layout_height="50dp"
+            android:layout_width="320dp"/>  
+    </LinearLayout>      
     <FrameLayout
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content">

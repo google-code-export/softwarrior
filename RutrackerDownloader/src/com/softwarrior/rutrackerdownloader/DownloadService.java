@@ -243,6 +243,7 @@ public class DownloadService extends Service {
 		private Timer mAdInitTimer;
 		private static final int mAdInitTime = 500; //0.5 seconds
 		private Handler mAdInitTimerHandler;
+		private Thread mStatusThread;
 
 		private static final int SELECT_FILE_ACTIVITY = 222;		
 
@@ -298,6 +299,7 @@ public class DownloadService extends Service {
 	    	        	mAdviewBanner.addMobclixAdViewListener(Controller.this);
 	    	    		mAdviewBanner.getAd();
 	    	    		//AdMob
+	    	    		mAdView.setAdListener(Controller.this);
 	    		        mAdRequest = new AdRequest();
 //	    		        mAdRequest.setTesting(true);
 	    		        mAdView.loadAd(mAdRequest);
@@ -326,9 +328,14 @@ public class DownloadService extends Service {
             mTextViewCommonStatus = (TextView)findViewById(R.id.TextViewCommonStatus);
             
             // Start lengthy operation in a background thread
-            new Thread(new Runnable() {
+            mStatusThread = new Thread(new Runnable() {
                 public void run() {
                 	while (!mStopProgress) {
+                		try {
+							Thread.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
 								mTorrentProgress = mBoundService.GetTorrentProgress(RutrackerDownloaderApp.TorrentFullFileName);
@@ -345,7 +352,8 @@ public class DownloadService extends Service {
 						}
 					}
                 }
-            }).start();
+            });
+            mStatusThread.start();
             RestoreControllerState();
 		    doBindService();
     		if(RutrackerDownloaderApp.ExitState){
@@ -474,6 +482,8 @@ public class DownloadService extends Service {
         		String fileName = file.getName();
 				setTitle(fileName);
             }
+    		if(mStatusThread != null && !mStatusThread.isAlive())
+    			mStatusThread.resume();
     	}
     	
     	@Override
@@ -484,6 +494,8 @@ public class DownloadService extends Service {
 	    		mAdRefreshTimer.cancel(); 
 	    		mAdRefreshTimer = null;
 	    	}
+    		if(mStatusThread != null && mStatusThread.isAlive())
+    			mStatusThread.suspend();
     	}
 
     	@Override
