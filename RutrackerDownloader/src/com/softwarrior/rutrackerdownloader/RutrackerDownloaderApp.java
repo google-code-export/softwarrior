@@ -130,9 +130,9 @@ public class RutrackerDownloaderApp extends Application {
 	        //startManagingCursor(cursor);        
 	        while (cursor.moveToNext()) {
 	          //long id = cursor.getLong(0);
-	          long progress = cursor.getLong(1);
+	          int progress = cursor.getInt(1);
 	          String fileName = cursor.getString(2);
-	          TorrentsList.AddTorrent(fileName,progress);
+	          TorrentsList.AddTorrent(fileName,(int)progress);
 	        }
 	     } catch (SQLiteException sqle){
 	    	 Log.w(TAG, "Error while opening database", sqle);
@@ -260,6 +260,7 @@ public class RutrackerDownloaderApp extends Application {
 	        // Start lengthy operation in a background thread
 	        new Thread(new Runnable() {
 	            public void run() {
+	            	TorrentsList.RemoveTorrents();
 	            	StoreTorrentsToDB(activity);
 			        RutrackerDownloaderApp.ClearCache(activity);
 			        handler.sendEmptyMessage(0);
