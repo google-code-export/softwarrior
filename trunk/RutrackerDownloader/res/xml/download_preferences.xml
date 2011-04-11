@@ -13,6 +13,9 @@
 				<EditTextPreference 
 					android:title="@string/preferences_download_limit" 
 					android:key="preferences_download_limit" android:defaultValue="-1"/>
+				<CheckBoxPreference android:key="preferences_upnp" android:title="@string/preferences_upnp"></CheckBoxPreference>
+				<CheckBoxPreference android:key="preferences_lsd" android:title="@string/preferences_lsd"></CheckBoxPreference>
+				<CheckBoxPreference android:key="preferences_natpmp" android:title="@string/preferences_natpmp"></CheckBoxPreference>
 			</PreferenceCategory>
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/preferences_proxy_options_title">

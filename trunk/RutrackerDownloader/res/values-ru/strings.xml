@@ -266,5 +266,8 @@
     <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
     <string name="button_remove_torrents">Удалить все torrents</string>
     <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>  
-    <string name="no_torrents">torrent файлов нет</string>        
+    <string name="no_torrents">torrent файлов нет</string>
+    <string name="preferences_upnp">UPnP сервис</string>
+    <string name="preferences_lsd">Local Service Discovery</string>
+    <string name="preferences_natpmp">NAT-PMP сервис</string>     
 </resources>

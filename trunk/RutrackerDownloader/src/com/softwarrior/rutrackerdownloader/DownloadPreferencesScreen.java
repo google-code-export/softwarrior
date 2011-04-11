@@ -31,28 +31,33 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static final String KEY_LISTEN_PORT="preferences_listen_port";
 	public static final String KEY_UPLOAD_LIMIT="preferences_upload_limit";
 	public static final String KEY_DOWNLOAD_LIMIT="preferences_download_limit";
+	public static final String KEY_UPNP="preferences_upnp";
+	public static final String KEY_LSD="preferences_lsd";
+	public static final String KEY_NATPMP="preferences_natpmp";
+		
 	public static final String KEY_PROXY_TYPE="preferences_proxy_type";
 	public static final String KEY_HOST_NAME="preferences_host_name";
 	public static final String KEY_PORT_NUMBER="preferences_port_number";
 	public static final String KEY_USER_NAME="preferences_user_name";
 	public static final String KEY_PASSWORD="preferences_password";
-	public static final String KEY_TORRENT_SAVE_PATH="preferences_torrent_save_path";
 	
+	public static final String KEY_TORRENT_SAVE_PATH="preferences_torrent_save_path";
+			
 	@Override
-  protected void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
-    addPreferencesFromResource(R.xml.download_preferences);
-    
-    String savePath =  GetTorrentSavePath(this);
-    if(savePath == null || savePath.length() < 3)
-    	SetTorrentSavePath(this, RutrackerDownloaderApp.TorrentSavePath);    
-    
-    InitSummaries(getPreferenceScreen());
-    setContentView(R.layout.download_preferences);
-    
-    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
-  }
+	protected void onCreate(Bundle icicle) {
+		super.onCreate(icicle);
+		addPreferencesFromResource(R.xml.download_preferences);
+		
+		String savePath =  GetTorrentSavePath(this);
+		if(savePath == null || savePath.length() < 3)
+			SetTorrentSavePath(this, RutrackerDownloaderApp.TorrentSavePath);    
+		
+		InitSummaries(getPreferenceScreen());
+		setContentView(R.layout.download_preferences);
+		
+		if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+		RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
+	}
 	
 	@Override
 	protected void onDestroy() {
@@ -98,6 +103,24 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		}
 		return result;
 	}
+	public static boolean GetUPNP(Context context){
+		boolean result = RutrackerDownloaderApp.UPNP;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		result = preferences.getBoolean(KEY_UPNP, RutrackerDownloaderApp.UPNP);
+		return result;
+	}
+	public static boolean GetLSD(Context context){
+		boolean result = RutrackerDownloaderApp.LSD;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		result = preferences.getBoolean(KEY_LSD, RutrackerDownloaderApp.LSD);
+		return result;
+	}
+	public static boolean GetNATPMP(Context context){
+		boolean result = RutrackerDownloaderApp.NATPMP;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		result = preferences.getBoolean(KEY_NATPMP, RutrackerDownloaderApp.NATPMP);
+		return result;
+	}	
 	public static int GetProxyType(Context context){
 		int result = RutrackerDownloaderApp.ProxyType;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -306,41 +329,42 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 	  
 	  PreferenceScreen preferences = getPreferenceScreen();
-	  EditTextPreference pr = (EditTextPreference) preferences.findPreference(key);
-
-	  if(key.equals(KEY_LISTEN_PORT) ||
-		 key.equals(KEY_UPLOAD_LIMIT) ||
-		 key.equals(KEY_DOWNLOAD_LIMIT) ||
-		 key.equals(KEY_PROXY_TYPE) ||
-		 key.equals(KEY_PORT_NUMBER) ){
-		
-		String  str = sharedPreferences.getString(key, "-1");
-		if(key.equals(KEY_PROXY_TYPE))
-				str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ProxyType));		
-		else if(key.equals(KEY_LISTEN_PORT))
-				str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ListenPort));
-		int value = 0;
-		try{
-			value = Integer.parseInt(str);
-		}catch(Exception e){
-				str = "-1";
+	  Preference pref =  preferences.findPreference(key);
+	  if (pref instanceof EditTextPreference){
+		  EditTextPreference pr = (EditTextPreference) pref;	 
+		  if(key.equals(KEY_LISTEN_PORT) ||
+			 key.equals(KEY_UPLOAD_LIMIT) ||
+			 key.equals(KEY_DOWNLOAD_LIMIT) ||
+			 key.equals(KEY_PROXY_TYPE) ||
+			 key.equals(KEY_PORT_NUMBER) ){
+			
+			String  str = sharedPreferences.getString(key, "-1");
 			if(key.equals(KEY_PROXY_TYPE))
-				str = Integer.toString(RutrackerDownloaderApp.ProxyType);
+					str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ProxyType));		
 			else if(key.equals(KEY_LISTEN_PORT))
-				str = Integer.toString(RutrackerDownloaderApp.ListenPort);
-			pr.setText(str);
-		}
-		if(key.equals(KEY_LISTEN_PORT) && value < 0)
-			pr.setText(Integer.toString(RutrackerDownloaderApp.ListenPort));
-		else if(key.equals(KEY_PROXY_TYPE) && value < 0)
-			pr.setText(Integer.toString(RutrackerDownloaderApp.ProxyType));
-	  } 
-	  else if(key.equals(KEY_TORRENT_SAVE_PATH)){
-		  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.TorrentSavePath);
-		  if(savePath == null || savePath.length() < 3)
-			  pr.setText(RutrackerDownloaderApp.TorrentSavePath);		    	
-	  }	  
-	  Preference pref = findPreference(key);
+					str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ListenPort));
+			int value = 0;
+			try{
+				value = Integer.parseInt(str);
+			}catch(Exception e){
+					str = "-1";
+				if(key.equals(KEY_PROXY_TYPE))
+					str = Integer.toString(RutrackerDownloaderApp.ProxyType);
+				else if(key.equals(KEY_LISTEN_PORT))
+					str = Integer.toString(RutrackerDownloaderApp.ListenPort);
+				pr.setText(str);
+			}
+			if(key.equals(KEY_LISTEN_PORT) && value < 0)
+				pr.setText(Integer.toString(RutrackerDownloaderApp.ListenPort));
+			else if(key.equals(KEY_PROXY_TYPE) && value < 0)
+				pr.setText(Integer.toString(RutrackerDownloaderApp.ProxyType));
+		  } 
+		  else if(key.equals(KEY_TORRENT_SAVE_PATH)){
+			  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.TorrentSavePath);
+			  if(savePath == null || savePath.length() < 3)
+				  pr.setText(RutrackerDownloaderApp.TorrentSavePath);		    	
+		  }	  
+	  }
 	  SetSummary(pref);	  
   }
   
