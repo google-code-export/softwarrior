@@ -155,7 +155,7 @@ public class TorrentDownloader {
 	
 	public void RenameTorrentFiles(){
 		try{			
-			String torrentName = DownloadService.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
+			String torrentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
 				torrentName = torrentName.replace(".", "_");
 				torrentName = torrentName.replace(" ", "_");

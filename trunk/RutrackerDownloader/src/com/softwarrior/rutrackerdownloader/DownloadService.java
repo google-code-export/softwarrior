@@ -19,6 +19,7 @@ import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 import com.softwarrior.libtorrent.LibTorrent;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,7 +28,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Bundle;
@@ -45,80 +45,12 @@ import android.widget.Toast;
 
 public class DownloadService extends Service {
     
-	private static final LibTorrent mLibTorrent =  new LibTorrent();
+	public static final LibTorrent LibTorrent =  new LibTorrent();
 	
 	private NotificationManager mNM;
     private int mStartId = 0;
     
     private final IBinder mBinder = new LocalBinder();
-    //-----------------------------------------------------------------------------
-    public boolean SetSession(int ListenPort, int UploadLimit, int DownloadLimit){return mLibTorrent.SetSession(ListenPort, UploadLimit, DownloadLimit);}
-    //-----------------------------------------------------------------------------
-    //enum proxy_type
-    //{
-	//0 - none, // a plain tcp socket is used, and the other settings are ignored.
-	//1 - socks4, // socks4 server, requires username.
-	//2 - socks5, // the hostname and port settings are used to connect to the proxy. No username or password is sent.
-	//3 - socks5_pw, // the hostname and port are used to connect to the proxy. the username and password are used to authenticate with the proxy server.
-	//4 - http, // the http proxy is only available for tracker and web seed traffic assumes anonymous access to proxy
-	//5 - http_pw // http proxy with basic authentication uses username and password
-    //};
-    //-----------------------------------------------------------------------------
-    public boolean SetProxy(int Type, String HostName, int Port, String UserName, String Password){return mLibTorrent.SetProxy(Type, HostName, Port, UserName, Password);}       
-    //-----------------------------------------------------------------------------
-    public boolean SetSessionOptions(boolean LSD, boolean UPNP, boolean NATPMP){return mLibTorrent.SetSessionOptions(LSD,UPNP,NATPMP);}
-    //-----------------------------------------------------------------------------
-    public boolean AddTorrent(String SavePath, String TorentFile){return mLibTorrent.AddTorrent(SavePath, TorentFile);}
-    //-----------------------------------------------------------------------------
-    public boolean PauseSession(){return mLibTorrent.PauseSession();}
-    //-----------------------------------------------------------------------------
-    public boolean ResumeSession(){return mLibTorrent.ResumeSession();}
-    //-----------------------------------------------------------------------------
-    public boolean AbortSession(){return mLibTorrent.AbortSession();}
-    //-----------------------------------------------------------------------------
-    public boolean RemoveTorrent(String TorentFile){return mLibTorrent.RemoveTorrent(TorentFile);}
-    //-----------------------------------------------------------------------------
-    public int GetTorrentProgress(String TorentFile){return mLibTorrent.GetTorrentProgress(TorentFile);}    
-    //-----------------------------------------------------------------------------
-    //enum state_t
-    //{
-	//0 queued_for_checking,
-	//1 checking_files,
-	//2 downloading_metadata,
-	//3 downloading,
-	//4 finished,
-	//5 seeding,
-	//6 allocating,
-	//7 checking_resume_data
-    //}
-    // + 8 paused
-    // + 9 queued
-    //-----------------------------------------------------------------------------
-    public int GetTorrentState(String TorentFile){return mLibTorrent.GetTorrentState(TorentFile);}        	
-    //-----------------------------------------------------------------------------
-    //static char const* state_str[] =
-    //{"checking (q)", "checking", "dl metadata", "downloading", "finished", "seeding", "allocating", "checking (r)"};
-    //-----------------------------------------------------------------------------
-    public String GetTorrentStatusText(String TorentFile){return mLibTorrent.GetTorrentStatusText(TorentFile);}
-    //-----------------------------------------------------------------------------        
-    public String GetSessionStatusText(){return mLibTorrent.GetSessionStatusText();}
-    //----------------------------------------------------------------------------- 
-    public String GetTorrentFiles(String TorentFile){return mLibTorrent.GetTorrentFiles(TorentFile);}
-    //-----------------------------------------------------------------------------
-	//0 - piece is not downloaded at all
-	//1 - normal priority. Download order is dependent on availability
-	//2 - higher than normal priority. Pieces are preferred over pieces with the same availability, but not over pieces with lower availability
-	//3 - pieces are as likely to be picked as partial pieces.
-	//4 - pieces are preferred over partial pieces, but not over pieces with lower availability
-	//5 - currently the same as 4
-	//6 - piece is as likely to be picked as any piece with availability 1
-	//7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
-    public boolean SetTorrentFilesPriority(byte[] FilesPriority, String TorentFile){return mLibTorrent.SetTorrentFilesPriority(FilesPriority, TorentFile);}
-    //-----------------------------------------------------------------------------
-    public byte[] GetTorrentFilesPriority(String TorentFile){return mLibTorrent.GetTorrentFilesPriority(TorentFile);}
-    //-----------------------------------------------------------------------------
-    static public String GetTorrentName(String TorrentFile){return mLibTorrent.GetTorrentName(TorrentFile);}
-    //-----------------------------------------------------------------------------        
     public class LocalBinder extends Binder {
     	DownloadService getService() {
             return DownloadService.this;
@@ -157,7 +89,7 @@ public class DownloadService extends Service {
 		boolean lsd = DownloadPreferencesScreen.GetLSD(getApplicationContext());
 		boolean natpmp = DownloadPreferencesScreen.GetNATPMP(getApplicationContext());
 		
-		SetSession(listenPort, uploadLimit, downloadLimit);
+		LibTorrent.SetSession(listenPort, uploadLimit, downloadLimit);
 		//-----------------------------------------------------------------------------
 	    //enum proxy_type
 	    //{
@@ -175,16 +107,16 @@ public class DownloadService extends Service {
 		String userName = DownloadPreferencesScreen.GetUserName(getApplicationContext());
 		String password = DownloadPreferencesScreen.GetUserPassword(getApplicationContext());
 
-		SetProxy(type, hostName, port, userName, password);   
+		LibTorrent.SetProxy(type, hostName, port, userName, password);   
 		
-		SetSessionOptions(lsd,upnp,natpmp);
+		LibTorrent.SetSessionOptions(lsd,upnp,natpmp);
     					
         return START_REDELIVER_INTENT; //START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        AbortSession();
+    	LibTorrent.AbortSession();
         hideNotification();
         // Tell the user we stopped.
 //        Toast.makeText(DownloadService.this, R.string.service_destroyed, Toast.LENGTH_SHORT).show();
@@ -227,7 +159,6 @@ public class DownloadService extends Service {
         private volatile String mSessionStatus = new String();       
         
         private ProgressBar mProgress;
-        private SharedPreferences mPrefs;
 
         private Handler mHandler = new Handler();        
         
@@ -258,7 +189,7 @@ public class DownloadService extends Service {
 	  	private AdView mAdView;
 	  	private AdRequest mAdRequest;
 	  	
-        enum ControllerState{
+        public enum ControllerState{
         	Undefined, Started, Stopped, Paused
         }          
         enum TorrentState {
@@ -343,10 +274,10 @@ public class DownloadService extends Service {
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
-								mTorrentProgress = mBoundService.GetTorrentProgress(RutrackerDownloaderApp.TorrentFullFileName);
-								mTorrentState = mBoundService.GetTorrentState(RutrackerDownloaderApp.TorrentFullFileName);
-								mTorrentStatus = mBoundService.GetTorrentStatusText(RutrackerDownloaderApp.TorrentFullFileName);
-								mSessionStatus = mBoundService.GetSessionStatusText();
+								mTorrentProgress = LibTorrent.GetTorrentProgress(RutrackerDownloaderApp.TorrentFullFileName);
+								mTorrentState = LibTorrent.GetTorrentState(RutrackerDownloaderApp.TorrentFullFileName);
+								mTorrentStatus = LibTorrent.GetTorrentStatusText(RutrackerDownloaderApp.TorrentFullFileName);
+								mSessionStatus = LibTorrent.GetSessionStatusText();
 								mHandler.post(new Runnable() {
 									public void run() {
 										mProgress.setProgress(mTorrentProgress);
@@ -384,10 +315,12 @@ public class DownloadService extends Service {
 			}	    	
 	    }	    
     	void RestoreControllerState(){
-            mPrefs = getSharedPreferences(Controller.class.getName(), MODE_PRIVATE);
-            int controllerState = mPrefs.getInt(ControllerState.class.getName(),ControllerState.Undefined.ordinal());
-            mControllerState = ControllerState.values()[controllerState]; 
+    		mControllerState = TorrentsList.GetCtrlState(RutrackerDownloaderApp.TorrentFullFileName);
             SetControllerState(mControllerState);
+    	}
+    	void SaveControllerState(){
+    		TorrentsList.AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress);
+    		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
     	}
 
     	void SetControllerState(ControllerState controllerState){
@@ -427,31 +360,30 @@ public class DownloadService extends Service {
 			}
     	}
 
-    	void SetTorrentState(){
-    		if(mTorrentState > 0 && mTorrentState < 10){
-	    		TorrentState state = TorrentState.values()[mTorrentState];
-	    		String txt_state = null;
+    	static public String GetTorrentStateName(Activity activity, int StateNum){
+    		String txt_state = activity.getString(R.string.text_torrent_state_undefined);
+    		if(StateNum > 0 && StateNum < 10){
+	    		TorrentState state = TorrentState.values()[StateNum];
 	    		switch (state){
-				case queued_for_checking: txt_state = getString(R.string.text_torrent_state_queued_for_checking); break; 
-				case checking_files: txt_state = getString(R.string.text_torrent_state_checking_files); break;
-				case downloading_metadata: txt_state = getString(R.string.text_torrent_state_downloading_metadata); break;
-				case downloading: txt_state = getString(R.string.text_torrent_state_downloading); break;
-				case finished: txt_state = getString(R.string.text_torrent_state_finished); break;
-				case seeding: txt_state = getString(R.string.text_torrent_state_seeding); break;
-				case allocating: txt_state = getString(R.string.text_torrent_state_allocating); break;
-				case paused: txt_state = getString(R.string.text_torrent_state_checking_resume_data); break;
-				case queued: txt_state = getString(R.string.text_torrent_state_checking_resume_data); break;
-				default: txt_state = getString(R.string.text_torrent_state_undefined); break;
-				}
-	    		if(!mTextViewTorrentState.getText().equals(txt_state)){
-		            mTextViewTorrentState.setText(txt_state);
+				case queued_for_checking: txt_state = activity.getString(R.string.text_torrent_state_queued_for_checking); break; 
+				case checking_files: txt_state = activity.getString(R.string.text_torrent_state_checking_files); break;
+				case downloading_metadata: txt_state = activity.getString(R.string.text_torrent_state_downloading_metadata); break;
+				case downloading: txt_state = activity.getString(R.string.text_torrent_state_downloading); break;
+				case finished: txt_state = activity.getString(R.string.text_torrent_state_finished); break;
+				case seeding: txt_state = activity.getString(R.string.text_torrent_state_seeding); break;
+				case allocating: txt_state = activity.getString(R.string.text_torrent_state_allocating); break;
+				case paused: txt_state = activity.getString(R.string.text_torrent_state_checking_resume_data); break;
+				case queued: txt_state = activity.getString(R.string.text_torrent_state_checking_resume_data); break;
+				default: txt_state = activity.getString(R.string.text_torrent_state_undefined); break;
 	    		}
     		}
-    		else {
-    			String txt_state = getString(R.string.text_torrent_state_undefined);
-	    		if(!mTextViewTorrentState.getText().equals(txt_state)){
-		            mTextViewTorrentState.setText(txt_state);
-	    		}
+    		return txt_state;
+    	}
+    	
+    	void SetTorrentState(){
+    		String txt_state = GetTorrentStateName(this, mTorrentState);
+    		if(!mTextViewTorrentState.getText().equals(txt_state)){
+	            mTextViewTorrentState.setText(txt_state);
     		}
     	}
     	
@@ -461,13 +393,6 @@ public class DownloadService extends Service {
 				mTextViewCommonStatus.setText(mTorrentStatus + mSessionStatus);
 			else
 				mTextViewCommonStatus.setText(R.string.text_common_status);    		
-    	}
-
-    	
-    	void SaveControllerState(){
-            SharedPreferences.Editor ed = mPrefs.edit();
-            ed.putInt(ControllerState.class.getName(), mControllerState.ordinal());
-            ed.commit();
     	}
     	
     	@Override
@@ -555,7 +480,7 @@ public class DownloadService extends Service {
                     return;
             	}
         		String tempName = CopyTorrentFiles("downloader_temp.torrent");
-            	mBoundService.AddTorrent(savePath, tempName);
+        		LibTorrent.AddTorrent(savePath, tempName);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
         		SetControllerState(ControllerState.Started);
@@ -565,7 +490,7 @@ public class DownloadService extends Service {
         public void OnClickButtonStopDownload(View v) {
         	if(mIsBoundService){
         		SetControllerState(ControllerState.Stopped);
-        		mBoundService.RemoveTorrent(RutrackerDownloaderApp.TorrentFullFileName);    		    
+        		LibTorrent.RemoveTorrent(RutrackerDownloaderApp.TorrentFullFileName);    		    
     	    	mStopHandler = new StopHandler();
     			mStopMessage =  mStopHandler.obtainMessage();
     			mStopHandler.sendMessageDelayed(mStopMessage, 500);
@@ -584,21 +509,21 @@ public class DownloadService extends Service {
 		}
 		public void OnClickButtonPauseDownload(View v){
         	if(mIsBoundService){
-        		mBoundService.PauseSession();
+        		LibTorrent.PauseSession();
         		SetControllerState(ControllerState.Paused);
         	}
 		}       
         public void OnClickButtonResumeDownload(View v){
         	if(mIsBound && mIsBoundService){
-        		mBoundService.ResumeSession();
+        		LibTorrent.ResumeSession();
         		SetControllerState(ControllerState.Started);
         	}
         }
         public void OnClickButtonSelectFiles(View v){
         	if(mIsBoundService){
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
-	        	TorrentFilesList.TORRENT_FILES = mBoundService.GetTorrentFiles(RutrackerDownloaderApp.TorrentFullFileName);
-	        	TorrentFilesList.FILES_PRIORITY = mBoundService.GetTorrentFilesPriority(RutrackerDownloaderApp.TorrentFullFileName);
+	        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(RutrackerDownloaderApp.TorrentFullFileName);
+	        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(RutrackerDownloaderApp.TorrentFullFileName);
 	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	        	intent.setClassName(this, TorrentFilesList.class.getName());
 	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
@@ -610,15 +535,15 @@ public class DownloadService extends Service {
                 mBoundService = ((DownloadService.LocalBinder)service).getService(); 
                 if(mBoundService == null) mIsBoundService = false;
                 else mIsBoundService = true;
-                if(mIsBoundService){
-                    Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
-                }
+//                if(mIsBoundService){
+//                    Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
+//                }
             }
 
             public void onServiceDisconnected(ComponentName className) {
             	mIsBoundService = false;
             	mBoundService = null;
-                Toast.makeText(Controller.this, R.string.service_disconnected, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Controller.this, R.string.service_disconnected, Toast.LENGTH_SHORT).show();
                 SetControllerState(ControllerState.Stopped);
             }
         };
@@ -643,7 +568,7 @@ public class DownloadService extends Service {
 			if(requestCode == SELECT_FILE_ACTIVITY){
                 if(mIsBoundService){
                 	if(TorrentFilesList.APPLY)
-                		mBoundService.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY, RutrackerDownloaderApp.TorrentFullFileName);	    		                	
+                		LibTorrent.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY, RutrackerDownloaderApp.TorrentFullFileName);	    		                	
                 }
 			}
 			else{
