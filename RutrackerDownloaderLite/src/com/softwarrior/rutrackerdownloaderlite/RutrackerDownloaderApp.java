@@ -15,6 +15,7 @@ import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -90,6 +91,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static String	TorrentTopic = RT_TorrentTopic;
 	public static String	CookieUrl = RT_CookieUrl;
 	
+	private static String version = null;
 	public static String	CookieData = new String();
 	//"http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&type=video_foreign_films&date=2010&name=the";
 	public static String	FeedUrl = new String();
@@ -101,6 +103,8 @@ public class RutrackerDownloaderApp extends Application {
 
 	@Override
 	public void onCreate() {
+		if (Build.VERSION.SDK_INT > 0x00000007)
+			Log.i(TAG, version.toString());
 		super.onCreate();
 		try{
 			RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-3", 30, this);
