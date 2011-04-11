@@ -268,4 +268,7 @@ Please see contact information in the About page.
     <string name="button_remove_torrents">Remove Torrents</string>
     <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>
     <string name="no_torrents">no torrents</string>
+    <string name="preferences_upnp">UPnP service</string>
+    <string name="preferences_lsd">Local Service Discovery</string>
+    <string name="preferences_natpmp">NAT-PMP service</string>
 </resources>

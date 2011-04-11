@@ -153,6 +153,9 @@ public class DownloadService extends Service {
 		int listenPort = DownloadPreferencesScreen.GetListenPort(getApplicationContext());
 		int uploadLimit = DownloadPreferencesScreen.GetUploadLimit(getApplicationContext());
 		int downloadLimit =  DownloadPreferencesScreen.GetDownloadLimit(getApplicationContext());
+		boolean upnp = DownloadPreferencesScreen.GetUPNP(getApplicationContext());
+		boolean lsd = DownloadPreferencesScreen.GetLSD(getApplicationContext());
+		boolean natpmp = DownloadPreferencesScreen.GetNATPMP(getApplicationContext());
 		
 		SetSession(listenPort, uploadLimit, downloadLimit);
 		//-----------------------------------------------------------------------------
@@ -172,7 +175,9 @@ public class DownloadService extends Service {
 		String userName = DownloadPreferencesScreen.GetUserName(getApplicationContext());
 		String password = DownloadPreferencesScreen.GetUserPassword(getApplicationContext());
 
-		SetProxy(type, hostName, port, userName, password);       
+		SetProxy(type, hostName, port, userName, password);   
+		
+		SetSessionOptions(lsd,upnp,natpmp);
     					
         return START_REDELIVER_INTENT; //START_NOT_STICKY;
     }
