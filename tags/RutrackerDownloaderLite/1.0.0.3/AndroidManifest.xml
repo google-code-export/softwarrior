@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.softwarrior.rutrackerdownloaderlite"
+    android:versionName="1.0.0.3" android:versionCode="4">
+    <application 
+        android:icon="@drawable/ic_launcher" 
+        android:label="@string/app_name" 
+        android:name="com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp" 
+        android:description="@string/app_desc">
+        <activity 
+            android:name="SplashScreen"
+            android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>         
+        <activity android:name="PreferencesTabs" android:windowSoftInputMode="stateVisible|adjustPan"></activity>
+        <activity android:name="WEBPreferencesScreen"></activity>
+        <activity android:name="RSSPreferencesScreen"></activity>
+        <activity android:name="DownloadPreferencesScreen"></activity>
+        <activity android:name="SiteChoice"></activity>
+        <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
+        <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>
+        <activity android:name="com.softwarrior.file.FileManagerActivity" android:launchMode="singleTop" android:theme="@android:style/Theme.Light">
+            <intent-filter>
+                <action android:name="com.softwarrior.file.SET_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_FILE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_FILE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.PICK_DIRECTORY"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.softwarrior.file.GET_CONTENT" />
+                <data android:mimeType="*/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>        
+        </activity>
+        <activity android:label="@string/about_activity_name"
+                android:name="com.softwarrior.about.About"
+                android:theme="@android:style/Theme.Light">
+        </activity>
+        <activity android:label="@string/help_activity_name"
+                  android:name="com.softwarrior.about.Help"
+                  android:theme="@android:style/Theme.Light">
+        </activity>  
+        <service android:name="com.softwarrior.rutrackerdownloaderlite.DownloadService"></service>
+        <!-- AdMob integration -->
+        <meta-data android:value="a14d8f9063dd1a4" android:name="ADMOB_PUBLISHER_ID" />
+        <meta-data android:value="a14d8f9063dd1a4" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
+        <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
+        <activity android:name="com.google.ads.AdActivity" 
+              android:configChanges="keyboard|keyboardHidden|orientation">
+        </activity> 
+        <!-- Mobclix Required Parameter -->        
+        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="5747DB07-5754-41F2-B51A-39B3C61E2AAA"/>
+        <activity android:name="com.mobclix.android.sdk.MobclixBrowserActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity> 
+        <!-- Analytics Receiver -->
+        <receiver android:name="com.google.android.apps.analytics.AnalyticsReceiver"
+               android:exported="true">
+           <intent-filter>
+               <action android:name="com.android.vending.INSTALL_REFERRER" />
+           </intent-filter>
+        </receiver>
+        <meta-data android:name="com.softwarrior.about.metadata.COMMENTS"
+                       android:value="@string/about_comments" />
+        <meta-data android:name="com.softwarrior.about.metadata.COPYRIGHT"
+                       android:value="@string/about_copyright" />
+        <meta-data android:name="com.softwarrior.about.metadata.AUTHORS"
+                       android:resource="@array/about_authors" />
+        <meta-data android:name="com.softwarrior.about.metadata.DOCUMENTERS"
+                       android:resource="@array/about_documenters" />
+        <meta-data android:name="com.softwarrior.about.metadata.TRANSLATORS"
+                       android:resource="@array/about_translators" />
+        <meta-data android:name="com.softwarrior.about.metadata.ARTISTS"
+                       android:resource="@array/about_artists" />
+        <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_LABEL"
+                       android:value="@string/about_website_label" />
+        <meta-data android:name="com.softwarrior.about.metadata.WEBSITE_URL"
+                       android:value="@string/about_website_url" />
+        <meta-data android:name="com.softwarrior.about.metadata.LICENSE" android:resource="@raw/license_short"/>
+        <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
+                       android:value="@string/about_email" />
+    </application>
+    <uses-sdk android:maxSdkVersion="7" android:minSdkVersion="4"/>
+    <uses-permission android:name="android.permission.INTERNET" />  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
+    <!-- Optional Permissions
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+     -->
+    <supports-screens android:smallScreens="true"
+                      android:normalScreens="true" 
+                      android:largeScreens="true" 
+                      android:anyDensity="true" 
+                      android:resizeable="true"/>
+</manifest>
