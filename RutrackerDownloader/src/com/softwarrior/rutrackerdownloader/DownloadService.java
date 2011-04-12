@@ -366,7 +366,7 @@ public class DownloadService extends Service {
 
     	static public String GetTorrentStateName(Activity activity, int StateNum){
     		String txt_state = activity.getString(R.string.text_torrent_state_undefined);
-    		if(StateNum > 0 && StateNum < 10){
+    		if(StateNum >= 0 && StateNum < 10){
 	    		TorrentState state = TorrentState.values()[StateNum];
 	    		switch (state){
 				case queued_for_checking: txt_state = activity.getString(R.string.text_torrent_state_queued_for_checking); break; 
@@ -376,8 +376,9 @@ public class DownloadService extends Service {
 				case finished: txt_state = activity.getString(R.string.text_torrent_state_finished); break;
 				case seeding: txt_state = activity.getString(R.string.text_torrent_state_seeding); break;
 				case allocating: txt_state = activity.getString(R.string.text_torrent_state_allocating); break;
-				case paused: txt_state = activity.getString(R.string.text_torrent_state_checking_resume_data); break;
-				case queued: txt_state = activity.getString(R.string.text_torrent_state_checking_resume_data); break;
+				case checking_resume_data: txt_state = activity.getString(R.string.text_torrent_state_checking_resume_data); break;
+				case paused: txt_state = activity.getString(R.string.text_torrent_state_paused); break;
+				case queued: txt_state = activity.getString(R.string.text_torrent_state_queued); break;
 				default: txt_state = activity.getString(R.string.text_torrent_state_undefined); break;
 	    		}
     		}
