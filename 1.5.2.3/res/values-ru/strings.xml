@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">Rutracker Downloader</string>
+    <string name="app_desc">Программа для поиска и скачивания контента с сайта rutracker.org</string>
+	
+	<string name="menu_exit">Выход</string>
+    <string name="menu_help">Помощь</string>
+    <string name="menu_about">О программе</string>
+	<string name="menu_preferences">Настройки</string>
+	<string name="menu_file_manager">Файл менеджер</string>
+	
+	<string name="preferences_select_content_title">ВЫБЕРИТЕ КОНТЕНТ</string>
+	<string name="preferences_video_title">ФИЛЬМЫ, ВИДЕО, ТВ</string>   
+	<string name="preferences_video_foreign_films_title">Иностранные фильмы</string>
+	<string name="preferences_video_russian_films_title">Русские фильмы</string>
+	<string name="preferences_video_authors_films_title">Авторские фильмы</string>
+	<string name="preferences_video_theatre_title">Театр</string>
+	<string name="preferences_video_animations_title">Мультфильмы</string>
+	<string name="preferences_video_animation_serials_title">Мультсериалы </string>
+	<string name="preferences_video_anime_title">Анимэ</string>
+	
+	<string name="preferences_serials_title">СЕРИАЛЫ</string>
+	<string name="preferences_serials_foreign_title">Иностранные сериалы</string>
+	<string name="preferences_serials_russian_title">Русские сериалы</string>
+	
+	<string name="preferences_audiobooks_title">АУДИОКНИГИ</string>
+	<string name="preferences_audiobooks_audiobooks_title">Аудиокниги</string>
+	
+	<string name="preferences_music_title">МУЗЫКА</string>
+	<string name="preferences_music_classic_title">Классическая музыка</string>
+	<string name="preferences_music_pope_dance_title">Попса, диско, танц. музыка</string>
+	
+	<string name="preferences_search_title">ПАРАМЕТРЫ ПОИСКА</string>
+	<string name="preferences_search_year_title">ГОД</string>
+	<string name="preferences_search_name_title">НАЗВАНИЕ</string>
+	
+	<string name="preferences_search_string_title">ИСКАТЬ ПО СТРОКЕ</string>
+	
+	<string name="preferences_download_options_title">НАСТРОЙКИ СКАЧИВАНИЯ</string>
+	<string name="preferences_session_options_title">ПАРАМЕТРЫ СЕССИИ</string>
+	<string name="preferences_session_options_cat_title">ПАРАМЕТРЫ СЕССИИ</string>
+	<string name="preferences_listen_port">Слушать порт</string>
+	<string name="preferences_upload_limit">Огранич. раздачи (Байт/сек)</string>
+	<string name="preferences_download_limit">Огранич. скачивания (Байт/сек)</string>
+	<string name="preferences_proxy_options_title">НАСТРОЙКИ ПРОКСИ</string>
+	<string name="preferences_proxy_options_cat_title">НАСТРОЙКИ ПРОКСИ</string>
+	<string name="preferences_proxy_type">Тип прокси</string>
+	<string name="preferences_host_name">Имя хоста</string>
+	<string name="preferences_port_number">Номер порта</string>
+	<string name="preferences_user_name">Имя пользователя</string>
+	<string name="preferences_password">Пароль</string>
+	<string name="preferences_torrent_options_title">ПАРАМЕТРЫ ТОРЕНТА</string>
+	<string name="preferences_torrent_options_cat_title">ПАРАМЕТРЫ ТОРЕНТА</string>
+	<string name="preferences_torrent_file_name">Имя торент файла</string>
+	<string name="preferences_torrent_save_path">Путь для сохранения торента</string>	
+	<string name="preferences_proxy_type_dialog_title">Выберите тип прокси</string>
+		
+	<string name="on_click_button_search">OnClickButtonSearch</string>
+	<string name="on_click_button_login">OnClickButtonLogin</string>
+	<string name="on_click_button_refresh_page">OnClickButtonRefreshPage</string>
+	<string name="on_click_button_finish_login">OnClickButtonFinishLogin</string>
+	<string name="on_click_button_download">OnClickButtonDownload</string>
+	<string name="on_click_button_start_download">OnClickButtonStartDownload</string>
+    <string name="on_click_button_stop_download">OnClickButtonStopDownload</string>
+	<string name="on_click_button_pause_download">OnClickButtonPauseDownload</string>
+    <string name="on_click_button_resume_download">OnClickButtonResumeDownload</string>
+	<string name="on_click_activate_settings">OnClickButtonActivateSettings</string>
+	<string name="on_click_button_downloaded">OnClickButtonDownloader</string>
+	<string name="on_click_refresh_advertising">OnClickButtonRefreshAdvertising</string>
+	<string name="on_click_button_site_map">OnClickButtonSiteMap</string>
+	<string name="on_click_adview">OnClickAdview</string>
+	
+	<string name="button_site_map">Показать карту сайта</string>
+	<string name="button_refresh_advertising">Обновить рекламу</string>
+	<string name="button_download">Скачать torrent</string>
+	<string name="button_search">Поиск</string>
+	<string name="button_login">Логин на сайт</string>
+	<string name="button_refresh_page">Обновить страницу</string>
+	<string name="button_finish_login">Вернуться в поиск</string>
+	<string name="button_start_download">Запустить</string>
+    <string name="button_stop_download">Остановить</string>
+	<string name="button_pause_download">Приостановить</string>
+    <string name="button_resume_download">Продолжить</string>
+	<string name="button_activate_settings">Применить настройки</string>
+	<string name="button_downloaded">Перейти в скачивание</string>
+	
+	<string name="summary_chechbox_enable">Включить настройку</string>
+	<string name="summary_chechbox_disable">Выключить настройку</string>
+	<string name="summary_edittext_current">Текущее значение</string>
+	
+	<string name="summary_preferences_proxy_type">Выберите тип прокси</string>
+	
+	<string name="tab_web_search">Web поиск</string>
+	<string name="tab_rss_search">RSS поиск</string>
+	<string name="tab_download">Скачивать</string>
+	<string name="tab_advertising">Реклама</string>
+	
+	<string name="service_disconnected">Сервис скачивания торента отсоединен</string>
+	<string name="service_connected">Сервис скачивания торента соединен</string>
+	<string name="service_controller">Управление сервисом скачивание торента</string>	
+	<string name="service_created">Сервис скачивания торента запущен</string>
+	<string name="service_destroyed">Сервис скачивания торента остановлен</string>
+	<string name="service_label">Сервис скачивания торента</string>
+	<string name="service_notification">Запушен сервис скачивания</string>
+	
+	<string name="activity_service_controller">Управление сервисом скачивания</string>
+	
+	<string name="text_torrent_state">Состояние торента:</string>
+	<string name="text_torrent_state_undefined">не определено</string>	
+	<string name="text_common_status">Статус торента и сессии</string>
+	
+	<string name="text_torrent_state_queued_for_checking">в очереди на проверку</string>
+	<string name="text_torrent_state_checking_files">проверка файлов</string>
+	<string name="text_torrent_state_downloading_metadata">скачивание методаты</string>
+	<string name="text_torrent_state_downloading">скачивание</string>
+	<string name="text_torrent_state_finished">закончено</string>
+	<string name="text_torrent_state_seeding">раздача</string>
+	<string name="text_torrent_state_allocating">выделение места</string>
+	<string name="text_torrent_state_checking_resume_data">проверка скаченных данных</string>
+	<string name="text_torrent_state_paused">приостановлено</string>
+	<string name="text_torrent_state_queued">в очереди</string>
+	
+	<string name="text_download_started">Скачивание запущено</string>
+	<string name="text_download_stopped">Скачивание остановлено</string>	
+	<string name="text_download_paused">Скачивание приостановлено</string>
+
+	
+	<string name="help_activity_name">Помощь</string>
+	
+    <!-- File manager -->
+    <string name="button_home">В корень</string>
+    <string name="on_click_button_home">OnClickButtonHome</string>
+	<string name="button_sdcard">SD карта</string>
+	<string name="on_click_button_sdcard">OnClickButtonSDCard</string>
+	<string name="button_back_to_downloader">В скачивание</string>
+	<string name="on_click_back_to_downloader">OnClickButtonBackToDownloader</string>
+	<string name="button_select_current_dir">Выбрать каталог</string>
+	<string name="on_click_select_current_dir">OnClickButtonSelectCurrentDir</string>
+
+	<string name="menu_new_folder">Создать каталог</string>
+    <string name="menu_delete">Удалить</string>
+    <string name="menu_rename">Переименовать</string>
+    <string name="menu_send">Послать</string>
+    <string name="menu_open">Открыть</string>
+    <string name="menu_move">Переместить</string>
+    <string name="menu_copy">Копировать</string>
+    
+    <string name="create_new_folder">Создать новый каталог</string>
+    <string name="folder_name">Имя каталога</string>
+    <string name="file_name">Имя каталога</string>
+    <string name="this_folder_is_empty">Каталог пустой.</string>
+    <string name="really_delete">Вы хотите удалить %s?</string>
+    <string name="file_deleted">Файл удален.</string>
+    <string name="folder_deleted">Каталог удален.</string>
+    <string name="file_renamed">Файл переименован.</string>
+    <string name="folder_renamed">Каталог переименован.</string>
+    <string name="file_moved">Файл перемещен.</string>
+    <string name="folder_moved">Каталог переименован.</string>
+    <string name="file_copied">Файл скопирован.</string>
+    <string name="move_title">Выберите каталог для перемещения в </string>
+    <string name="move_button">Переместить сюда</string>
+    <string name="copy_title">Выбрать каталог для копирования в</string>
+    <string name="copy_button">Копировать сюда</string>
+    
+    <!-- Construct a unique file name of a file called %s. -->
+    <string name="copied_file_name">Копировать %s</string>
+    
+    <!-- Construct a unique file name with number %1$d of a file called %2$s. -->
+    <string name="copied_file_name_2">Копировать %1$d из %2$s</string>
+    
+    <string name="error_creating_new_folder">Не могу создать новый каталог.</string>
+    <string name="error_deleting_file">Не могу удалить файл.</string>
+    <string name="error_deleting_folder">Не могу удалить каталог \'%s\'.</string>
+    <string name="error_renaming_file">Не могу переименовать файл.</string>
+    <string name="error_renaming_folder">Не могу переименовать каталог.</string>
+    <string name="error_moving_file">Не могу переместить файл.</string>
+    <string name="error_moving_folder">Не могу переместить каталог.</string>
+    <string name="error_copying_file">Не могу скопировать файл.</string>
+    <string name="error_file_does_not_exists">Файл отсутствует.</string>
+    <string name="error_deleting_child_file">Не могу удалить вложенный файл \'%s\'.</string>
+    <string name="error_generic">Произошла ошибка:</string>
+    
+    <string name="error_torrent_file_absent">Торент файл отсутствует, найдите раздачу и скачайте файл.</string>
+    
+    <string name="send_not_available">Нет доступного приложения для передачи.</string>    
+    <string name="application_not_available">Приложение не доступно</string>            	
+    <string name="mobile_advertising_message">Если у Вас есть свой бизнес или продукт Вы можете использовать Мобильную Рекламу.\n
+ Какие преимущества у Мобильной Рекламы:\n
+- Низкая стоимость\n
+- Большая аудитория\n
+- Удобный мониторинг результатов и онлайн управление всем процессом\n
+- Большой процент попадания в целевую аудиторию (мобильная платформа запрашивает рекламу в зависимости от настроек пользователя)\n
+Вы решили использовать Мобильную Рекламу, но у вас есть вопросы, свяжитесь со мной.\n
+Помогу создать и разместить Мобильную рекламу.\n
+Контактная информация в меню «О программе».</string>
+
+    <!-- ABOUT -->
+
+	<string name="about_comments">Программа - Bit Torrent клиент (как mTorrent), с дополнительными возможностями поиска и загрузки контента с сайтов.</string>  
+	<string name="about_copyright">(c) 2011 Softwarrior </string>
+    <!-- Add your name here, separated with comma's, if you helped out --> 
+	<string name="about_website_label">Softwarrior сайт</string> 
+	<string name="about_website_url">http://softwarrior.wordpress.com</string>
+	<string name="about_logo_title">Rutracker Downloader</string>
+	<string name="about_logo_description">torrent downloader</string>
+	<string name="about_email">wise4man@gmail.com</string>
+	
+    <string name="about_chooser_title">Окно чтобы использовать:</string>
+	    
+    <string name="about_activity_name">О программе</string>
+    <string name="about_activity_title">О программе</string>
+        
+	<string name="l_authors">Написано</string>
+	<string name="l_documenters">Задокументировано</string>
+	<string name="l_translators">Переведено</string>
+	<string name="l_artists">Художественное оформление</string>
+	<string name="l_credits">Благодарности</string>
+	<string name="l_license">Дополнительно</string>
+	<string name="l_info">Общая</string>
+	
+	<string name="no_information_available">Нет доступной информации</string>
+	
+	<!-- advertising -->
+    <string name="advertising_view">Реклама</string>
+    <string name="refresh_ads">Обновить рекламу</string>
+    <string name="fullscreen_get">Скачать большую рекламу</string>
+    <string name="fullscreen_display">Показать большую рекламу</string>
+    <string name="fullscreen_get_and_display">Скачать и показать большую рекламу</string>
+    
+    <string name="event_logging">Логирование событий</string>
+    <string name="log_event_button">Лог события</string>
+
+    <string name="sync">Синхронизация</string>
+    
+    <string name="reset_notify_user">Обновить уведомление пользователя</string>
+    
+    <string name="url_help">file:///android_asset/help_ru/help.html</string>
+    <string name="site_choise">Чтобы активировать выбор сайта, нажмите 1 раз на рекламный банер. Банер появиться через несколько секунд.</string>
+    <string name="tab_site_choise">Cайты</string>
+    <string name="preferences_pornolab_title">pornolab.net</string>
+    <string name="preferences_rutracker_title">rutracker.org</string>
+    <string name="preferences_nnmclub_title">nnm-club.ru</string>
+    <string name="rss_disable">RSS поиск только в rutracker.org</string>
+    <string name="active_site">АКТИВНЫЙ САЙТ</string>
+    <string name="button_select_files">Файлы</string>
+    <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
+    <string name="main_no_items">Нет элементов</string>
+    <string name="checkbox_text">Выбран</string> 
+    <string name="on_click_button_unselect">OnClickButtonUnselect</string>
+    <string name="button_unselect">Снять выделение</string>
+    <string name="on_click_button_select">OnClickButtonSelect</string>
+    <string name="button_select">Выделить все</string>
+    <string name="on_click_button_apply">OnClickButtonApply</string>
+    <string name="button_apply">Применить</string>
+    <string name="on_click_button_up">OnClickButtonUp</string>
+    <string name="button_up">Вверх по каталогу</string>
+    <string name="progress_close">Пожалуйста подождите пока программа очистит свой кэш...</string>             
+    <string name="progress_read">Пожалуйста подождите пока программа загружает RSS...</string>
+    <string name="file_list_activation">Для включения опции Выбора Файла, нажмите 1 раз на рекламный баннер на предыдущем экране. 1 клик активирует опцию на полную сессию программы.</string>
+    <string name="progress_search">Пожалуйста подождите пока программа исчет...</string>
+    <string name="torrent_file_undefined">Torrent файл не выбран</string>
+    <string name="torrent_file_downloaded">Файл был сохранен</string>
+    <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
+    <string name="button_torrent_manager">Управление загрузкой</string>
+    <string name="button_add_torrent">Добавить torrent</string>
+    <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
+    <string name="button_remove_torrents">Удалить все torrents</string>
+    <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>  
+    <string name="no_torrents">torrent файлов нет</string>
+    <string name="preferences_upnp">UPnP сервис</string>
+    <string name="preferences_lsd">Local Service Discovery</string>
+    <string name="preferences_natpmp">NAT-PMP сервис</string>
+    <string name="available_space">Свободное место на диске</string>
+        
+</resources>
