@@ -158,7 +158,8 @@ public class DownloadService extends Service {
         private volatile int mTorrentTotalSize = 0;
         private volatile int mTorrentState = 0;
         private volatile String mTorrentStatus = new String();
-        private volatile String mSessionStatus = new String();       
+        private volatile String mSessionStatus = new String();
+        private volatile String mTorrentContentName = new String();
         
         private TextProgressBar mProgress;
 
@@ -276,10 +277,10 @@ public class DownloadService extends Service {
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
-								mTorrentProgress = LibTorrent.GetTorrentProgress(RutrackerDownloaderApp.TorrentFullFileName);
-								mTorrentProgressSize = LibTorrent.GetTorrentProgressSize(RutrackerDownloaderApp.TorrentFullFileName);
-								mTorrentState = LibTorrent.GetTorrentState(RutrackerDownloaderApp.TorrentFullFileName);
-								mTorrentStatus = LibTorrent.GetTorrentStatusText(RutrackerDownloaderApp.TorrentFullFileName);
+								mTorrentProgress = LibTorrent.GetTorrentProgress(mTorrentContentName);
+								mTorrentProgressSize = LibTorrent.GetTorrentProgressSize(mTorrentContentName);
+								mTorrentState = LibTorrent.GetTorrentState(mTorrentContentName);
+								mTorrentStatus = LibTorrent.GetTorrentStatusText(mTorrentContentName);
 								mSessionStatus = LibTorrent.GetSessionStatusText();
 								mHandler.post(new Runnable() {
 									public void run() {
@@ -416,6 +417,7 @@ public class DownloadService extends Service {
         		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
         		String fileName = file.getName();
 				setTitle(fileName);
+				mTorrentContentName = LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
 				mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);				
             }
     		if(mStatusThread != null && !mStatusThread.isAlive())
@@ -495,8 +497,8 @@ public class DownloadService extends Service {
 		
         public void OnClickButtonStopDownload(View v) {
         	if(mIsBoundService){
-        		SetControllerState(ControllerState.Stopped);
-        		LibTorrent.RemoveTorrent(RutrackerDownloaderApp.TorrentFullFileName);    		    
+        		SetControllerState(ControllerState.Stopped); 
+        		LibTorrent.RemoveTorrent(mTorrentContentName);    		    
     	    	mStopHandler = new StopHandler();
     			mStopMessage =  mStopHandler.obtainMessage();
     			mStopHandler.sendMessageDelayed(mStopMessage, 500);
@@ -528,8 +530,8 @@ public class DownloadService extends Service {
         public void OnClickButtonSelectFiles(View v){
         	if(mIsBoundService){
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
-	        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(RutrackerDownloaderApp.TorrentFullFileName);
-	        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(RutrackerDownloaderApp.TorrentFullFileName);
+	        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(mTorrentContentName);
+	        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(mTorrentContentName);
 	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	        	intent.setClassName(this, TorrentFilesList.class.getName());
 	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
@@ -574,7 +576,7 @@ public class DownloadService extends Service {
 			if(requestCode == SELECT_FILE_ACTIVITY){
                 if(mIsBoundService){
                 	if(TorrentFilesList.APPLY)
-                		LibTorrent.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY, RutrackerDownloaderApp.TorrentFullFileName);	    		                	
+                		LibTorrent.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY, mTorrentContentName);	    		                	
                 }
 			}
 			else{
