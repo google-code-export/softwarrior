@@ -97,10 +97,10 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 void JniToStdString(JNIEnv *env, std::string* StdString, jstring JniString){
 	if(JniString){
 		StdString->clear();
-		const jchar* ch = env->GetStringChars(JniString, false);
-		int chLen =  env->GetStringLength(JniString);
-		for(int i=0; i<chLen; i++) StdString->push_back((char)ch[i]);
-		env->ReleaseStringChars(JniString,ch);
+		const char* ch = env->GetStringUTFChars(JniString, false);
+		int chLen =  env->GetStringUTFLength(JniString);
+		for(int i=0; i<chLen; i++) StdString->push_back(ch[i]);
+		env->ReleaseStringUTFChars(JniString,ch);
 	}
 }
 //-----------------------------------------------------------------------------
