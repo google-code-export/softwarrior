@@ -45,13 +45,13 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResult
 import com.softwarrior.widgets.TextProgressBar;
 //----------------------------------------------------------------------------------
 class TorrentContainer{
-	private volatile ControllerState mCtrlState = ControllerState.Undefined;
-	private volatile String  mStatus = "";
-    private volatile String  mName = "";
-    private volatile String  mContentName = "";
-    private volatile int	mProgress = 0;
-    private volatile int mTotalSize = 0;
-    private volatile int mProgressSize = 0;
+	private ControllerState mCtrlState = ControllerState.Undefined;
+	private String  mStatus = "";
+    private String  mName = "";
+    private String  mContentName = "";
+    private int	mProgress = 0;
+    private int mTotalSize = 0;
+    private int mProgressSize = 0;
     
     public TorrentContainer(String FileName, String ContentName, int progress, int progressSize, int totalSize){
     	mName=FileName; mContentName=ContentName; mProgress=progress;  mProgressSize=progressSize; mTotalSize=totalSize;
@@ -156,7 +156,14 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 							int status = DownloadService.LibTorrent.GetTorrentState(tc.getName());
 							String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
 							tc.setStatus(txt_status);
+						} else if(tc.getCtrlState() == ControllerState.Paused){
+							int status = DownloadService.LibTorrent.GetTorrentState(tc.getName());
+							String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
+							tc.setStatus(txt_status);
 						}
+						else{
+							tc.setStatus(getString(R.string.text_torrent_state_undefined));
+						}							
                 		try {
 							Thread.sleep(1);
 						} catch (InterruptedException e) {

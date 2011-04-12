@@ -392,7 +392,8 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 					int files_num = info.num_files();
 					long bytes_size = 0;
 					for (int i = 0; i < info.num_files(); ++i){
-						bytes_size += info.file_at(i).size;
+						if(info.file_at(i).size > 0)
+							bytes_size += file_progress[i];
 					}
 					long megabytes_size = 0;
 					if(bytes_size > 0)
