@@ -126,7 +126,7 @@
             android:id="@+id/TextViewTorrentState" 
             android:layout_alignTop="@+id/TextViewTorrentStateLabel" 
             android:layout_alignBottom="@+id/TextViewTorrentStateLabel"/>
-        <ProgressBar
+        <com.softwarrior.widgets.TextProgressBar
             android:id="@+id/progress_horizontal"
             android:layout_below="@id/TextViewTorrentState"
             style="?android:attr/progressBarStyleHorizontal"

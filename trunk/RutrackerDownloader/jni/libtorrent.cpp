@@ -360,8 +360,7 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 					pTorrent->file_progress(file_progress);
 					libtorrent::torrent_info const& info = pTorrent->get_torrent_info();
 					int files_num = info.num_files();
-					for (int i = 0; i < info.num_files(); ++i)
-					{
+					for (int i = 0; i < info.num_files(); ++i){
 						int progress = info.file_at(i).size > 0 ?file_progress[i] * 1000 / info.file_at(i).size:1000;
 						result += progress;
 					}
@@ -373,6 +372,45 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to progress torrent");
+	}
+	return result;
+}
+//-----------------------------------------------------------------------------
+JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgressSize
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
+{
+	jint result = 0;
+	try {
+		if(gSessionState) {
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			if(pTorrent){
+				libtorrent::torrent_status s = pTorrent->status();
+				if(s.state != libtorrent::torrent_status::seeding && pTorrent->has_metadata()) {
+					std::vector<libtorrent::size_type> file_progress;
+					pTorrent->file_progress(file_progress);
+					libtorrent::torrent_info const& info = pTorrent->get_torrent_info();
+					int files_num = info.num_files();
+					long bytes_size = 0;
+					for (int i = 0; i < info.num_files(); ++i){
+						bytes_size += info.file_at(i).size;
+					}
+					long megabytes_size = 0;
+					if(bytes_size > 0)
+						megabytes_size = bytes_size / 1048576;
+					result = megabytes_size;
+				}
+				else if(s.state == libtorrent::torrent_status::seeding && pTorrent->has_metadata()){
+					libtorrent::torrent_info const& info = pTorrent->get_torrent_info();
+					long bytes_size = info.total_size();
+					long megabytes_size = 0;
+					if(bytes_size > 0)
+						megabytes_size = bytes_size / 1048576;
+					result = megabytes_size;
+				}
+			}
+		}
+	}catch(...){
+		LOG_ERR("Exception: failed to progress torrent size");
 	}
 	return result;
 }
@@ -705,8 +743,36 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentN
 			result = env->NewStringUTF((t->name()).c_str());
 		}
 	}catch(...){
-		LOG_ERR("Exception: failed to add torrent");
+		LOG_ERR("Exception: failed to get torrent name");
 	}
 	return result;
 }
 //-----------------------------------------------------------------------------
+JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentSize
+	(JNIEnv *env, jobject obj, jstring TorrentFile)
+{
+	jint result = 0;
+	try{
+		std::string torrentFile;
+		JniToStdString(env, &torrentFile, TorrentFile);
+
+		boost::intrusive_ptr<libtorrent::torrent_info> t;
+		libtorrent::error_code ec;
+		t = new libtorrent::torrent_info(torrentFile.c_str(), ec);
+		if (ec){
+			LOG_ERR("%s: %s\n", torrentFile.c_str(), ec.message().c_str());
+		}
+		else{
+			long bytes_size = t->total_size();
+			long megabytes_size = 0;
+			if(bytes_size > 0)
+				megabytes_size = bytes_size / 1048576;
+			result = megabytes_size;
+		}
+	}catch(...){
+		LOG_ERR("Exception: failed to get torrent size");
+	}
+	return result;
+}
+//-----------------------------------------------------------------------------
+

@@ -33,6 +33,9 @@ public class LibTorrent {
     //-----------------------------------------------------------------------------
     public native int GetTorrentProgress(String TorentFile);
     //-----------------------------------------------------------------------------
+    // result MB
+    public native int GetTorrentProgressSize(String TorentFile);
+    //-----------------------------------------------------------------------------
     //enum state_t
     //{
 	//0 queued_for_checking,
@@ -73,5 +76,8 @@ public class LibTorrent {
     public native byte[] GetTorrentFilesPriority(String TorentFile);
     //-----------------------------------------------------------------------------
     public native String GetTorrentName(String TorrentFile);
+    //-----------------------------------------------------------------------------
+    // result MB
+    public native int GetTorrentSize(String TorrentFile);
     //-----------------------------------------------------------------------------
 }
