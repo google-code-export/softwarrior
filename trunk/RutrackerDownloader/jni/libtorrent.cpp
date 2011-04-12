@@ -19,9 +19,8 @@ public:
 		JniToStdString(env, &TorrentFileName, torrentFile);
 		SetContentFileName();
 	}
-	TorrentFileInfo(JNIEnv *env, jstring torrentFile){
-		JniToStdString(env, &TorrentFileName, torrentFile);
-		SetContentFileName();
+	TorrentFileInfo(JNIEnv *env, jstring contentFile){
+		JniToStdString(env, &ContentFileName, contentFile);
 	}
 private:
 	void SetContentFileName(){
@@ -45,9 +44,9 @@ static libtorrent::session  	  gSession;
 static libtorrent::proxy_settings gProxy;
 static volatile bool			  gSessionState = false;
 //-----------------------------------------------------------------------------
-libtorrent::torrent_handle* GetTorrentHandle(JNIEnv *env, jstring TorrentFile){
+libtorrent::torrent_handle* GetTorrentHandle(JNIEnv *env, jstring ContentFile){
 	libtorrent::torrent_handle* result = NULL;
-	std::map<TorrentFileInfo, libtorrent::torrent_handle>::iterator iter = gTorrents.find(TorrentFileInfo(env,TorrentFile));
+	std::map<TorrentFileInfo, libtorrent::torrent_handle>::iterator iter = gTorrents.find(TorrentFileInfo(env,ContentFile));
     if(iter != gTorrents.end()) {
     	result = &iter->second;
     }
@@ -317,12 +316,12 @@ void HandleAlert(libtorrent::alert* a)
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorrent
-	(JNIEnv *env, jobject obj, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
 	jboolean result = JNI_FALSE;
 	try {
 		if(gSessionState){
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				pTorrent->pause();
 				// the alert handler for save_resume_data_alert
@@ -336,7 +335,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 					HandleAlert(a.get());
 					a = gSession.pop_alert();
 				}
-				gTorrents.erase(TorrentFileInfo(env,TorrentFile));
+				gTorrents.erase(TorrentFileInfo(env,ContentFile));
 				result = JNI_TRUE;
 			}
 		}
@@ -347,12 +346,12 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
-	(JNIEnv *env, jobject obj, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
 	jint result = 0;
 	try {
 		if(gSessionState) {
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				libtorrent::torrent_status s = pTorrent->status();
 				if(s.state != libtorrent::torrent_status::seeding && pTorrent->has_metadata()) {
@@ -377,12 +376,12 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgressSize
-	(JNIEnv *env, jobject obj, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
 	jint result = 0;
 	try {
 		if(gSessionState) {
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				libtorrent::torrent_status s = pTorrent->status();
 				if(s.state != libtorrent::torrent_status::seeding && pTorrent->has_metadata()) {
@@ -431,12 +430,12 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 // + 9 queued
 //-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentState
-	(JNIEnv *env, jobject, jstring TorrentFile)
+	(JNIEnv *env, jobject, jstring ContentFile)
 {
 	jint result = -1;
 	try {
 		if(gSessionState) {
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				libtorrent::torrent_status t_s = pTorrent->status();
 				bool paused = pTorrent->is_paused();
@@ -493,12 +492,12 @@ static char const* state_str[] =
 {"checking (q)", "checking", "dl metadata", "downloading", "finished", "seeding", "allocating", "checking (r)"};
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentStatusText
-	(JNIEnv *env, jobject obj, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
 	jstring result = NULL;
 	try {
 		if(gSessionState){
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				std::string out;
 				char str[500]; memset(str,0,500);
@@ -620,12 +619,12 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetSessionS
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFiles
-	(JNIEnv *env, jobject obj, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
 	jstring result = NULL;
 	try {
 		if(gSessionState){
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				std::string out;
 				libtorrent::torrent_status s = pTorrent->status();
@@ -655,13 +654,13 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentF
 //6 - piece is as likely to be picked as any piece with availability 1
 //7 - maximum priority, availability is disregarded, the piece is preferred over any other piece with lower priority
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrentFilesPriority
-	(JNIEnv *env, jobject obj, jbyteArray FilesPriority, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jbyteArray FilesPriority, jstring ContentFile)
 {
 	jboolean result = JNI_FALSE;
 	jbyte* filesPriority  = NULL;
 	try {
 		if(gSessionState){
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				std::string out;
 				libtorrent::torrent_status s = pTorrent->status();
@@ -693,13 +692,13 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrent
 }
 //-----------------------------------------------------------------------------
 JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentFilesPriority
-	(JNIEnv *env, jobject obj, jstring TorrentFile )
+	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
 	jbyteArray result = NULL;
 	jbyte* result_array = NULL;
 	try {
 		if(gSessionState){
-			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,TorrentFile);
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				libtorrent::torrent_status s = pTorrent->status();
 				if(pTorrent->has_metadata()) {
