@@ -13,10 +13,10 @@ public class TorrentsSQLHelper extends SQLiteOpenHelper {
 
     // Table name
     public static final String TABLE = "torrents";
-
     // Columns
-    public static final String PROGRESS = "title";
-    public static final String FILE = "time";
+    public static final String PROGRESS = "progress";
+    public static final String PROGRESS_SIZE = "progress_size";
+    public static final String FILE = "file";
 
     public TorrentsSQLHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +25,9 @@ public class TorrentsSQLHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "create table " + TABLE + "( " + BaseColumns._ID
-                + " integer primary key autoincrement, " + PROGRESS + " integer, "
+                + " integer primary key autoincrement, " 
+                + PROGRESS + " integer, "
+                + PROGRESS_SIZE + " integer, "
                 + FILE + " text not null);";
         Log.d(RutrackerDownloaderApp.TAG, "onCreate: " + sql);
         db.execSQL(sql);
@@ -35,7 +37,6 @@ public class TorrentsSQLHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion >= newVersion)
             return;
-
         String sql = null;
         if (oldVersion == 1) 
             sql = "alter table " + TABLE + " add note text;";
@@ -46,5 +47,4 @@ public class TorrentsSQLHelper extends SQLiteOpenHelper {
         if (sql != null)
             db.execSQL(sql);
     }
-
 }

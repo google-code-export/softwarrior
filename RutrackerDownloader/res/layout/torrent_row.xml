@@ -29,7 +29,7 @@
         android:focusable="false"
         android:textSize="12sp"
 	    android:id="@+id/status"/>
-    <ProgressBar 
+    <com.softwarrior.widgets.TextProgressBar 
         android:layout_height="wrap_content" 
         android:id="@+id/progress_horizontal" 
         style="?android:attr/progressBarStyleHorizontal" 
@@ -37,8 +37,12 @@
         android:layout_toLeftOf="@+id/button_menu" 
         android:padding="5sp"
         android:max="1000" 
-        android:progress="0" 
+        android:progress="0"
         android:layout_width="fill_parent"/>
+        <!-- 
+        android:maxHeight="12dip"  
+        android:minHeight="12dip"
+        -->        
      <TextView 
          android:id="@+id/childname"         
          android:focusable="false"

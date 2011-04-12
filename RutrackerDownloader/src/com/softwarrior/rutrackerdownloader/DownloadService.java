@@ -18,6 +18,7 @@ import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 
 import com.softwarrior.libtorrent.LibTorrent;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.widgets.TextProgressBar;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -39,7 +40,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -154,11 +154,13 @@ public class DownloadService extends Service {
 
         private volatile boolean mStopProgress = false;
         private volatile int mTorrentProgress = 0;
+        private volatile int mTorrentProgressSize = 0;
+        private volatile int mTorrentTotalSize = 0;
         private volatile int mTorrentState = 0;
         private volatile String mTorrentStatus = new String();
         private volatile String mSessionStatus = new String();       
         
-        private ProgressBar mProgress;
+        private TextProgressBar mProgress;
 
         private Handler mHandler = new Handler();        
         
@@ -253,7 +255,7 @@ public class DownloadService extends Service {
 	            }
 	        };        	        	
 	        	        
-            mProgress = (ProgressBar) findViewById(R.id.progress_horizontal);
+            mProgress = (TextProgressBar) findViewById(R.id.progress_horizontal);
 
             mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
             mButtonStop = (Button)findViewById(R.id.ButtonStopDownload);
@@ -268,19 +270,21 @@ public class DownloadService extends Service {
                 public void run() {
                 	while (!mStopProgress) {
                 		try {
-							Thread.sleep(1);
+							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
 								mTorrentProgress = LibTorrent.GetTorrentProgress(RutrackerDownloaderApp.TorrentFullFileName);
+								mTorrentProgressSize = LibTorrent.GetTorrentProgressSize(RutrackerDownloaderApp.TorrentFullFileName);
 								mTorrentState = LibTorrent.GetTorrentState(RutrackerDownloaderApp.TorrentFullFileName);
 								mTorrentStatus = LibTorrent.GetTorrentStatusText(RutrackerDownloaderApp.TorrentFullFileName);
 								mSessionStatus = LibTorrent.GetSessionStatusText();
 								mHandler.post(new Runnable() {
 									public void run() {
 										mProgress.setProgress(mTorrentProgress);
+										mProgress.setText("" + mTorrentProgressSize+ "/" + mTorrentTotalSize+ "MB");
 										SetTorrentState();
 										SetCommonStatus();
 									}
@@ -319,7 +323,7 @@ public class DownloadService extends Service {
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){
-    		TorrentsList.AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress);
+    		TorrentsList.AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress,  mTorrentProgressSize);
     		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
     	}
 
@@ -411,6 +415,7 @@ public class DownloadService extends Service {
         		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
         		String fileName = file.getName();
 				setTitle(fileName);
+				mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);				
             }
     		if(mStatusThread != null && !mStatusThread.isAlive())
     			mStatusThread.resume();

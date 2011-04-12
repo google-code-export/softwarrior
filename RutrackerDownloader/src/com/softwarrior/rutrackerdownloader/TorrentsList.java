@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.File;
@@ -43,24 +42,33 @@ import com.mobclix.android.sdk.MobclixAdViewListener;
 import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.widgets.TextProgressBar;
 //----------------------------------------------------------------------------------
 class TorrentContainer{
-	private ControllerState mCtrlState = ControllerState.Undefined;
-	private String  mStatus = "";
-    private String  mName = "";
-    private int    mProgress = 0;
+	private volatile ControllerState mCtrlState = ControllerState.Undefined;
+	private volatile String  mStatus = "";
+    private volatile String  mName = "";
+    private volatile String  mContentName = "";
+    private volatile int	mProgress = 0;
+    private volatile int mTotalSize = 0;
+    private volatile int mProgressSize = 0;
     
-    public TorrentContainer(String FileName){mName = FileName;}
-    public TorrentContainer(String FileName, int progress){mName = FileName; mProgress = progress;}
-
+    public TorrentContainer(String FileName, String ContentName, int progress, int progressSize, int totalSize){
+    	mName=FileName; mContentName=ContentName; mProgress=progress;  mProgressSize=progressSize; mTotalSize=totalSize;
+    }
+    public void setTotalSize(int ts){mTotalSize=ts;}
+    public void setProgressSize(int ps){mProgressSize=ps;}
     public void setProgress(int progress){mProgress=progress;}     
     public void setStatus(String status){mStatus=status;}     
     public void setCtrlState(ControllerState cs){mCtrlState=cs;}
     
     public String getName(){return mName;}
-    public int getProgress(){return mProgress;}     
-    public String getStatus(){return mStatus;}     
+    public String getContentName(){return mContentName;}
+    public String getStatus(){return mStatus;}
+    public int getProgress(){return mProgress;}          
     public ControllerState getCtrlState(){return mCtrlState;}
+    public int getTotalSize(){return mTotalSize;}
+    public int getProgressSize(){return mProgressSize;}
 }
 //----------------------------------------------------------------------------------
 public class TorrentsList extends ListActivity implements AdListener, MobclixAdViewListener {
@@ -136,7 +144,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             public void run() {
             	while (!mStopProgress) {
             		try {
-						Thread.sleep(1);
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -144,6 +152,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 						TorrentContainer tc = Torrents.get(i);
 						if(tc.getCtrlState() == ControllerState.Started){
 							tc.setProgress(DownloadService.LibTorrent.GetTorrentProgress(tc.getName()));
+							tc.setProgressSize(DownloadService.LibTorrent.GetTorrentProgressSize(tc.getName()));
 							int status = DownloadService.LibTorrent.GetTorrentState(tc.getName());
 							String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
 							tc.setStatus(txt_status);
@@ -221,7 +230,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     protected void onResume() {
         super.onResume();
         mWakeLock.acquire();
-        AddTorrent(RutrackerDownloaderApp.TorrentFullFileName,0);
+        AddTorrent(RutrackerDownloaderApp.TorrentFullFileName,0,0);
         mAdapter.notifyDataSetChanged();
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 		if(mStatusThread != null && !mStatusThread.isAlive())
@@ -278,7 +287,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         //SdAvail availableBlocks * blockSize
     }
     
-    static public void AddTorrent(String FileName, int progress){
+    static public void AddTorrent(String FileName, int progress, int progressSize){
         if(FileName.equals("undefined"))
         	return;
     	for(int i=0;i<Torrents.size();i++){
@@ -293,7 +302,9 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		} catch (Exception e){
 			return;
 		}
-    	Torrents.add(new TorrentContainer(FileName, progress));
+		int totalSize = DownloadService.LibTorrent.GetTorrentSize(FileName);
+		String contentName = DownloadService.LibTorrent.GetTorrentName(FileName);
+    	Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize));    	
     }
 
     static public void SetCtrlState(String FileName, ControllerState ctrlState){
@@ -381,7 +392,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             TorrentContainer tc = Torrents.get(position);
             TextView tv_status = (TextView)v.findViewById( R.id.status );
             TextView tv_name = (TextView)v.findViewById( R.id.childname );
-            ProgressBar pb_progress = (ProgressBar)v.findViewById(R.id.progress_horizontal);
+            TextProgressBar pb_progress = (TextProgressBar)v.findViewById(R.id.progress_horizontal);
             Button b_close = (Button)v.findViewById(R.id.button_menu);
             if(b_close != null){
 	            b_close.setTag(tc);
@@ -393,7 +404,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 	    		});
             }
             if(tv_name != null){
-            	tv_name.setText(tc.getName());
+            	tv_name.setText(tc.getContentName());
             }
             if(tv_status != null){
             	String status = tc.getStatus();
@@ -404,6 +415,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             }
 			if(pb_progress!=null){
 				pb_progress.setProgress(tc.getProgress());
+				pb_progress.setText("" + tc.getProgressSize()+ "/" + tc.getTotalSize()+ "MB");
 			}
             return v;
         }
