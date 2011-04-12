@@ -153,12 +153,25 @@ public class TorrentDownloader {
 	    }
 	}
 	
+	public static String RemoveSpecialSymbols(String text) {  
+	    int length = text.length();  
+	    StringBuffer buffer = new StringBuffer(length);  
+	    for(int i = 0; i < length; i++) {  
+	        char ch = text.charAt(i);
+	        if(ch == ' ' || ch == '.' || ch == ',' || ch == '(' || ch == ')' || ch == '[' || ch == ']' || ch == '{' || ch == '}')
+	        	ch = '_';
+	        if (Character.isDigit(ch) || Character.isLetter(ch) || ch == '_') {  
+	            buffer.append(ch);  
+	        }  
+	    }  
+	    return buffer.toString();  
+	}  
+	
 	public void RenameTorrentFiles(){
 		try{			
 			String torrentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
-				torrentName = torrentName.replace(".", "_");
-				torrentName = torrentName.replace(" ", "_");
+				torrentName = RemoveSpecialSymbols(torrentName);
 				URI torrentFullName =  new URI(mTorrentSavePath + torrentName + ".torrent");
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
