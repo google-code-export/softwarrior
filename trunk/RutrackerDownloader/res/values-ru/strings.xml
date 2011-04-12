@@ -269,5 +269,7 @@
     <string name="no_torrents">torrent файлов нет</string>
     <string name="preferences_upnp">UPnP сервис</string>
     <string name="preferences_lsd">Local Service Discovery</string>
-    <string name="preferences_natpmp">NAT-PMP сервис</string>     
+    <string name="preferences_natpmp">NAT-PMP сервис</string>
+    <string name="available_space">Свободное место на диске</string>
+        
 </resources>

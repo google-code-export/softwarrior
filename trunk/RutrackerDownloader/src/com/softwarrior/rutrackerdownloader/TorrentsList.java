@@ -3,16 +3,20 @@ package com.softwarrior.rutrackerdownloader;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.StatFs;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -80,7 +84,10 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 	private Timer mRefreshListTimer;
 	private static final int mRefreshListTime = 500; //0.5 seconds
 	private Handler mRefreshListTimerHandler;
-    
+ 
+	static TextView mRightText = null;
+	static TextView mLeftText = null;
+	
     enum MenuType{
     	About, Help, Preferences, FileManager, Exit;
     }
@@ -88,7 +95,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 		PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
 			| PowerManager.ACQUIRE_CAUSES_WAKEUP, "SHARED");
@@ -115,7 +123,14 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         mAdapter = new TorrentAdapter(this);
         setListAdapter(mAdapter);        
 
-        
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+        mRightText = (TextView) findViewById(R.id.right_text);
+        mLeftText = (TextView) findViewById(R.id.left_text);
+        mLeftText.setTextColor(Color.WHITE);
+        mLeftText.setTypeface(null,Typeface.BOLD);
+        mRightText.setTextColor(Color.WHITE);
+        mRightText.setTypeface(null,Typeface.BOLD);
+
         // Start lengthy operation in a background thread
         mStatusThread = new Thread(new Runnable() {
             public void run() {
@@ -149,6 +164,10 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             @Override
             public void handleMessage(Message msg) {
                 mAdapter.notifyDataSetChanged();
+                String text_r = "" + GetAvailibleMB(RutrackerDownloaderApp.TorrentSavePath) + " MB";
+                String text_l = getString(R.string.available_space) + ":";
+                mLeftText.setText(text_l);
+                mRightText.setText(text_r);
             }
         };        
 
@@ -250,6 +269,14 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		}	    	
     }	   
 
+    public static long GetAvailibleMB(String path){
+    	StatFs stat = new StatFs(path); 
+    	long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks(); 
+    	long megAvailable = bytesAvailable / 1048576;
+    	return megAvailable;    
+        //SdSize  totalBlocks * blockSize
+        //SdAvail availableBlocks * blockSize
+    }
     
     static public void AddTorrent(String FileName, int progress){
         if(FileName.equals("undefined"))
