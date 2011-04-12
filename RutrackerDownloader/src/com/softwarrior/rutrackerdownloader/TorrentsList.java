@@ -203,8 +203,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         
         Context context = getApplicationContext();
         if(RutrackerDownloaderApp.CheckMode(context) && RutrackerDownloaderApp.CheckService(context)){
-        	TextView adInfo = (TextView) findViewById(R.id.site_choice_message);
-        	adInfo.setVisibility(View.GONE);
         	mAdviewBanner.setVisibility(View.GONE);
         	mAdView.setVisibility(View.GONE);
         } else{
