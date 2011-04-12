@@ -115,14 +115,6 @@ public class DownloadService extends Service {
     }
 
     @Override
-    public void onDestroy() {
-    	LibTorrent.AbortSession();
-        hideNotification();
-        // Tell the user we stopped.
-//        Toast.makeText(DownloadService.this, R.string.service_destroyed, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
@@ -277,11 +269,36 @@ public class DownloadService extends Service {
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
-								mTorrentProgress = LibTorrent.GetTorrentProgress(mTorrentContentName);
-								mTorrentProgressSize = LibTorrent.GetTorrentProgressSize(mTorrentContentName);
-								mTorrentState = LibTorrent.GetTorrentState(mTorrentContentName);
-								mTorrentStatus = LibTorrent.GetTorrentStatusText(mTorrentContentName);
-								mSessionStatus = LibTorrent.GetSessionStatusText();
+								int progress = LibTorrent.GetTorrentProgress(mTorrentContentName);
+								if(progress>=0){
+									mTorrentProgress = progress; 
+								} else {
+									continue;
+								}
+								int progress_size = LibTorrent.GetTorrentProgressSize(mTorrentContentName);
+								if(progress_size>=0){
+									mTorrentProgressSize = progress_size; 
+								} else{
+									continue;
+								}
+								int state = LibTorrent.GetTorrentState(mTorrentContentName);
+								if(state>=0){
+									mTorrentState = state;
+								} else{
+									continue;
+								}
+								String t_status = LibTorrent.GetTorrentStatusText(mTorrentContentName);
+								if(t_status!=null){
+									mTorrentStatus = t_status;
+								} else{
+									continue;									
+								}
+								String s_status = LibTorrent.GetSessionStatusText();
+								if(s_status!=null){
+									mSessionStatus = s_status; 
+								} else{
+									continue;									
+								} 
 								mHandler.post(new Runnable() {
 									public void run() {
 										mProgress.setProgress(mTorrentProgress);
@@ -337,20 +354,20 @@ public class DownloadService extends Service {
 			       mButtonPause.setEnabled(true);
 			       mButtonResume.setEnabled(false);
 			       mButtonSelectFiles.setEnabled(true);
-			       if(mIsBoundService)
-			    	   mBoundService.showNotification(getString(R.string.text_download_started));
+//			       if(mIsBoundService)
+//			    	   mBoundService.showNotification(getString(R.string.text_download_started));
 			} break;
 			case Paused:{
 			       mButtonStart.setEnabled(false);
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(false);
 			       mButtonResume.setEnabled(true);
-			       if(mIsBoundService)
-			    	   mBoundService.showNotification(getString(R.string.text_download_paused));
+//			       if(mIsBoundService)
+//			    	   mBoundService.showNotification(getString(R.string.text_download_paused));
 			} break;
 			case Stopped:
-					if(mIsBoundService)
-						mBoundService.showNotification(getString(R.string.text_download_stopped));
+//					if(mIsBoundService)
+//						mBoundService.showNotification(getString(R.string.text_download_stopped));
 			case Undefined:
 			default: {
 			       mButtonStart.setEnabled(true);

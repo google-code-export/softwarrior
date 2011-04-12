@@ -149,9 +149,9 @@ public class RutrackerDownloaderApp extends Application {
 	        db.delete(TorrentsSQLHelper.TABLE, null, null);	        	
 	    	for(int i=0;i<TorrentsList.Torrents.size();i++){
 	    		TorrentContainer tc = TorrentsList.Torrents.get(i);
-	            values.put(TorrentsSQLHelper.PROGRESS, tc.getProgress());
-	            values.put(TorrentsSQLHelper.PROGRESS_SIZE, tc.getProgressSize());
-	            values.put(TorrentsSQLHelper.FILE, tc.getName());
+	            values.put(TorrentsSQLHelper.PROGRESS, tc.Progress);
+	            values.put(TorrentsSQLHelper.PROGRESS_SIZE, tc.ProgressSize);
+	            values.put(TorrentsSQLHelper.FILE, tc.Name);
 	            db.insert(TorrentsSQLHelper.TABLE, null, values);
 	    	}
 	     } catch (SQLiteException sqle){
@@ -242,6 +242,8 @@ public class RutrackerDownloaderApp extends Application {
     	if(!StartFinalClose){
     		StartFinalClose = true;
 	    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
+        	StoreTorrentsToDB(activity);
+	    	TorrentsList.FinalRemoveTorrents();
 			activity.stopService(new Intent(activity,DownloadService.class));
 			NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);
 	 		nm.cancelAll();
@@ -255,6 +257,7 @@ public class RutrackerDownloaderApp extends Application {
 	            @Override
 	            public void handleMessage(Message msg) {
 	                dialog.dismiss();
+	            	DownloadService.LibTorrent.AbortSession();
 	                activity.moveTaskToBack(false);
 	        	  	Process.killProcess(Process.myPid());
 	            }
@@ -262,8 +265,6 @@ public class RutrackerDownloaderApp extends Application {
 	        // Start lengthy operation in a background thread
 	        new Thread(new Runnable() {
 	            public void run() {
-	            	TorrentsList.RemoveTorrents();
-	            	StoreTorrentsToDB(activity);
 			        RutrackerDownloaderApp.ClearCache(activity);
 			        handler.sendEmptyMessage(0);
 	            }

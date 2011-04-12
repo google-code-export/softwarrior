@@ -45,30 +45,17 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResult
 import com.softwarrior.widgets.TextProgressBar;
 //----------------------------------------------------------------------------------
 class TorrentContainer{
-	private volatile ControllerState mCtrlState = ControllerState.Undefined;
-	private volatile String  mStatus = "";
-    private volatile String  mName = "";
-    private volatile String  mContentName = "";
-    private volatile int	mProgress = 0;
-    private volatile int mTotalSize = 0;
-    private volatile int mProgressSize = 0;
+	public volatile ControllerState CtrlState = ControllerState.Undefined;
+	public volatile String  Status = "";
+	public volatile String  Name = "";
+	public volatile String  ContentName = "";
+	public volatile int	Progress = 0;
+	public volatile int TotalSize = 0;
+	public volatile int ProgressSize = 0;
     
-    public TorrentContainer(String FileName, String ContentName, int progress, int progressSize, int totalSize){
-    	mName=FileName; mContentName=ContentName; mProgress=progress;  mProgressSize=progressSize; mTotalSize=totalSize;
+    public TorrentContainer(String fileName, String contentName, int progress, int progressSize, int totalSize){
+    	Name=fileName; ContentName=contentName; Progress=progress;  ProgressSize=progressSize; TotalSize=totalSize;
     }
-    public void setTotalSize(int ts){mTotalSize=ts;}
-    public void setProgressSize(int ps){mProgressSize=ps;}
-    public void setProgress(int progress){mProgress=progress;}     
-    public void setStatus(String status){mStatus=status;}     
-    public void setCtrlState(ControllerState cs){mCtrlState=cs;}
-    
-    public String getName(){return mName;}
-    public String getContentName(){return mContentName;}
-    public String getStatus(){return mStatus;}
-    public int getProgress(){return mProgress;}          
-    public ControllerState getCtrlState(){return mCtrlState;}
-    public int getTotalSize(){return mTotalSize;}
-    public int getProgressSize(){return mProgressSize;}
 }
 //----------------------------------------------------------------------------------
 public class TorrentsList extends ListActivity implements AdListener, MobclixAdViewListener {
@@ -122,7 +109,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
               TorrentContainer tc = Torrents.get(position);
-              RutrackerDownloaderApp.TorrentFullFileName = tc.getName();
+              RutrackerDownloaderApp.TorrentFullFileName = tc.Name;
               RutrackerDownloaderApp.OpenTorrentDownloadActivity(TorrentsList.this);
               finish();
             }
@@ -150,19 +137,41 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 					}
 					for(int i=0;i<Torrents.size();i++){
 						TorrentContainer tc = Torrents.get(i);
-						if(tc.getCtrlState() == ControllerState.Started){
-							tc.setProgress(DownloadService.LibTorrent.GetTorrentProgress(tc.getContentName()));
-							tc.setProgressSize(DownloadService.LibTorrent.GetTorrentProgressSize(tc.getContentName()));
-							int status = DownloadService.LibTorrent.GetTorrentState(tc.getContentName());
-							String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
-							tc.setStatus(txt_status);
-						} else if(tc.getCtrlState() == ControllerState.Paused){
-							int status = DownloadService.LibTorrent.GetTorrentState(tc.getContentName());
-							String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
-							tc.setStatus(txt_status);
+						if(tc.CtrlState == ControllerState.Started){
+							int progress = DownloadService.LibTorrent.GetTorrentProgress(tc.ContentName);
+							if (progress>=0){ 
+								tc.Progress = progress;
+							}else { 
+								tc.CtrlState = ControllerState.Undefined;								
+								continue;
+							}
+							int progress_size = DownloadService.LibTorrent.GetTorrentProgressSize(tc.ContentName);
+							if(progress_size>=0){ 
+								tc.ProgressSize = progress_size;
+							}else{
+								tc.CtrlState = ControllerState.Undefined;
+								continue;
+							}
+							int status = DownloadService.LibTorrent.GetTorrentState(tc.ContentName);
+							if(status>=0){
+								String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
+								tc.Status = txt_status;								
+							}else{
+								tc.CtrlState = ControllerState.Undefined;
+								continue;
+							}
+						} else if(tc.CtrlState == ControllerState.Paused){
+							int status = DownloadService.LibTorrent.GetTorrentState(tc.ContentName);
+							if(status>=0){
+								String txt_status = DownloadService.Controller.GetTorrentStateName(TorrentsList.this, status);
+								tc.Status = txt_status;								
+							}else{
+								tc.CtrlState = ControllerState.Undefined;
+								continue;
+							}
 						}
 						else{
-							tc.setStatus(getString(R.string.text_torrent_state_undefined));
+							tc.Status = getString(R.string.text_torrent_state_undefined);
 						}							
                 		try {
 							Thread.sleep(1);
@@ -236,8 +245,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     @Override
     protected void onResume() {
         super.onResume();
+        AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
         mWakeLock.acquire();
-        AddTorrent(RutrackerDownloaderApp.TorrentFullFileName,0,0);
         mAdapter.notifyDataSetChanged();
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 		if(mStatusThread != null && !mStatusThread.isAlive())
@@ -299,7 +308,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         	return;
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
-    		if(tc.getName().equals(FileName))
+    		if(tc.Name.equals(FileName))
     			return;
     	}
 		try {
@@ -319,27 +328,35 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         	return;
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
-    		if(tc.getName().equals(FileName)){
-    			tc.setCtrlState(ctrlState);
+    		if(tc.Name.equals(FileName)){
+    			tc.CtrlState = ctrlState;
     			return;
     		}
     	}
     }
 
-    static public void RemoveTorrents(){
+    static public void FinalRemoveTorrents(){
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
-    		if(tc.getCtrlState() == ControllerState.Started || tc.getCtrlState() == ControllerState.Paused)
-    			DownloadService.LibTorrent.RemoveTorrent(tc.getContentName());
+    		DownloadService.LibTorrent.RemoveTorrent(tc.ContentName);
+    		try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
     	}
     }
 
-    static public void RemoveTorrent(String FileName){
+    static private void RemoveTorrent(String FileName){
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
-    		if(tc.getName().equals(FileName)){
-    			if(tc.getCtrlState() == ControllerState.Started || tc.getCtrlState() == ControllerState.Paused)
-    				DownloadService.LibTorrent.RemoveTorrent(tc.getContentName());
+    		if(tc.Name.equals(FileName)){
+   				DownloadService.LibTorrent.RemoveTorrent(tc.ContentName);
+   	    		try {
+   					Thread.sleep(10);
+   				} catch (InterruptedException e) {
+   					e.printStackTrace();
+   				}
     			Torrents.remove(i);
     			return;
     		}
@@ -351,8 +368,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         	return ControllerState.Undefined;
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
-    		if(tc.getName().equals(FileName)){
-    			return tc.getCtrlState();
+    		if(tc.Name.equals(FileName)){
+    			return tc.CtrlState;
     		}
     	}
     	return ControllerState.Undefined;
@@ -406,23 +423,23 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 	            b_close.setOnClickListener(new OnClickListener() {			
 					public void onClick(View v) {
 						TorrentContainer tc = (TorrentContainer)v.getTag();
-						RemoveTorrent(tc.getName());
+						RemoveTorrent(tc.Name);
 					}
 	    		});
             }
             if(tv_name != null){
-            	tv_name.setText(tc.getContentName());
+            	tv_name.setText(tc.ContentName);
             }
             if(tv_status != null){
-            	String status = tc.getStatus();
+            	String status = tc.Status;
             	if(status.length() < 1)
             		tv_status.setText(R.string.text_torrent_state_undefined);
             	else
             		tv_status.setText(status);          		
             }
 			if(pb_progress!=null){
-				pb_progress.setProgress(tc.getProgress());
-				pb_progress.setText("" + tc.getProgressSize()+ "/" + tc.getTotalSize()+ "MB");
+				pb_progress.setProgress(tc.Progress);
+				pb_progress.setText("" + tc.ProgressSize+ "/" + tc.TotalSize+ "MB");
 			}
             return v;
         }

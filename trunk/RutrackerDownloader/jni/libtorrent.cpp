@@ -221,6 +221,10 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to add torrent");
+		try	{
+			TorrentFileInfo torrentFileInfo(env, SavePath, TorrentFile);
+			gTorrents.erase(torrentFileInfo);
+		}catch(...){}
 	}
 	return result;
 }
@@ -341,6 +345,9 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 		}
 	} catch(...){
 		LOG_ERR("Exception: failed to remove torrent");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	return result;
 }
@@ -348,7 +355,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
 	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
-	jint result = 0;
+	jint result = -1;
 	try {
 		if(gSessionState) {
 			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
@@ -371,6 +378,9 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to progress torrent");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	return result;
 }
@@ -378,7 +388,7 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgressSize
 	(JNIEnv *env, jobject obj, jstring ContentFile)
 {
-	jint result = 0;
+	jint result = -1;
 	try {
 		if(gSessionState) {
 			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
@@ -411,6 +421,9 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to progress torrent size");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	return result;
 }
@@ -450,6 +463,9 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentStat
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to get torrent state");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	return result;
 }
@@ -577,6 +593,9 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentS
 		}
 	} catch(...){
 		LOG_ERR("Exception: failed to get torrent status text");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	return result;
 }
@@ -641,6 +660,9 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentF
 		}
 	} catch(...){
 		LOG_ERR("Exception: failed to get torrent files");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	return result;
 }
@@ -685,6 +707,9 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetTorrent
 		}
 	} catch(...){
 		LOG_ERR("Exception: failed to set files priority");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	if(filesPriority)
 		env->ReleaseByteArrayElements(FilesPriority, filesPriority, JNI_ABORT);
@@ -718,6 +743,9 @@ JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorre
 		}
 	} catch(...){
 		LOG_ERR("Exception: failed to get files priority");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
 	}
 	if(result_array)
 		delete [] result_array;
@@ -751,7 +779,7 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentN
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentSize
 	(JNIEnv *env, jobject obj, jstring TorrentFile)
 {
-	jint result = 0;
+	jint result = -1;
 	try{
 		std::string torrentFile;
 		JniToStdString(env, &torrentFile, TorrentFile);
