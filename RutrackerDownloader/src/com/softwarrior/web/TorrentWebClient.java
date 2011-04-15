@@ -28,6 +28,7 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.rutrackerdownloader.SiteChoice;
 import com.softwarrior.rutrackerdownloader.TorrentsList;
+import com.softwarrior.rutrackerdownloader.WEBPreferencesScreen;
 
 import com.softwarrior.rutrackerdownloader.R;
 
@@ -50,6 +51,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
@@ -336,6 +338,17 @@ public class TorrentWebClient extends Activity {
 	        	downloadLayout.setVisibility(View.VISIBLE);
 	        	viewAnimator.bringChildToFront(downloadLayout);
 	    	}
+	    	if(current_url.contains(RutrackerDownloaderApp.KinoafishaUrl) && current_url.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+	    		mCurrentUrl = current_url;
+	    		mDistributionNumber = "";
+	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+	        	viewAnimator.setVisibility(View.VISIBLE);
+	        	RelativeLayout downloadLayout = (RelativeLayout) findViewById(R.id.DownloadLayout);
+	        	downloadLayout.setVisibility(View.VISIBLE);
+	        	viewAnimator.bringChildToFront(downloadLayout);	 
+	        	Button download = (Button) findViewById(R.id.ButtonDownload);
+	        	download.setText(R.string.button_search_torrent);	        	
+	    	}
 	    	else{
 	    		mDistributionNumber = new String();
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
@@ -362,7 +375,15 @@ public class TorrentWebClient extends Activity {
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			intent.setClassName(this, TorrentsList.class.getName());
 			startActivityForResult(intent, 0);
-    	}    	
+    	} else if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+    		CookieSyncManager.getInstance().sync();
+    		CookieManager cookieManager  = CookieManager.getInstance();	
+    		String cookieData = cookieManager.getCookie(mCurrentUrl);
+    		SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
+    		String searchString = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
+    		WEBPreferencesScreen.SetSearchString(this, searchString);
+    		WEBPreferencesScreen.StartSearch();
+    	}
     }
     
     @Override

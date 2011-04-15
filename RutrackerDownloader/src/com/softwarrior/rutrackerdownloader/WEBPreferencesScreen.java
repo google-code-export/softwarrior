@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -22,11 +23,14 @@ import android.preference.PreferenceActivity;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 public final class WEBPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
 
+	static WEBPreferencesScreen mInstance = null;
+	
 	String mString = new String();
 	PreferenceScreen mPSSearchOnSite;
 
@@ -41,6 +45,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	@Override
   protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
+    mInstance = this;
     addPreferencesFromResource(R.xml.web_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.preferences);
@@ -190,6 +195,18 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     }	  
   }
   
+	public static String GetSearchString(Context context){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getString(KEY_SEARCH_STRING, "");																
+	}
+	
+	public static void SetSearchString(Context context, String SearchString){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(KEY_SEARCH_STRING, "");
+		editor.commit();
+	}
+    
   //Set the summaries of the given preference
   private void SetSummary(Preference pref) {
    // react on type or key
@@ -219,11 +236,27 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  intent.setClassName(this, TorrentWebClient.class.getName());
 	  startActivityForResult(intent,0);
   }
+  
+  static public void StartSearch(){
+	  if(mInstance!=null)
+		  mInstance.OnClickButtonSearch(null);
+  }
 
   public void OnClickButtonSiteMap(View v) {
 	  Bundle bundle = new Bundle();
 	  bundle.putString("LoadUrl", RutrackerDownloaderApp.SiteMap);
 	  bundle.putString("Action", "SiteMap");
+	  Intent intent = new Intent(Intent.ACTION_VIEW);
+	  intent.putExtras(bundle);
+	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	  intent.setClassName(this, TorrentWebClient.class.getName());
+	  startActivityForResult(intent,0);
+  }
+  
+  public void OnClickButtonKinoafisha(View v) {
+	  Bundle bundle = new Bundle();
+	  bundle.putString("LoadUrl", RutrackerDownloaderApp.KinoafishaCityUrl);
+	  bundle.putString("Action", "Show");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);

@@ -56,7 +56,7 @@
                 style="?android:attr/buttonStyleSmall"
                 android:text="@string/button_download"
                 android:onClick="@string/on_click_button_download"
-                android:id="@+id/ButtonRefreshPage"
+                android:id="@+id/ButtonDownload"
                 android:layout_height="wrap_content" 
                 android:layout_width="fill_parent"/>
         </RelativeLayout>
