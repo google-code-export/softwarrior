@@ -272,4 +272,5 @@ Please see contact information in the About page.
     <string name="preferences_lsd">Local Service Discovery</string>
     <string name="preferences_natpmp">NAT-PMP service</string>
     <string name="available_space">Available space on storage</string>
+    <string name="torrent_download_error">Torrent was downloaded with error, please back and try again</string>
 </resources>
