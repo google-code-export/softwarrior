@@ -86,7 +86,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final int 	PortNumber = -1;
 	public static final String 	UserName = new String();
 	public static final String 	UserPassword = new String();
-	public static final String 	TorrentSavePath = Environment.getExternalStorageDirectory()+"/";// + "/RutrackerDownloader";
+	public static final String 	DefaultTorrentSavePath = Environment.getExternalStorageDirectory()+"/";
 	
 	//Variables
 	public static volatile boolean	DownloadServiceMode = true;

@@ -24,11 +24,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
-import com.softwarrior.rutrackerdownloader.DownloadService;
-import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.rutrackerdownloader.SiteChoice;
+import com.softwarrior.rutrackerdownloader.TorrentsList;
+
+import com.softwarrior.rutrackerdownloader.R;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -359,7 +360,7 @@ public class TorrentWebClient extends Activity {
 
     		Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			intent.setClassName(this, DownloadService.Controller.class.getName());
+			intent.setClassName(this, TorrentsList.class.getName());
 			startActivityForResult(intent, 0);
     	}    	
     }
