@@ -349,7 +349,7 @@ public class TorrentWebClient extends Activity {
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
-    		TorrentDownloader torrentDownloader = new TorrentDownloader(RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(this));
+    		TorrentDownloader torrentDownloader = new TorrentDownloader(this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(this));
     		if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
     			torrentDownloader.DownloadNNM(mDistributionNumber);
     		else

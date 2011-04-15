@@ -12,16 +12,21 @@ import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
 import com.softwarrior.rutrackerdownloader.DownloadService;
+import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 public class TorrentDownloader {
 	
 	String mCookieData;
-	String mTorrentSavePath; 
+	String mTorrentSavePath;
+	Context mContext;
 
-	public TorrentDownloader(String CookieData, String TorrentSavePath){
+	public TorrentDownloader(Context context, String CookieData, String TorrentSavePath){
+		mContext = context;
 		mCookieData = CookieData;
 		mTorrentSavePath = TorrentSavePath;
 	}
@@ -72,6 +77,7 @@ public class TorrentDownloader {
 		    }			
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_SHORT).show();
 	    }
 		return result;
 	}	
@@ -96,7 +102,7 @@ public class TorrentDownloader {
 	        if(inputStream != null) {
 				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
 				int length = 0;
-				byte [] data = new byte[256];
+				byte [] data = new byte[1024];
 		        while ((length = inputStream.read(data)) != -1) {
 		            fos.write(data,0,length);
 		        }
@@ -107,6 +113,7 @@ public class TorrentDownloader {
 	        RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_SHORT).show();
 	    }
 	}
 	
@@ -139,7 +146,7 @@ public class TorrentDownloader {
 	        if(inputStream != null) {
 				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
 				int length = 0;
-				byte [] data = new byte[256];
+				byte [] data = new byte[1024];
 		        while ((length = inputStream.read(data)) != -1) {
 		            fos.write(data,0,length);
 		        }
@@ -150,6 +157,7 @@ public class TorrentDownloader {
 	        RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_SHORT).show();
 	    }
 	}
 	

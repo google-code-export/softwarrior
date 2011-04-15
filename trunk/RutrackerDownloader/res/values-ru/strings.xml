@@ -271,5 +271,5 @@
     <string name="preferences_lsd">Local Service Discovery</string>
     <string name="preferences_natpmp">NAT-PMP сервис</string>
     <string name="available_space">Свободное место на диске</string>
-        
+    <string name="torrent_download_error">Торрент был скачан с ошибкой, вернитесь назад и попробуйте снова</string>        
 </resources>
