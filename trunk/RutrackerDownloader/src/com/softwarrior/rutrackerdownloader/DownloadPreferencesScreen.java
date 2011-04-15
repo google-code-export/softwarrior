@@ -50,7 +50,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		
 		String savePath =  GetTorrentSavePath(this);
 		if(savePath == null || savePath.length() < 3)
-			SetTorrentSavePath(this, RutrackerDownloaderApp.TorrentSavePath);    
+			SetTorrentSavePath(this, RutrackerDownloaderApp.DefaultTorrentSavePath);    
 		
 		InitSummaries(getPreferenceScreen());
 		setContentView(R.layout.download_preferences);
@@ -161,13 +161,13 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	}
 	public static String GetTorrentSavePath(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.TorrentSavePath);																
+		return preferences.getString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.DefaultTorrentSavePath);																
 	}
 	public static void SetTorrentSavePath(Context context, String SavePath){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(SavePath == null || SavePath.length() < 3)
-			editor.putString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.TorrentSavePath);
+			editor.putString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.DefaultTorrentSavePath);
 		else
 			editor.putString(KEY_TORRENT_SAVE_PATH, SavePath);
 		editor.commit();
@@ -360,9 +360,9 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 				pr.setText(Integer.toString(RutrackerDownloaderApp.ProxyType));
 		  } 
 		  else if(key.equals(KEY_TORRENT_SAVE_PATH)){
-			  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.TorrentSavePath);
+			  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.DefaultTorrentSavePath);
 			  if(savePath == null || savePath.length() < 3)
-				  pr.setText(RutrackerDownloaderApp.TorrentSavePath);		    	
+				  pr.setText(RutrackerDownloaderApp.DefaultTorrentSavePath);		    	
 		  }	  
 	  }
 	  SetSummary(pref);	  

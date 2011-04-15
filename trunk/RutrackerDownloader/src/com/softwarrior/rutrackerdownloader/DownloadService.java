@@ -472,7 +472,7 @@ public class DownloadService extends Service {
     	private String CopyTorrentFiles(String torrentName){    		
     		String result =  RutrackerDownloaderApp.TorrentFullFileName;
     		try{			
-				URI torrentFullName =  new URI(RutrackerDownloaderApp.TorrentSavePath + "/" + torrentName);
+				URI torrentFullName =  new URI(RutrackerDownloaderApp.DefaultTorrentSavePath + torrentName);
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
 					File newFile =  new File(filepath);

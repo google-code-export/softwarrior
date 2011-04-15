@@ -65,6 +65,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     
     TorrentAdapter mAdapter;
     
+    
+    static volatile private String mTorrentSavePathFull = RutrackerDownloaderApp.DefaultTorrentSavePath;
 	private Timer mAdRefreshTimer;
 	private static final int mAdRefreshTime = 30000; //30 seconds
 	private Handler mAdRefreshTimerHandler;
@@ -189,7 +191,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             @Override
             public void handleMessage(Message msg) {
                 mAdapter.notifyDataSetChanged();
-                String text_r = "" + GetAvailibleMB(RutrackerDownloaderApp.TorrentSavePath) + " MB";
+                String text_r = "" + GetAvailibleMB(mTorrentSavePathFull) + " MB";
                 String text_l = getString(R.string.available_space) + ":";
                 mLeftText.setText(text_l);
                 mRightText.setText(text_r);
@@ -244,6 +246,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     protected void onResume() {
         super.onResume();
         AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
+        mTorrentSavePathFull = DownloadPreferencesScreen.GetTorrentSavePath(this);
         mWakeLock.acquire();
         mAdapter.notifyDataSetChanged();
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
@@ -294,7 +297,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 
     public static long GetAvailibleMB(String path){
     	StatFs stat = new StatFs(path); 
-    	long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks(); 
+    	long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
+    	Log.i(RutrackerDownloaderApp.TAG,"" + bytesAvailable);
     	long megAvailable = bytesAvailable / 1048576;
     	return megAvailable;    
         //SdSize  totalBlocks * blockSize
@@ -356,6 +360,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
    					e.printStackTrace();
    				}
     			Torrents.remove(i);
+    			if(Torrents.size() == 0)
+    				RutrackerDownloaderApp.TorrentFullFileName =  new String("undefined");
     			return;
     		}
     	}
