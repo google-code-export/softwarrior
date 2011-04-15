@@ -71,7 +71,7 @@
 	<string name="on_click_adview">OnClickAdview</string>
 	
 	
-	<string name="button_site_map">Show site map</string>
+	<string name="button_site_map">Site map</string>
 	<string name="button_refresh_advertising">Refresh Advertising</string>
 	<string name="button_download">Download torrent</string>
 	<string name="button_search">Search</string>
@@ -273,4 +273,8 @@ Please see contact information in the About page.
     <string name="preferences_natpmp">NAT-PMP service</string>
     <string name="available_space">Available space on storage</string>
     <string name="torrent_download_error">Torrent was downloaded with error, please back and try again</string>
+    <string name="button_kinoafisha">Kinoafisha</string>
+    <string name="on_click_button_kinoafisha">OnClickButtonKinoafisha</string>
+    <string name="button_search_torrent">Search torrent</string>
+    <string name="search_string_error">String was not found, try again</string>
 </resources>

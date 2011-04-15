@@ -73,6 +73,10 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String	NN_TorrentDL = "http://www.nnm-club.ru/forum/download.php?id=";
 	public static final String	NN_TorrentTopic = "http://www.nnm-club.ru/forum/viewtopic.php?t=";
 	public static final String	NN_CookieUrl = "http://www.nnm-club.ru/forum/index.php";	
+	//kinoafisha.info
+	public static final String  KinoafishaCityUrl = "http://pda.kinoafisha.info/?reset_city=1";
+	public static final String  KinoafishaUrl = "http://pda.kinoafisha.info/";	
+	public static final String  KinoafishaMoviesUrl = "/movies/";
 	//Default Download Preferences constants
 	public static final int		ListenPort = 54312;
 	public static final int		UploadLimit = -1;

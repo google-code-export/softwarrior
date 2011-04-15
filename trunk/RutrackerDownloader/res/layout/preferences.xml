@@ -47,15 +47,32 @@
             android:layout_width="fill_parent"
             android:id="@+id/ButtonsLayoutEx" 
             android:orientation="horizontal" 
-            android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:id="@+id/TextView" 
+                android:text="" 
+                android:layout_centerHorizontal="true" 
+                android:layout_centerVertical="true"/> 
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:text="@string/button_kinoafisha"
+                android:onClick="@string/on_click_button_kinoafisha"
+                android:id="@+id/ButtonKinoafisha"
+                android:layout_alignParentRight="true" 
+                android:layout_height="wrap_content" 
+                android:layout_width="fill_parent" 
+                android:layout_toRightOf="@id/TextView"/>                              
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:text="@string/button_site_map"
                 android:onClick="@string/on_click_button_site_map"
                 android:layout_height="wrap_content" 
                 android:id="@+id/ButtonSiteMap" 
-                android:layout_width="fill_parent"/>
+                android:layout_width="fill_parent"
+                android:layout_toLeftOf="@id/TextView"/>
         </RelativeLayout>
     </LinearLayout>              
     <ListView android:id="@android:id/list"

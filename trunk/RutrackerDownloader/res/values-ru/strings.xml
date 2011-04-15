@@ -70,7 +70,7 @@
 	<string name="on_click_button_site_map">OnClickButtonSiteMap</string>
 	<string name="on_click_adview">OnClickAdview</string>
 	
-	<string name="button_site_map">Показать карту сайта</string>
+	<string name="button_site_map">Карта сайта</string>
 	<string name="button_refresh_advertising">Обновить рекламу</string>
 	<string name="button_download">Скачать torrent</string>
 	<string name="button_search">Поиск</string>
@@ -271,5 +271,9 @@
     <string name="preferences_lsd">Local Service Discovery</string>
     <string name="preferences_natpmp">NAT-PMP сервис</string>
     <string name="available_space">Свободное место на диске</string>
-    <string name="torrent_download_error">Торрент был скачан с ошибкой, вернитесь назад и попробуйте снова</string>        
+    <string name="torrent_download_error">Торрент был скачан с ошибкой, вернитесь назад и попробуйте снова</string>
+    <string name="button_kinoafisha">Киноафиша</string>
+    <string name="on_click_button_kinoafisha">OnClickButtonKinoafisha</string>
+    <string name="button_search_torrent">Искать torrent</string>
+    <string name="search_string_error">Строка не найдена, попробуйте еще раз</string>           
 </resources>
