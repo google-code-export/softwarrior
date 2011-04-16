@@ -110,7 +110,7 @@ public class WebHistory extends ListActivity{
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
         
-    static public void AddWebHistory(Context context, String url, String action){
+    static public void AddWebHistory(Context context, String name, String url, String action){
         if(url.length() < 3)
         	return;
         if(url.contains(RutrackerDownloaderApp.NN_TorrentTopic) ||
@@ -126,7 +126,6 @@ public class WebHistory extends ListActivity{
     	Date current_date = new Date();
 		DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 		String dateTime = formatter.format(current_date);
-		String name = "";
     	WebHistories.add(new WebHistoryContainer(dateTime, name, url, action));
     	Toast.makeText(context, context.getString(R.string.web_history_stored), Toast.LENGTH_SHORT).show();
     }
