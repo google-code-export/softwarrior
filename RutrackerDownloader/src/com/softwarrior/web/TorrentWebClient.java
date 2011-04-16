@@ -358,7 +358,15 @@ public class TorrentWebClient extends Activity {
     }
     
     public void OnClickButtonStoreWebHistory(View v) {
-    	WebHistory.AddWebHistory(this, mCurrentUrl, mAction);
+		String name = "";
+	    if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+			CookieSyncManager.getInstance().sync();
+			CookieManager cookieManager  = CookieManager.getInstance();	
+			String cookieData = cookieManager.getCookie(mCurrentUrl);
+			SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
+			name = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
+		}
+    	WebHistory.AddWebHistory(this, name, mCurrentUrl, mAction);
     }
     
     public void OnClickButtonDownload(View v) {    	

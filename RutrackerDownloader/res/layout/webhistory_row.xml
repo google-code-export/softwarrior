@@ -38,7 +38,8 @@
 	    android:focusable="false" 
 	    android:layout_toRightOf="@+id/action" 
 	    android:paddingLeft="5sp" 
-	    android:textStyle="bold" 
+	    android:textStyle="bold"
+	    android:layout_marginRight="40sp" 
 	    android:textSize="12sp"/>
     <TextView 
          android:focusable="false"
