@@ -191,7 +191,7 @@ public class DownloadService extends Service {
         	queued_for_checking, checking_files, downloading_metadata, downloading, finished, seeding, allocating, checking_resume_data, paused, queued
         }
         enum MenuType{
-        	About, Help, Preferences, FileManager, Exit;
+        	About, Help, Preferences, FileManager, WebHistory, Exit;
         }
         
         private volatile ControllerState mControllerState = ControllerState.Undefined;
@@ -213,6 +213,7 @@ public class DownloadService extends Service {
 
 	        if(RutrackerDownloaderApp.DownloadServiceMode){
 	        	RutrackerDownloaderApp.StartServiceActivity(this);
+	        	RutrackerDownloaderApp.RestoryWebHistoryFromDB(this);
 	        	RutrackerDownloaderApp.RestoryTorrentsFromDB(this);
 	        }
 	        
@@ -623,6 +624,7 @@ public class DownloadService extends Service {
     		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
     		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
     		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
+    		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
     		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
     		return true;
     	}
@@ -644,6 +646,9 @@ public class DownloadService extends Service {
     		} break;
     		case FileManager:{
     			RutrackerDownloaderApp.FileManagerActivity(this);
+    		} break;
+    		case WebHistory:{
+    			RutrackerDownloaderApp.WebHistoryActivity(this);
     		} break;
     		case Exit:{
     			if(RutrackerDownloaderApp.DownloadServiceMode)

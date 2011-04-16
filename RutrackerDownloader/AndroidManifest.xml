@@ -22,6 +22,7 @@
         <activity android:name="DownloadPreferencesScreen"></activity>
         <activity android:name="TorrentFilesList" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="TorrentsList" android:launchMode="singleTop" android:theme="@android:style/Theme.Light"></activity>
+        <activity android:name="com.softwarrior.web.WebHistory" android:launchMode="singleTop" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="SiteChoice"></activity>
         <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
         <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>     

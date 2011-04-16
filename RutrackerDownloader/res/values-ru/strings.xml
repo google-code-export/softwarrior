@@ -275,5 +275,15 @@
     <string name="button_kinoafisha">Киноафиша</string>
     <string name="on_click_button_kinoafisha">OnClickButtonKinoafisha</string>
     <string name="button_search_torrent">Искать torrent</string>
-    <string name="search_string_error">Строка не найдена, попробуйте еще раз</string>           
+    <string name="search_string_error">Строка не найдена, попробуйте еще раз</string>
+    <string name="on_click_button_store_web_history">OnClickButtonStoreWebHistory</string>
+    <string name="button_store_web_history">Сохранить</string>
+    <string name="menu_web_history">WEB История</string>
+    <string name="no_webhistory">WEB история пустая</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_sitemap">Карта сайта</string>
+    <string name="action_show">Просмотр</string>
+    <string name="action_login">Логин</string>   
+    <string name="web_history_stored">URL сохранен</string>
+    <string name="impossible_to_store">Этот URL невозможно сохранить</string>                          
 </resources>

@@ -25,7 +25,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
 	
 	public enum MenuType{
-		About, Help, FileManager, Exit;
+		About, Help, FileManager, WebHistory, Exit;
 	} 
 	
 	public static final String KEY_LISTEN_PORT="preferences_listen_port";
@@ -239,6 +239,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
 		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help);
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
+		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
@@ -257,6 +258,9 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		} break;
 		case FileManager:{
 			RutrackerDownloaderApp.FileManagerActivity(this);
+		} break;
+		case WebHistory:{
+			RutrackerDownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
 			RutrackerDownloaderApp.FinalCloseApplication(this);
