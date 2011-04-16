@@ -277,4 +277,14 @@ Please see contact information in the About page.
     <string name="on_click_button_kinoafisha">OnClickButtonKinoafisha</string>
     <string name="button_search_torrent">Search torrent</string>
     <string name="search_string_error">String was not found, try again</string>
+    <string name="on_click_button_store_web_history">OnClickButtonStoreWebHistory</string>
+    <string name="button_store_web_history">Store</string>
+    <string name="menu_web_history">WEB History</string>
+    <string name="no_webhistory">WEB history empty</string>
+    <string name="action_search">Search</string>
+    <string name="action_sitemap">SiteMap</string>
+    <string name="action_show">Show</string>
+    <string name="action_login">Login</string>
+    <string name="web_history_stored">URL stored</string>
+    <string name="impossible_to_store">This URL impossible to store</string>   
 </resources>

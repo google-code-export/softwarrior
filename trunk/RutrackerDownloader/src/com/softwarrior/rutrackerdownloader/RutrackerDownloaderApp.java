@@ -9,6 +9,8 @@ import com.softwarrior.about.About;
 import com.softwarrior.about.Help;
 import com.softwarrior.file.FileManagerActivity;
 import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
+import com.softwarrior.web.WebHistory;
+import com.softwarrior.web.WebHistorySQLHelper;
 
 import android.app.Activity;
 import android.app.Application;
@@ -53,6 +55,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String	TAG = "Softwarrior";
 	public static final String	FeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
 	//rutracker.org
+	public static final String	RT_Site = "http://rutracker.org";
 	public static final String	RT_TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";
 	public static final String	RT_SearchUrlPrefix = "http://rutracker.org/forum/search.php";
 	public static final String	RT_SiteMap = "http://rutracker.org/forum/index.php?c=map";
@@ -60,6 +63,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String	RT_TorrentTopic = "http://rutracker.org/forum/viewtopic.php?t=";
 	public static final String	RT_CookieUrl = "http://rutracker.org/forum/index.php";
 	//pornolab.net
+	public static final String	PL_Site = "http://pornolab.net";
 	public static final String	PL_TorrentLoginUrl = "http://pornolab.net/forum/login.php";
 	public static final String	PL_SearchUrlPrefix = "http://pornolab.net/forum/search.php";
 	public static final String	PL_SiteMap = "http://pornolab.net/forum/index.php?c=map";
@@ -67,6 +71,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String	PL_TorrentTopic = "http://pornolab.net/forum/viewtopic.php?t=";
 	public static final String	PL_CookieUrl = "http://pornolab.net/forum/index.php";
 	//nnm-club.ru
+	public static final String	NN_Site = "http://www.nnm-club.ru";
 	public static final String	NN_TorrentLoginUrl = "http://www.nnm-club.ru/forum/login.php";
 	public static final String	NN_SearchUrlPrefix = "http://www.nnm-club.ru/forum/tracker.php";
 	public static final String	NN_SiteMap = "http://www.nnm-club.ru";
@@ -121,6 +126,7 @@ public class RutrackerDownloaderApp extends Application {
 			RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);        
 			startService(new Intent(this, DownloadService.class));
 			StartServiceActivity(getApplicationContext());
+			RestoryWebHistoryFromDB(getApplicationContext());
 			RestoryTorrentsFromDB(getApplicationContext());
 		}catch(Exception ex){
 			Log.e(TAG, ex.toString());
@@ -162,6 +168,46 @@ public class RutrackerDownloaderApp extends Application {
 	    	 Log.w(TAG, "Error while opening database", sqle);
 		 } finally {
 			torrentsDB.close();
+		 }
+    }
+	static public void RestoryWebHistoryFromDB(Context context){
+		WebHistorySQLHelper webhistoryDB = new WebHistorySQLHelper(context);
+		try {
+	        SQLiteDatabase db = webhistoryDB.getReadableDatabase();
+	        Cursor cursor = db.query(WebHistorySQLHelper.TABLE, null, null, null, null, null, null);
+	        //startManagingCursor(cursor);        
+	        while (cursor.moveToNext()) {
+	          //long id = cursor.getLong(0);
+	          String dateTime = cursor.getString(1);
+	          String action = cursor.getString(2);
+	          String name = cursor.getString(3);
+	          String url = cursor.getString(4);
+	          WebHistory.AddWebHistory(dateTime,name,url,action);
+	        }
+	     } catch (SQLiteException sqle){
+	    	 Log.w(TAG, "Error while opening database", sqle);
+		 } finally {
+			 webhistoryDB.close();
+		 }
+	}	
+	static public void StoreWebHistoryToDB(Context context) {
+		WebHistorySQLHelper webhistoryDB = new WebHistorySQLHelper(context);
+		try {
+			SQLiteDatabase db = webhistoryDB.getWritableDatabase();
+	        ContentValues values = new ContentValues();
+	        db.delete(WebHistorySQLHelper.TABLE, null, null);	        	
+	    	for(int i=0;i<WebHistory.WebHistories.size();i++){
+	    		WebHistory.WebHistoryContainer whc = WebHistory.WebHistories.get(i);
+	            values.put(WebHistorySQLHelper.DATE_TIME, whc.DateTime);
+	            values.put(WebHistorySQLHelper.ACTION, whc.Action);
+	            values.put(WebHistorySQLHelper.NAME, whc.Name);
+	            values.put(WebHistorySQLHelper.URL, whc.Url);
+	            db.insert(WebHistorySQLHelper.TABLE, null, values);
+	    	}
+	     } catch (SQLiteException sqle){
+	    	 Log.w(TAG, "Error while opening database", sqle);
+		 } finally {
+			 webhistoryDB.close();
 		 }
     }
 	static public void SetupPornolab(Activity activity){
@@ -226,6 +272,14 @@ public class RutrackerDownloaderApp extends Application {
     	activity.startActivityForResult(intent, 0);
     }
 
+    static public void WebHistoryActivity(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, WebHistory.class.getName());
+    	activity.startActivityForResult(intent,0); 
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    }
+
     static public void FileManagerActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -246,7 +300,8 @@ public class RutrackerDownloaderApp extends Application {
     	if(!StartFinalClose){
     		StartFinalClose = true;
 	    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
-        	StoreTorrentsToDB(activity);
+        	StoreWebHistoryToDB(activity);
+	    	StoreTorrentsToDB(activity);
 	    	TorrentsList.FinalRemoveTorrents();
 			activity.stopService(new Intent(activity,DownloadService.class));
 			NotificationManager nm = (NotificationManager)activity.getSystemService(NOTIFICATION_SERVICE);

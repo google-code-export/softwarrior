@@ -86,7 +86,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 	static TextView mLeftText = null;
 	
     enum MenuType{
-    	About, Help, Preferences, FileManager, Exit;
+    	About, Help, Preferences, FileManager, WebHistory, Exit;
     }
 
     @Override
@@ -456,6 +456,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
 		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
+		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}	
@@ -476,6 +477,9 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		} break;
 		case FileManager:{
 			RutrackerDownloaderApp.FileManagerActivity(this);
+		} break;
+		case WebHistory:{
+			RutrackerDownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
 			if(RutrackerDownloaderApp.DownloadServiceMode)

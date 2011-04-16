@@ -72,7 +72,7 @@ public class TorrentWebClient extends Activity {
     final Activity activity = this;
     
     public enum MenuType{
-    	About, Help, Preferences, FileManager, Exit;
+    	About, Help, Preferences, FileManager, WebHistory, Exit;
     }
 
     @Override
@@ -121,6 +121,7 @@ public class TorrentWebClient extends Activity {
             		NNMClubSearchResultThread(mSearchString);
             	}
             	activity.setTitle(url);
+            	mCurrentUrl = url;
             	ManageDownloadButton(url);
             	super.onPageStarted(view, url, favicon);
             }
@@ -136,7 +137,8 @@ public class TorrentWebClient extends Activity {
     		mWebView.loadUrl(mLoadUrl);
         }
         else if(mAction.equals("Show")){
-    		activity.setTitle(mLoadUrl);        
+        	mCatchBackKey = true;
+        	activity.setTitle(mLoadUrl);        
     		mWebView.loadUrl(mLoadUrl);
         }
         else if(mAction.equals("SiteMap")){
@@ -329,7 +331,6 @@ public class TorrentWebClient extends Activity {
     private void ManageDownloadButton(String current_url) {
     	if(mAction.equals("Show") || mAction.equals("Search") || mAction.equals("SiteMap")){        	
 	    	if(current_url.contains(RutrackerDownloaderApp.TorrentTopic)){
-	    		mCurrentUrl = current_url;
 	    		mDistributionNumber = current_url.replace(RutrackerDownloaderApp.TorrentTopic, "");
 	    		mDistributionNumber= mDistributionNumber.trim();
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
@@ -338,8 +339,7 @@ public class TorrentWebClient extends Activity {
 	        	downloadLayout.setVisibility(View.VISIBLE);
 	        	viewAnimator.bringChildToFront(downloadLayout);
 	    	}
-	    	if(current_url.contains(RutrackerDownloaderApp.KinoafishaUrl) && current_url.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
-	    		mCurrentUrl = current_url;
+	    	else if(current_url.contains(RutrackerDownloaderApp.KinoafishaUrl) && current_url.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
 	    		mDistributionNumber = "";
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
 	        	viewAnimator.setVisibility(View.VISIBLE);
@@ -349,12 +349,16 @@ public class TorrentWebClient extends Activity {
 	        	Button download = (Button) findViewById(R.id.ButtonDownload);
 	        	download.setText(R.string.button_search_torrent);	        	
 	    	}
-	    	else{
+	    	else {
 	    		mDistributionNumber = new String();
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
 	        	viewAnimator.setVisibility(View.GONE);            		
 	    	}
     	}
+    }
+    
+    public void OnClickButtonStoreWebHistory(View v) {
+    	WebHistory.AddWebHistory(this, mCurrentUrl, mAction);
     }
     
     public void OnClickButtonDownload(View v) {    	
@@ -382,7 +386,7 @@ public class TorrentWebClient extends Activity {
     		SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
     		String searchString = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
     		WEBPreferencesScreen.SetSearchString(this, searchString);
-    		WEBPreferencesScreen.StartSearch();
+    		WEBPreferencesScreen.StartSearch(this);
     	}
     }
     
@@ -406,6 +410,7 @@ public class TorrentWebClient extends Activity {
 		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
 		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
+		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
 		return true;
 	}
@@ -427,6 +432,9 @@ public class TorrentWebClient extends Activity {
 		} break;
 		case FileManager:{
 			RutrackerDownloaderApp.FileManagerActivity(this);
+		} break;
+		case WebHistory:{
+			RutrackerDownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
 			RutrackerDownloaderApp.CloseApplication(this);

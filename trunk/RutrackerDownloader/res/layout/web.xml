@@ -68,4 +68,12 @@
         android:layout_height="fill_parent" 
         android:layout_above="@id/ViewAnimator"/>
         <!-- android:layout_height="0dip" -->
+     <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:onClick="@string/on_click_button_store_web_history" 
+        android:text="@string/button_store_web_history"
+        android:id="@+id/ButtonStoreWebHistory" 
+        android:layout_alignParentRight="true"/>        
 </RelativeLayout>
