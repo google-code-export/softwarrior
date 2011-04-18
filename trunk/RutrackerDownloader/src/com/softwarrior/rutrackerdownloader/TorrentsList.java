@@ -245,7 +245,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     @Override
     protected void onResume() {
         super.onResume();
-        AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
+        if(!RutrackerDownloaderApp.TorrentFullFileName.equals("undefined"))
+        	AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
         mTorrentSavePathFull = DownloadPreferencesScreen.GetTorrentSavePath(this);
         mWakeLock.acquire();
         mAdapter.notifyDataSetChanged();

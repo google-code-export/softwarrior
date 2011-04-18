@@ -432,11 +432,22 @@ public class DownloadService extends Service {
             	setTitle(R.string.torrent_file_undefined);
             else
             {
-        		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
-        		String fileName = file.getName();
-				setTitle(fileName);
-				mTorrentContentName = LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
-				mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);				
+				boolean open_result= false;
+            	mTorrentContentName = LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+				if(mTorrentContentName != null && mTorrentContentName.length() < 1){
+					mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
+					if(mTorrentTotalSize >= 0){
+		        		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
+		        		String fileName = file.getName();
+						setTitle(fileName);
+						open_result = true;
+					}
+				}
+				if(open_result==false){
+					RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+					setTitle(R.string.torrent_file_undefined);
+					Toast.makeText(this, getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
+				}
             }
     		if(mStatusThread != null && !mStatusThread.isAlive())
     			mStatusThread.resume();
