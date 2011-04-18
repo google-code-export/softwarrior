@@ -289,5 +289,6 @@
     <string name="alert_dialog_history_name">Имя для записи</string>
     <string name="history_dialog_title">Введите имя для сохранения</string>
     <string name="history_dialog_ok">ДА</string>
-    <string name="history_dialog_cancel">ОТМЕНА</string>                            
+    <string name="history_dialog_cancel">ОТМЕНА</string>
+    <string name="open_torrent_file_error">Torrent файл c ошибкой, файл открыть не возможно</string>                           
 </resources>

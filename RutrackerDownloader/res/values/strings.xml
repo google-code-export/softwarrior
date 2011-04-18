@@ -291,4 +291,5 @@ Please see contact information in the About page.
     <string name="history_dialog_title">Input name to store</string>
     <string name="history_dialog_ok">OK</string>
     <string name="history_dialog_cancel">CANCEL</string>
+    <string name="open_torrent_file_error">Torrent file is not correct, file impossible to open</string>
 </resources>
