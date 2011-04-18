@@ -73,7 +73,6 @@ public class WebHistory extends ListActivity{
         	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         	  intent.setClassName(WebHistory.this, TorrentWebClient.class.getName());
         	  startActivityForResult(intent,0);
-        	  finish();
             }
         });        
         // Set up our adapter
@@ -113,15 +112,16 @@ public class WebHistory extends ListActivity{
     static public void AddWebHistory(Context context, String name, String url, String action){
         if(url.length() < 3)
         	return;
-        if(url.contains(RutrackerDownloaderApp.NN_TorrentTopic) ||
-           url.contains(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
-        	Toast.makeText(context, context.getString(R.string.impossible_to_store), Toast.LENGTH_SHORT).show();
-        	return;
-        }        		
     	for(int i=0;i<WebHistories.size();i++){
     		WebHistoryContainer tc = WebHistories.get(i);
-    		if(tc.Url.equals(url))
+    		if(tc.Url.equals(url)){
+    	    	Date current_date = new Date();
+    			DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    			String dateTime = formatter.format(current_date);
+    			tc.Name = name;
+    			tc.DateTime = dateTime; 
     			return;
+    		}
     	}
     	Date current_date = new Date();
 		DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
