@@ -342,7 +342,7 @@ public class DownloadService extends Service {
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){
-    		TorrentsList.AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress,  mTorrentProgressSize);
+    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress,  mTorrentProgressSize);
     		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
     	}
 

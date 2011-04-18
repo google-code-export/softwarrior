@@ -24,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -245,8 +246,12 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     @Override
     protected void onResume() {
         super.onResume();
-        if(!RutrackerDownloaderApp.TorrentFullFileName.equals("undefined"))
-        	AddTorrent(RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
+        if(!RutrackerDownloaderApp.TorrentFullFileName.equals("undefined")){			
+        	String contentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+			if(contentName != null && contentName.length() < 1){
+				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
+			}
+        }
         mTorrentSavePathFull = DownloadPreferencesScreen.GetTorrentSavePath(this);
         mWakeLock.acquire();
         mAdapter.notifyDataSetChanged();
@@ -306,7 +311,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         //SdAvail availableBlocks * blockSize
     }
     
-    static public void AddTorrent(String FileName, int progress, int progressSize){
+    static public void AddTorrent(Context context, String FileName, int progress, int progressSize){
         if(FileName.equals("undefined"))
         	return;
     	for(int i=0;i<Torrents.size();i++){
@@ -321,9 +326,18 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		} catch (Exception e){
 			return;
 		}
-		int totalSize = DownloadService.LibTorrent.GetTorrentSize(FileName);
 		String contentName = DownloadService.LibTorrent.GetTorrentName(FileName);
-    	Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize));    	
+		boolean add_file = false;
+		if(contentName!=null && contentName.length() < 1){
+			int totalSize = DownloadService.LibTorrent.GetTorrentSize(FileName);
+			if(totalSize >=0){
+				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize));
+				add_file = true;
+			}
+		}
+		if(add_file == false){
+			Toast.makeText(context, context.getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
+		}    	
     }
 
     static public void SetCtrlState(String FileName, ControllerState ctrlState){
