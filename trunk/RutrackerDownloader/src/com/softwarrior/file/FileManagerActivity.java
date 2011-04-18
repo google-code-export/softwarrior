@@ -50,6 +50,7 @@ import android.widget.Toast;
 import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 
 public class FileManagerActivity extends ListActivity { 
 	
@@ -80,6 +81,7 @@ public class FileManagerActivity extends ListActivity {
 	private static final int MENU_ABOUT = Menu.FIRST + 11;
 	private static final int MENU_HELP = Menu.FIRST + 12;
 	private static final int MENU_PREFERENCES = Menu.FIRST + 13;
+	private static final int MENU_WEB_HISTORY = Menu.FIRST + 14;
 	private static final int MENU_EXIT = Menu.FIRST + 100;
 		
 	private static final int DIALOG_NEW_FOLDER = 1;
@@ -744,6 +746,7 @@ public class FileManagerActivity extends ListActivity {
  		menu.add(Menu.NONE, MENU_ABOUT, MENU_ABOUT, R.string.menu_about);
  		menu.add(Menu.NONE, MENU_HELP, MENU_HELP, R.string.menu_help);
  		menu.add(Menu.NONE, MENU_PREFERENCES, MENU_PREFERENCES, R.string.menu_preferences);
+ 		menu.add(Menu.NONE, MENU_WEB_HISTORY, MENU_WEB_HISTORY, R.string.menu_web_history);
  		menu.add(Menu.NONE, MENU_EXIT, MENU_EXIT, R.string.menu_exit);
  		return true;
  	}
@@ -783,6 +786,9 @@ public class FileManagerActivity extends ListActivity {
 		case MENU_PREFERENCES:
 			RutrackerDownloaderApp.PreferencesScreenActivity(this);
 			return true;			
+		case MENU_WEB_HISTORY:
+			RutrackerDownloaderApp.WebHistoryActivity(this);
+			return true;
 		case MENU_EXIT:
 			RutrackerDownloaderApp.CloseApplication(this);
 			return true;			
@@ -1273,5 +1279,15 @@ public class FileManagerActivity extends ListActivity {
 			}
 			break;
 		}
+		
+    	switch(ActivityResultType.getValue(resultCode))
+		{
+		case RESULT_DOWNLOADER:
+		case RESULT_PREFERENCES:
+		case RESULT_EXIT:
+			setResult(resultCode);
+			finish();
+			break;
+		};		
 	}
 }
