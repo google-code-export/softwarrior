@@ -110,13 +110,13 @@ public class TorrentDownloader {
 		        inputStream.close();
 	    		fos.flush();
 	    		fos.close();  
-	        }	
-	        RenameTorrentFiles();
-	        result = true;
+	        }
+	        result=RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
+		if(result == false) RutrackerDownloaderApp.TorrentFullFileName = new String("undefined"); 
 		return result;
 	}
 	
@@ -158,12 +158,12 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }
-	        RenameTorrentFiles();
-	        result=true;
+	        result=RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
+		if(result == false) RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
 		return result;
 	}
 	
@@ -181,7 +181,8 @@ public class TorrentDownloader {
 	    return buffer.toString();  
 	}  
 	
-	public void RenameTorrentFiles(){
+	public boolean RenameTorrentFiles(){
+		boolean result = false;
 		try{			
 			String torrentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
@@ -192,14 +193,17 @@ public class TorrentDownloader {
 					File newFile =  new File(filepath);
 					File oldfile = new File(RutrackerDownloaderApp.TorrentFullFileName); 
 					if(newFile != null && oldfile != null){
-						if(oldfile.renameTo(newFile))
+						if(oldfile.renameTo(newFile)){
 							RutrackerDownloaderApp.TorrentFullFileName = filepath;
+							result = true;
+						}
 					}
 				}
 			}
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
+		return result;
 	}
 	
 //    void PrintMapWithList(Map<String, List<String>> MapList)
