@@ -143,7 +143,7 @@ public class RutrackerDownloaderApp extends Application {
 	          int progress = cursor.getInt(1);
 	          int progressSize = cursor.getInt(2);
 	          String fileName = cursor.getString(3);
-	          TorrentsList.AddTorrent(fileName,progress,progressSize);
+	          TorrentsList.AddTorrent(context, fileName,progress,progressSize);
 	        }
 	     } catch (SQLiteException sqle){
 	    	 Log.w(TAG, "Error while opening database", sqle);
