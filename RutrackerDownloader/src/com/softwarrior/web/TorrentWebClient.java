@@ -65,6 +65,7 @@ public class TorrentWebClient extends Activity {
 
     private static final int DIALOG_TEXT_ENTRY = 1;
     private WebView mWebView;
+    private View 	mHistoryDialogView = null;
    
     private String  mLoadUrl = new String();
     private String  mAction = new String();
@@ -179,16 +180,16 @@ public class TorrentWebClient extends Activity {
         case DIALOG_TEXT_ENTRY:
             // This example shows how to add a custom layout to an AlertDialog
             LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.adialog_historyname, null);
-        	EditText et = (EditText)textEntryView.findViewById(R.id.name_edit);
+            mHistoryDialogView = factory.inflate(R.layout.adialog_historyname, null);
+        	EditText et = (EditText)mHistoryDialogView.findViewById(R.id.name_edit);
         	et.setText(mHistoryName);
             return new AlertDialog.Builder(TorrentWebClient.this)
                 .setTitle(R.string.history_dialog_title)
-                .setView(textEntryView)
+                .setView(mHistoryDialogView)
                 .setPositiveButton(R.string.history_dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //User clicked OK so do some stuff
-                    	EditText et = (EditText)textEntryView.findViewById(R.id.name_edit);
+                    	EditText et = (EditText)mHistoryDialogView.findViewById(R.id.name_edit);
                     	mHistoryName = et.getText().toString();
                     	WebHistory.AddWebHistory(TorrentWebClient.this, mHistoryName, mCurrentUrl, mAction);
                     }
@@ -408,6 +409,10 @@ public class TorrentWebClient extends Activity {
 			SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
 			mHistoryName = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
 		}
+        if(mHistoryDialogView!=null){
+        	EditText et = (EditText)mHistoryDialogView.findViewById(R.id.name_edit);
+        	et.setText(mHistoryName);
+        }
         showDialog(DIALOG_TEXT_ENTRY);
     }
     
@@ -417,18 +422,20 @@ public class TorrentWebClient extends Activity {
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
     		TorrentDownloader torrentDownloader = new TorrentDownloader(this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(this));
+    		boolean download_result = false;
     		if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
-    			torrentDownloader.DownloadNNM(mDistributionNumber);
+    			download_result = torrentDownloader.DownloadNNM(mDistributionNumber);
     		else
-    			torrentDownloader.Download(mDistributionNumber);    		
+    			download_result= torrentDownloader.Download(mDistributionNumber);    		
 			
-        	String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
-        	Toast.makeText(this, text,Toast.LENGTH_SHORT).show();        
-
-    		Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-			intent.setClassName(this, TorrentsList.class.getName());
-			startActivityForResult(intent, 0);
+    		if(download_result){
+    			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+    			Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
+        		Intent intent = new Intent(Intent.ACTION_VIEW);
+    			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    			intent.setClassName(this, TorrentsList.class.getName());
+    			startActivityForResult(intent, 0);
+    		}
     	} else if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	

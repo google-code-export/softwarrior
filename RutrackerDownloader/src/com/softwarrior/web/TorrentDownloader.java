@@ -77,12 +77,13 @@ public class TorrentDownloader {
 		    }			
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
-			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
 		return result;
 	}	
 	
-	public void DownloadNNM(String DistributionNumber){						
+	public boolean DownloadNNM(String DistributionNumber){						
+		boolean result = false;
 		try{
 			String distributionNumber =  GetNNMDistributionNumber(DistributionNumber);
 			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";			
@@ -111,13 +112,16 @@ public class TorrentDownloader {
 	    		fos.close();  
 	        }	
 	        RenameTorrentFiles();
+	        result = true;
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
-			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
+		return result;
 	}
 	
-	public void Download(String DistributionNumber){
+	public boolean Download(String DistributionNumber){
+		boolean result = false;
 		try{
 			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";
 			URL url = new URL(RutrackerDownloaderApp.TorrentDL + DistributionNumber);				
@@ -155,10 +159,12 @@ public class TorrentDownloader {
 	    		fos.close();  
 	        }
 	        RenameTorrentFiles();
+	        result=true;
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
-			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
+		return result;
 	}
 	
 	public static String RemoveSpecialSymbols(String text) {  
