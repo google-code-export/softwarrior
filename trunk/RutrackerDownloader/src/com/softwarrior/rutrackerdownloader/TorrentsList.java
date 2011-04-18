@@ -248,7 +248,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         super.onResume();
         if(!RutrackerDownloaderApp.TorrentFullFileName.equals("undefined")){			
         	String contentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
-			if(contentName != null && contentName.length() < 1){
+			if(contentName != null && contentName.length() > 0){
 				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
 			}
         }
@@ -328,7 +328,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		}
 		String contentName = DownloadService.LibTorrent.GetTorrentName(FileName);
 		boolean add_file = false;
-		if(contentName!=null && contentName.length() < 1){
+		if(contentName != null && contentName.length() > 0){
 			int totalSize = DownloadService.LibTorrent.GetTorrentSize(FileName);
 			if(totalSize >=0){
 				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize));
