@@ -114,9 +114,11 @@ public class TorrentDownloader {
 	        result=RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
-			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
-		if(result == false) RutrackerDownloaderApp.TorrentFullFileName = new String("undefined"); 
+		if(result == false){
+			RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
+		}
 		return result;
 	}
 	
@@ -161,9 +163,11 @@ public class TorrentDownloader {
 	        result=RenameTorrentFiles();
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
-			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
-		if(result == false) RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+		if(result == false){
+			RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
+		}
 		return result;
 	}
 	
