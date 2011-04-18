@@ -406,13 +406,15 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(ActivityResultType.getValue(resultCode))
         {
-        case RESULT_DOWNLOADER:
+        case RESULT_DOWNLOADER:{
+        	break;
+        }        	
         case RESULT_PREFERENCES:
         case RESULT_EXIT:
             setResult(resultCode);
             finish();
             break;
-        };      
+        }      
     }
     
     public class TorrentAdapter extends BaseAdapter {
