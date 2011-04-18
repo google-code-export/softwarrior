@@ -434,7 +434,7 @@ public class DownloadService extends Service {
             {
 				boolean open_result= false;
             	mTorrentContentName = LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
-				if(mTorrentContentName != null && mTorrentContentName.length() < 1){
+				if(mTorrentContentName != null && mTorrentContentName.length() > 0){
 					mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
 					if(mTorrentTotalSize >= 0){
 		        		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
