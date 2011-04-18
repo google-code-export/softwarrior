@@ -285,5 +285,9 @@
     <string name="action_show">Просмотр</string>
     <string name="action_login">Логин</string>   
     <string name="web_history_stored">URL сохранен</string>
-    <string name="impossible_to_store">Этот URL невозможно сохранить</string>                          
+    <string name="impossible_to_store">Этот URL невозможно сохранить</string>  
+    <string name="alert_dialog_history_name">Имя для записи</string>
+    <string name="history_dialog_title">Введите имя для сохранения</string>
+    <string name="history_dialog_ok">ДА</string>
+    <string name="history_dialog_cancel">ОТМЕНА</string>                            
 </resources>

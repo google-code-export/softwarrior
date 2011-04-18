@@ -286,5 +286,9 @@ Please see contact information in the About page.
     <string name="action_show">Show</string>
     <string name="action_login">Login</string>
     <string name="web_history_stored">URL stored</string>
-    <string name="impossible_to_store">This URL impossible to store</string>   
+    <string name="impossible_to_store">This URL impossible to store</string>
+    <string name="alert_dialog_history_name">Name to store</string>
+    <string name="history_dialog_title">Input name to store</string>
+    <string name="history_dialog_ok">OK</string>
+    <string name="history_dialog_cancel">CANCEL</string>
 </resources>

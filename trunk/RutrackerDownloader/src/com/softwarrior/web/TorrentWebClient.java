@@ -33,7 +33,10 @@ import com.softwarrior.rutrackerdownloader.WEBPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -41,6 +44,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,12 +56,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 public class TorrentWebClient extends Activity {
 
+    private static final int DIALOG_TEXT_ENTRY = 1;
     private WebView mWebView;
    
     private String  mLoadUrl = new String();
@@ -68,6 +74,7 @@ public class TorrentWebClient extends Activity {
     private boolean mNNSearch = false;
     private boolean mRefreshNNSearch = false;
     private String mSearchString = new String("");
+    private String mHistoryName = new String("");
     
     final Activity activity = this;
     
@@ -164,6 +171,36 @@ public class TorrentWebClient extends Activity {
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentWebClient");
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case DIALOG_TEXT_ENTRY:
+            // This example shows how to add a custom layout to an AlertDialog
+            LayoutInflater factory = LayoutInflater.from(this);
+            final View textEntryView = factory.inflate(R.layout.adialog_historyname, null);
+        	EditText et = (EditText)textEntryView.findViewById(R.id.name_edit);
+        	et.setText(mHistoryName);
+            return new AlertDialog.Builder(TorrentWebClient.this)
+                .setTitle(R.string.history_dialog_title)
+                .setView(textEntryView)
+                .setPositiveButton(R.string.history_dialog_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //User clicked OK so do some stuff
+                    	EditText et = (EditText)textEntryView.findViewById(R.id.name_edit);
+                    	mHistoryName = et.getText().toString();
+                    	WebHistory.AddWebHistory(TorrentWebClient.this, mHistoryName, mCurrentUrl, mAction);
+                    }
+                })
+                .setNegativeButton(R.string.history_dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //User clicked cancel so do some stuff
+                    }
+                })
+                .create();
+        }
+        return null;
     }
 
     public String getPostRequest(String url, String user, String pass) {
@@ -358,15 +395,20 @@ public class TorrentWebClient extends Activity {
     }
     
     public void OnClickButtonStoreWebHistory(View v) {
-		String name = "";
-	    if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+        if(mCurrentUrl.contains(RutrackerDownloaderApp.NN_TorrentTopic) ||
+           mCurrentUrl.contains(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
+            Toast.makeText(this, getString(R.string.impossible_to_store), Toast.LENGTH_SHORT).show();
+            return;
+        }        		
+        mHistoryName = "";
+        if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
 			CookieSyncManager.getInstance().sync();
 			CookieManager cookieManager  = CookieManager.getInstance();	
 			String cookieData = cookieManager.getCookie(mCurrentUrl);
 			SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
-			name = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
+			mHistoryName = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
 		}
-    	WebHistory.AddWebHistory(this, name, mCurrentUrl, mAction);
+        showDialog(DIALOG_TEXT_ENTRY);
     }
     
     public void OnClickButtonDownload(View v) {    	
