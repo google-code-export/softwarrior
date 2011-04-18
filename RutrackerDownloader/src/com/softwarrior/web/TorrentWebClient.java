@@ -65,7 +65,7 @@ public class TorrentWebClient extends Activity {
 
     private static final int DIALOG_TEXT_ENTRY = 1;
     private WebView mWebView;
-    private View 	mHistoryDialogView = null;
+    private EditText mETextHistoryName = null;
    
     private String  mLoadUrl = new String();
     private String  mAction = new String();
@@ -180,17 +180,16 @@ public class TorrentWebClient extends Activity {
         case DIALOG_TEXT_ENTRY:
             // This example shows how to add a custom layout to an AlertDialog
             LayoutInflater factory = LayoutInflater.from(this);
-            mHistoryDialogView = factory.inflate(R.layout.adialog_historyname, null);
-        	EditText et = (EditText)mHistoryDialogView.findViewById(R.id.name_edit);
-        	et.setText(mHistoryName);
+            final View historyDialogView = factory.inflate(R.layout.adialog_historyname, null);
+            mETextHistoryName = (EditText)historyDialogView.findViewById(R.id.name_edit);
+            mETextHistoryName.setText(mHistoryName);        	
             return new AlertDialog.Builder(TorrentWebClient.this)
                 .setTitle(R.string.history_dialog_title)
-                .setView(mHistoryDialogView)
+                .setView(historyDialogView)
                 .setPositiveButton(R.string.history_dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //User clicked OK so do some stuff
-                    	EditText et = (EditText)mHistoryDialogView.findViewById(R.id.name_edit);
-                    	mHistoryName = et.getText().toString();
+                    	mHistoryName = mETextHistoryName.getText().toString();
                     	WebHistory.AddWebHistory(TorrentWebClient.this, mHistoryName, mCurrentUrl, mAction);
                     }
                 })
@@ -409,9 +408,8 @@ public class TorrentWebClient extends Activity {
 			SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
 			mHistoryName = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
 		}
-        if(mHistoryDialogView!=null){
-        	EditText et = (EditText)mHistoryDialogView.findViewById(R.id.name_edit);
-        	et.setText(mHistoryName);
+        if(mETextHistoryName!=null){
+        	mETextHistoryName.setText(mHistoryName);
         }
         showDialog(DIALOG_TEXT_ENTRY);
     }
