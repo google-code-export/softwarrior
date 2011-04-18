@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -239,16 +240,16 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  startActivityForResult(intent,0);
   }
   
-  static public void StartSearch(Context context){
-	    CreateSearchUrl(context);	
+  static public void StartSearch(Activity activity){
+	    CreateSearchUrl(activity);	
 		Bundle bundle = new Bundle();
 		bundle.putString("LoadUrl", RutrackerDownloaderApp.SearchUrl);
 		bundle.putString("Action", "Search");
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.putExtras(bundle);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		intent.setClassName(context, TorrentWebClient.class.getName());
-		context.startActivity(intent);
+		intent.setClassName(activity, TorrentWebClient.class.getName());
+		activity.startActivityForResult(intent,0);
   }
 
   public void OnClickButtonSiteMap(View v) {
