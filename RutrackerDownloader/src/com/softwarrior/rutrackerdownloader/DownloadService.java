@@ -270,12 +270,6 @@ public class DownloadService extends Service {
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
-								int progress = LibTorrent.GetTorrentProgress(mTorrentContentName);
-								if(progress>=0){
-									mTorrentProgress = progress; 
-								} else {
-									continue;
-								}
 								int progress_size = LibTorrent.GetTorrentProgressSize(mTorrentContentName);
 								if(progress_size>=0){
 									mTorrentProgressSize = progress_size; 
@@ -299,6 +293,10 @@ public class DownloadService extends Service {
 									mSessionStatus = s_status; 
 								} else{
 									continue;									
+								}
+								int progress = LibTorrent.GetTorrentProgress(mTorrentContentName);
+								if(progress>=0){
+									mTorrentProgress = progress; 
 								} 
 								mHandler.post(new Runnable() {
 									public void run() {

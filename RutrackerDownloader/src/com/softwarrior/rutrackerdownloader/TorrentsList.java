@@ -141,13 +141,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 					for(int i=0;i<Torrents.size();i++){
 						TorrentContainer tc = Torrents.get(i);
 						if(tc.CtrlState == ControllerState.Started){
-							int progress = DownloadService.LibTorrent.GetTorrentProgress(tc.ContentName);
-							if (progress>=0){ 
-								tc.Progress = progress;
-							}else { 
-								tc.CtrlState = ControllerState.Undefined;								
-								continue;
-							}
 							int progress_size = DownloadService.LibTorrent.GetTorrentProgressSize(tc.ContentName);
 							if(progress_size>=0){ 
 								tc.ProgressSize = progress_size;
@@ -162,6 +155,10 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 							}else{
 								tc.CtrlState = ControllerState.Undefined;
 								continue;
+							}
+							int progress = DownloadService.LibTorrent.GetTorrentProgress(tc.ContentName);
+							if (progress>=0){ 
+								tc.Progress = progress;
 							}
 						} else if(tc.CtrlState == ControllerState.Paused){
 							int status = DownloadService.LibTorrent.GetTorrentState(tc.ContentName);
@@ -246,10 +243,18 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     @Override
     protected void onResume() {
         super.onResume();
-        if(!RutrackerDownloaderApp.TorrentFullFileName.equals("undefined")){			
+        if(RutrackerDownloaderApp.TorrentFullFileName.equals("undefined")){        	
+        }
+        else{
+            boolean open_result=false;
         	String contentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
 			if(contentName != null && contentName.length() > 0){
 				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
+				open_result = true;
+			}
+			if(open_result==false){
+				RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+				Toast.makeText(this, getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
 			}
         }
         mTorrentSavePathFull = DownloadPreferencesScreen.GetTorrentSavePath(this);
@@ -304,7 +309,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     public static long GetAvailibleMB(String path){
     	StatFs stat = new StatFs(path); 
     	long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
-    	Log.i(RutrackerDownloaderApp.TAG,"" + bytesAvailable);
     	long megAvailable = bytesAvailable / 1048576;
     	return megAvailable;    
         //SdSize  totalBlocks * blockSize
