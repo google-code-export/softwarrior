@@ -186,7 +186,7 @@ public class DownloadService extends Service {
 		//0-storage_mode_allocate
 		//1-storage_mode_sparse
 		//2-storage_mode_compact
-		private int mStorageMode  = 2;
+		public static int StorageMode  = 2;
 		
         //Mobclix
 		private MobclixMMABannerXLAdView mAdviewBanner;
@@ -352,12 +352,12 @@ public class DownloadService extends Service {
     		mControllerState = TorrentsList.GetCtrlState(RutrackerDownloaderApp.TorrentFullFileName);
 			mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
 			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
-			mStorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
-			if(mStorageMode < 0 ){
-				mStorageMode = 0;
-				if(mTorrentTotalSize > RutrackerDownloaderApp.StorageModeCompactMB) mStorageMode = 2;
+			StorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
+			if(StorageMode < 0 ){
+				StorageMode = 0;
+				if(mTorrentTotalSize > RutrackerDownloaderApp.StorageModeCompactMB) StorageMode = 2;
 			}
-			if(mStorageMode > 0)
+			if(StorageMode > 0)
 				mCheckBoxStorageMode.setChecked(false);
 			else
 				mCheckBoxStorageMode.setChecked(true);
@@ -369,9 +369,9 @@ public class DownloadService extends Service {
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){
-    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, mStorageMode);
+    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, StorageMode);
     		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
-    		TorrentsList.SetStorageMode(RutrackerDownloaderApp.TorrentFullFileName, mStorageMode);
+    		TorrentsList.SetStorageMode(RutrackerDownloaderApp.TorrentFullFileName, StorageMode);
     	}
     	void SetControllerState(ControllerState controllerState){
     		mControllerState = controllerState; 
@@ -546,7 +546,7 @@ public class DownloadService extends Service {
                     return;
             	}
         		String tempName = CopyTorrentFiles("downloader_temp.torrent");
-        		LibTorrent.AddTorrent(savePath, tempName, mStorageMode);
+        		LibTorrent.AddTorrent(savePath, tempName, StorageMode);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
 //            	LibTorrent.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);
@@ -579,9 +579,9 @@ public class DownloadService extends Service {
     		//1-storage_mode_sparse
     		//2-storage_mode_compact
 			if(mCheckBoxStorageMode.isChecked())
-				mStorageMode = 0;
+				StorageMode = 0;
 			else
-				mStorageMode = 2;
+				StorageMode = 2;
 		}
 		public void OnClickButtonPauseDownload(View v){
         	if(mIsBoundService){
@@ -597,16 +597,12 @@ public class DownloadService extends Service {
         }
         public void OnClickButtonSelectFiles(View v){
         	if(mIsBoundService){
-            	if(mStorageMode == 0){
-		        	Intent intent = new Intent(Intent.ACTION_VIEW);
-		        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(mTorrentContentName);
-		        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(mTorrentContentName);
-		        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		        	intent.setClassName(this, TorrentFilesList.class.getName());
-		        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
-            	} else {
-            		Toast.makeText(this, getString(R.string.select_file_disable),Toast.LENGTH_SHORT).show();
-            	}
+	        	Intent intent = new Intent(Intent.ACTION_VIEW);
+	        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(mTorrentContentName);
+	        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(mTorrentContentName);
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	        	intent.setClassName(this, TorrentFilesList.class.getName());
+	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
         	}
         }        
         private ServiceConnection mConnection = new ServiceConnection(){
