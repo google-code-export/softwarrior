@@ -53,9 +53,10 @@ class TorrentContainer{
 	public volatile int	Progress = 0;
 	public volatile int TotalSize = 0;
 	public volatile int ProgressSize = 0;
-    
-    public TorrentContainer(String fileName, String contentName, int progress, int progressSize, int totalSize){
-    	Name=fileName; ContentName=contentName; Progress=progress;  ProgressSize=progressSize; TotalSize=totalSize;
+	public volatile int StorageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
+
+	public TorrentContainer(String fileName, String contentName, int progress, int progressSize, int totalSize, int storageMode){
+    	Name=fileName; ContentName=contentName; Progress=progress;  ProgressSize=progressSize; TotalSize=totalSize; StorageMode=storageMode;
     }
 }
 //----------------------------------------------------------------------------------
@@ -78,6 +79,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
   	private AdRequest mAdRequest;    
  
 	private Thread mStatusThread;
+	private Runnable mStatusThreadRunnable; 
     private volatile boolean mStopProgress = false;
 	private Timer mRefreshListTimer;
 	private static final int mRefreshListTime = 500; //0.5 seconds
@@ -130,7 +132,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         mRightText.setTypeface(null,Typeface.BOLD);
 
         // Start lengthy operation in a background thread
-        mStatusThread = new Thread(new Runnable() {
+        mStatusThreadRunnable = new Runnable() {
             public void run() {
             	while (!mStopProgress) {
             		try {
@@ -181,7 +183,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 					}
 				}
             }
-        });
+        };
+        mStatusThread = new Thread(mStatusThreadRunnable);
         mStatusThread.start();                                        
         mRefreshListTimer = new Timer();
         mRefreshListTimer.schedule(new RefreshListTimerTask(), mRefreshListTime, mRefreshListTime);
@@ -249,7 +252,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             boolean open_result=false;
         	String contentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
 			if(contentName != null && contentName.length() > 0){
-				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0);
+				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0, -1);
 				open_result = true;
 			}
 			if(open_result==false){
@@ -261,8 +264,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         mWakeLock.acquire();
         mAdapter.notifyDataSetChanged();
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-		if(mStatusThread != null && !mStatusThread.isAlive())
-			mStatusThread.resume();
     }
     
     @Override
@@ -277,8 +278,10 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     		mRefreshListTimer.cancel(); 
     		mRefreshListTimer = null;
     	}
-    	if(mStatusThread != null && mStatusThread.isAlive())
-			mStatusThread.suspend();
+    	if(mStatusThread != null){
+    		mStopProgress = true;
+    		mStatusThread = null;
+    	}
     }
     
     @Override
@@ -288,6 +291,9 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     	mAdRefreshTimer.schedule(new AdRefreshTimerTask(), 0, mAdRefreshTime);
     	mRefreshListTimer = new Timer();
     	mRefreshListTimer.schedule(new RefreshListTimerTask(), 0, mRefreshListTime);
+		mStopProgress = false;
+    	mStatusThread = new Thread(mStatusThreadRunnable);
+        mStatusThread.start();                                        
     }	    		
     
     private class AdRefreshTimerTask extends TimerTask {			
@@ -315,7 +321,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         //SdAvail availableBlocks * blockSize
     }
     
-    static public void AddTorrent(Context context, String FileName, int progress, int progressSize){
+    static public void AddTorrent(Context context, String FileName, int progress, int progressSize, int storageMode){
         if(FileName.equals("undefined"))
         	return;
     	for(int i=0;i<Torrents.size();i++){
@@ -334,26 +340,19 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		boolean add_file = false;
 		if(contentName != null && contentName.length() > 0){
 			int totalSize = DownloadService.LibTorrent.GetTorrentSize(FileName);
+			if(storageMode == -1){
+				storageMode = 0;
+				if(totalSize > 1000)
+					storageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
+			}				
 			if(totalSize >=0){
-				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize));
+				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize, storageMode));
 				add_file = true;
 			}
 		}
 		if(add_file == false){
 			Toast.makeText(context, context.getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
 		}    	
-    }
-
-    static public void SetCtrlState(String FileName, ControllerState ctrlState){
-        if(FileName.equals("undefined"))
-        	return;
-    	for(int i=0;i<Torrents.size();i++){
-    		TorrentContainer tc = Torrents.get(i);
-    		if(tc.Name.equals(FileName)){
-    			tc.CtrlState = ctrlState;
-    			return;
-    		}
-    	}
     }
 
     static public void FinalRemoveTorrents(){
@@ -397,10 +396,64 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     	}
     	return ControllerState.Undefined;
     }
+    static public void SetCtrlState(String FileName, ControllerState ctrlState){
+        if(FileName.equals("undefined"))
+        	return;
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.Name.equals(FileName)){
+    			tc.CtrlState = ctrlState;
+    			return;
+    		}
+    	}
+    }
+    static public int GetStorageMode(String FileName){
+        if(FileName.equals("undefined"))
+        	return -1;
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.Name.equals(FileName)){
+    			return tc.StorageMode;
+    		}
+    	}
+    	return -1;
+    }
+    static public void SetStorageMode(String FileName, int storageMode){
+        if(FileName.equals("undefined"))
+        	return;
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.Name.equals(FileName)){
+    			tc.StorageMode = storageMode;
+    			return;
+    		}
+    	}
+    }    
+    static public int GetProgressSize(String FileName){
+        if(FileName.equals("undefined"))
+        	return 0;
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.Name.equals(FileName)){
+    			return tc.ProgressSize;
+    		}
+    	}
+    	return 0;
+    }
+    static public int GetProgress(String FileName){
+        if(FileName.equals("undefined"))
+        	return 0;
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.Name.equals(FileName)){
+    			return tc.Progress;
+    		}
+    	}
+    	return 0;
+    }    
     public void OnClickButtonAddTorrent(View v){
         RutrackerDownloaderApp.FileManagerActivity(this);
     }
-
     public void OnClickButtonRemoveTorrents(View v){
         Torrents.clear();
         mAdapter.notifyDataSetChanged();

@@ -31,8 +31,12 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSessionOptions
 	(JNIEnv *env, jobject obj, jboolean LSD, jboolean UPNP, jboolean NATPMP);
 //-----------------------------------------------------------------------------
+//StorageMode:
+//0-storage_mode_allocate
+//1-storage_mode_sparse
+//2-storage_mode_compact
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
-	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile);
+	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile, jint StorageMode);
 //-----------------------------------------------------------------------------
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseSession
 	(JNIEnv *, jobject);

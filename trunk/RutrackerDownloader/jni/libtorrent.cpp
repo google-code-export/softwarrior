@@ -175,8 +175,12 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 	return result;
 }
 //-----------------------------------------------------------------------------
+//StorageMode:
+//0-storage_mode_allocate
+//1-storage_mode_sparse
+//2-storage_mode_compact
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
-	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile)
+	(JNIEnv *env, jobject obj, jstring SavePath, jstring TorrentFile, jint StorageMode)
 {
 	jboolean result = JNI_FALSE;
 	try{
@@ -210,6 +214,15 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 
 					torrentParams.ti = t;
 					torrentParams.save_path = torrentFileInfo.SavePath;
+					torrentParams.duplicate_is_error = false;
+					torrentParams.auto_managed = true;
+					libtorrent::storage_mode_t storageMode = libtorrent::storage_mode_sparse;
+					switch(StorageMode){
+					case 0: storageMode = libtorrent::storage_mode_allocate; break;
+					case 1: storageMode = libtorrent::storage_mode_sparse; break;
+					case 2: storageMode = libtorrent::storage_mode_compact; break;
+					}
+					torrentParams.storage_mode = storageMode;
 					gTorrents[torrentFileInfo] = gSession.add_torrent(torrentParams,ec);
 					if(ec) {
 						LOG_ERR("failed to add torrent: %s\n", ec.message().c_str());
@@ -297,8 +310,10 @@ void HandleAlert(libtorrent::alert* a)
 		// write resume data for the finished torrent
 		// the alert handler for save_resume_data_alert
 		// will save it to disk
+		p->handle.set_max_connections(10);
 		libtorrent::torrent_handle h = p->handle;
 		h.save_resume_data();
+		LOG_INFO("torrent_finished_alert: save_resume_data");
 	}
 	else if (libtorrent::save_resume_data_alert* p = libtorrent::alert_cast<libtorrent::save_resume_data_alert>(a))
 	{
@@ -310,12 +325,14 @@ void HandleAlert(libtorrent::alert* a)
 			libtorrent::bencode(std::back_inserter(out), *p->resume_data);
 			SaveFile(h.save_path() / (h.name() + ".resume"), out);
 			gSession.remove_torrent(h);
+			LOG_INFO("save_resume_data_alert: remove_torrent");
 		}
 	}
 	else if (libtorrent::save_resume_data_failed_alert* p = libtorrent::alert_cast<libtorrent::save_resume_data_failed_alert>(a))
 	{
 		libtorrent::torrent_handle h = p->handle;
 		gSession.remove_torrent(h);
+		LOG_INFO("save_resume_data_failed_alert: remove_torrent");
 	}
 }
 //-----------------------------------------------------------------------------
@@ -327,6 +344,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 		if(gSessionState){
 			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
+				LOG_INFO("Remove torrent name %s", pTorrent->name().c_str());
 				pTorrent->pause();
 				// the alert handler for save_resume_data_alert
 				// will save it to disk
@@ -339,6 +357,8 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 					HandleAlert(a.get());
 					a = gSession.pop_alert();
 				}
+				gSession.remove_torrent(*pTorrent);
+				LOG_INFO("remove_torrent");
 				gTorrents.erase(TorrentFileInfo(env,ContentFile));
 				result = JNI_TRUE;
 			}

@@ -9,13 +9,14 @@ import android.util.Log;
 /** Helper to the database, manages versions and creation */
 public class TorrentsSQLHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "torrents.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Table name
     public static final String TABLE = "torrents";
     // Columns
     public static final String PROGRESS = "progress";
     public static final String PROGRESS_SIZE = "progress_size";
+    public static final String STORAGE_MODE = "storage_mode";
     public static final String FILE = "file";
 
     public TorrentsSQLHelper(Context context) {
@@ -28,23 +29,17 @@ public class TorrentsSQLHelper extends SQLiteOpenHelper {
                 + " integer primary key autoincrement, " 
                 + PROGRESS + " integer, "
                 + PROGRESS_SIZE + " integer, "
+                + STORAGE_MODE + " integer, "
                 + FILE + " text not null);";
         Log.d(RutrackerDownloaderApp.TAG, "onCreate: " + sql);
         db.execSQL(sql);
     }
-
+    
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion >= newVersion)
-            return;
-        String sql = null;
-        if (oldVersion == 1) 
-            sql = "alter table " + TABLE + " add note text;";
-        if (oldVersion == 2)
-            sql = "";
-
-        Log.d(RutrackerDownloaderApp.TAG, "onUpgrade  : " + sql);
-        if (sql != null)
-            db.execSQL(sql);
-    }
+        Log.w(RutrackerDownloaderApp.TAG, "Upgrading database from version " + oldVersion + " to "
+                + newVersion + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS notes");
+        onCreate(db);
+    }    
 }

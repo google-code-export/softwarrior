@@ -21,7 +21,11 @@ public class LibTorrent {
     //-----------------------------------------------------------------------------
     public native boolean SetSessionOptions(boolean LSD, boolean UPNP, boolean NATPMP);
     //-----------------------------------------------------------------------------
-    public native boolean AddTorrent(String SavePath, String TorentFile);
+	//StorageMode:
+	//0-storage_mode_allocate
+	//1-storage_mode_sparse
+	//2-storage_mode_compact
+    public native boolean AddTorrent(String SavePath, String TorentFile, int StorageMode);
     //-----------------------------------------------------------------------------
     public native boolean PauseSession();
     //-----------------------------------------------------------------------------
