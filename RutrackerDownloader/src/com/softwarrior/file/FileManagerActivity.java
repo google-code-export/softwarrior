@@ -198,8 +198,13 @@ public class FileManagerActivity extends ListActivity {
           
           File browseto = new File("/");
           
-          if (!TextUtils.isEmpty(mSdCardPath)) {
-        	  browseto = new File(mSdCardPath);
+//          if (!TextUtils.isEmpty(mSdCardPath)) {
+//        	  browseto = new File(mSdCardPath);
+//          }
+
+          String savePath = DownloadPreferencesScreen.GetTorrentSavePath(this);
+          if (!TextUtils.isEmpty(savePath)){
+        	  browseto = new File(savePath);
           }
           
           // Default state

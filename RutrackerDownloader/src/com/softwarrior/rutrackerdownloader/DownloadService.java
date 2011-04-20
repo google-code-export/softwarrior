@@ -355,7 +355,7 @@ public class DownloadService extends Service {
 			mStorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
 			if(mStorageMode < 0 ){
 				mStorageMode = 0;
-				if(mTorrentTotalSize > 1000) mStorageMode = 2;
+				if(mTorrentTotalSize > RutrackerDownloaderApp.StorageModeCompactMB) mStorageMode = 2;
 			}
 			if(mStorageMode > 0)
 				mCheckBoxStorageMode.setChecked(false);
@@ -479,8 +479,7 @@ public class DownloadService extends Service {
 					Toast.makeText(this, getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
 				}
             }
-    	}
-    	
+    	}    	
     	@Override
     	protected void onPause() {
     		super.onPause();
@@ -494,7 +493,6 @@ public class DownloadService extends Service {
 	    		mStatusThread = null;
 	    	}
     	}
-
     	@Override
 	    protected void onRestart() {
 	    	super.onRestart();
@@ -505,16 +503,13 @@ public class DownloadService extends Service {
 	    	mStatusThread = new Thread(mStatusThreadRunnable);
 	        mStatusThread.start();                                        
 	    }
-
-
     	@Override
         protected void onDestroy() {
     		mStopProgress = true;
             super.onDestroy();            
             doUnbindService();
     		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-        }        
-        
+        }                
     	private String CopyTorrentFiles(String torrentName){    		
     		String result =  RutrackerDownloaderApp.TorrentFullFileName;
     		try{			
@@ -557,8 +552,7 @@ public class DownloadService extends Service {
 //            	LibTorrent.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);
         		SetControllerState(ControllerState.Started);
         	}
-		}
-		
+		}		
         public void OnClickButtonStopDownload(View v) {
         	if(mIsBoundService){
         		SetControllerState(ControllerState.Stopped);
@@ -567,8 +561,7 @@ public class DownloadService extends Service {
     			mStopMessage =  mStopHandler.obtainMessage();
     			mStopHandler.sendMessageDelayed(mStopMessage, 500);
         	}
-        } 
-        
+        }         
         private class StopHandler extends Handler {	
     	    @Override
     		public void handleMessage(Message message) {
@@ -604,12 +597,16 @@ public class DownloadService extends Service {
         }
         public void OnClickButtonSelectFiles(View v){
         	if(mIsBoundService){
-	        	Intent intent = new Intent(Intent.ACTION_VIEW);
-	        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(mTorrentContentName);
-	        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(mTorrentContentName);
-	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-	        	intent.setClassName(this, TorrentFilesList.class.getName());
-	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
+            	if(mStorageMode == 0){
+		        	Intent intent = new Intent(Intent.ACTION_VIEW);
+		        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(mTorrentContentName);
+		        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(mTorrentContentName);
+		        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+		        	intent.setClassName(this, TorrentFilesList.class.getName());
+		        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
+            	} else {
+            		Toast.makeText(this, getString(R.string.select_file_disable),Toast.LENGTH_SHORT).show();
+            	}
         	}
         }        
         private ServiceConnection mConnection = new ServiceConnection(){
@@ -622,22 +619,19 @@ public class DownloadService extends Service {
 //                    Toast.makeText(Controller.this, R.string.service_connected, Toast.LENGTH_SHORT).show();
 //                }
             }
-
             public void onServiceDisconnected(ComponentName className) {
             	mIsBoundService = false;
             	mBoundService = null;
 //                Toast.makeText(Controller.this, R.string.service_disconnected, Toast.LENGTH_SHORT).show();
                 SetControllerState(ControllerState.Stopped);
             }
-        };
-        
+        };        
         void doBindService() {
         	if (!mIsBound) {
 	            bindService(new Intent(Controller.this, DownloadService.class), mConnection, Context.BIND_AUTO_CREATE);
 	            mIsBound = true;
         	}
-        }
-        
+        }        
         void doUnbindService() {
             if (mIsBound) {
              	// Detach our existing connection.
@@ -645,7 +639,6 @@ public class DownloadService extends Service {
                 mIsBound = false;
             }
         }
-
         @Override
     	protected void onActivityResult(int requestCode, int resultCode, Intent data) {        	
 			if(requestCode == SELECT_FILE_ACTIVITY){
@@ -675,7 +668,6 @@ public class DownloadService extends Service {
 			}
 			super.onActivityResult(requestCode, resultCode, data);
     	}
-
     	@Override
     	public boolean onCreateOptionsMenu(Menu menu) {
     		super.onCreateOptionsMenu(menu);
@@ -686,8 +678,7 @@ public class DownloadService extends Service {
     		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
     		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
     		return true;
-    	}
-    	
+    	}    	
     	@Override
     	public boolean onMenuItemSelected(int featureId, MenuItem item) {
     		super.onMenuItemSelected(featureId, item);

@@ -672,6 +672,8 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentF
 					int files_num = info.num_files();
 					for (int i = 0; i < info.num_files(); ++i) {
 						out += info.file_at(i).path.string();
+						out += " ";
+						out += add_suffix(info.file_at(i).size);
 						out += "\n";
 					}
 				}
