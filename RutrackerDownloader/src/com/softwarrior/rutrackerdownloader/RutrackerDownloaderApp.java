@@ -142,8 +142,9 @@ public class RutrackerDownloaderApp extends Application {
 	          //long id = cursor.getLong(0);
 	          int progress = cursor.getInt(1);
 	          int progressSize = cursor.getInt(2);
-	          String fileName = cursor.getString(3);
-	          TorrentsList.AddTorrent(context, fileName,progress,progressSize);
+	          int storageMode = cursor.getInt(3);
+	          String fileName = cursor.getString(4);
+	          TorrentsList.AddTorrent(context, fileName,progress,progressSize,storageMode);
 	        }
 	     } catch (SQLiteException sqle){
 	    	 Log.w(TAG, "Error while opening database", sqle);
@@ -161,6 +162,7 @@ public class RutrackerDownloaderApp extends Application {
 	    		TorrentContainer tc = TorrentsList.Torrents.get(i);
 	            values.put(TorrentsSQLHelper.PROGRESS, tc.Progress);
 	            values.put(TorrentsSQLHelper.PROGRESS_SIZE, tc.ProgressSize);
+	            values.put(TorrentsSQLHelper.STORAGE_MODE, tc.StorageMode);
 	            values.put(TorrentsSQLHelper.FILE, tc.Name);
 	            db.insert(TorrentsSQLHelper.TABLE, null, values);
 	    	}

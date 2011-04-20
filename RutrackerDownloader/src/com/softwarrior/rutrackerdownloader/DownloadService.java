@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -165,6 +166,8 @@ public class DownloadService extends Service {
         private TextView mTextViewTorrentState; 
         private TextView mTextViewCommonStatus;
 
+        private CheckBox mCheckBoxStorageMode;
+        
     	StopHandler mStopHandler = null;
     	Message mStopMessage = null;
 
@@ -175,9 +178,16 @@ public class DownloadService extends Service {
 		private static final int mAdInitTime = 500; //0.5 seconds
 		private Handler mAdInitTimerHandler;
 		private Thread mStatusThread;
+		private Runnable mStatusThreadRunnable;
 
 		private static final int SELECT_FILE_ACTIVITY = 222;		
 
+		//StorageMode:
+		//0-storage_mode_allocate
+		//1-storage_mode_sparse
+		//2-storage_mode_compact
+		private int mStorageMode  = 2;
+		
         //Mobclix
 		private MobclixMMABannerXLAdView mAdviewBanner;
 		//AdMob 
@@ -259,8 +269,10 @@ public class DownloadService extends Service {
             mTextViewTorrentState = (TextView)findViewById(R.id.TextViewTorrentState);
             mTextViewCommonStatus = (TextView)findViewById(R.id.TextViewCommonStatus);
             
+            mCheckBoxStorageMode = (CheckBox)findViewById(R.id.ButtonStorageMode);
+            
             // Start lengthy operation in a background thread
-            mStatusThread = new Thread(new Runnable() {
+            mStatusThreadRunnable = new Runnable() {
                 public void run() {
                 	while (!mStopProgress) {
                 		try {
@@ -309,7 +321,8 @@ public class DownloadService extends Service {
 						}
 					}
                 }
-            });
+            };
+            mStatusThread = new Thread(mStatusThreadRunnable);
             mStatusThread.start();
             RestoreControllerState();
 		    doBindService();
@@ -337,18 +350,35 @@ public class DownloadService extends Service {
 	    }	    
     	void RestoreControllerState(){
     		mControllerState = TorrentsList.GetCtrlState(RutrackerDownloaderApp.TorrentFullFileName);
+			mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
+			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
+			mStorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
+			if(mStorageMode < 0 ){
+				mStorageMode = 0;
+				if(mTorrentTotalSize > 1000) mStorageMode = 2;
+			}
+			if(mStorageMode > 0)
+				mCheckBoxStorageMode.setChecked(false);
+			else
+				mCheckBoxStorageMode.setChecked(true);
+            mTorrentProgressSize = TorrentsList.GetProgressSize(RutrackerDownloaderApp.TorrentFullFileName);
+            mTorrentProgress = TorrentsList.GetProgress(RutrackerDownloaderApp.TorrentFullFileName);			
+			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
+			mProgress.setProgress(mTorrentProgress);			
+			mProgress.setText("" + mTorrentProgressSize+ "/" + mTorrentTotalSize+ "MB");
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){
-    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress,  mTorrentProgressSize);
+    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, mStorageMode);
     		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
+    		TorrentsList.SetStorageMode(RutrackerDownloaderApp.TorrentFullFileName, mStorageMode);
     	}
-
     	void SetControllerState(ControllerState controllerState){
     		mControllerState = controllerState; 
             switch (mControllerState) {
 			case Started:{
 			       mButtonStart.setEnabled(false);
+			       mCheckBoxStorageMode.setEnabled(false);
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(true);
 			       mButtonResume.setEnabled(false);
@@ -358,6 +388,7 @@ public class DownloadService extends Service {
 			} break;
 			case Paused:{
 			       mButtonStart.setEnabled(false);
+			       mCheckBoxStorageMode.setEnabled(false);
 			       mButtonStop.setEnabled(true);
 			       mButtonPause.setEnabled(false);
 			       mButtonResume.setEnabled(true);
@@ -370,6 +401,7 @@ public class DownloadService extends Service {
 			case Undefined:
 			default: {
 			       mButtonStart.setEnabled(true);
+			       mCheckBoxStorageMode.setEnabled(true);
 			       mButtonStop.setEnabled(false);
 			       mButtonPause.setEnabled(false);
 			       mButtonResume.setEnabled(false);
@@ -447,8 +479,6 @@ public class DownloadService extends Service {
 					Toast.makeText(this, getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
 				}
             }
-    		if(mStatusThread != null && !mStatusThread.isAlive())
-    			mStatusThread.resume();
     	}
     	
     	@Override
@@ -459,15 +489,21 @@ public class DownloadService extends Service {
 	    		mAdRefreshTimer.cancel(); 
 	    		mAdRefreshTimer = null;
 	    	}
-    		if(mStatusThread != null && mStatusThread.isAlive())
-    			mStatusThread.suspend();
+	    	if(mStatusThread != null){
+	    		mStopProgress = true;
+	    		mStatusThread = null;
+	    	}
     	}
 
     	@Override
 	    protected void onRestart() {
 	    	super.onRestart();
+	    	RestoreControllerState();
 	    	mAdRefreshTimer = new Timer();
 	    	mAdRefreshTimer.schedule(new AdRefreshTimerTask(), 0, mAdRefreshTime);
+			mStopProgress = false;
+	    	mStatusThread = new Thread(mStatusThreadRunnable);
+	        mStatusThread.start();                                        
 	    }
 
 
@@ -515,17 +551,18 @@ public class DownloadService extends Service {
                     return;
             	}
         		String tempName = CopyTorrentFiles("downloader_temp.torrent");
-        		LibTorrent.AddTorrent(savePath, tempName);
+        		LibTorrent.AddTorrent(savePath, tempName, mStorageMode);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
+//            	LibTorrent.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);
         		SetControllerState(ControllerState.Started);
         	}
 		}
 		
         public void OnClickButtonStopDownload(View v) {
         	if(mIsBoundService){
-        		SetControllerState(ControllerState.Stopped); 
-        		LibTorrent.RemoveTorrent(mTorrentContentName);    		    
+        		SetControllerState(ControllerState.Stopped);
+            	LibTorrent.RemoveTorrent(mTorrentContentName);
     	    	mStopHandler = new StopHandler();
     			mStopMessage =  mStopHandler.obtainMessage();
     			mStopHandler.sendMessageDelayed(mStopMessage, 500);
@@ -541,6 +578,17 @@ public class DownloadService extends Service {
 		public void OnClickButtonTorrentManager(View v){
 			RutrackerDownloaderApp.OpenDownloaderActivity(this);
 			finish();
+		}
+		public void OnClickButtonStorageMode(View v){
+			Toast.makeText(this, getString(R.string.storage_mode_comment), Toast.LENGTH_LONG).show();
+    		//StorageMode:
+    		//0-storage_mode_allocate
+    		//1-storage_mode_sparse
+    		//2-storage_mode_compact
+			if(mCheckBoxStorageMode.isChecked())
+				mStorageMode = 0;
+			else
+				mStorageMode = 2;
 		}
 		public void OnClickButtonPauseDownload(View v){
         	if(mIsBoundService){
@@ -610,6 +658,8 @@ public class DownloadService extends Service {
 	        	switch(ActivityResultType.getValue(resultCode))
 	    		{
 	    		case RESULT_DOWNLOADER:
+	    			RutrackerDownloaderApp.OpenDownloaderActivity(this);
+	    			finish();
 	    			return;
 	    		case RESULT_PREFERENCES:
 	    			setResult(resultCode);

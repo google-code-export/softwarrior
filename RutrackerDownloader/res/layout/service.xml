@@ -20,21 +20,40 @@
         <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
             android:id="@+id/advertising_banner_view"
             android:layout_height="50dp"
-            android:layout_width="320dp"/>  
+            android:layout_width="320dp"/>
         <RelativeLayout
             xmlns:android="http://schemas.android.com/apk/res/android"    
             android:layout_width="fill_parent"
             android:id="@+id/ButtonsLayout1" 
             android:orientation="horizontal" 
             android:layout_height="wrap_content" 
-            android:layout_alignParentBottom="true"> 
+            android:layout_alignParentBottom="true">
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:id="@+id/TextView1" 
+                android:text="" 
+                android:layout_centerHorizontal="true" 
+                android:layout_centerVertical="true"/> 
+            <CheckBox
+                android:id="@+id/ButtonStorageMode"
+                android:text="@string/button_storage_mode" 
+                android:onClick="@string/on_click_button_storage_mode"
+                android:layout_alignTop="@+id/ButtonTorrentManager"
+                android:layout_alignBottom="@+id/ButtonTorrentManager"
+                android:layout_alignParentRight="true" 
+                android:layout_height="wrap_content" 
+                android:layout_width="fill_parent" 
+                android:layout_toRightOf="@id/TextView1"/>                               
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonTorrentManager"
                 android:onClick="@string/on_click_button_torrent_manager"
                 android:text="@string/button_torrent_manager" 
                 android:layout_height="wrap_content" 
-                android:layout_width="fill_parent"/>
+                android:layout_alignParentLeft="true" 
+                android:layout_width="fill_parent"
+                android:layout_toLeftOf="@id/TextView1"/>  
                 <requestFocus />
          </RelativeLayout>
         <RelativeLayout

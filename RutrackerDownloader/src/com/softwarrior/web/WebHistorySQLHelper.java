@@ -39,16 +39,9 @@ public class WebHistorySQLHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion >= newVersion)
-            return;
-        String sql = null;
-        if (oldVersion == 1) 
-            sql = "alter table " + TABLE + " add note text;";
-        if (oldVersion == 2)
-            sql = "";
-
-        Log.d(RutrackerDownloaderApp.TAG, "onUpgrade  : " + sql);
-        if (sql != null)
-            db.execSQL(sql);
-    }
+        Log.w(RutrackerDownloaderApp.TAG, "Upgrading database from version " + oldVersion + " to "
+                + newVersion + ", which will destroy all old data");
+        db.execSQL("DROP TABLE IF EXISTS notes");
+        onCreate(db);
+    }    
 }
