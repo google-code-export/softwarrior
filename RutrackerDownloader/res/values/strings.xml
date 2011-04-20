@@ -294,6 +294,6 @@ Please see contact information in the About page.
     <string name="open_torrent_file_error">Torrent file is not correct, file impossible to open</string>
     <string name="on_click_button_storage_mode">OnClickButtonStorageMode</string>
     <string name="button_storage_mode">Allocate storage</string>
-    <string name="storage_mode_comment">Allocation takes time but speeds up downloads. Allocation takes a lot of time for big file. Option "Select file" enable only in allocation mode.</string>
-    <string name="select_file_disable">Option "Select file" enable only in allocation mode.</string>
+    <string name="storage_mode_comment">Allocation takes time but speeds up downloads. Allocation takes a lot of time for big file. Option \"Select file\" enable only in \"Allocate storage\" mode.</string>
+    <string name="select_file_disable">Option \"Select file\" enable only in \"Allocate storage\" mode.</string>
 </resources>
