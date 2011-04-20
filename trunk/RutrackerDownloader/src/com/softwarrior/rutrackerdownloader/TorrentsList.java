@@ -65,8 +65,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     
     private WakeLock mWakeLock;
     
-    TorrentAdapter mAdapter;
-    
+    TorrentAdapter mAdapter;   
     
     static volatile private String mTorrentSavePathFull = RutrackerDownloaderApp.DefaultTorrentSavePath;
 	private Timer mAdRefreshTimer;
@@ -342,7 +341,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 			int totalSize = DownloadService.LibTorrent.GetTorrentSize(FileName);
 			if(storageMode == -1){
 				storageMode = 0;
-				if(totalSize > 1000)
+				if(totalSize > RutrackerDownloaderApp.StorageModeCompactMB)
 					storageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
 			}				
 			if(totalSize >=0){

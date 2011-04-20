@@ -90,6 +90,8 @@ public class RutrackerDownloaderApp extends Application {
 	public static final boolean LSD = false;
 	public static final boolean NATPMP = false;
 	
+	public static final int		StorageModeCompactMB = 1000; //MB
+
 	public static final int		ProxyType = 0; //none
 	public static final String 	HostName =  new String();
 	public static final int 	PortNumber = -1;
