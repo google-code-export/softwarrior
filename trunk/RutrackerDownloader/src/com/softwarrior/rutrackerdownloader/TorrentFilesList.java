@@ -88,7 +88,12 @@ public class TorrentFilesList extends ListActivity {
 	    		} 
 	    	}
 	  	});
-	    if(!RutrackerDownloaderApp.ActivateTorrentFileList) {
+        if(DownloadService.Controller.StorageMode != 0 ){
+	        mDirName.setTypeface(null,Typeface.BOLD);
+	        mDirName.setText(R.string.select_file_disable);
+	        Button button = (Button)findViewById(R.id.ButtonApply);
+	        button.setEnabled(false);
+        } else if(!RutrackerDownloaderApp.ActivateTorrentFileList) {
 	        mDirName.setTypeface(null,Typeface.BOLD);
 	        mDirName.setText(R.string.file_list_activation);
 	        Button button = (Button)findViewById(R.id.ButtonApply);
@@ -286,6 +291,7 @@ class TorrentDirFileAdapter extends BaseAdapter {
         TorrentDirFile dirFile = mTorrentDirFile[position];
 		CheckBox cb = (CheckBox)v.findViewById( R.id.check1 );
 		cb.setTag(dirFile);
+		cb.setVisibility(View.VISIBLE);
 		cb.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 	        	TorrentDirFile df = (TorrentDirFile)buttonView.getTag();
