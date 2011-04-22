@@ -43,24 +43,79 @@
             android:layout_height="50dp"
             android:layout_width="320dp"/>  
     </LinearLayout>      
-    <FrameLayout
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content">
+    <LinearLayout    
+        android:id="@+id/ButtonsLayoutMain" 
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true" 
+        android:orientation="vertical" 
+        android:layout_width="fill_parent">
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"    
+            android:layout_width="fill_parent"
+            android:id="@+id/ButtonsLayout1" 
+            android:orientation="horizontal" 
+            android:layout_height="wrap_content" 
+            android:layout_alignParentBottom="true"> 
+        <TextView
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:id="@+id/TextView1" 
+            android:text="" 
+            android:layout_centerHorizontal="true" 
+            android:layout_centerVertical="true"/>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:id="@+id/ButtonStopAll"
+            android:onClick="@string/on_click_button_stop_all"
+            android:text="@string/button_stop_all" 
+            android:layout_alignParentRight="true" 
+            android:layout_height="wrap_content" 
+            android:layout_width="fill_parent" 
+            android:layout_toRightOf="@id/TextView1"/>
+            <requestFocus />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:id="@+id/ButtonStartAll"
+            android:onClick="@string/on_click_button_start_all" 
+            android:text="@string/button_start_all" 
+            android:layout_height="wrap_content"  
+            android:layout_alignParentLeft="true" 
+            android:layout_width="fill_parent"
+            android:layout_toLeftOf="@id/TextView1"/>  
+        </RelativeLayout>        
 	    <RelativeLayout 
 	        xmlns:android="http://schemas.android.com/apk/res/android"
 	        android:layout_width="fill_parent"
-	        android:id="@+id/ButtonsLayout" 
+	        android:id="@+id/ButtonsLayout2" 
 	        android:orientation="horizontal" 
 	        android:layout_height="wrap_content" 
 	        android:layout_alignParentBottom="true"> 
+	        <TextView
+	            android:layout_width="wrap_content" 
+	            android:layout_height="wrap_content" 
+	            android:id="@+id/TextView1" 
+	            android:text="" 
+	            android:layout_centerHorizontal="true" 
+	            android:layout_centerVertical="true"/>
+	        <Button
+	            style="?android:attr/buttonStyleSmall"
+	            android:id="@+id/ButtonRemoveTorrents"
+	            android:onClick="@string/on_click_button_remove_torrents"
+	            android:text="@string/button_remove_torrents" 
+	            android:layout_alignParentRight="true" 
+	            android:layout_height="wrap_content" 
+	            android:layout_width="fill_parent" 
+	            android:layout_toRightOf="@id/TextView1"/>
+	            <requestFocus />
 	        <Button
 	            style="?android:attr/buttonStyleSmall" 
-                android:text="@string/button_add_torrent"
-                android:onClick="@string/on_click_button_add_torrent"
                 android:id="@+id/ButtonAddTorrent"
+                android:onClick="@string/on_click_button_add_torrent"
+                android:text="@string/button_add_torrent"
+                android:layout_alignParentLeft="true" 
 	            android:layout_height="wrap_content" 
-	            android:layout_alignParentLeft="true" 
-	            android:layout_width="fill_parent"/>
+	            android:layout_width="fill_parent"
+	            android:layout_toLeftOf="@id/TextView1"/>
 	    </RelativeLayout>              
-    </FrameLayout>        
+    </LinearLayout>        
 </LinearLayout>

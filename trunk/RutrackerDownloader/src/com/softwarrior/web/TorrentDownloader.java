@@ -188,7 +188,7 @@ public class TorrentDownloader {
 	public boolean RenameTorrentFiles(){
 		boolean result = false;
 		try{			
-			String torrentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
+			String torrentName = DownloadService.LibTorrents.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
 				torrentName = RemoveSpecialSymbols(torrentName);
 				URI torrentFullName =  new URI(mTorrentSavePath + torrentName + ".torrent");
