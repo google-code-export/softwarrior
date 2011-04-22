@@ -186,14 +186,14 @@ public class TorrentWebClient extends Activity {
             return new AlertDialog.Builder(TorrentWebClient.this)
                 .setTitle(R.string.history_dialog_title)
                 .setView(historyDialogView)
-                .setPositiveButton(R.string.history_dialog_ok, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //User clicked OK so do some stuff
                     	mHistoryName = mETextHistoryName.getText().toString();
                     	WebHistory.AddWebHistory(TorrentWebClient.this, mHistoryName, mCurrentUrl, mAction);
                     }
                 })
-                .setNegativeButton(R.string.history_dialog_cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //User clicked cancel so do some stuff
                     }

@@ -46,7 +46,7 @@ import android.widget.Toast;
 
 public class DownloadService extends Service {
     
-	public static final LibTorrent LibTorrent =  new LibTorrent();
+	public static final LibTorrent LibTorrents = new LibTorrent();
 	
 	private NotificationManager mNM;
     private int mStartId = 0;
@@ -90,7 +90,7 @@ public class DownloadService extends Service {
 		boolean lsd = DownloadPreferencesScreen.GetLSD(getApplicationContext());
 		boolean natpmp = DownloadPreferencesScreen.GetNATPMP(getApplicationContext());
 		
-		LibTorrent.SetSession(listenPort, uploadLimit, downloadLimit);
+		LibTorrents.SetSession(listenPort, uploadLimit, downloadLimit);
 		//-----------------------------------------------------------------------------
 	    //enum proxy_type
 	    //{
@@ -108,9 +108,9 @@ public class DownloadService extends Service {
 		String userName = DownloadPreferencesScreen.GetUserName(getApplicationContext());
 		String password = DownloadPreferencesScreen.GetUserPassword(getApplicationContext());
 
-		LibTorrent.SetProxy(type, hostName, port, userName, password);   
+		LibTorrents.SetProxy(type, hostName, port, userName, password);   
 		
-		LibTorrent.SetSessionOptions(lsd,upnp,natpmp);
+		LibTorrents.SetSessionOptions(lsd,upnp,natpmp);
     					
         return START_REDELIVER_INTENT; //START_NOT_STICKY;
     }
@@ -283,31 +283,31 @@ public class DownloadService extends Service {
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
-								int progress_size = LibTorrent.GetTorrentProgressSize(mTorrentContentName);
+								int progress_size = LibTorrents.GetTorrentProgressSize(mTorrentContentName);
 								if(progress_size>=0){
 									mTorrentProgressSize = progress_size; 
 								} else{
 									continue;
 								}
-								int state = LibTorrent.GetTorrentState(mTorrentContentName);
+								int state = LibTorrents.GetTorrentState(mTorrentContentName);
 								if(state>=0){
 									mTorrentState = state;
 								} else{
 									continue;
 								}
-								String t_status = LibTorrent.GetTorrentStatusText(mTorrentContentName);
+								String t_status = LibTorrents.GetTorrentStatusText(mTorrentContentName);
 								if(t_status!=null){
 									mTorrentStatus = t_status;
 								} else{
 									continue;									
 								}
-								String s_status = LibTorrent.GetSessionStatusText();
+								String s_status = LibTorrents.GetSessionStatusText();
 								if(s_status!=null){
 									mSessionStatus = s_status; 
 								} else{
 									continue;									
 								}
-								int progress = LibTorrent.GetTorrentProgress(mTorrentContentName);
+								int progress = LibTorrents.GetTorrentProgress(mTorrentContentName);
 								if(progress>=0){
 									mTorrentProgress = progress; 
 								} 
@@ -353,7 +353,7 @@ public class DownloadService extends Service {
     		mControllerState = TorrentsList.GetCtrlState(RutrackerDownloaderApp.TorrentFullFileName);
     		mTorrentSavePath = TorrentsList.GetSavePath(RutrackerDownloaderApp.TorrentFullFileName);
     		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this);
-			mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
+			mTorrentTotalSize = LibTorrents.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
 			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
 			StorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
 			if(StorageMode < 0 ){
@@ -466,9 +466,9 @@ public class DownloadService extends Service {
             else
             {
 				boolean open_result= false;
-            	mTorrentContentName = LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+            	mTorrentContentName = LibTorrents.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
 				if(mTorrentContentName != null && mTorrentContentName.length() > 0){
-					mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
+					mTorrentTotalSize = LibTorrents.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
 					if(mTorrentTotalSize >= 0){
 		        		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
 		        		String fileName = file.getName();
@@ -513,14 +513,14 @@ public class DownloadService extends Service {
             doUnbindService();
     		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
         }                
-    	private String CopyTorrentFiles(String torrentName){    		
+    	public static String CopyTorrentFiles(String newName, String oldName){    		
     		String result =  RutrackerDownloaderApp.TorrentFullFileName;
     		try{			
-				URI torrentFullName =  new URI(RutrackerDownloaderApp.DefaultTorrentSavePath + torrentName);
+				URI torrentFullName =  new URI(RutrackerDownloaderApp.DefaultTorrentSavePath + newName);
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
 					File newFile =  new File(filepath);
-					File oldFile = new File(RutrackerDownloaderApp.TorrentFullFileName); 
+					File oldFile = new File(oldName); 
 					if(newFile != null && oldFile != null){
 						if(RutrackerDownloaderApp.CopyFile(oldFile, newFile)){
 							result = filepath;
@@ -532,7 +532,7 @@ public class DownloadService extends Service {
     	    }
     		return result;
     	}        
-    	private void DeleteFile(String FullFileName){
+    	public static void DeleteFile(String FullFileName){
 			File file =  new File(FullFileName);
 			if(file != null)
 				file.delete();    		
@@ -548,18 +548,17 @@ public class DownloadService extends Service {
                     return;
             	}
         		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
-            	String tempName = CopyTorrentFiles("downloader_temp.torrent");
-        		LibTorrent.AddTorrent(mTorrentSavePath, tempName, StorageMode);
+            	String tempName = CopyTorrentFiles("downloader_temp.torrent",RutrackerDownloaderApp.TorrentFullFileName);
+        		boolean res = LibTorrents.AddTorrent(mTorrentSavePath, tempName, StorageMode);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
-//            	LibTorrent.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);
-        		SetControllerState(ControllerState.Started);
+        		if(res == true) SetControllerState(ControllerState.Started);
         	}
 		}		
         public void OnClickButtonStopDownload(View v) {
         	if(mIsBoundService){
         		SetControllerState(ControllerState.Stopped);
-            	LibTorrent.RemoveTorrent(mTorrentContentName);
+            	LibTorrents.RemoveTorrent(mTorrentContentName);
     	    	mStopHandler = new StopHandler();
     			mStopMessage =  mStopHandler.obtainMessage();
     			mStopHandler.sendMessageDelayed(mStopMessage, 500);
@@ -588,21 +587,21 @@ public class DownloadService extends Service {
 		}
 		public void OnClickButtonPauseDownload(View v){
         	if(mIsBoundService){
-        		LibTorrent.PauseSession();
+        		LibTorrents.PauseSession();
         		SetControllerState(ControllerState.Paused);
         	}
 		}       
         public void OnClickButtonResumeDownload(View v){
         	if(mIsBound && mIsBoundService){
-        		LibTorrent.ResumeSession();
+        		LibTorrents.ResumeSession();
         		SetControllerState(ControllerState.Started);
         	}
         }
         public void OnClickButtonSelectFiles(View v){
         	if(mIsBoundService){
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
-	        	TorrentFilesList.TORRENT_FILES = LibTorrent.GetTorrentFiles(mTorrentContentName);
-	        	TorrentFilesList.FILES_PRIORITY = LibTorrent.GetTorrentFilesPriority(mTorrentContentName);
+	        	TorrentFilesList.TORRENT_FILES = LibTorrents.GetTorrentFiles(mTorrentContentName);
+	        	TorrentFilesList.FILES_PRIORITY = LibTorrents.GetTorrentFilesPriority(mTorrentContentName);
 	        	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	        	intent.setClassName(this, TorrentFilesList.class.getName());
 	        	startActivityForResult(intent,SELECT_FILE_ACTIVITY);
@@ -643,7 +642,7 @@ public class DownloadService extends Service {
 			if(requestCode == SELECT_FILE_ACTIVITY){
                 if(mIsBoundService){
                 	if(TorrentFilesList.APPLY)
-                		LibTorrent.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY, mTorrentContentName);	    		                	
+                		LibTorrents.SetTorrentFilesPriority(TorrentFilesList.FILES_PRIORITY, mTorrentContentName);	    		                	
                 }
 			}
 			else{

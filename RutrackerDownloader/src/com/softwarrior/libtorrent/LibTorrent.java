@@ -3,7 +3,15 @@ package com.softwarrior.libtorrent;
 public class LibTorrent {
     static {
     	System.loadLibrary("torrent");
-        }
+    }    
+//	public static final LibTorrent Instance = new LibTorrent();
+//    
+//	@Override
+//    public Object clone() throws CloneNotSupportedException {
+//    	throw new CloneNotSupportedException();
+//    }
+//
+//	private LibTorrent(){};
    //-----------------------------------------------------------------------------
     public native boolean SetSession(int ListenPort, int UploadLimit, int DownloadLimit);
     //-----------------------------------------------------------------------------
