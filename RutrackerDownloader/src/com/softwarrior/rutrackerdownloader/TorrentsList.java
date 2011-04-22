@@ -49,14 +49,15 @@ class TorrentContainer{
 	public volatile ControllerState CtrlState = ControllerState.Undefined;
 	public volatile String  Status = "";
 	public volatile String  Name = "";
+	public volatile String  SavePath = "";
 	public volatile String  ContentName = "";
 	public volatile int	Progress = 0;
 	public volatile int TotalSize = 0;
 	public volatile int ProgressSize = 0;
 	public volatile int StorageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
 
-	public TorrentContainer(String fileName, String contentName, int progress, int progressSize, int totalSize, int storageMode){
-    	Name=fileName; ContentName=contentName; Progress=progress;  ProgressSize=progressSize; TotalSize=totalSize; StorageMode=storageMode;
+	public TorrentContainer(String fileName, String contentName, int progress, int progressSize, int totalSize, int storageMode, String savePath){
+    	Name=fileName; ContentName=contentName; Progress=progress;  ProgressSize=progressSize; TotalSize=totalSize; StorageMode=storageMode; SavePath = savePath; 
     }
 }
 //----------------------------------------------------------------------------------
@@ -251,7 +252,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             boolean open_result=false;
         	String contentName = DownloadService.LibTorrent.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
 			if(contentName != null && contentName.length() > 0){
-				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0, -1);
+				String savePath = DownloadPreferencesScreen.GetTorrentSavePath(this);
+				AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, 0, 0, -1, savePath);
 				open_result = true;
 			}
 			if(open_result==false){
@@ -320,7 +322,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         //SdAvail availableBlocks * blockSize
     }
     
-    static public void AddTorrent(Context context, String FileName, int progress, int progressSize, int storageMode){
+    static public void AddTorrent(Context context, String FileName, int progress, int progressSize, int storageMode, String savePath){
         if(FileName.equals("undefined"))
         	return;
     	for(int i=0;i<Torrents.size();i++){
@@ -345,7 +347,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 					storageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
 			}				
 			if(totalSize >=0){
-				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize, storageMode));
+				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize, storageMode, savePath));
 				add_file = true;
 			}
 		}
@@ -377,13 +379,23 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
    					e.printStackTrace();
    				}
     			Torrents.remove(i);
-    			if(Torrents.size() == 0)
-    				RutrackerDownloaderApp.TorrentFullFileName =  new String("undefined");
+    			//if(Torrents.size() == 0)
+    		    RutrackerDownloaderApp.TorrentFullFileName =  new String("undefined");
     			return;
     		}
     	}
     }
-    
+    static public String GetSavePath(String FileName){
+    	if(FileName.equals("undefined"))
+        	return "";
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.Name.equals(FileName)){
+    			return tc.SavePath;
+    		}
+    	}
+    	return "";
+    }
     static public ControllerState GetCtrlState(String FileName){
         if(FileName.equals("undefined"))
         	return ControllerState.Undefined;

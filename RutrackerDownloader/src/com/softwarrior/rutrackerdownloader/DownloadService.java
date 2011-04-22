@@ -153,6 +153,7 @@ public class DownloadService extends Service {
         private volatile String mTorrentStatus = new String();
         private volatile String mSessionStatus = new String();
         private volatile String mTorrentContentName = new String();
+        private volatile String mTorrentSavePath  = new String();
         
         private TextProgressBar mProgress;
 
@@ -350,6 +351,8 @@ public class DownloadService extends Service {
 	    }	    
     	void RestoreControllerState(){
     		mControllerState = TorrentsList.GetCtrlState(RutrackerDownloaderApp.TorrentFullFileName);
+    		mTorrentSavePath = TorrentsList.GetSavePath(RutrackerDownloaderApp.TorrentFullFileName);
+    		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this);
 			mTorrentTotalSize = LibTorrent.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
 			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
 			StorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
@@ -369,7 +372,7 @@ public class DownloadService extends Service {
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){
-    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, StorageMode);
+    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, StorageMode, mTorrentSavePath);
     		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
     		TorrentsList.SetStorageMode(RutrackerDownloaderApp.TorrentFullFileName, StorageMode);
     	}
@@ -536,7 +539,6 @@ public class DownloadService extends Service {
     	}
 		public void OnClickButtonStartDownload(View v) {
         	if(mIsBoundService){
-        		String savePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
         		try{
         			FileInputStream fis = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName); 
             		fis.close();  		
@@ -545,8 +547,9 @@ public class DownloadService extends Service {
                     Toast.makeText(Controller.this, R.string.error_torrent_file_absent, Toast.LENGTH_SHORT).show();
                     return;
             	}
-        		String tempName = CopyTorrentFiles("downloader_temp.torrent");
-        		LibTorrent.AddTorrent(savePath, tempName, StorageMode);
+        		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
+            	String tempName = CopyTorrentFiles("downloader_temp.torrent");
+        		LibTorrent.AddTorrent(mTorrentSavePath, tempName, StorageMode);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
 //            	LibTorrent.AddTorrent(savePath, RutrackerDownloaderApp.TorrentFullFileName);

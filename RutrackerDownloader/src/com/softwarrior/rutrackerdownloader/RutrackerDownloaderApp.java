@@ -104,6 +104,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static volatile boolean	StartFinalClose = false;
 	
 	public static String	TorrentFullFileName = new String("undefined");
+	
 	//Site Settings
 	public static String	TorrentLoginUrl = RT_TorrentLoginUrl;
 	public static String	SearchUrlPrefix = RT_SearchUrlPrefix;
@@ -145,8 +146,9 @@ public class RutrackerDownloaderApp extends Application {
 	          int progress = cursor.getInt(1);
 	          int progressSize = cursor.getInt(2);
 	          int storageMode = cursor.getInt(3);
-	          String fileName = cursor.getString(4);
-	          TorrentsList.AddTorrent(context, fileName,progress,progressSize,storageMode);
+	          String savePath = cursor.getString(4);
+	          String fileName = cursor.getString(5);
+	          TorrentsList.AddTorrent(context, fileName, progress, progressSize, storageMode, savePath);
 	        }
 	     } catch (SQLiteException sqle){
 	    	 Log.w(TAG, "Error while opening database", sqle);
@@ -165,6 +167,7 @@ public class RutrackerDownloaderApp extends Application {
 	            values.put(TorrentsSQLHelper.PROGRESS, tc.Progress);
 	            values.put(TorrentsSQLHelper.PROGRESS_SIZE, tc.ProgressSize);
 	            values.put(TorrentsSQLHelper.STORAGE_MODE, tc.StorageMode);
+	            values.put(TorrentsSQLHelper.SAVE_PATH, tc.SavePath);
 	            values.put(TorrentsSQLHelper.FILE, tc.Name);
 	            db.insert(TorrentsSQLHelper.TABLE, null, values);
 	    	}
