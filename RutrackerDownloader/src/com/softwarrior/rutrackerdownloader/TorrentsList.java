@@ -309,7 +309,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 			    mAdRefreshTimerHandler.sendEmptyMessage(0);
 		}	    	
     }	   
-
     private class RefreshListTimerTask extends TimerTask {			
 		@Override
 		public void run() {
@@ -317,14 +316,18 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 			    mRefreshListTimerHandler.sendEmptyMessage(0);
 		}	    	
     }	   
-
     public static long GetAvailibleMB(String path){
-    	StatFs stat = new StatFs(path); 
-    	long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
-    	long megAvailable = bytesAvailable / 1048576;
+    	long megAvailable = 0;
+    	try{    		
+	    	if(path != null && path.length() >3 ){
+	    		StatFs stat = new StatFs(path); 
+		    	long bytesAvailable = (long)stat.getBlockSize() * (long)stat.getAvailableBlocks();
+		    	megAvailable = bytesAvailable / 1048576;
+		        //SdSize  totalBlocks * blockSize
+		        //SdAvail availableBlocks * blockSize
+	    	}
+    	} catch(Exception ex){}
     	return megAvailable;    
-        //SdSize  totalBlocks * blockSize
-        //SdAvail availableBlocks * blockSize
     }
     
     static public void AddTorrent(Context context, String FileName, int progress, int progressSize, int storageMode, String savePath){
