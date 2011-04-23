@@ -300,4 +300,6 @@
     <string name="button_start_all">Запустить все</string>
     <string name="on_click_button_start_all">OnClickButtonStartAll</string>    
     <string name="remove_torrents_dialog_title">Вы хотите удалить все torrents ?</string>
+    <string name="ip_address_label">Локальный IP адрес:</string>
+    <string name="ip_address_unknown">неизвестен</string>    
 </resources>

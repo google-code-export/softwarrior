@@ -301,4 +301,6 @@ Please see contact information in the About page.
     <string name="button_start_all">Start All</string>
     <string name="on_click_button_start_all">OnClickButtonStartAll</string>
     <string name="remove_torrents_dialog_title">Do you want to remove all torrents ?</string>
+    <string name="ip_address_label">Local IP address:</string>
+    <string name="ip_address_unknown">unknown</string>
 </resources>

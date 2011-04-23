@@ -4,6 +4,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
+    <TextView 
+        android:id="@+id/ip_address_label"
+        android:text="@string/ip_address_label"
+        android:textStyle="bold"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:paddingTop="5sp" 
+        android:paddingBottom="5sp"/>    
+    <TextView 
+        android:id="@+id/ip_address"
+        android:text="@string/ip_address_unknown"
+        android:textStyle="bold"
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content"
+        android:paddingTop="5sp" 
+        android:paddingBottom="5sp"        
+        android:layout_toRightOf="@+id/ip_address_label"/>    
     <RelativeLayout 
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -37,8 +54,10 @@
             android:layout_width="fill_parent"
             android:layout_toLeftOf="@id/TextView"/>                          
     </RelativeLayout>              
-    <ListView android:id="@android:id/list"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent" 
-              android:layout_above="@id/ButtonsLayout"/>
+    <ListView 
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/ip_address" 
+        android:layout_above="@id/ButtonsLayout"/>
 </RelativeLayout>
