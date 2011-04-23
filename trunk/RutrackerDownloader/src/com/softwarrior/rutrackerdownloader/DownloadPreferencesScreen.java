@@ -1,14 +1,23 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -18,7 +27,6 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
-
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
 
 public final class DownloadPreferencesScreen extends PreferenceActivity
@@ -27,6 +35,10 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public enum MenuType{
 		About, Help, FileManager, WebHistory, Exit;
 	} 
+	private Timer mIPRefreshTimer;
+	private static final int mIPRefreshTime = 5000; //5 seconds
+	private Handler mIPRefreshTimerHandler;
+	private TextView mIPAddressText;
 	
 	public static final String KEY_LISTEN_PORT="preferences_listen_port";
 	public static final String KEY_UPLOAD_LIMIT="preferences_upload_limit";
@@ -55,17 +67,37 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		InitSummaries(getPreferenceScreen());
 		setContentView(R.layout.download_preferences);
 		
+		mIPAddressText = (TextView) findViewById(R.id.ip_address);
+		SetIPAdressText();
+		
+        mIPRefreshTimer = new Timer();
+        mIPRefreshTimer.schedule(new IPRefreshTimerTask(), mIPRefreshTime, mIPRefreshTime);
+        mIPRefreshTimerHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+            	SetIPAdressText();
+            }
+        };        
+		
 		if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
 	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
+	private class IPRefreshTimerTask extends TimerTask {			
+		@Override
+		public void run() {
+			if(mIPRefreshTimerHandler!=null)
+			    mIPRefreshTimerHandler.sendEmptyMessage(0);
+		}	    	
+    }
+	private void SetIPAdressText(){
+    	String ipAddress = getLocalIpAddress();
+    	if(ipAddress.length()>1){
+    		mIPAddressText.setText(ipAddress);
+    	}
+    	else{
+    		mIPAddressText.setText(R.string.ip_address_unknown); 
+    	}
 	}
-
-	
 	public static int GetListenPort(Context context){
 		int result = RutrackerDownloaderApp.ListenPort; 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -223,8 +255,17 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	super.onPause();
 	getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this); 
 	InitSummaries(getPreferenceScreen());
+  	if(mIPRefreshTimer != null){
+  		mIPRefreshTimer.cancel(); 
+  		mIPRefreshTimer = null;
+  	}
   }
-  
+  @Override
+  protected void onRestart() {
+  	super.onRestart();
+  	mIPRefreshTimer = new Timer();
+  	mIPRefreshTimer.schedule(new IPRefreshTimerTask(), 0, mIPRefreshTime);
+  }  
   @Override
   protected void onResume() {
 	super.onResume();
@@ -378,5 +419,19 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
   public void OnClickButtonActivateSettings(View v) {
 	  stopService(new Intent(this,DownloadService.class));
 	  startService(new Intent(this, DownloadService.class));	  
+  }
+  public static String getLocalIpAddress() { 
+	  try {
+	      for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+	          NetworkInterface intf = en.nextElement();
+	          for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+	              InetAddress inetAddress = enumIpAddr.nextElement();
+	              if (!inetAddress.isLoopbackAddress()) {
+	                  return inetAddress.getHostAddress().toString();
+	              }
+	          }
+	      }
+	  } catch (Exception ex) {}
+	  return "";
   }
 }
