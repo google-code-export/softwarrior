@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +40,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	private static final int mIPRefreshTime = 5000; //5 seconds
 	private Handler mIPRefreshTimerHandler;
 	private TextView mIPAddressText;
+	private TextView mIPAddressTextLabel;
 	
 	public static final String KEY_LISTEN_PORT="preferences_listen_port";
 	public static final String KEY_UPLOAD_LIMIT="preferences_upload_limit";
@@ -66,7 +68,8 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		
 		InitSummaries(getPreferenceScreen());
 		setContentView(R.layout.download_preferences);
-		
+
+		mIPAddressTextLabel = (TextView) findViewById(R.id.ip_address_label);
 		mIPAddressText = (TextView) findViewById(R.id.ip_address);
 		SetIPAdressText();
 		
@@ -93,8 +96,12 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     	String ipAddress = getLocalIpAddress();
     	if(ipAddress.length()>1){
     		mIPAddressText.setText(ipAddress);
+    		mIPAddressText.setTextColor(Color.WHITE);
+    		mIPAddressTextLabel.setTextColor(Color.WHITE);
     	}
     	else{
+    		mIPAddressText.setTextColor(Color.RED);
+    		mIPAddressTextLabel.setTextColor(Color.RED);
     		mIPAddressText.setText(R.string.ip_address_unknown); 
     	}
 	}

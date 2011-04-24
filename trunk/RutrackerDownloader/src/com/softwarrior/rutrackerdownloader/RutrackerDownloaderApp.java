@@ -322,7 +322,9 @@ public class RutrackerDownloaderApp extends Application {
 	        final Handler handler = new Handler() {
 	            @Override
 	            public void handleMessage(Message msg) {
-	                dialog.dismiss();
+	                try{
+	                	dialog.dismiss();
+	                }catch(Exception ex){}
 	            	DownloadService.LibTorrents.AbortSession();
 	                activity.moveTaskToBack(false);
 	        	  	Process.killProcess(Process.myPid());

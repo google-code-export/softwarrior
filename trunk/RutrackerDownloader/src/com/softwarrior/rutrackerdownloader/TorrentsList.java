@@ -197,10 +197,19 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             @Override
             public void handleMessage(Message msg) {
                 mAdapter.notifyDataSetChanged();
-                String text_r = "" + GetAvailibleMB(mTorrentSavePathFull) + " MB";
+                long avalMb = GetAvailibleMB(mTorrentSavePathFull);
+                String text_r = "" + avalMb + " MB";
                 String text_l = getString(R.string.available_space) + ":";
                 mLeftText.setText(text_l);
                 mRightText.setText(text_r);
+                if(avalMb == 0){
+                	mLeftText.setTextColor(Color.RED);
+                	mRightText.setTextColor(Color.RED);
+                }else{
+                	mLeftText.setTextColor(Color.WHITE);
+                	mRightText.setTextColor(Color.WHITE);                	
+                }
+                
             }
         };        
 
