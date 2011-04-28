@@ -447,7 +447,7 @@ public class DownloadService extends Service {
     	void SetCommonStatus()
     	{
 			if(mTorrentStatus != null && mSessionStatus != null)
-				mTextViewCommonStatus.setText(mTorrentStatus + mSessionStatus);
+				mTextViewCommonStatus.setText("TORRENT STATUS:\n" + mTorrentStatus +  "SESSION STATUS:\n" + mSessionStatus);
 			else
 				mTextViewCommonStatus.setText(R.string.text_common_status);    		
     	}

@@ -40,8 +40,8 @@
 	<string name="preferences_session_options_title">ПАРАМЕТРЫ СЕССИИ</string>
 	<string name="preferences_session_options_cat_title">ПАРАМЕТРЫ СЕССИИ</string>
 	<string name="preferences_listen_port">Слушать порт</string>
-	<string name="preferences_upload_limit">Огранич. раздачи (Байт/сек)</string>
-	<string name="preferences_download_limit">Огранич. скачивания (Байт/сек)</string>
+	<string name="preferences_upload_limit">Огран.раздачи(байт/сек)</string>
+	<string name="preferences_download_limit">Огран.скачиван(байт/сек)</string>
 	<string name="preferences_proxy_options_title">НАСТРОЙКИ ПРОКСИ</string>
 	<string name="preferences_proxy_options_cat_title">НАСТРОЙКИ ПРОКСИ</string>
 	<string name="preferences_proxy_type">Тип прокси</string>
@@ -87,6 +87,7 @@
 	<string name="summary_chechbox_enable">Включить настройку</string>
 	<string name="summary_chechbox_disable">Выключить настройку</string>
 	<string name="summary_edittext_current">Текущее значение</string>
+	<string name="summary_edittext_current_zerro">(0 значит не определено)\nТекущее значение</string>
 	
 	<string name="summary_preferences_proxy_type">Выберите тип прокси</string>
 	
@@ -271,7 +272,7 @@
     <string name="preferences_lsd">Local Service Discovery</string>
     <string name="preferences_natpmp">NAT-PMP сервис</string>
     <string name="available_space">Свободное место на диске</string>
-    <string name="torrent_download_error">Торрент был скачан с ошибкой, вернитесь назад и попробуйте снова</string>
+    <string name="torrent_download_error">Торент был скачан с ошибкой, вернитесь назад и попробуйте снова</string>
     <string name="button_kinoafisha">Киноафиша</string>
     <string name="on_click_button_kinoafisha">OnClickButtonKinoafisha</string>
     <string name="button_search_torrent">Искать torrent</string>

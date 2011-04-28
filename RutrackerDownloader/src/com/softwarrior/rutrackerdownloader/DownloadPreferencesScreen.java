@@ -214,7 +214,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static void SetListenPort(Context context, String listenPort){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		if(listenPort == null || listenPort.length() < 1)
+		if(listenPort == null || listenPort.length() < 0)
 			editor.putString(KEY_LISTEN_PORT, Integer.toString(RutrackerDownloaderApp.ListenPort));
 		else
 			editor.putString(KEY_LISTEN_PORT, listenPort);
@@ -223,7 +223,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static void SetUploadLimit(Context context, String uploadLimit){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		if(uploadLimit == null || uploadLimit.length() < 1)
+		if(uploadLimit == null || uploadLimit.length() < 0)
 			editor.putString(KEY_UPLOAD_LIMIT, Integer.toString(RutrackerDownloaderApp.UploadLimit));
 		else
 			editor.putString(KEY_UPLOAD_LIMIT, uploadLimit);
@@ -232,7 +232,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static void SetDownloadLimit(Context context, String downloadLimit){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		if(downloadLimit == null || downloadLimit.length() < 1)
+		if(downloadLimit == null || downloadLimit.length() < 0)
 			editor.putString(KEY_DOWNLOAD_LIMIT, Integer.toString(RutrackerDownloaderApp.DownloadLimit));
 		else
 			editor.putString(KEY_DOWNLOAD_LIMIT, downloadLimit);
@@ -241,7 +241,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static void SetProxyType(Context context, String proxyType){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		if(proxyType == null || proxyType.length() < 1)
+		if(proxyType == null || proxyType.length() < 0)
 			editor.putString(KEY_PROXY_TYPE, Integer.toString(RutrackerDownloaderApp.ProxyType));
 		else
 			editor.putString(KEY_PROXY_TYPE, proxyType);
@@ -250,7 +250,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static void SetPortNumber(Context context, String portNumber){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		if(portNumber == null || portNumber.length() < 1)
+		if(portNumber == null || portNumber.length() < 0)
 			editor.putString(KEY_PORT_NUMBER, Integer.toString(RutrackerDownloaderApp.PortNumber));
 		else
 			editor.putString(KEY_PORT_NUMBER, portNumber);
@@ -367,7 +367,15 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     }
     else if(pref instanceof EditTextPreference) {
     	EditTextPreference editTextPreference = (EditTextPreference) pref;
-    	editTextPreference.setSummary(getString(R.string.summary_edittext_current) + ": " + editTextPreference.getText()); 
+    	String key = pref.getKey();
+    	if(key.equals(KEY_LISTEN_PORT) ||
+    	   key.equals(KEY_UPLOAD_LIMIT) ||
+		   key.equals(KEY_DOWNLOAD_LIMIT) ||
+		   key.equals(KEY_PROXY_TYPE) ||
+		   key.equals(KEY_PORT_NUMBER))
+    		editTextPreference.setSummary(getString(R.string.summary_edittext_current_zerro) + ": " + editTextPreference.getText());
+    	else
+    		editTextPreference.setSummary(getString(R.string.summary_edittext_current) + ": " + editTextPreference.getText());
     }
     else if(pref instanceof PreferenceScreen) {
 		  PreferenceScreen preferenceScreen = (PreferenceScreen) pref;
@@ -390,7 +398,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 			 key.equals(KEY_PROXY_TYPE) ||
 			 key.equals(KEY_PORT_NUMBER) ){
 			
-			String  str = sharedPreferences.getString(key, "-1");
+			String  str = sharedPreferences.getString(key, "0");
 			if(key.equals(KEY_PROXY_TYPE))
 					str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ProxyType));		
 			else if(key.equals(KEY_LISTEN_PORT))
@@ -399,7 +407,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 			try{
 				value = Integer.parseInt(str);
 			}catch(Exception e){
-					str = "-1";
+					str = "0";
 				if(key.equals(KEY_PROXY_TYPE))
 					str = Integer.toString(RutrackerDownloaderApp.ProxyType);
 				else if(key.equals(KEY_LISTEN_PORT))
