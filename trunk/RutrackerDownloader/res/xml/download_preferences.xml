@@ -9,10 +9,10 @@
 					android:title="@string/preferences_listen_port" android:defaultValue="54132"/>
 				<EditTextPreference 
 					android:title="@string/preferences_upload_limit" 
-					android:key="preferences_upload_limit" android:defaultValue="-1"/>
+					android:key="preferences_upload_limit" android:defaultValue="0"/>
 				<EditTextPreference 
 					android:title="@string/preferences_download_limit" 
-					android:key="preferences_download_limit" android:defaultValue="-1"/>
+					android:key="preferences_download_limit" android:defaultValue="0"/>
 				<CheckBoxPreference android:key="preferences_upnp" android:title="@string/preferences_upnp"></CheckBoxPreference>
 				<CheckBoxPreference android:key="preferences_lsd" android:title="@string/preferences_lsd"></CheckBoxPreference>
 				<CheckBoxPreference android:key="preferences_natpmp" android:title="@string/preferences_natpmp"></CheckBoxPreference>
@@ -29,16 +29,16 @@
                 	android:dialogTitle="@string/preferences_proxy_type_dialog_title" android:defaultValue="0"/>
 				<EditTextPreference 
 					android:title="@string/preferences_host_name" 
-					android:key="preferences_host_name"/>
+					android:key="preferences_host_name" android:defaultValue="\0"/>
 				<EditTextPreference 
 					android:title="@string/preferences_port_number" 
-					android:key="preferences_port_number" android:defaultValue="-1"/>
+					android:key="preferences_port_number" android:defaultValue="0"/>
 				<EditTextPreference 
 					android:title="@string/preferences_user_name" 
-					android:key="preferences_user_name"/>
+					android:key="preferences_user_name" android:defaultValue="\0"/>
 				<EditTextPreference 
 					android:title="@string/preferences_password" 
-					android:key="preferences_password"/>
+					android:key="preferences_password" android:defaultValue="\0"/>
 			</PreferenceCategory>
 		</PreferenceScreen>
 		<PreferenceScreen android:title="@string/preferences_torrent_options_title">
@@ -46,8 +46,7 @@
 				<PreferenceScreen 
 					android:title="@string/preferences_torrent_save_path" 
 					android:key="preferences_torrent_save_path">
-					<intent 
-						android:action="com.softwarrior.file.SET_DIRECTORY">
+					<intent android:action="com.softwarrior.file.SET_DIRECTORY">
 					</intent>
 				</PreferenceScreen>					
 			</PreferenceCategory>

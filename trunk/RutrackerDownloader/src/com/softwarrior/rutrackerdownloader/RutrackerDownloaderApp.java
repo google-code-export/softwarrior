@@ -84,8 +84,8 @@ public class RutrackerDownloaderApp extends Application {
 	public static final String  KinoafishaMoviesUrl = "/movies/";
 	//Default Download Preferences constants
 	public static final int		ListenPort = 54312;
-	public static final int		UploadLimit = -1;
-	public static final int		DownloadLimit = -1;	
+	public static final int		UploadLimit = 0;
+	public static final int		DownloadLimit = 0;	
 	public static final boolean UPNP = false;
 	public static final boolean LSD = false;
 	public static final boolean NATPMP = false;
@@ -93,10 +93,10 @@ public class RutrackerDownloaderApp extends Application {
 	public static final int		StorageModeCompactMB = 750; //MB
 
 	public static final int		ProxyType = 0; //none
-	public static final String 	HostName =  new String();
-	public static final int 	PortNumber = -1;
-	public static final String 	UserName = new String();
-	public static final String 	UserPassword = new String();
+	public static final String 	HostName =  new String("");
+	public static final int 	PortNumber = 0;
+	public static final String 	UserName = new String("");
+	public static final String 	UserPassword = new String("");
 	public static final String 	DefaultTorrentSavePath = Environment.getExternalStorageDirectory()+"/";
 	
 	//Variables
@@ -113,11 +113,11 @@ public class RutrackerDownloaderApp extends Application {
 	public static String	TorrentTopic = RT_TorrentTopic;
 	public static String	CookieUrl = RT_CookieUrl;
 	
-	public static String	CookieData = new String();
+	public static String	CookieData = new String("");
 	//"http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss&type=video_foreign_films&date=2010&name=the";
-	public static String	FeedUrl = new String();
+	public static String	FeedUrl = new String("");
 	//"http://rutracker.org/forum/search.php?nm=TEST"
-	public static String	SearchUrl = new String();
+	public static String	SearchUrl = new String("");
 	public static boolean	ExitState = false;	
 
 	public static boolean 	ActivateTorrentFileList=false;

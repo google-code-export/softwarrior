@@ -40,8 +40,8 @@
 	<string name="preferences_session_options_title">SESSION OPTIONS</string>
 	<string name="preferences_session_options_cat_title">SESSION OPTIONS</string>
 	<string name="preferences_listen_port">Listen port</string>
-	<string name="preferences_upload_limit">Upload limit (Byte/sec)</string>
-	<string name="preferences_download_limit">Download limit (Byte/sec)</string>
+	<string name="preferences_upload_limit">Upload limit(byte/sec)</string>
+	<string name="preferences_download_limit">Download limit(byte/sec)</string>
 	<string name="preferences_proxy_options_title">PROXY OPTIONS</string>
 	<string name="preferences_proxy_options_cat_title">PROXY OPTIONS</string>
 	<string name="preferences_proxy_type">Proxy Type</string>
@@ -88,6 +88,7 @@
 	<string name="summary_chechbox_enable">Enable this setting</string>
 	<string name="summary_chechbox_disable">Disable this setting</string>
 	<string name="summary_edittext_current">Current value is</string>
+	<string name="summary_edittext_current_zerro">(0 means undefined)\nCurrent value is</string>
 	
 	<string name="summary_preferences_proxy_type">Select proxy type</string>
 	
