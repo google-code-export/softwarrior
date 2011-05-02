@@ -204,9 +204,12 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	}
 	
 	public static void SetSearchString(Context context, String SearchString){
+		String searchString = new String("");
+		if(SearchString != null)
+			searchString = SearchString;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(KEY_SEARCH_STRING, SearchString);
+		editor.putString(KEY_SEARCH_STRING, searchString);
 		editor.commit();
 	}
     

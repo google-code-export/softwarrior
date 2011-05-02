@@ -7,7 +7,7 @@
 	       android:key="preferences_search_on_site"/>
 		<EditTextPreference 
     		android:key="preferences_search_string" 
-	       	android:title="@string/preferences_search_string_title"/>		
+	       	android:title="@string/preferences_search_string_title" android:defaultValue="\0"/>		
 	</PreferenceCategory>
 
 

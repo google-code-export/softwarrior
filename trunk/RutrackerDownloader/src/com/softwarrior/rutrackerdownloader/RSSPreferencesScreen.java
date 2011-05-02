@@ -29,9 +29,9 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.*;
 public final class RSSPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
 
-	  String mType = new String();
-	  String mDate = new String();
-	  String mName = new String();
+	  String mType = new String("");
+	  String mDate = new String("");
+	  String mName = new String("");
 
 	 Button	mButtonSearch;
 	 Button mButtonLogin;
@@ -175,9 +175,9 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 
   private void CreateFeedUrl()
   {
-	  mType = new String();
-	  mDate = new String();
-	  mName = new String();
+	  mType = new String("");
+	  mDate = new String("");
+	  mName = new String("");
 	  
 	  RutrackerDownloaderApp.FeedUrl = RutrackerDownloaderApp.FeedUrlPrefix;
 
