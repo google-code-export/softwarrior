@@ -83,6 +83,11 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 			gSession.set_download_rate_limit(downloadLimit * 1000);
 		else
 			gSession.set_download_rate_limit(0);
+
+		LOG_INFO("ListenPort: %d\n", listenPort);
+		LOG_INFO("DownloadLimit: %d\n", downloadLimit);
+		LOG_INFO("UploadLimit: %d\n", uploadLimit);
+
 		gSessionState=true;
 	}catch(...){
 		LOG_ERR("Exception: failed to set session");
@@ -136,6 +141,12 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetProxy
 				gProxy.password = password;
 
 				gSession.set_proxy(gProxy);
+
+				LOG_INFO("ProxyType: %d\n", type);
+				LOG_INFO("HostName: %s\n", hostName.c_str());
+				LOG_INFO("ProxyPort: %d\n", port);
+				LOG_INFO("UserName: %s\n", userName.c_str());
+				LOG_INFO("Password: %s\n", password.c_str());
 			}
 		}
 	}catch(...){
@@ -165,6 +176,10 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 				gSession.start_natpmp();
 			else
 				gSession.stop_natpmp();
+
+			LOG_INFO("LSD: %d\n", LSD);
+			LOG_INFO("UPNP: %d\n", UPNP);
+			LOG_INFO("NATPMP: %d\n", NATPMP);
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to set session options");
@@ -202,6 +217,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 				}
 				else{
 					LOG_INFO("%s\n", t->name().c_str());
+					LOG_INFO("StorageMode: %d\n", StorageMode);
 
 					libtorrent::add_torrent_params torrentParams;
 					libtorrent::lazy_entry resume_data;
