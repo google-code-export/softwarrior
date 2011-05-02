@@ -32,8 +32,8 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/preferences_search_title">
-		<EditTextPreference android:key="preferences_search_year"                 android:title="@string/preferences_search_year_title"/>
-		<EditTextPreference android:key="preferences_search_name"                 android:title="@string/preferences_search_name_title"/>
+		<EditTextPreference android:key="preferences_search_year"                 android:title="@string/preferences_search_year_title" android:defaultValue="\0"/>
+		<EditTextPreference android:key="preferences_search_name"                 android:title="@string/preferences_search_name_title" android:defaultValue="\0"/>
 	</PreferenceCategory>
 
 
