@@ -54,6 +54,7 @@ public class RutrackerDownloaderApp extends Application {
 	//Constants
 	public static final String	TAG = "Softwarrior";
 	public static final String	FeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=238f93185eccbc0e671bb93b29a50745&_render=rss";
+	public static final String	PirateFeedUrlPrefix = "http://pipes.yahoo.com/pipes/pipe.run?_id=14fa9d240a96da059ab8f811766384ed&_render=rss";
 	//rutracker.org
 	public static final String	RT_Site = "http://rutracker.org";
 	public static final String	RT_TorrentLoginUrl = "http://login.rutracker.org/forum/login.php";

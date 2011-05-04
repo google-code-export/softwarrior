@@ -67,7 +67,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
     super.onCreate(icicle);
     addPreferencesFromResource(R.xml.rss_preferences);
     InitSummaries(getPreferenceScreen());
-    setContentView(R.layout.preferences);
+    setContentView(R.layout.rss_preferences);
 	mButtonSearch = (Button)findViewById(R.id.ButtonSearch);
 	mButtonLogin = (Button)findViewById(R.id.ButtonLogin);
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);

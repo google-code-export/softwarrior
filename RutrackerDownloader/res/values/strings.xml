@@ -100,7 +100,7 @@
 	<string name="service_disconnected">Torrent Downloader Service disconnected</string>
 	<string name="service_connected">Torrent Downloader Service connected</string>
 	<string name="service_controller">Torrent Downloader Service controller</string>	
-	<string name="service_created">Torrent Downloader Service started</string>
+	<string name="service_created">Click to open Torrent Manager</string>
 	<string name="service_destroyed">Torrent Downloader Service stopped</string>
 	<string name="service_label">Torrent Downloader Service</string>
 	<string name="service_notification">Start Download Service</string>
@@ -304,4 +304,6 @@ Please see contact information in the About page.
     <string name="remove_torrents_dialog_title">Do you want to remove all torrents ?</string>
     <string name="ip_address_label">Local IP address:</string>
     <string name="ip_address_unknown">unknown</string>
+    <string name="button_pirate_search">Pirate Search</string>
+    <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>    
 </resources>

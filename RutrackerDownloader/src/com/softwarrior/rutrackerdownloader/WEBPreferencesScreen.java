@@ -3,6 +3,7 @@ package com.softwarrior.rutrackerdownloader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import com.softwarrior.rss.MessageList;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
@@ -46,7 +47,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     super.onCreate(icicle);
     addPreferencesFromResource(R.xml.web_preferences);
     InitSummaries(getPreferenceScreen());
-    setContentView(R.layout.preferences);
+    setContentView(R.layout.web_preferences);
     RelativeLayout buttonsLayoutEx = (RelativeLayout) findViewById(R.id.ButtonsLayoutEx);
     buttonsLayoutEx.setVisibility(RelativeLayout.VISIBLE);
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
@@ -229,6 +230,16 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 	  Preference pref = findPreference(key);
 	  SetSummary(pref);
+  }
+  
+  public void OnClickButtonPirateSearch(View v) {  
+	  RutrackerDownloaderApp.FeedUrl = RutrackerDownloaderApp.PirateFeedUrlPrefix;
+	  RutrackerDownloaderApp.FeedUrl += "&search=";
+	  RutrackerDownloaderApp.FeedUrl += GetSearchString(this);	  
+	  Intent intent = new Intent(Intent.ACTION_VIEW);
+	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	  intent.setClassName(this, MessageList.class.getName());
+	  startActivityForResult(intent,0);
   }
   
   public void OnClickButtonSearch(View v) {
