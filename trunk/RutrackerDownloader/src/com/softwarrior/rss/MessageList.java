@@ -176,7 +176,9 @@ public class MessageList extends ListActivity {
 			serializer.attribute("", "number", String.valueOf(messages.size()));
 			for (RSSMessage msg: messages){
 				serializer.startTag("", "message");				
-				serializer.attribute("", "date", msg.getDate());
+				try{
+					serializer.attribute("", "date", msg.getDate());
+				}catch(Exception ex){}
 				String title = msg.getTitle();
 				if(title != null)
 				{
