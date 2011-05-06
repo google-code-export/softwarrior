@@ -95,77 +95,99 @@ public class TorrentWebClient extends Activity {
         mAction = bundle.getString("Action");
         mLoadUrl = bundle.getString("LoadUrl");
         
-        mWebView = (WebView) findViewById(R.id.webview);
-
-        WebSettings webSettings = mWebView.getSettings();
-        webSettings.setSavePassword(true);
-        webSettings.setSaveFormData(true);
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setSupportZoom(true);
-        webSettings.setPluginState(WebSettings.PluginState.OFF); 
-               
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            public void onProgressChanged(WebView view, int progress){
-                activity.setProgress(progress * 100);
-                setProgressBarIndeterminateVisibility(true);
-                if(progress == 100)
-                	setProgressBarIndeterminateVisibility(false);
-            }
-        });
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
-                // Handle the error
-            }
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url){            	
-            	view.loadUrl(url);
-                return true;
-            }            
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            	if(mNNSearch && mRefreshNNSearch && url.equals(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
-            		mRefreshNNSearch = false;
-            		NNMClubSearchResultThread(mSearchString);
-            	}
-            	activity.setTitle(url);
-            	mCurrentUrl = url;
-            	ManageDownloadButton(url);
-            	super.onPageStarted(view, url, favicon);
-            }
-        }); 
-                
-        if(mAction.equals("Login")) {
-        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
-        	viewAnimator.setVisibility(View.VISIBLE);
-        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
-        	buttonsLayout.setVisibility(View.VISIBLE);
-        	viewAnimator.bringChildToFront(buttonsLayout);
-    		activity.setTitle(mLoadUrl);        
-    		mWebView.loadUrl(mLoadUrl);
-        }
-        else if(mAction.equals("Show")){
-        	mCatchBackKey = true;
-        	activity.setTitle(mLoadUrl);        
-    		mWebView.loadUrl(mLoadUrl);
-        }
-        else if(mAction.equals("SiteMap")){
-        	mCatchBackKey = true;
-    		activity.setTitle(mLoadUrl);        
-    		mWebView.loadUrl(mLoadUrl);
-        }
-        else if(mAction.equals("Search")){
-        	mCatchBackKey = true;
-        	if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB){
-        		activity.setTitle(RutrackerDownloaderApp.NN_SearchUrlPrefix);
-        		mSearchString = mLoadUrl;
-        		NNMClubSearchResultThread(mSearchString);
-        	}
-        	else {
-        		activity.setTitle(mLoadUrl);        
-        		mWebView.loadUrl(mLoadUrl);        		
-        	}
-        }    	        
+    	if(mLoadUrl.contains(".torrent")){
+    		boolean download_result = TorrentDownloader.DownloadTorrentFile(TorrentWebClient.this,mLoadUrl);
+    		if(download_result){
+    			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+    			Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
+        		Intent intent = new Intent(Intent.ACTION_VIEW);
+    			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    			intent.setClassName(this, TorrentsList.class.getName());
+    			startActivityForResult(intent, 0);
+    		}
+    		finish();
+    	}
+    	else{	        
+	        mWebView = (WebView) findViewById(R.id.webview);
+	
+	        WebSettings webSettings = mWebView.getSettings();
+	        webSettings.setSavePassword(true);
+	        webSettings.setSaveFormData(true);
+	        webSettings.setJavaScriptEnabled(true);
+	        webSettings.setSupportZoom(true);
+	        webSettings.setPluginState(WebSettings.PluginState.OFF); 
+	               
+	        mWebView.setWebChromeClient(new WebChromeClient() {
+	            public void onProgressChanged(WebView view, int progress){
+	                activity.setProgress(progress * 100);
+	                setProgressBarIndeterminateVisibility(true);
+	                if(progress == 100)
+	                	setProgressBarIndeterminateVisibility(false);
+	            }
+	        });
+	        mWebView.setWebViewClient(new WebViewClient() {
+	            @Override
+	            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
+	                // Handle the error
+	            }
+	            @Override
+	            public boolean shouldOverrideUrlLoading(WebView view, String url){
+	            	if(url.contains(".torrent")){
+	            		if(TorrentDownloader.DownloadTorrentFile(TorrentWebClient.this,url) == true){
+	            			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+	            			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
+	            		}
+	            	}
+	            	else{
+	            		view.loadUrl(url);
+	            	}
+	                return true;
+	            }            
+	            @Override
+	            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+	            	if(mNNSearch && mRefreshNNSearch && url.equals(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
+	            		mRefreshNNSearch = false;
+	            		NNMClubSearchResultThread(mSearchString);
+	            	}
+	            	activity.setTitle(url);
+	            	mCurrentUrl = url;
+	            	ManageDownloadButton(url);
+	            	super.onPageStarted(view, url, favicon);
+	            }
+	        }); 
+	                
+	        if(mAction.equals("Login")) {
+	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
+	        	viewAnimator.setVisibility(View.VISIBLE);
+	        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
+	        	buttonsLayout.setVisibility(View.VISIBLE);
+	        	viewAnimator.bringChildToFront(buttonsLayout);
+	    		activity.setTitle(mLoadUrl);        
+	    		mWebView.loadUrl(mLoadUrl);
+	        }
+	        else if(mAction.equals("Show")){
+	        	mCatchBackKey = true;
+	        	activity.setTitle(mLoadUrl);        
+	    		mWebView.loadUrl(mLoadUrl);
+	        }
+	        else if(mAction.equals("SiteMap")){
+	        	mCatchBackKey = true;
+	    		activity.setTitle(mLoadUrl);        
+	    		mWebView.loadUrl(mLoadUrl);
+	        }
+	        else if(mAction.equals("Search")){
+	        	mCatchBackKey = true;
+	        	if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB){
+	        		activity.setTitle(RutrackerDownloaderApp.NN_SearchUrlPrefix);
+	        		mSearchString = mLoadUrl;
+	        		NNMClubSearchResultThread(mSearchString);
+	        	}
+	        	else {
+	        		activity.setTitle(mLoadUrl);        
+	        		mWebView.loadUrl(mLoadUrl);        		
+	        	}
+	        }
+    	}
         //mWebView.loadUrl("http://rutracker.org/forum/index.php");
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
@@ -174,6 +196,7 @@ public class TorrentWebClient extends Activity {
     	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentWebClient");
     }
 
+    
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
