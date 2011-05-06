@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
+import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.DownloadService;
 import com.softwarrior.rutrackerdownloader.R;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
@@ -111,7 +112,7 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }
-	        result=RenameTorrentFiles();
+	        result=RenameTorrentFiles(mContext);
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
@@ -160,7 +161,7 @@ public class TorrentDownloader {
 	    		fos.flush();
 	    		fos.close();  
 	        }
-	        result=RenameTorrentFiles();
+	        result=RenameTorrentFiles(mContext);
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
@@ -185,13 +186,13 @@ public class TorrentDownloader {
 	    return buffer.toString();  
 	}  
 	
-	public boolean RenameTorrentFiles(){
+	static public boolean RenameTorrentFiles(Context context){
 		boolean result = false;
 		try{			
 			String torrentName = DownloadService.LibTorrents.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
 				torrentName = RemoveSpecialSymbols(torrentName);
-				URI torrentFullName =  new URI(mTorrentSavePath + torrentName + ".torrent");
+				URI torrentFullName =  new URI(DownloadPreferencesScreen.GetTorrentSavePath(context) + torrentName + ".torrent");
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
 					File newFile =  new File(filepath);
@@ -209,6 +210,42 @@ public class TorrentDownloader {
 	    }
 		return result;
 	}
+	
+    public static boolean DownloadTorrentFile(Context context, String strUrl){
+		boolean result = false;
+    	try {
+	        URL url = new URL(strUrl);
+	        HttpURLConnection c = (HttpURLConnection) url.openConnection();
+	        c.setRequestMethod("GET");
+	        c.setDoOutput(true);
+	        c.connect();
+	
+	        RutrackerDownloaderApp.TorrentFullFileName = DownloadPreferencesScreen.GetTorrentSavePath(context) + "torrent_temp.torrent";
+	        File outputFile = new File(RutrackerDownloaderApp.TorrentFullFileName);
+	        FileOutputStream fos = new FileOutputStream(outputFile);
+	
+	        InputStream is = c.getInputStream();
+	        if(is != null){
+		
+		        byte[] buffer = new byte[1024];
+		        int len1 = 0;
+		        while ((len1 = is.read(buffer)) != -1) {
+		            fos.write(buffer, 0, len1);
+		        }
+		        fos.close();
+		        is.close();
+	        }
+	        result=RenameTorrentFiles(context);
+	    } catch (Exception ex){ 	
+ 	    	Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+ 	    }
+		if(result == false){
+			RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+			Toast.makeText(context, context.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
+		}
+		return result;
+     }
+
 	
 //    void PrintMapWithList(Map<String, List<String>> MapList)
 //    {

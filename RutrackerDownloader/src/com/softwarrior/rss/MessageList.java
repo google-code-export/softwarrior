@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
@@ -28,17 +30,23 @@ import android.widget.ListView;
 
 public class MessageList extends ListActivity {
 	
-	private List<RSSMessage> messages;	
+	private List<RSSMessage> messages;
+	private boolean mPirateSearch = false;
+	
+	private ArrayAdapter<String> mListAdapter = null;
 
     public enum MenuType{
     	About, Help, Preferences, FileManager, WebHistory, Exit;
     }
-	
+	     
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.rss);
-        loadFeed(ParserType.ANDROID_SAX);
+        if(RutrackerDownloaderApp.FeedUrl.contains(RutrackerDownloaderApp.PirateFeedUrlPrefix))
+        	mPirateSearch = true;
+        else
+        	mPirateSearch = false;
         ViewGroup container = (ViewGroup)findViewById(R.id.container);
         container.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
@@ -47,19 +55,17 @@ public class MessageList extends ListActivity {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
+                if(mListAdapter!=null)
+                	setListAdapter(mListAdapter);
             }
         };            	
     	// Start lengthy operation in a background thread
 		new Thread(new Runnable() {
             public void run() {
-					handler.post(new Runnable() {
-						public void run() {
-					        loadFeed(ParserType.ANDROID_SAX);
-					        handler.sendEmptyMessage(0);
-						}
-					});
+			        loadFeed(ParserType.ANDROID_SAX);
+			        handler.sendEmptyMessage(0);
             }
-        }).start();
+        }).start();		
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");
     }
 
@@ -156,11 +162,24 @@ public class MessageList extends ListActivity {
 	    	Log.i(RutrackerDownloaderApp.TAG, xml);
 	    	List<String> titles = new ArrayList<String>(messages.size());
 	    	for (RSSMessage msg : messages){
-	    		titles.add(msg.getTitle());
+	    		if(mPirateSearch){
+		    		Spanned spText = Html.fromHtml(msg.getTitle());
+		    		String title = spText.toString();
+				    int stringEnd =  title.indexOf("br />");	
+				    if(stringEnd>0 &&  stringEnd+5 <= title.length()){
+				    	String replaceStr = title.substring(0, stringEnd+5);
+				    	if(replaceStr!= null){
+				    		title = title.replace(replaceStr, "");
+				    	}		    		
+				    }			
+		    		spText = Html.fromHtml(msg.getDescription());
+		    		String description = spText.toString();
+		    		titles.add(title + " " + description);
+	    		} else {
+	    			titles.add(msg.getTitle());
+	    		}
 	    	}
-	    	ArrayAdapter<String> adapter = 
-	    		new ArrayAdapter<String>(this, R.layout.rss_row,titles);
-	    	this.setListAdapter(adapter);
+	    	mListAdapter =  new ArrayAdapter<String>(this, R.layout.rss_row,titles);
     	} catch (Throwable t){
     		Log.e(RutrackerDownloaderApp.TAG,t.getMessage(),t);
     	}
