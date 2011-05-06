@@ -49,6 +49,12 @@ public class MessageList extends ListActivity {
         	mPirateSearch = false;
         ViewGroup container = (ViewGroup)findViewById(R.id.container);
         container.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
+
+        final ListView listView = getListView();
+        // Tell the list view which view to display when the list is empty
+        listView.setEmptyView(findViewById(R.id.empty));
+        listView.setItemsCanFocus(false);
+              
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     	final ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.progress_read), true, false);
         final Handler handler = new Handler() {
