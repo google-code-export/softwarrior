@@ -533,7 +533,12 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         	}
     		if(tc.SavePath.length() < 3) tc.SavePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
         	String tempName = DownloadService.Controller.CopyTorrentFiles("downloader_temp.torrent", tc.Name);
-        	boolean res = DownloadService.LibTorrents.AddTorrent(tc.SavePath, tempName, tc.StorageMode);
+        	//0-storage_mode_allocate
+        	//1-storage_mode_sparse
+        	//2-storage_mode_compact
+        	int storageMode = 2;
+        	if(tc.StorageMode == 0) storageMode = 1;
+        	boolean res = DownloadService.LibTorrents.AddTorrent(tc.SavePath, tempName, storageMode);
         	if(res == true) tc.CtrlState = ControllerState.Started;
         	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
         		DownloadService.Controller.DeleteFile(tempName);

@@ -549,7 +549,12 @@ public class DownloadService extends Service {
             	}
         		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
             	String tempName = CopyTorrentFiles("downloader_temp.torrent",RutrackerDownloaderApp.TorrentFullFileName);
-        		boolean res = LibTorrents.AddTorrent(mTorrentSavePath, tempName, StorageMode);
+            	//0-storage_mode_allocate
+            	//1-storage_mode_sparse
+            	//2-storage_mode_compact
+            	int storageMode = 2;
+            	if(StorageMode == 0) storageMode = 1;
+            	boolean res = LibTorrents.AddTorrent(mTorrentSavePath, tempName, storageMode);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
         		if(res == true) SetControllerState(ControllerState.Started);
