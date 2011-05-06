@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    android:id="@+id/screen"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res/com.softwarrior.rutrackerdownloader"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+   <TextView 
+        android:id="@+id/site_choice_message"
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:text="@string/site_choise"
+        android:paddingTop="5sp" 
+        android:singleLine="false" 
+        android:textStyle="bold"/>    
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true" 
+        android:orientation="vertical" 
+        android:layout_width="fill_parent">
+        <com.google.ads.AdView 
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adUnitId="a14d5a500187b19"
+            ads:adSize="BANNER"/>
+        <com.mobclix.android.sdk.MobclixMMABannerXLAdView 
+            android:id="@+id/advertising_banner_view"
+            android:layout_height="50dp"
+            android:layout_width="320dp"/>  
+    </LinearLayout>  
+    <ListView 
+           android:id="@android:id/list"
+           android:layout_width="fill_parent"
+           android:layout_height="fill_parent"
+           android:layout_below="@id/site_choice_message"
+           android:layout_above="@id/container"/>
+</RelativeLayout>   
