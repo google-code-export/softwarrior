@@ -305,5 +305,6 @@ Please see contact information in the About page.
     <string name="ip_address_label">Local IP address:</string>
     <string name="ip_address_unknown">unknown</string>
     <string name="button_pirate_search">Pirate Search</string>
-    <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>    
+    <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string> 
+    <string name="nothing_found">Nothing found</string>
 </resources>

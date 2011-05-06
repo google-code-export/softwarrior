@@ -304,5 +304,6 @@
     <string name="ip_address_label">Локальный IP адрес:</string>
     <string name="ip_address_unknown">неизвестен</string> 
     <string name="button_pirate_search">Пиратский поиск</string>
-    <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>       
+    <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>
+    <string name="nothing_found">Ничего не найдено</string>       
 </resources>
