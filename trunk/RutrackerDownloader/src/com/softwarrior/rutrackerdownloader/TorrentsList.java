@@ -374,14 +374,15 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     }
 
     static public void FinalRemoveTorrents(){
-    	for(int i=0;i<Torrents.size();i++){
-    		TorrentContainer tc = Torrents.get(i);
+    	while(Torrents.size()>0){
+    		TorrentContainer tc = Torrents.get(0);
     		DownloadService.LibTorrents.RemoveTorrent(tc.ContentName);
     		try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+    		Torrents.remove(0);
     	}
     }
 
@@ -396,7 +397,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
    					e.printStackTrace();
    				}
     			Torrents.remove(i);
-    			//if(Torrents.size() == 0)
     		    RutrackerDownloaderApp.TorrentFullFileName =  new String("undefined");
     			return;
     		}
@@ -487,13 +487,13 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
                 .setTitle(R.string.remove_torrents_dialog_title)
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                    	for(int i=0;i<Torrents.size();i++){
-                    		TorrentContainer tc = Torrents.get(i);
+                    	while(Torrents.size()>0){
+                    		TorrentContainer tc = Torrents.get(0);
                     		if(tc.CtrlState == ControllerState.Started){
                             	DownloadService.LibTorrents.RemoveTorrent(tc.ContentName);
                             	tc.CtrlState = ControllerState.Stopped;
                     		}
-                    		Torrents.remove(i);
+                    		Torrents.remove(0);
                     	}    	
                         mAdapter.notifyDataSetChanged();
                         RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
