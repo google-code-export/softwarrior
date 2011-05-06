@@ -363,7 +363,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 				if(totalSize > RutrackerDownloaderApp.StorageModeCompactMB)
 					storageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
 			}				
-			if(totalSize >=0){
+			if(totalSize > 0){
 				Torrents.add(new TorrentContainer(FileName, contentName, progress, progressSize, totalSize, storageMode, savePath));
 				add_file = true;
 			}
