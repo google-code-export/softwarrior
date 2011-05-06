@@ -94,8 +94,7 @@ public class TorrentWebClient extends Activity {
         Bundle bundle = this.getIntent().getExtras();
         mAction = bundle.getString("Action");
         mLoadUrl = bundle.getString("LoadUrl");
-        
-    	if(mLoadUrl.contains(".torrent")){
+        if(mLoadUrl.contains(".torrent") || mLoadUrl.contains("mininova.org/get")){
     		boolean download_result = TorrentDownloader.DownloadTorrentFile(TorrentWebClient.this,mLoadUrl);
     		if(download_result){
     			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
@@ -132,7 +131,7 @@ public class TorrentWebClient extends Activity {
 	            }
 	            @Override
 	            public boolean shouldOverrideUrlLoading(WebView view, String url){
-	            	if(url.contains(".torrent")){
+	            	if(url.contains(".torrent") || mLoadUrl.contains("mininova.org/get")){
 	            		if(TorrentDownloader.DownloadTorrentFile(TorrentWebClient.this,url) == true){
 	            			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
 	            			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
@@ -355,12 +354,6 @@ public class TorrentWebClient extends Activity {
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
-    }
-
-    @Override
-    protected void onDestroy() {
-    	super.onDestroy();
-    	//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
     }
     
     @Override
