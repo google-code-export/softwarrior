@@ -380,21 +380,21 @@ public class DownloadService extends Service {
     		mControllerState = controllerState; 
             switch (mControllerState) {
 			case Started:{
-			       mButtonStart.setEnabled(false);
-			       mCheckBoxStorageMode.setEnabled(false);
-			       mButtonStop.setEnabled(true);
-			       mButtonPause.setEnabled(true);
-			       mButtonResume.setEnabled(false);
+//			       mButtonStart.setEnabled(false);
+//			       mButtonStop.setEnabled(true);
+//			       mButtonPause.setEnabled(true);
+//			       mButtonResume.setEnabled(false);
+				   mCheckBoxStorageMode.setEnabled(false);
 			       mButtonSelectFiles.setEnabled(true);
 //			       if(mIsBoundService)
 //			    	   mBoundService.showNotification(getString(R.string.text_download_started));
 			} break;
 			case Paused:{
-			       mButtonStart.setEnabled(false);
-			       mCheckBoxStorageMode.setEnabled(false);
-			       mButtonStop.setEnabled(true);
-			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(true);
+//			       mButtonStart.setEnabled(false);
+//			       mButtonStop.setEnabled(true);
+//			       mButtonPause.setEnabled(false);
+//			       mButtonResume.setEnabled(true);
+				   mCheckBoxStorageMode.setEnabled(false);
 //			       if(mIsBoundService)
 //			    	   mBoundService.showNotification(getString(R.string.text_download_paused));
 			} break;
@@ -403,11 +403,11 @@ public class DownloadService extends Service {
 //						mBoundService.showNotification(getString(R.string.text_download_stopped));
 			case Undefined:
 			default: {
-			       mButtonStart.setEnabled(true);
-			       mCheckBoxStorageMode.setEnabled(true);
-			       mButtonStop.setEnabled(false);
-			       mButtonPause.setEnabled(false);
-			       mButtonResume.setEnabled(false);
+//				   mButtonStart.setEnabled(true);
+//			       mButtonStop.setEnabled(false);
+//			       mButtonPause.setEnabled(false);
+//			       mButtonResume.setEnabled(false);
+				   mCheckBoxStorageMode.setEnabled(true);
 			       mButtonSelectFiles.setEnabled(false);
 			       mTextViewTorrentState.setText(R.string.text_torrent_state_undefined);
 			       mTextViewCommonStatus.setText(R.string.text_common_status);
