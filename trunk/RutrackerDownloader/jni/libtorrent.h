@@ -50,6 +50,12 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AbortSessi
 JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorrent
 	(JNIEnv *env, jobject obj, jstring ContentFile);
 //-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseTorrent
+	(JNIEnv *env, jobject obj, jstring ContentFile);
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeTorrent
+	(JNIEnv *env, jobject obj, jstring ContentFile);
+//-----------------------------------------------------------------------------
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
 	(JNIEnv *env, jobject obj, jstring ContentFile);
 //-----------------------------------------------------------------------------

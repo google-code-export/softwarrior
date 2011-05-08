@@ -592,13 +592,13 @@ public class DownloadService extends Service {
 		}
 		public void OnClickButtonPauseDownload(View v){
         	if(mIsBoundService){
-        		LibTorrents.PauseSession();
+            	LibTorrents.PauseTorrent(mTorrentContentName);
         		SetControllerState(ControllerState.Paused);
         	}
 		}       
         public void OnClickButtonResumeDownload(View v){
         	if(mIsBound && mIsBoundService){
-        		LibTorrents.ResumeSession();
+            	LibTorrents.ResumeTorrent(mTorrentContentName);
         		SetControllerState(ControllerState.Started);
         	}
         }

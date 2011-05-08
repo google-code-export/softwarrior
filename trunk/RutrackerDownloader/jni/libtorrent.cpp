@@ -263,8 +263,11 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseSessi
 {
 	jboolean result = JNI_FALSE;
 	try {
-		if(gSessionState)
+		if(gSessionState){
 			gSession.pause();
+			bool paused = gSession.is_paused();
+			if(paused) result = JNI_TRUE;
+		}
 	} catch(...){
 		LOG_ERR("Exception: failed to pause session");
 		gSessionState=false;
@@ -279,8 +282,11 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeSess
 {
 	jboolean result = JNI_FALSE;
 	try {
-		if(gSessionState)
+		if(gSessionState){
 			gSession.resume();
+			bool paused = gSession.is_paused();
+			if(!paused) result = JNI_TRUE;
+		}
 	} catch(...){
 		LOG_ERR("Exception: failed to resume session");
 		gSessionState=false;
@@ -381,6 +387,52 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 		}
 	} catch(...){
 		LOG_ERR("Exception: failed to remove torrent");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
+	}
+	return result;
+}
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseTorrent
+	(JNIEnv *env, jobject obj, jstring ContentFile)
+{
+	jboolean result = JNI_FALSE;
+	try {
+		if(gSessionState){
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
+			if(pTorrent){
+				LOG_INFO("Pause torrent name %s", pTorrent->name().c_str());
+				pTorrent->pause();
+				bool paused = pTorrent->is_paused();
+				if(paused) result = JNI_TRUE;
+			}
+		}
+	} catch(...){
+		LOG_ERR("Exception: failed to pause torrent");
+		try	{
+			gTorrents.erase(TorrentFileInfo(env,ContentFile));
+		}catch(...){}
+	}
+	return result;
+}
+//-----------------------------------------------------------------------------
+JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeTorrent
+	(JNIEnv *env, jobject obj, jstring ContentFile)
+{
+	jboolean result = JNI_FALSE;
+	try {
+		if(gSessionState){
+			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
+			if(pTorrent){
+				LOG_INFO("Resume torrent name %s", pTorrent->name().c_str());
+				pTorrent->resume();
+				bool paused = pTorrent->is_paused();
+				if(!paused) result = JNI_TRUE;
+			}
+		}
+	} catch(...){
+		LOG_ERR("Exception: failed to resume torrent");
 		try	{
 			gTorrents.erase(TorrentFileInfo(env,ContentFile));
 		}catch(...){}

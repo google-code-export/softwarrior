@@ -43,6 +43,10 @@ public class LibTorrent {
     //-----------------------------------------------------------------------------
     public native boolean RemoveTorrent(String ContentFile);
     //-----------------------------------------------------------------------------
+    public native boolean PauseTorrent(String ContentFile);
+    //-----------------------------------------------------------------------------
+    public native boolean ResumeTorrent(String ContentFile);
+    //-----------------------------------------------------------------------------
     public native int GetTorrentProgress(String ContentFile);
     //-----------------------------------------------------------------------------
     // result MB

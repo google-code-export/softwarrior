@@ -513,6 +513,24 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     	if(Torrents.size() > 0)
     		showDialog(DIALOG_REMOVE_TORRENTS);
     }    
+    public void OnClickButtonResumeAll(View v){
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.CtrlState == ControllerState.Paused){
+	        	DownloadService.LibTorrents.ResumeTorrent(tc.ContentName);
+	        	tc.CtrlState = ControllerState.Started;
+    		}
+    	}    	
+    }
+    public void OnClickButtonPauseAll(View v){
+    	for(int i=0;i<Torrents.size();i++){
+    		TorrentContainer tc = Torrents.get(i);
+    		if(tc.CtrlState == ControllerState.Started){
+	        	DownloadService.LibTorrents.PauseTorrent(tc.ContentName);
+	        	tc.CtrlState = ControllerState.Paused;
+    		}
+    	}    	    	
+    }
     public void OnClickButtonStopAll(View v){
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);

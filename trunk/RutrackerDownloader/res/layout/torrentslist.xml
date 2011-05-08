@@ -82,11 +82,45 @@
             android:layout_alignParentLeft="true" 
             android:layout_width="fill_parent"
             android:layout_toLeftOf="@id/TextView1"/>  
-        </RelativeLayout>        
+        </RelativeLayout>
+        <RelativeLayout    
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:id="@+id/ButtonsLayout2" 
+            android:orientation="horizontal" 
+            android:layout_height="wrap_content" 
+            android:layout_alignParentBottom="true"> 
+            <TextView 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:id="@+id/TextView2" 
+                android:text="" 
+                android:layout_centerHorizontal="true" 
+                android:layout_centerVertical="true"/>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:id="@+id/ButtonPauseAll"
+                android:onClick="@string/on_click_button_pause_all"
+                android:text="@string/button_pause_all"  
+                android:layout_alignParentRight="true" 
+                android:layout_height="wrap_content" 
+                android:layout_width="fill_parent" 
+                android:layout_toRightOf="@id/TextView2"/>
+                <requestFocus />
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:id="@+id/ButtonResumeAll" 
+                android:onClick="@string/on_click_button_resume_all"
+                android:text="@string/button_resume_all"           
+                android:layout_height="wrap_content"  
+                android:layout_alignParentLeft="true" 
+                android:layout_width="fill_parent"
+                android:layout_toLeftOf="@id/TextView2"/>  
+         </RelativeLayout>                
 	    <RelativeLayout 
 	        xmlns:android="http://schemas.android.com/apk/res/android"
 	        android:layout_width="fill_parent"
-	        android:id="@+id/ButtonsLayout2" 
+	        android:id="@+id/ButtonsLayout3" 
 	        android:orientation="horizontal" 
 	        android:layout_height="wrap_content" 
 	        android:layout_alignParentBottom="true"> 
