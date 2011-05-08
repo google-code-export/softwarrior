@@ -159,10 +159,10 @@ public class DownloadService extends Service {
 
         private Handler mHandler = new Handler();        
         
-        private Button mButtonStart;
-        private Button mButtonStop;
-        private Button mButtonPause;
-        private Button mButtonResume;
+//        private Button mButtonStart;
+//        private Button mButtonStop;
+//        private Button mButtonPause;
+//        private Button mButtonResume;
         private Button mButtonSelectFiles;
         private TextView mTextViewTorrentState; 
         private TextView mTextViewCommonStatus;
@@ -262,10 +262,10 @@ public class DownloadService extends Service {
 	        	        
             mProgress = (TextProgressBar) findViewById(R.id.progress_horizontal);
 
-            mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
-            mButtonStop = (Button)findViewById(R.id.ButtonStopDownload);
-            mButtonPause = (Button)findViewById(R.id.ButtonPauseDownload);
-            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownload); 
+//            mButtonStart = (Button)findViewById(R.id.ButtonStartDownload);
+//            mButtonStop = (Button)findViewById(R.id.ButtonStopDownload);
+//            mButtonPause = (Button)findViewById(R.id.ButtonPauseDownload);
+//            mButtonResume = (Button)findViewById(R.id.ButtonResumeDownload); 
             mButtonSelectFiles = (Button)findViewById(R.id.ButtonSelectFiles);
             mTextViewTorrentState = (TextView)findViewById(R.id.TextViewTorrentState);
             mTextViewCommonStatus = (TextView)findViewById(R.id.TextViewCommonStatus);

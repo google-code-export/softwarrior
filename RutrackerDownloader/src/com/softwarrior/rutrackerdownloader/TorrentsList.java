@@ -516,7 +516,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     public void OnClickButtonResumeAll(View v){
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
-    		if(tc.CtrlState == ControllerState.Paused){
+    		if(tc.CtrlState == ControllerState.Paused || tc.CtrlState == ControllerState.Started){
 	        	DownloadService.LibTorrents.ResumeTorrent(tc.ContentName);
 	        	tc.CtrlState = ControllerState.Started;
     		}
