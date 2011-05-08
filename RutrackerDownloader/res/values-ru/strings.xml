@@ -307,7 +307,7 @@
     <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>
     <string name="nothing_found">Ничего не найдено</string> 
     <string name="on_click_button_resume_all">OnClickButtonResumeAll</string>
-    <string name="button_resume_all">Продолжить Все</string>               
+    <string name="button_resume_all">Продолжить все</string>               
     <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
-    <string name="button_pause_all">Приостановить Все</string>                         
+    <string name="button_pause_all">Приостановить все</string>                         
 </resources>
