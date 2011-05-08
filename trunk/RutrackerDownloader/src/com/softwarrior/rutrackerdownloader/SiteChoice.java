@@ -262,7 +262,16 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
 		}
 		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + openAllocationCode);
+			String allocationText = new String(""); 
+			if(openAllocationCode == MobclixAdViewListener.SUBALLOCATION_ADMOB)
+				allocationText = new String("ADMOB");
+			else if(openAllocationCode == MobclixAdViewListener.SUBALLOCATION_OTHER)
+				allocationText = new String("OTHER");
+			else if(openAllocationCode == MobclixAdViewListener.SUBALLOCATION_GOOGLE)
+				allocationText = new String("GOOGLE");
+			else
+				allocationText = "UNKNOWN CODE:" + openAllocationCode;
+			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + allocationText);									
 			return false;
 		}
 		public void onSuccessfulLoad(MobclixAdView view) {
