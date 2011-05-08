@@ -367,6 +367,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_RemoveTorr
 			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				LOG_INFO("Remove torrent name %s", pTorrent->name().c_str());
+				pTorrent->auto_managed(false);
 				pTorrent->pause();
 				// the alert handler for save_resume_data_alert
 				// will save it to disk
@@ -403,6 +404,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_PauseTorre
 			libtorrent::torrent_handle* pTorrent = GetTorrentHandle(env,ContentFile);
 			if(pTorrent){
 				LOG_INFO("Pause torrent name %s", pTorrent->name().c_str());
+				pTorrent->auto_managed(false);
 				pTorrent->pause();
 				bool paused = pTorrent->is_paused();
 				if(paused) result = JNI_TRUE;
@@ -427,6 +429,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeTorr
 			if(pTorrent){
 				LOG_INFO("Resume torrent name %s", pTorrent->name().c_str());
 				pTorrent->resume();
+				pTorrent->auto_managed(true);
 				bool paused = pTorrent->is_paused();
 				if(!paused) result = JNI_TRUE;
 			}
