@@ -307,4 +307,8 @@ Please see contact information in the About page.
     <string name="button_pirate_search">Pirate Search</string>
     <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string> 
     <string name="nothing_found">Nothing found</string>
+    <string name="on_click_button_resume_all">OnClickButtonResumeAll</string>
+    <string name="button_resume_all">Resume All</string>               
+    <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
+    <string name="button_pause_all">Pause All</string>               
 </resources>
