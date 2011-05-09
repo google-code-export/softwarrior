@@ -239,12 +239,16 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 					case 2: storageMode = libtorrent::storage_mode_compact; break;
 					}
 					torrentParams.storage_mode = storageMode;
-					gTorrents[torrentFileInfo] = gSession.add_torrent(torrentParams,ec);
+					libtorrent::torrent_handle th = gSession.add_torrent(torrentParams,ec);
 					if(ec) {
 						LOG_ERR("failed to add torrent: %s\n", ec.message().c_str());
 					}
-					else
+					else{
+						if(th.is_paused()) th.resume();
+						if(!th.is_auto_managed()) th.auto_managed(true);
+						gTorrents[torrentFileInfo] = th;
 						result=JNI_TRUE;
+					}
 				}
 			}
 		}
