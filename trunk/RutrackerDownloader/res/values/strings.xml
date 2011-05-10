@@ -315,4 +315,5 @@ Please see contact information in the About page.
     <string name="button_clear_history">Clear history</string>
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
     <string name="clear_history_dialog_title">Do you want to clear history ?</string>
+    <string name="operation_uncomlite">Operation unsuccessful, please check site page</string>
 </resources>

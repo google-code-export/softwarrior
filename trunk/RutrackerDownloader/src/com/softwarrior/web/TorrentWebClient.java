@@ -288,7 +288,9 @@ public class TorrentWebClient extends Activity {
         // Start lengthy operation in a background thread
         new Thread(new Runnable() {
             public void run() {
-            	ShowNNMClubSearchResult(SearchString);
+		try{
+            		ShowNNMClubSearchResult(SearchString);
+		}catch(Exception ex){}
 		        handler.sendEmptyMessage(0);
             }
         }).start();    	
@@ -452,6 +454,8 @@ public class TorrentWebClient extends Activity {
                 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
                 			intent.setClassName(TorrentWebClient.this, TorrentsList.class.getName());
                 			startActivityForResult(intent, 0);
+                		}else{
+                        	Toast.makeText(TorrentWebClient.this, getString(R.string.operation_uncomlite), Toast.LENGTH_SHORT).show();
                 		}
                     }catch(Exception ex){}
                 	dialog.dismiss();
@@ -478,8 +482,13 @@ public class TorrentWebClient extends Activity {
                 @Override
                 public void handleMessage(Message msg) {
                     try{
-                		WEBPreferencesScreen.SetSearchString(TorrentWebClient.this, mKinoafishaSearchString);
-                		WEBPreferencesScreen.StartSearch(TorrentWebClient.this);
+                    	if(mKinoafishaSearchString != null && mKinoafishaSearchString.length()>1){
+	                		WEBPreferencesScreen.SetSearchString(TorrentWebClient.this, mKinoafishaSearchString);
+	                		WEBPreferencesScreen.StartSearch(TorrentWebClient.this);
+                    	}
+                    	else{
+                        	Toast.makeText(TorrentWebClient.this, getString(R.string.operation_uncomlite), Toast.LENGTH_SHORT).show();                    		
+                    	}
                     }catch(Exception ex){}
                 	dialog.dismiss();
                 }
