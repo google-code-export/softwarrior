@@ -78,6 +78,7 @@ public class WebHistory extends ListActivity{
         	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         	  intent.setClassName(WebHistory.this, TorrentWebClient.class.getName());
         	  startActivityForResult(intent,0);
+        	  finish();
             }
         });        
         // Set up our adapter
@@ -145,7 +146,6 @@ public class WebHistory extends ListActivity{
     	}
     	WebHistories.add(new WebHistoryContainer(dateTime, name, url, action));    	
     }
-
     
     static private void RemoveWebHistory(String url){
     	for(int i=0;i<WebHistories.size();i++){
@@ -162,15 +162,7 @@ public class WebHistory extends ListActivity{
     		}
     	}
     }
-    
-    public void OnClickButtonAddWebHistory(View v){
-    }
-
-    public void OnClickButtonRemoveWebHistories(View v){
-    	WebHistories.clear();
-        mAdapter.notifyDataSetChanged();
-    }
-            
+                
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(ActivityResultType.getValue(resultCode))
@@ -232,8 +224,8 @@ public class WebHistory extends ListActivity{
 	            b_close.setTag(tc);
 	            b_close.setOnClickListener(new OnClickListener() {			
 					public void onClick(View v) {
-						WebHistoryContainer tc = (WebHistoryContainer)v.getTag();
-						RemoveWebHistory(tc.Url);
+						WebHistoryContainer whc = (WebHistoryContainer)v.getTag();
+						RemoveWebHistory(whc.Url);
 					}
 	    		});
             }
@@ -274,6 +266,8 @@ public class WebHistory extends ListActivity{
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     	while(WebHistories.size()>0){
+    						WebHistoryContainer whc = WebHistories.get(0);
+    						RemoveWebHistory(whc.Url);
                     		WebHistories.remove(0);
                     	}    	
                         mAdapter.notifyDataSetChanged();
