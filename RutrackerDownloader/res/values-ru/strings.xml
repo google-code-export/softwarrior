@@ -314,5 +314,6 @@
     <string name="button_clear_history">Очистить историю</string>
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
     <string name="clear_history_dialog_title">Вы хотите очистить историю?</string>
-    <string name="operation_uncomlite">Операция закончилась неудачно, проверьте страницу сайта</string>    
+    <string name="operation_uncomlite">Операция закончилась неудачно, проверьте страницу сайта</string>
+    <string name="please_login">Перед поиском нужно залогиньтеся на сайте</string>        
 </resources>

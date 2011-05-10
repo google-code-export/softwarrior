@@ -79,6 +79,7 @@ public class TorrentWebClient extends Activity {
     
     private boolean mDownloadResult = false;
     private String  mKinoafishaSearchString = new String("");
+    private boolean mNNMClubSearchResult = false;
     
     final Activity activity = this;
     
@@ -282,83 +283,88 @@ public class TorrentWebClient extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 dialog.dismiss();
+                if(!mNNMClubSearchResult)
+        			Toast.makeText(TorrentWebClient.this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
             	mNNSearch = true;
             }
         };        
         // Start lengthy operation in a background thread
         new Thread(new Runnable() {
             public void run() {
-		try{
-            		ShowNNMClubSearchResult(SearchString);
-		}catch(Exception ex){}
+				try{
+		            mNNMClubSearchResult =  ShowNNMClubSearchResult(SearchString);
+				}catch(Exception ex){}
 		        handler.sendEmptyMessage(0);
             }
         }).start();    	
     }
    
-    private void ShowNNMClubSearchResult(String SearchString ){
-		try{	    	
+    private boolean ShowNNMClubSearchResult(String SearchString ){
+		boolean result = false;
+    	try{	    	
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(RutrackerDownloaderApp.CookieUrl);
-
-			URL url = new URL(RutrackerDownloaderApp.NN_SearchUrlPrefix);				
-			URLConnection connection = url.openConnection();
-			HttpURLConnection httppost = (HttpURLConnection) connection;
-			httppost.setDoInput(true);
-		    httppost.setDoOutput(true);
-
-		    httppost.setRequestMethod("POST");
-		    httppost.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
-		    httppost.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.3");
-		    httppost.setRequestProperty("Accept-Encoding", "gzip,deflate");
-		    httppost.setRequestProperty("Accept-Language", "en-US,ru-RU;q=0.8,ru;q=0.6,en;q=0.4");
-		    httppost.setRequestProperty("Cache-Control", "max-age=0");
-		    httppost.setRequestProperty("Connection", "keep-alive");
-		    
-		    String query=""; 
-		    query += URLEncoder.encode("f", "cp-1251") + "=" + URLEncoder.encode("-1", "cp-1251"); 
-		    query += "&" + URLEncoder.encode("nm", "cp-1251") + "=" + URLEncoder.encode(SearchString, "cp-1251"); 
-		    int contetLength = query.length(); 		    
-		    httppost.setRequestProperty("Content-Length", Integer.toString(contetLength));
-
-		    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-		    httppost.setRequestProperty("Cookie", RutrackerDownloaderApp.CookieData);
-		    httppost.setRequestProperty("Host", "www.nnm-club.ru");
-		    httppost.setRequestProperty("Origin", "http://www.nnm-club.ru");
-		    
-		    String sid = RutrackerDownloaderApp.NN_SearchUrlPrefix + "?";
-		    int sidStart = RutrackerDownloaderApp.CookieData.indexOf("sid=");
-		    int sidEnd = RutrackerDownloaderApp.CookieData.indexOf(";", sidStart);	
-		    if(sidEnd == -1)
-		    	sidEnd = RutrackerDownloaderApp.CookieData.length();
-		    if(sidStart>0 && sidEnd >0 && sidStart<sidEnd && sidEnd <= RutrackerDownloaderApp.CookieData.length())
-		    	sid += RutrackerDownloaderApp.CookieData.substring(sidStart, sidEnd);		    
-		    httppost.setRequestProperty("Referer", sid);
-		    
-		    httppost.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16");
-		    		    
-			OutputStreamWriter wr = new OutputStreamWriter(httppost.getOutputStream());
-            wr.write(query);		    
-            wr.flush();
-            wr.close();
-            
-            StringBuffer sb = new StringBuffer();
-            GZIPInputStream gzipInput = new GZIPInputStream(new BufferedInputStream(httppost.getInputStream()));
-            InputStreamReader inputStream = new InputStreamReader(gzipInput, "cp-1251");
-            if(inputStream != null) {
-		        int length = 0;
-		        char [] readArray = new char[1024];
-		        while ((length = inputStream.read(readArray)) != -1) {
-		        	sb.append(readArray, 0, length);
+    		if(RutrackerDownloaderApp.CookieData != null && RutrackerDownloaderApp.CookieData.length() >1){    		
+	    		URL url = new URL(RutrackerDownloaderApp.NN_SearchUrlPrefix);				
+				URLConnection connection = url.openConnection();
+				HttpURLConnection httppost = (HttpURLConnection) connection;
+				httppost.setDoInput(true);
+			    httppost.setDoOutput(true);
+	
+			    httppost.setRequestMethod("POST");
+			    httppost.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
+			    httppost.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.3");
+			    httppost.setRequestProperty("Accept-Encoding", "gzip,deflate");
+			    httppost.setRequestProperty("Accept-Language", "en-US,ru-RU;q=0.8,ru;q=0.6,en;q=0.4");
+			    httppost.setRequestProperty("Cache-Control", "max-age=0");
+			    httppost.setRequestProperty("Connection", "keep-alive");
+			    
+			    String query=""; 
+			    query += URLEncoder.encode("f", "cp-1251") + "=" + URLEncoder.encode("-1", "cp-1251"); 
+			    query += "&" + URLEncoder.encode("nm", "cp-1251") + "=" + URLEncoder.encode(SearchString, "cp-1251"); 
+			    int contetLength = query.length(); 		    
+			    httppost.setRequestProperty("Content-Length", Integer.toString(contetLength));
+	
+			    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			    httppost.setRequestProperty("Cookie", RutrackerDownloaderApp.CookieData);
+			    httppost.setRequestProperty("Host", "www.nnm-club.ru");
+			    httppost.setRequestProperty("Origin", "http://www.nnm-club.ru");
+			    
+			    String sid = RutrackerDownloaderApp.NN_SearchUrlPrefix + "?";
+			    int sidStart = RutrackerDownloaderApp.CookieData.indexOf("sid=");
+			    int sidEnd = RutrackerDownloaderApp.CookieData.indexOf(";", sidStart);	
+			    if(sidEnd == -1)
+			    	sidEnd = RutrackerDownloaderApp.CookieData.length();
+			    if(sidStart>0 && sidEnd >0 && sidStart<sidEnd && sidEnd <= RutrackerDownloaderApp.CookieData.length())
+			    	sid += RutrackerDownloaderApp.CookieData.substring(sidStart, sidEnd);		    
+			    httppost.setRequestProperty("Referer", sid);
+			    
+			    httppost.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16");
+			    		    
+				OutputStreamWriter wr = new OutputStreamWriter(httppost.getOutputStream());
+	            wr.write(query);		    
+	            wr.flush();
+	            wr.close();
+	            
+	            StringBuffer sb = new StringBuffer();
+	            GZIPInputStream gzipInput = new GZIPInputStream(new BufferedInputStream(httppost.getInputStream()));
+	            InputStreamReader inputStream = new InputStreamReader(gzipInput, "cp-1251");
+	            if(inputStream != null) {
+			        int length = 0;
+			        char [] readArray = new char[1024];
+			        while ((length = inputStream.read(readArray)) != -1) {
+			        	sb.append(readArray, 0, length);
+			        }
+			        inputStream.close();
 		        }
-		        inputStream.close();
-	        }
-		    mWebView.loadDataWithBaseURL(RutrackerDownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",RutrackerDownloaderApp.NN_SearchUrlPrefix);		    
-		    
+			    mWebView.loadDataWithBaseURL(RutrackerDownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",RutrackerDownloaderApp.NN_SearchUrlPrefix);
+			    result = true;
+    		}    		
 		} catch (Exception ex){
 			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
 	    }
+		return result;
     }
     
     @Override
@@ -441,37 +447,42 @@ public class TorrentWebClient extends Activity {
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
-    		final TorrentDownloader torrentDownloader = new TorrentDownloader(TorrentWebClient.this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(TorrentWebClient.this));
-    		mDownloadResult = false;
-        	final Handler handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    try{
-                		if(mDownloadResult){
-                			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
-                			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
-                    		Intent intent = new Intent(Intent.ACTION_VIEW);
-                			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                			intent.setClassName(TorrentWebClient.this, TorrentsList.class.getName());
-                			startActivityForResult(intent, 0);
-                		}else{
-                        	Toast.makeText(TorrentWebClient.this, getString(R.string.operation_uncomlite), Toast.LENGTH_SHORT).show();
-                		}
-                    }catch(Exception ex){}
-                	dialog.dismiss();
-                }
-            };        
-            new Thread(new Runnable() {
-                public void run() {
-                	try{
-	            		if(SiteChoice.GetSite(TorrentWebClient.this) == SiteChoice.SiteType.NNMCLUB)
-	            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
-	            		else
-	            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					
-                	}catch (Exception ex){}
-	            	handler.sendEmptyMessage(0);
-                }
-            }).start();    	    		
+    		if(RutrackerDownloaderApp.CookieData !=null && RutrackerDownloaderApp.CookieData.length()>1){
+	    		final TorrentDownloader torrentDownloader = new TorrentDownloader(TorrentWebClient.this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(TorrentWebClient.this));
+	    		mDownloadResult = false;
+	        	final Handler handler = new Handler() {
+	                @Override
+	                public void handleMessage(Message msg) {
+	                    try{
+	                		if(mDownloadResult){
+	                			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+	                			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
+	                    		Intent intent = new Intent(Intent.ACTION_VIEW);
+	                			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	                			intent.setClassName(TorrentWebClient.this, TorrentsList.class.getName());
+	                			startActivityForResult(intent, 0);
+	                		}else{
+	                        	Toast.makeText(TorrentWebClient.this, getString(R.string.operation_uncomlite), Toast.LENGTH_SHORT).show();
+	                		}
+	                    }catch(Exception ex){}
+	                	dialog.dismiss();
+	                }
+	            };        
+	            new Thread(new Runnable() {
+	                public void run() {
+	                	try{
+		            		if(SiteChoice.GetSite(TorrentWebClient.this) == SiteChoice.SiteType.NNMCLUB)
+		            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
+		            		else
+		            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					
+	                	}catch (Exception ex){}
+		            	handler.sendEmptyMessage(0);
+	                }
+	            }).start();
+    		}else{
+        		Toast.makeText(TorrentWebClient.this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
+    		}
+    			
     	} else if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	

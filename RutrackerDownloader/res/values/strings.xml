@@ -316,4 +316,5 @@ Please see contact information in the About page.
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
     <string name="clear_history_dialog_title">Do you want to clear history ?</string>
     <string name="operation_uncomlite">Operation unsuccessful, please check site page</string>
+    <string name="please_login">Please login on site before search</string>
 </resources>
