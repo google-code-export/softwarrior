@@ -77,6 +77,9 @@ public class TorrentWebClient extends Activity {
     private String mSearchString = new String("");
     private String mHistoryName = new String("");
     
+    private boolean mDownloadResult = false;
+    private String  mKinoafishaSearchString = new String("");
+    
     final Activity activity = this;
     
     public enum MenuType{
@@ -431,34 +434,61 @@ public class TorrentWebClient extends Activity {
     }
     
     public void OnClickButtonDownload(View v) {    	
+    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.download_progress), true, false);
     	if(mDistributionNumber.length()>0){
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
-    		TorrentDownloader torrentDownloader = new TorrentDownloader(this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(this));
-    		boolean download_result = false;
-    		if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
-    			download_result = torrentDownloader.DownloadNNM(mDistributionNumber);
-    		else
-    			download_result= torrentDownloader.Download(mDistributionNumber);    		
-			
-    		if(download_result){
-    			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
-    			Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
-        		Intent intent = new Intent(Intent.ACTION_VIEW);
-    			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    			intent.setClassName(this, TorrentsList.class.getName());
-    			startActivityForResult(intent, 0);
-    		}
+    		final TorrentDownloader torrentDownloader = new TorrentDownloader(TorrentWebClient.this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(TorrentWebClient.this));
+    		mDownloadResult = false;
+        	final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    try{
+                		if(mDownloadResult){
+                			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+                			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
+                    		Intent intent = new Intent(Intent.ACTION_VIEW);
+                			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                			intent.setClassName(TorrentWebClient.this, TorrentsList.class.getName());
+                			startActivityForResult(intent, 0);
+                		}
+                    	dialog.dismiss();
+                    }catch(Exception ex){}
+                }
+            };        
+            new Thread(new Runnable() {
+                public void run() {
+            		if(SiteChoice.GetSite(TorrentWebClient.this) == SiteChoice.SiteType.NNMCLUB)
+            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
+            		else
+            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					
+                	handler.sendEmptyMessage(0);
+                }
+            }).start();    	    		
     	} else if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		String cookieData = cookieManager.getCookie(mCurrentUrl);
-    		SearchStringFactory ssFactory = new SearchStringFactory(this, cookieData);
-    		String searchString = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
-    		WEBPreferencesScreen.SetSearchString(this, searchString);
-    		WEBPreferencesScreen.StartSearch(this);
-    	}
+    		final SearchStringFactory ssFactory = new SearchStringFactory(TorrentWebClient.this, cookieData);
+    		mKinoafishaSearchString = new String("");
+        	final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    try{
+                		WEBPreferencesScreen.SetSearchString(TorrentWebClient.this, mKinoafishaSearchString);
+                		WEBPreferencesScreen.StartSearch(TorrentWebClient.this);
+                    	dialog.dismiss();
+                    }catch(Exception ex){}
+                }
+            };        
+            new Thread(new Runnable() {
+                public void run() {
+                	mKinoafishaSearchString = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
+                	handler.sendEmptyMessage(0);
+                }
+            }).start();    	
+    	}            	
     }
     
     @Override
