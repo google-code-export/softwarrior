@@ -68,8 +68,10 @@ public class MessageList extends ListActivity {
     	// Start lengthy operation in a background thread
 		new Thread(new Runnable() {
             public void run() {
-			        loadFeed(ParserType.ANDROID_SAX);
-			        handler.sendEmptyMessage(0);
+		try{
+			loadFeed(ParserType.ANDROID_SAX);
+		}catch(Exception ex){}
+		handler.sendEmptyMessage(0);
             }
         }).start();		
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");

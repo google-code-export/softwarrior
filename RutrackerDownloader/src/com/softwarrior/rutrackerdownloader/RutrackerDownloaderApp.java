@@ -334,8 +334,10 @@ public class RutrackerDownloaderApp extends Application {
 	        // Start lengthy operation in a background thread
 	        new Thread(new Runnable() {
 	            public void run() {
+			try{
 			        RutrackerDownloaderApp.ClearCache(activity);
-			        handler.sendEmptyMessage(0);
+			}catch(Exception ex){}
+			handler.sendEmptyMessage(0);
 	            }
 	        }).start();
     	}
