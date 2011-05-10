@@ -310,5 +310,8 @@
     <string name="button_resume_all">Продолжить все</string>               
     <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
     <string name="button_pause_all">Приостановить все</string>
-    <string name="download_progress">Ожидание загрузки...</string>                         
+    <string name="download_progress">Ожидание загрузки...</string>
+    <string name="button_clear_history">Очистить историю</string>
+    <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
+    <string name="clear_history_dialog_title">Вы хотите очистить историю?</string>                                 
 </resources>
