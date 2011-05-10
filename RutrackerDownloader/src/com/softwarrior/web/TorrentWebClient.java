@@ -453,17 +453,19 @@ public class TorrentWebClient extends Activity {
                 			intent.setClassName(TorrentWebClient.this, TorrentsList.class.getName());
                 			startActivityForResult(intent, 0);
                 		}
-                    	dialog.dismiss();
                     }catch(Exception ex){}
+                	dialog.dismiss();
                 }
             };        
             new Thread(new Runnable() {
                 public void run() {
-            		if(SiteChoice.GetSite(TorrentWebClient.this) == SiteChoice.SiteType.NNMCLUB)
-            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
-            		else
-            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					
-                	handler.sendEmptyMessage(0);
+                	try{
+	            		if(SiteChoice.GetSite(TorrentWebClient.this) == SiteChoice.SiteType.NNMCLUB)
+	            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
+	            		else
+	            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					
+                	}catch (Exception ex){}
+	            	handler.sendEmptyMessage(0);
                 }
             }).start();    	    		
     	} else if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
@@ -478,13 +480,15 @@ public class TorrentWebClient extends Activity {
                     try{
                 		WEBPreferencesScreen.SetSearchString(TorrentWebClient.this, mKinoafishaSearchString);
                 		WEBPreferencesScreen.StartSearch(TorrentWebClient.this);
-                    	dialog.dismiss();
                     }catch(Exception ex){}
+                	dialog.dismiss();
                 }
             };        
             new Thread(new Runnable() {
                 public void run() {
-                	mKinoafishaSearchString = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
+                	try{
+                		mKinoafishaSearchString = ssFactory.GetStringFromKinoafisha(mCurrentUrl);
+                	}catch(Exception ex){}
                 	handler.sendEmptyMessage(0);
                 }
             }).start();    	

@@ -1,7 +1,10 @@
 package com.softwarrior.web;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,6 +38,8 @@ public class WebHistory extends ListActivity{
 	TextView mRightText = null;
 	TextView mLeftText = null;
 	
+	private static final int DIALOG_CLEAR_HISTORY = 44;
+
     enum MenuType{
     	About, Help, Preferences, FileManager, Exit;
     }
@@ -255,8 +260,32 @@ public class WebHistory extends ListActivity{
             }
             return v;
         }
+    }    
+    public void OnClickButtonClearHistory(View v){
+    	if(WebHistories.size() > 0)
+    		showDialog(DIALOG_CLEAR_HISTORY);
     }
-    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case DIALOG_CLEAR_HISTORY:
+            return new AlertDialog.Builder(WebHistory.this)
+                .setTitle(R.string.clear_history_dialog_title)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    	while(WebHistories.size()>0){
+                    		WebHistories.remove(0);
+                    	}    	
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //User clicked Cancel so do some stuff
+                    }
+                }).create();
+        }
+        return null;
+    }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
