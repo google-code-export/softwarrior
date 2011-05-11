@@ -462,7 +462,7 @@ JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProg
 					libtorrent::torrent_info const& info = pTorrent->get_torrent_info();
 					int files_num = info.num_files();
 					for (int i = 0; i < info.num_files(); ++i){
-						size_t progress = info.file_at(i).size > 0 ? file_progress[i] * 1000 / info.file_at(i).size : 1000;
+						int progress = info.file_at(i).size > 0 ? file_progress[i] * 1000 / info.file_at(i).size : 1000;
 						result += progress;
 					}
 					result = result/files_num;
@@ -494,23 +494,21 @@ JNIEXPORT jlong JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentPro
 					pTorrent->file_progress(file_progress);
 					libtorrent::torrent_info const& info = pTorrent->get_torrent_info();
 					int files_num = info.num_files();
-					size_t bytes_size = 0;
-					size_t megabytes_size = 0;
-					result = 0;
+					long long bytes_size = 0;
 					for (int i = 0; i < info.num_files(); ++i){
 						if(info.file_at(i).size > 0){
-							bytes_size = file_progress[i];
-							if(bytes_size > 0){
-								megabytes_size = bytes_size / 1048576;
-								result += megabytes_size;
-							}
+							bytes_size += file_progress[i];
 						}
 					}
+					long long megabytes_size = 0;
+					if(bytes_size > 0)
+						megabytes_size = bytes_size / 1048576;
+					result = megabytes_size;
 				}
 				else if(s.state == libtorrent::torrent_status::seeding && pTorrent->has_metadata()){
 					libtorrent::torrent_info const& info = pTorrent->get_torrent_info();
-					size_t bytes_size = info.total_size();
-					size_t megabytes_size = 0;
+					long long bytes_size = info.total_size();
+					long long megabytes_size = 0;
 					if(bytes_size > 0)
 						megabytes_size = bytes_size / 1048576;
 					result = megabytes_size;
@@ -891,16 +889,12 @@ JNIEXPORT jlong JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentSiz
 			LOG_ERR("%s: %s\n", torrentFile.c_str(), ec.message().c_str());
 		}
 		else{
-			size_t bytes_size = 0;
-			size_t megabytes_size = 0;
-			result = 0;
-			for (int i = 0; i < info->num_files(); ++i) {
-				bytes_size = info->file_at(i).size;
-				if(bytes_size > 0){
-					megabytes_size = bytes_size / 1048576;
-					result += megabytes_size;
-				}
-			}
+			long long bytes_size = 0;
+			long long megabytes_size = 0;
+			bytes_size = info->total_size();
+			if(bytes_size > 0)
+				megabytes_size = bytes_size / 1048576;
+			result = megabytes_size;
 		}
 	}catch(...){
 		LOG_ERR("Exception: failed to get torrent size");
