@@ -553,7 +553,7 @@ public class DownloadService extends Service {
             	//1-storage_mode_sparse
             	//2-storage_mode_compact
             	int storageMode = StorageMode;
-            	if(StorageMode == 0) storageMode = 1;
+            	//if(StorageMode == 0) storageMode = 1;
             	boolean res = LibTorrents.AddTorrent(mTorrentSavePath, tempName, storageMode);
             	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);

@@ -555,7 +555,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         	//1-storage_mode_sparse
         	//2-storage_mode_compact
         	int storageMode = tc.StorageMode;
-        	if(tc.StorageMode == 0) storageMode = 1;
+        	//if(tc.StorageMode == 0) storageMode = 1;
         	boolean res = DownloadService.LibTorrents.AddTorrent(tc.SavePath, tempName, storageMode);
         	if(res == true) tc.CtrlState = ControllerState.Started;
         	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
