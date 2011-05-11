@@ -55,11 +55,11 @@ class TorrentContainer{
 	public volatile String  SavePath = "";
 	public volatile String  ContentName = "";
 	public volatile int	Progress = 0;
-	public volatile int TotalSize = 0;
-	public volatile int ProgressSize = 0;
+	public volatile long TotalSize = 0;
+	public volatile long ProgressSize = 0;
 	public volatile int StorageMode = 2; //0-storage_mode_allocate, 1-storage_mode_sparse, 2-storage_mode_compact
 
-	public TorrentContainer(String fileName, String contentName, int progress, int progressSize, int totalSize, int storageMode, String savePath){
+	public TorrentContainer(String fileName, String contentName, int progress, long progressSize, long totalSize, int storageMode, String savePath){
     	Name=fileName; ContentName=contentName; Progress=progress;  ProgressSize=progressSize; TotalSize=totalSize; StorageMode=storageMode; SavePath = savePath; 
     }
 }
@@ -148,7 +148,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 					for(int i=0;i<Torrents.size();i++){
 						TorrentContainer tc = Torrents.get(i);
 						if(tc.CtrlState == ControllerState.Started){
-							int progress_size = DownloadService.LibTorrents.GetTorrentProgressSize(tc.ContentName);
+							long progress_size = DownloadService.LibTorrents.GetTorrentProgressSize(tc.ContentName);
 							if(progress_size>=0){ 
 								tc.ProgressSize = progress_size;
 							}else{
@@ -339,7 +339,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     	return megAvailable;    
     }
     
-    static public void AddTorrent(Context context, String FileName, int progress, int progressSize, int storageMode, String savePath){
+    static public void AddTorrent(Context context, String FileName, int progress, long progressSize, int storageMode, String savePath){
         if(FileName.equals("undefined"))
         	return;
     	for(int i=0;i<Torrents.size();i++){
@@ -357,7 +357,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		String contentName = DownloadService.LibTorrents.GetTorrentName(FileName);
 		boolean add_file = false;
 		if(contentName != null && contentName.length() > 0){
-			int totalSize = DownloadService.LibTorrents.GetTorrentSize(FileName);
+			long totalSize = DownloadService.LibTorrents.GetTorrentSize(FileName);
 			if(storageMode == -1){
 				storageMode = 0;
 				if(totalSize > RutrackerDownloaderApp.StorageModeCompactMB)
@@ -457,7 +457,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     		}
     	}
     }    
-    static public int GetProgressSize(String FileName){
+    static public long GetProgressSize(String FileName){
         if(FileName.equals("undefined"))
         	return 0;
     	for(int i=0;i<Torrents.size();i++){
@@ -621,7 +621,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
             }
 			if(pb_progress!=null){
 				pb_progress.setProgress(tc.Progress);
-				pb_progress.setText("" + tc.ProgressSize+ "/" + tc.TotalSize+ "MB");
+				pb_progress.setText(Long.toString(tc.ProgressSize)+ "/" + Long.toString(tc.TotalSize)+ "MB");
 			}
             return v;
         }
