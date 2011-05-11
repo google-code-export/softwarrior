@@ -147,8 +147,8 @@ public class DownloadService extends Service {
 
         private volatile boolean mStopProgress = false;
         private volatile int mTorrentProgress = 0;
-        private volatile int mTorrentProgressSize = 0;
-        private volatile int mTorrentTotalSize = 0;
+        private volatile long mTorrentProgressSize = 0;
+        private volatile long mTorrentTotalSize = 0;
         private volatile int mTorrentState = 0;
         private volatile String mTorrentStatus = new String();
         private volatile String mSessionStatus = new String();
@@ -283,7 +283,7 @@ public class DownloadService extends Service {
 						}
 						if((mIsBoundService && mControllerState == ControllerState.Started) ||
 						   (mIsBoundService && mControllerState == ControllerState.Paused)) {
-								int progress_size = LibTorrents.GetTorrentProgressSize(mTorrentContentName);
+								long progress_size = LibTorrents.GetTorrentProgressSize(mTorrentContentName);
 								if(progress_size>=0){
 									mTorrentProgressSize = progress_size; 
 								} else{
@@ -314,7 +314,7 @@ public class DownloadService extends Service {
 								mHandler.post(new Runnable() {
 									public void run() {
 										mProgress.setProgress(mTorrentProgress);
-										mProgress.setText("" + mTorrentProgressSize+ "/" + mTorrentTotalSize+ "MB");
+										mProgress.setText(Long.toString(mTorrentProgressSize)+ "/" + Long.toString(mTorrentTotalSize)+ "MB");
 										SetTorrentState();
 										SetCommonStatus();
 									}
@@ -368,7 +368,7 @@ public class DownloadService extends Service {
             mTorrentProgress = TorrentsList.GetProgress(RutrackerDownloaderApp.TorrentFullFileName);			
 			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
 			mProgress.setProgress(mTorrentProgress);			
-			mProgress.setText("" + mTorrentProgressSize+ "/" + mTorrentTotalSize+ "MB");
+			mProgress.setText(Long.toString(mTorrentProgressSize)+ "/" + Long.toString(mTorrentTotalSize)+ "MB");
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){

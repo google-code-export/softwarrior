@@ -59,7 +59,7 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_ResumeTorr
 JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgress
 	(JNIEnv *env, jobject obj, jstring ContentFile);
 //-----------------------------------------------------------------------------
-JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgressSize
+JNIEXPORT jlong JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentProgressSize
 	(JNIEnv *env, jobject obj, jstring ContentFile);
 //-----------------------------------------------------------------------------
 //enum state_t
@@ -108,7 +108,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorre
 JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentName
 	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
-JNIEXPORT jint JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentSize
+JNIEXPORT jlong JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentSize
 	(JNIEnv *env, jobject obj, jstring TorrentFile);
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus

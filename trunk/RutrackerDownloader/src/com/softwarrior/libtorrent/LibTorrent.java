@@ -50,7 +50,7 @@ public class LibTorrent {
     public native int GetTorrentProgress(String ContentFile);
     //-----------------------------------------------------------------------------
     // result MB
-    public native int GetTorrentProgressSize(String ContentFile);
+    public native long GetTorrentProgressSize(String ContentFile);
     //-----------------------------------------------------------------------------
     //enum state_t
     //{
@@ -94,6 +94,6 @@ public class LibTorrent {
     public native String GetTorrentName(String TorrentFile);
     //-----------------------------------------------------------------------------
     // result MB
-    public native int GetTorrentSize(String TorrentFile);
+    public native long GetTorrentSize(String TorrentFile);
     //-----------------------------------------------------------------------------
 }
