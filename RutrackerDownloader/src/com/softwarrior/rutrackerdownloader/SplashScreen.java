@@ -3,7 +3,10 @@ package com.softwarrior.rutrackerdownloader;
 import com.softwarrior.anim.Rotate3dAnimation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +18,7 @@ import android.view.animation.Animation;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
+import android.webkit.WebViewDatabase;
 import android.widget.ImageView;
 
 
@@ -26,6 +30,8 @@ public class SplashScreen extends Activity {
     private ViewGroup mContainer;    
     private ImageView mImageViewEmpty;
     private ImageView mImageViewSplash;
+    
+    private static final int DIALOG_UPDATE_INCORRECT = 66;
                
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,18 +91,34 @@ public class SplashScreen extends Activity {
 
         mContainer.startAnimation(rotation);
     }
-    
-    
-    void StartPreferencesScreen()
-    {
-    	Intent intent = new Intent(Intent.ACTION_VIEW);
-    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(this, PreferencesTabs.class.getName());   	
-    	startActivity(intent);
-    	overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-    	finish();
-    }
-    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+        case DIALOG_UPDATE_INCORRECT:
+            return new AlertDialog.Builder(SplashScreen.this)
+                .setTitle(R.string.update_incorrect_dialog_title)
+                .setMessage(R.string.update_incorrect)
+                .setPositiveButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    	RutrackerDownloaderApp.FinalCloseApplication(SplashScreen.this);
+                    }
+                }).create();
+        }
+        return null;
+    }     
+    void StartPreferencesScreen(){
+		WebViewDatabase webViewDB = WebViewDatabase.getInstance(this);
+		if (webViewDB==null) {
+			showDialog(DIALOG_UPDATE_INCORRECT);
+		} else {		
+	    	Intent intent = new Intent(Intent.ACTION_VIEW);
+	    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	    	intent.setClassName(this, PreferencesTabs.class.getName());   	
+	    	startActivity(intent);
+	    	overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+	    	finish();
+		}
+    }    
     /**
      * This class listens for the end of the first half of the animation.
      * It then posts a new action that effectively swaps the views when the container

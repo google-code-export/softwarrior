@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 import android.util.Log;
+import android.webkit.WebViewDatabase;
 
 public class RutrackerDownloaderApp extends Application {	
 		
@@ -128,7 +129,10 @@ public class RutrackerDownloaderApp extends Application {
 		super.onCreate();
 		try{
 			RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);        
-			startService(new Intent(this, DownloadService.class));
+			WebViewDatabase webViewDB = WebViewDatabase.getInstance(this);
+			if (webViewDB!=null){
+				startService(new Intent(this, DownloadService.class));
+			}
 			StartServiceActivity(getApplicationContext());
 			RestoryWebHistoryFromDB(getApplicationContext());
 			RestoryTorrentsFromDB(getApplicationContext());
