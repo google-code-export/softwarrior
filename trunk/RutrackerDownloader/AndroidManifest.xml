@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
       android:sharedUserId="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionName="1.6.5.4" android:versionCode="16">
+      android:installLocation="auto" android:versionName="1.6.5.5" android:versionCode="17">
     <!-- android:screenOrientation="portrait" -->
     <application 
         android:process="com.softwarrior.rutrackerdownloaderprocess"    

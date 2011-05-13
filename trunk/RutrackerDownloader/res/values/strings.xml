@@ -317,4 +317,7 @@ Please see contact information in the About page.
     <string name="clear_history_dialog_title">Do you want to clear history ?</string>
     <string name="operation_uncomlite">Operation unsuccessful, please check site page</string>
     <string name="please_login">Please login on site before search</string>
+    <string name="update_incorrect">Update was not finished correct. Please uninstall application and install again</string>
+    <string name="update_incorrect_dialog_title">Update Error</string>
+    <string name="dialog_close">Close</string>
 </resources>

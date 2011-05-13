@@ -315,5 +315,8 @@
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
     <string name="clear_history_dialog_title">Вы хотите очистить историю?</string>
     <string name="operation_uncomlite">Операция закончилась неудачно, проверьте страницу сайта</string>
-    <string name="please_login">Перед поиском нужно залогиньтеся на сайте</string>        
+    <string name="please_login">Перед поиском нужно залогиньтеся на сайте</string>
+    <string name="update_incorrect">Обновление завершилось с ошибкой. Пожалуйста, удалите приложение и установите снова</string>
+    <string name="update_incorrect_dialog_title">Ошибка при обновлении</string>
+    <string name="dialog_close">Закрыть</string>            
 </resources>
