@@ -268,7 +268,6 @@ public class WebHistory extends ListActivity{
                     	while(WebHistories.size()>0){
     						WebHistoryContainer whc = WebHistories.get(0);
     						RemoveWebHistory(whc.Url);
-                    		WebHistories.remove(0);
                     	}    	
                         mAdapter.notifyDataSetChanged();
                     }
