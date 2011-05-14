@@ -68,7 +68,15 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   @Override
   protected void onResume() {
 	super.onResume();
-    mPSSearchOnSite.setSummary(PreferencesTabs.GetRightCustomTitle());
+	try{
+	    mPSSearchOnSite.setSummary(PreferencesTabs.GetRightCustomTitle());
+	    PreferenceScreen preferences = getPreferenceScreen();
+		Preference pref =  preferences.findPreference(KEY_SEARCH_STRING);
+		EditTextPreference pr = (EditTextPreference) pref;
+		String searchString = GetSearchString(this);
+		pr.setText(searchString);
+		SetSummary(pref);
+	}catch(Exception ex){}
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
