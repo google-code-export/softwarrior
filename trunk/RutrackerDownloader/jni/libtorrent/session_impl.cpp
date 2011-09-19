@@ -447,7 +447,7 @@ namespace aux {
 		m_next_lsd_torrent = m_torrents.begin();
 		m_next_connect_torrent = m_torrents.begin();
 
-		TORRENT_ASSERT(listen_interface);
+		if (!listen_interface) listen_interface = "0.0.0.0";
 		error_code ec;
 		m_listen_interface = tcp::endpoint(address::from_string(listen_interface, ec), listen_port_range.first);
 		TORRENT_ASSERT(!ec);
@@ -554,7 +554,10 @@ namespace aux {
 		PRINT_OFFSETOF(udp_socket, m_v6_buf)
 #endif
 		PRINT_OFFSETOF(udp_socket, m_bind_port)
-		PRINT_OFFSETOF(udp_socket, m_outstanding)
+		PRINT_OFFSETOF(udp_socket, m_v4_outstanding)
+#if TORRENT_USE_IPV6
+		PRINT_OFFSETOF(udp_socket, m_v6_outstanding)
+#endif
 		PRINT_OFFSETOF(udp_socket, m_socks5_sock)
 		PRINT_OFFSETOF(udp_socket, m_connection_ticket)
 		PRINT_OFFSETOF(udp_socket, m_proxy_settings)
@@ -727,11 +730,13 @@ namespace aux {
 			save_struct(e["dht"], &m_dht_settings, dht_settings_map
 				, sizeof(dht_settings_map)/sizeof(dht_settings_map[0]));
 		}
+#ifndef TORRENT_NO_DEPRECATE
 		if (flags & session::save_dht_proxy)
 		{
 			save_struct(e["dht proxy"], &m_dht_proxy, proxy_settings_map
 				, sizeof(proxy_settings_map)/sizeof(proxy_settings_map[0]));
 		}
+#endif
 
 		if (m_dht && (flags & session::save_dht_state))
 		{
@@ -759,6 +764,7 @@ namespace aux {
 		}
 #endif
 
+#ifndef TORRENT_NO_DEPRECATE
 		if (flags & session::save_peer_proxy)
 		{
 			save_struct(e["peer proxy"], &m_peer_proxy, proxy_settings_map
@@ -772,6 +778,13 @@ namespace aux {
 		if (flags & session::save_tracker_proxy)
 		{
 			save_struct(e["tracker proxy"], &m_tracker_proxy, proxy_settings_map
+				, sizeof(proxy_settings_map)/sizeof(proxy_settings_map[0]));
+		}
+#endif
+
+		if (flags & session::save_proxy)
+		{
+			save_struct(e["proxy"], &m_peer_proxy, proxy_settings_map
 				, sizeof(proxy_settings_map)/sizeof(proxy_settings_map[0]));
 		}
 
@@ -845,6 +858,7 @@ namespace aux {
 		}
 
 		settings = e.dict_find_dict("dht proxy");
+		if (!settings) settings = e.dict_find_dict("proxy");
 		if (settings)
 		{
 			proxy_settings s;
@@ -858,7 +872,6 @@ namespace aux {
 		{
 			m_dht_state = *settings;
 		}
-
 #endif
 
 #if TORRENT_USE_I2P
@@ -884,6 +897,7 @@ namespace aux {
 #endif
 
 		settings = e.dict_find_dict("peer proxy");
+		if (!settings) settings = e.dict_find_dict("proxy");
 		if (settings)
 		{
 			proxy_settings s;
@@ -893,6 +907,7 @@ namespace aux {
 		}
 
 		settings = e.dict_find_dict("web proxy");
+		if (!settings) settings = e.dict_find_dict("proxy");
 		if (settings)
 		{
 			proxy_settings s;
@@ -902,6 +917,7 @@ namespace aux {
 		}
 
 		settings = e.dict_find_dict("tracker proxy");
+		if (!settings) settings = e.dict_find_dict("proxy");
 		if (settings)
 		{
 			proxy_settings s;
@@ -1244,6 +1260,10 @@ namespace aux {
 			&& m_auto_manage_time_scaler > 2)
 			m_auto_manage_time_scaler = 2;
 		m_settings = s;
+
+		if (m_settings.cache_buffer_chunk_size <= 0)
+			m_settings.cache_buffer_chunk_size = 1;
+
  		if (m_settings.connection_speed < 0) m_settings.connection_speed = 200;
 		if (m_settings.broadcast_lsd && m_lsd)
 			m_lsd->use_broadcast(true);
@@ -3448,7 +3468,7 @@ namespace aux {
 		return m_alerts.wait_for_alert(max_wait);
 	}
 
-	void session_impl::set_alert_mask(int m)
+	void session_impl::set_alert_mask(boost::uint32_t m)
 	{
 		m_alerts.set_alert_mask(m);
 	}

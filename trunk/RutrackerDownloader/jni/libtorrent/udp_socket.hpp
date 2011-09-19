@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/session_settings.hpp"
 #include "libtorrent/buffer.hpp"
 
-#include <list>
+#include <deque>
 #include <boost/function.hpp>
 #include <boost/thread/mutex.hpp>
 
@@ -110,6 +110,8 @@ namespace libtorrent
 		void wrap(udp::endpoint const& ep, char const* p, int len, error_code& ec);
 		void unwrap(error_code const& e, char const* buf, int size);
 
+		bool maybe_clear_callback(mutex_t::scoped_lock& l);
+
 		mutable mutex_t m_mutex;
 
 		udp::socket m_ipv4_sock;
@@ -122,8 +124,11 @@ namespace libtorrent
 		char m_v6_buf[1600];
 #endif
 
-		int m_bind_port;
-		char m_outstanding;
+		boost::uint16_t m_bind_port;
+		boost::uint8_t m_v4_outstanding;
+#if TORRENT_USE_IPV6
+		boost::uint8_t m_v6_outstanding;
+#endif
 
 		tcp::socket m_socks5_sock;
 		int m_connection_ticket;
@@ -138,7 +143,12 @@ namespace libtorrent
 		// while we're connecting to the proxy
 		// we have to queue the packets, we'll flush
 		// them once we're connected
-		std::list<queued_packet> m_queue;
+		std::deque<queued_packet> m_queue;
+
+		// counts the number of outstanding async
+		// operations hanging on this socket
+		int m_outstanding_ops;
+
 #ifdef TORRENT_DEBUG
 		bool m_started;
 		int m_magic;
@@ -162,7 +172,7 @@ namespace libtorrent
 		int m_rate_limit;
 		int m_quota;
 		ptime m_last_tick;
-		std::list<queued_packet> m_queue;
+		std::deque<queued_packet> m_queue;
 	};
 }
 

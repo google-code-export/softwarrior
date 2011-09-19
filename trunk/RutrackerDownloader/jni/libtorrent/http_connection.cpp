@@ -226,6 +226,7 @@ void http_connection::start(std::string const& hostname, std::string const& port
 			}
 		}
 
+		m_endpoints.clear();
 		tcp::resolver::query query(hostname, port);
 		m_resolver.async_resolve(query, boost::bind(&http_connection::on_resolve
 			, me, _1, _2));
@@ -391,7 +392,7 @@ void http_connection::callback(error_code const& e, char const* data, int size)
 	if (m_bottled && m_called) return;
 
 	std::vector<char> buf;
-	if (m_bottled && m_parser.header_finished())
+	if (data && m_bottled && m_parser.header_finished())
 	{
 		std::string const& encoding = m_parser.header("content-encoding");
 		if ((encoding == "gzip" || encoding == "x-gzip") && size > 0 && data)

@@ -506,7 +506,7 @@ namespace libtorrent
 						ph.h.update((char const*)bufs[i].iov_base, small_piece_size);
 						*small_hash = hasher(ph.h).final();
 						small_hash = 0; // avoid this case again
-						if (bufs[i].iov_len > small_piece_size)
+						if (int(bufs[i].iov_len) > small_piece_size)
 							ph.h.update((char const*)bufs[i].iov_base + small_piece_size
 								, bufs[i].iov_len - small_piece_size);
 					}
@@ -536,7 +536,7 @@ namespace libtorrent
 						if (small_piece_size > 0) ph.h.update((char const*)buf.iov_base, small_piece_size);
 						*small_hash = hasher(ph.h).final();
 						small_hash = 0; // avoid this case again
-						if (buf.iov_len > small_piece_size)
+						if (int(buf.iov_len) > small_piece_size)
 							ph.h.update((char const*)buf.iov_base + small_piece_size
 								, buf.iov_len - small_piece_size);
 					}
@@ -604,7 +604,7 @@ namespace libtorrent
 			// it's supposed to be, also truncate it
 			if (allocate_files
 				|| file_iter->size == 0
-				|| (exists(file_path) && file_size(file_path) > file_iter->size))
+				|| (exists(file_path) && size_type(file_size(file_path)) > file_iter->size))
 			{
 				error_code ec;
 				int mode = file::read_write;
@@ -1224,6 +1224,15 @@ ret:
 		size_type tor_off = size_type(slot)
 			* files().piece_length() + offset;
 		file_storage::iterator file_iter = files().file_at_offset(tor_off);
+		while (file_iter->pad_file)
+		{
+			++file_iter;
+			if (file_iter == files().end())
+				return size_type(slot) * files().piece_length() + offset;
+			// update offset as well, since we're moving it up ahead
+			tor_off = file_iter->offset;
+		}
+		TORRENT_ASSERT(!file_iter->pad_file);
 
 		size_type file_offset = tor_off - file_iter->offset;
 		TORRENT_ASSERT(file_offset >= 0);
@@ -1409,6 +1418,18 @@ ret:
 			{
 				bytes_transferred = (this->*op.unaligned_op)(file_handle, file_iter->file_base
 					+ file_offset, tmp_bufs, num_tmp_bufs, ec);
+				if (op.mode == file::read_write
+					&& file_iter->file_base + file_offset + bytes_transferred == file_iter->size
+					&& file_handle->pos_alignment() > 0)
+				{
+					// we were writing, and we just wrote the last block of the file
+					// we likely wrote a bit too much, since we're restricted to
+					// a specific alignment for writes. Make sure to truncate the size
+
+					// TODO: what if file_base is used to merge several virtual files
+					// into a single physical file?
+					file_handle->set_size(file_iter->size, ec);
+				}
 			}
 			else
 			{
@@ -1454,25 +1475,75 @@ ret:
 		const int num_blocks = (aligned_size + block_size - 1) / block_size;
 		TORRENT_ASSERT((aligned_size & size_align) == 0);
 
-		disk_buffer_holder tmp_buf(*disk_pool(), disk_pool()->allocate_buffers(num_blocks, "read scratch"), num_blocks);
+		disk_buffer_holder tmp_buf(*disk_pool(), disk_pool()->allocate_buffers(
+			num_blocks, "read scratch"), num_blocks);
 		file::iovec_t b = {tmp_buf.get(), aligned_size};
 		size_type ret = file_handle->readv(aligned_start, &b, 1, ec);
-		if (ret < 0) return ret;
+		if (ret < 0)
+		{
+			TORRENT_ASSERT(ec);
+			return ret;
+		}
+		if (ret - start_adjust < size) return (std::max)(ret - start_adjust, size_type(0));
+
 		char* read_buf = tmp_buf.get() + start_adjust;
 		for (file::iovec_t const* i = bufs, *end(bufs + num_bufs); i != end; ++i)
 		{
 			memcpy(i->iov_base, read_buf, i->iov_len);
 			read_buf += i->iov_len;
 		}
-		if (ret < size + start_adjust) return ret - start_adjust;
+
 		return size;
 	}
 
+	// this is the really expensive one. To write unaligned, we need to read
+	// an aligned block, overlay the unaligned buffer, and then write it back
 	size_type storage::write_unaligned(boost::shared_ptr<file> const& file_handle
 		, size_type file_offset, file::iovec_t const* bufs, int num_bufs, error_code& ec)
 	{
-		TORRENT_ASSERT(false); // not implemented
-		return 0;
+		const int pos_align = file_handle->pos_alignment()-1;
+		const int size_align = file_handle->size_alignment()-1;
+		const int block_size = disk_pool()->block_size();
+
+		const int size = bufs_size(bufs, num_bufs);
+		const int start_adjust = file_offset & pos_align;
+		TORRENT_ASSERT(start_adjust == (file_offset % file_handle->pos_alignment()));
+		const size_type aligned_start = file_offset - start_adjust;
+		const int aligned_size = ((size+start_adjust) & size_align)
+			? ((size+start_adjust) & ~size_align) + size_align + 1 : size + start_adjust;
+		const int num_blocks = (aligned_size + block_size - 1) / block_size;
+		TORRENT_ASSERT((aligned_size & size_align) == 0);
+
+		// allocate a temporary, aligned, buffer
+		disk_buffer_holder aligned_buf(*disk_pool(), disk_pool()->allocate_buffers(
+			num_blocks, "write scratch"), num_blocks);
+		file::iovec_t b = {aligned_buf.get(), aligned_size};
+		size_type ret = file_handle->readv(aligned_start, &b, 1, ec);
+		if (ret < 0)
+		{
+			TORRENT_ASSERT(ec);
+			return ret;
+		}
+
+		// OK, we read the portion of the file. Now, overlay the buffer we're writing 
+
+		char* write_buf = aligned_buf.get() + start_adjust;
+		for (file::iovec_t const* i = bufs, *end(bufs + num_bufs); i != end; ++i)
+		{
+			memcpy(write_buf, i->iov_base, i->iov_len);
+			write_buf += i->iov_len;
+		}
+
+		// write the buffer back to disk
+		ret = file_handle->writev(aligned_start, &b, 1, ec);
+
+		if (ret < 0)
+		{
+			TORRENT_ASSERT(ec);
+			return ret;
+		}
+		if (ret - start_adjust < size) return (std::max)(ret - start_adjust, size_type(0));
+		return size;
 	}
 
 	int storage::write(

@@ -56,6 +56,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "libtorrent/utf8.hpp"
+#include <boost/thread.hpp>
 
 #if TORRENT_USE_LOCALE_FILENAMES
 #include <iconv.h>
@@ -204,7 +205,7 @@ namespace libtorrent
 		TORRENT_ASSERT(str != 0);
 		TORRENT_ASSERT(len >= 0);
 		TORRENT_ASSERT(offset >= 0);
-		TORRENT_ASSERT(offset < sizeof(unreserved_chars)-1);
+		TORRENT_ASSERT(offset < int(sizeof(unreserved_chars)-1));
 
 		std::string ret;
 		for (int i = 0; i < len; ++i)
@@ -543,7 +544,41 @@ namespace libtorrent
 	}
 #endif
 
-#ifdef TORRENT_WINDOWS
+#if TORRENT_USE_LOCALE_FILENAMES
+
+	std::string convert_to_native(std::string const& s)
+	{
+		// only one thread can use this handle at a time
+		static boost::mutex iconv_mutex;
+		boost::mutex::scoped_lock l(iconv_mutex);
+
+		// the empty string represents the local dependent encoding
+		static iconv_t iconv_handle = iconv_open("", "UTF-8");
+		if (iconv_handle == iconv_t(-1)) return s;
+		std::string ret;
+		size_t insize = s.size();
+		size_t outsize = insize * 4;
+		ret.resize(outsize);
+		char const* in = s.c_str();
+		char* out = &ret[0];
+		// posix has a weird iconv signature. implementations
+		// differ on what this signature should be, so we use
+		// a macro to let config.hpp determine it
+		size_t retval = iconv(iconv_handle, TORRENT_ICONV_ARG &in, &insize,
+			&out, &outsize);
+		if (retval == (size_t)-1) return s;
+		// if this string has an invalid utf-8 sequence in it, don't touch it
+		if (insize != 0) return s;
+		// not sure why this would happen, but it seems to be possible
+		if (outsize > s.size() * 4) return s;
+		// outsize is the number of bytes unused of the out-buffer
+		TORRENT_ASSERT(ret.size() >= outsize);
+		ret.resize(ret.size() - outsize);
+		return ret;
+	}
+
+#elif defined TORRENT_WINDOWS
+
 	std::string convert_to_native(std::string const& s)
 	{
 #ifndef BOOST_NO_EXCEPTIONS
@@ -569,30 +604,6 @@ namespace libtorrent
 #endif
 	}
 
-#elif TORRENT_USE_LOCALE_FILENAMES
-	std::string convert_to_native(std::string const& s)
-	{
-		// the empty string represents the local dependent encoding
-		static iconv_t iconv_handle = iconv_open("", "UTF-8");
-		if (iconv_handle == iconv_t(-1)) return s;
-		std::string ret;
-		size_t insize = s.size();
-		size_t outsize = insize * 4;
-		ret.resize(outsize);
-		char const* in = s.c_str();
-		char* out = &ret[0];
-		size_t retval = iconv(iconv_handle, (char**)&in, &insize,
-			&out, &outsize);
-		if (retval == (size_t)-1) return s;
-		// if this string has an invalid utf-8 sequence in it, don't touch it
-		if (insize != 0) return s;
-		// not sure why this would happen, but it seems to be possible
-		if (outsize > s.size() * 4) return s;
-		// outsize is the number of bytes unused of the out-buffer
-		TORRENT_ASSERT(ret.size() >= outsize);
-		ret.resize(ret.size() - outsize);
-		return ret;
-	}
 #endif
 
 }
