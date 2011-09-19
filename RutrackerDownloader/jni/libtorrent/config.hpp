@@ -43,7 +43,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #ifndef PRId64
-#ifdef _WIN32
+// MinGW uses microsofts runtime
+#if defined _MSC_VER || defined __MINGW32__
 #define PRId64 "I64d"
 #else
 #define PRId64 "lld"
@@ -131,6 +132,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_MINGW
 #define TORRENT_WINDOWS
 #define TORRENT_HAS_FALLOCATE 0
+#define TORRENT_ICONV_ARG (const char**)
 #elif defined WIN32
 #define TORRENT_WINDOWS
 #define TORRENT_HAS_FALLOCATE 0
@@ -208,7 +210,7 @@ inline int snprintf(char* buf, int len, char const* fmt, ...)
 #define TORRENT_UPNP_LOGGING
 #endif
 
-#if !TORRENT_USE_WPATH && defined TORRENT_LINUX
+#if !TORRENT_USE_WPATH && (defined TORRENT_LINUX || defined TORRENT_MINGW)
 // libiconv presence, not implemented yet
 #define TORRENT_USE_LOCALE_FILENAMES 1
 #else
@@ -221,6 +223,10 @@ inline int snprintf(char* buf, int len, char const* fmt, ...)
 
 #if !defined(TORRENT_WRITE_HANDLER_MAX_SIZE)
 # define TORRENT_WRITE_HANDLER_MAX_SIZE 256
+#endif
+
+#ifndef TORRENT_ICONV_ARG
+#define TORRENT_ICONV_ARG (char**)
 #endif
 
 #if defined _MSC_VER && _MSC_VER <= 1200

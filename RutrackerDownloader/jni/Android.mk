@@ -26,7 +26,7 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS) 
 
 LOCAL_MODULE := libboost_filesystem 
-LOCAL_SRC_FILES := libboost/libboost_filesystem-gcc-mt-s-1_45.a
+LOCAL_SRC_FILES := libboost/libboost_filesystem.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
 LOCAL_EXPORT_LDLIBS := -lz 
 
@@ -35,7 +35,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS) 
 
 LOCAL_MODULE := libboost_system
-LOCAL_SRC_FILES := libboost/libboost_system-gcc-mt-s-1_45.a
+LOCAL_SRC_FILES := libboost/libboost_system.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
 LOCAL_EXPORT_LDLIBS := -lz
 
@@ -45,7 +45,7 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS) 
 
 LOCAL_MODULE := libboost_thread
-LOCAL_SRC_FILES := libboost/libboost_thread_pthread-gcc-mt-s-1_45.a
+LOCAL_SRC_FILES := libboost/libboost_thread.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/boost
 LOCAL_EXPORT_LDLIBS := -lz
 

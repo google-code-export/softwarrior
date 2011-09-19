@@ -70,7 +70,8 @@ namespace libtorrent
 
 	struct TORRENT_EXPORT create_torrent
 	{
-		enum {
+		enum flags_t
+		{
 			optimize = 1
 			, merkle = 2
 			, modification_time = 4
@@ -98,6 +99,8 @@ namespace libtorrent
 		int piece_size(int i) const { return m_files.piece_size(i); }
 		bool priv() const { return m_private; }
 
+		std::vector<sha1_hash> const& merkle_tree() const { return m_merkle_tree; }
+
 	private:
 
 		file_storage& m_files;
@@ -113,6 +116,11 @@ namespace libtorrent
 		std::vector<std::string> m_url_seeds;
 
 		std::vector<sha1_hash> m_piece_hash;
+
+		// if we're generating a merkle torrent, this is the
+		// merkle tree we got. This should be saved in fast-resume
+		// in order to start seeding the torrent
+		mutable std::vector<sha1_hash> m_merkle_tree;
 
 		// dht nodes to add to the routing table/bootstrap from
 		typedef std::vector<std::pair<std::string, int> > nodes_t;
@@ -172,7 +180,6 @@ namespace libtorrent
 #if TORRENT_USE_WPATH
 		inline bool wdefault_pred(boost::filesystem::wpath const&) { return true; }
 #endif
-
 		inline bool ignore_subdir(std::string const& leaf)
 		{ return leaf == ".." || leaf == "."; }
 
@@ -180,7 +187,6 @@ namespace libtorrent
 		inline bool ignore_subdir(std::wstring const& leaf)
 		{ return leaf == L".." || leaf == L"."; }
 #endif
-
 		inline void nop(int i) {}
 
 		int TORRENT_EXPORT get_file_attributes(boost::filesystem::path const& p);

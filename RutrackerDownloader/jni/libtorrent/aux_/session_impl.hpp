@@ -244,7 +244,7 @@ namespace libtorrent
 			void queue_check_torrent(boost::shared_ptr<torrent> const& t);
 			void dequeue_check_torrent(boost::shared_ptr<torrent> const& t);
 
-			void set_alert_mask(int m);
+			void set_alert_mask(boost::uint32_t m);
 			size_t set_alert_queue_size_limit(size_t queue_size_limit_);
 			std::auto_ptr<alert> pop_alert();
 			void set_alert_dispatch(boost::function<void(alert const&)> const&);
@@ -293,7 +293,6 @@ namespace libtorrent
 			void set_proxy(proxy_settings const& s);
 			proxy_settings const& proxy() const { return m_peer_proxy; }
 
-#ifndef TORRENT_NO_DEPRECATE
 			void set_peer_proxy(proxy_settings const& s)
 			{
 				m_peer_proxy = s;
@@ -305,7 +304,6 @@ namespace libtorrent
 			{ m_web_seed_proxy = s; }
 			void set_tracker_proxy(proxy_settings const& s)
 			{ m_tracker_proxy = s; }
-
 			proxy_settings const& peer_proxy() const
 			{ return m_peer_proxy; }
 			proxy_settings const& web_seed_proxy() const
@@ -322,7 +320,6 @@ namespace libtorrent
 			proxy_settings const& dht_proxy() const
 			{ return m_dht_proxy; }
 #endif
-#endif // TORRENT_NO_DEPRECATE
 
 #ifndef TORRENT_DISABLE_GEO_IP
 			std::string as_name_for_ip(address const& a);

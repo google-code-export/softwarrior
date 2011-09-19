@@ -1,0 +1,7 @@
+#Mon Sep 19 14:16:02 MSD 2011
+eclipse.preferences.version=1
+environment/project/com.android.toolchain.gcc.1803438054/PATH/delimiter=;
+environment/project/com.android.toolchain.gcc.1803438054/PATH/operation=replace
+environment/project/com.android.toolchain.gcc.1803438054/PATH/value=D\:\\android-ndk-r6b;C\:/Program Files/Java/jre6/bin/client;C\:/Program Files/Java/jre6/bin;C\:/Program Files/Java/jre6/lib/i386;C\:\\Program Files\\Windows Resource Kits\\Tools\\;C\:\\Windows\\system32;C\:\\Windows;C\:\\Windows\\System32\\Wbem;C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C\:\\Program Files\\ATI Technologies\\ATI.ACE\\Core-Static;E\:\\WINPRIL\\WINXP\\TortoiseSVN\\bin;C\:\\ARC;C\:\\TOOLS;D\:\\android-sdk-windows\\platform-tools;D\:\\Cygwin\\bin;C\:\\Program Files\\Java\\jdk1.6.0_24\\bin;D\:\\android-sdk-windows\\tools;;E\:\\DEVELOPMENTS\\Mercurial;E\:\\WINPRIL\\WINXP\\TortoiseHg\\;E\:\\DEVELOPMENTS\\eclipse-java-helios-SR1
+environment/project/com.android.toolchain.gcc.1803438054/append=true
+environment/project/com.android.toolchain.gcc.1803438054/appendContributed=true
