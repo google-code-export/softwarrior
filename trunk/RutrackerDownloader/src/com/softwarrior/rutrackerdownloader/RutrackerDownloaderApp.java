@@ -128,7 +128,7 @@ public class RutrackerDownloaderApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		try{
-			RutrackerDownloaderApp.AnalyticsTracker.start("UA-21583368-2", 30, this);        
+			RutrackerDownloaderApp.AnalyticsTracker.startNewSession("UA-21583368-2", 30, this);        
 			WebViewDatabase webViewDB = WebViewDatabase.getInstance(this);
 			if (webViewDB!=null){
 				startService(new Intent(this, DownloadService.class));
@@ -323,7 +323,7 @@ public class RutrackerDownloaderApp extends Application {
 	        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
 	        ed.commit();
 	        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-	        RutrackerDownloaderApp.AnalyticsTracker.stop();
+	        RutrackerDownloaderApp.AnalyticsTracker.stopSession();
 	        final Handler handler = new Handler() {
 	            @Override
 	            public void handleMessage(Message msg) {
