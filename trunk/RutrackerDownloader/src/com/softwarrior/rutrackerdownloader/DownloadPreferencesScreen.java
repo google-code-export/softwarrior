@@ -1,5 +1,7 @@
 package com.softwarrior.rutrackerdownloader;
 
+import java.net.Inet4Address;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
@@ -442,7 +444,14 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	          for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
 	              InetAddress inetAddress = enumIpAddr.nextElement();
 	              if (!inetAddress.isLoopbackAddress()) {
-	                  return inetAddress.getHostAddress().toString();
+	            	  String ipVersion = "";
+	            	  if (inetAddress instanceof Inet4Address) {
+	            		  ipVersion = " IPv4: ";
+	            	  }
+	            	  else if (inetAddress instanceof Inet6Address) {
+	            		  ipVersion = " IPv6: ";
+	            	  }
+	                  return ipVersion + inetAddress.getHostAddress().toString();
 	              }
 	          }
 	      }
