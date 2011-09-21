@@ -84,7 +84,7 @@ public class MainScreen extends Activity {
 		}
 				
 		public void OnClickMainButtonDownload(View v){
-			
+			RutrackerDownloaderApp.OpenDownloaderActivity(this);			
 		}
 		public void OnClickMainButtonWebSearch(View v){
 			

@@ -21,12 +21,12 @@
         <activity android:name="WEBPreferencesScreen"></activity>
         <activity android:name="RSSPreferencesScreen"></activity>
         <activity android:name="DownloadPreferencesScreen"></activity>
-        <activity android:name="TorrentFilesList" android:theme="@android:style/Theme.Light"></activity>
-        <activity android:name="TorrentsList" android:launchMode="singleTop" android:theme="@android:style/Theme.Light"></activity>
-        <activity android:name="com.softwarrior.web.WebHistory" android:launchMode="singleTop" android:theme="@android:style/Theme.Light"></activity>
+        <activity android:name="TorrentFilesList"></activity>
+        <activity android:name="TorrentsList" android:launchMode="singleTop"></activity>
+        <activity android:name="com.softwarrior.web.WebHistory" android:launchMode="singleTop"></activity>
         <activity android:name="SiteChoice"></activity>
-        <activity android:name="com.softwarrior.web.TorrentWebClient" android:theme="@android:style/Theme.Light"></activity>
-        <activity android:name="com.softwarrior.rss.MessageList" android:theme="@android:style/Theme.Light"></activity>     
+        <activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
+        <activity android:name="com.softwarrior.rss.MessageList"></activity>     
         <activity android:name="DownloadService$Controller"
                 android:theme="@android:style/Theme.Light"
                 android:process="com.softwarrior.rutrackerdownloaderprocess"                
@@ -50,7 +50,7 @@
                 <data android:scheme="http" android:host="*" android:pathPattern=".*\\.torrent" />
             </intent-filter>            
         </activity>
-        <activity android:name="com.softwarrior.file.FileManagerActivity" android:launchMode="singleTop" android:theme="@android:style/Theme.Light">
+        <activity android:name="com.softwarrior.file.FileManagerActivity" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="com.softwarrior.file.SET_DIRECTORY"/>
                 <category android:name="android.intent.category.DEFAULT" />

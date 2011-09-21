@@ -131,9 +131,9 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         mRightText = (TextView) findViewById(R.id.right_text);
         mLeftText = (TextView) findViewById(R.id.left_text);
-        mLeftText.setTextColor(Color.WHITE);
+        mLeftText.setTextColor(getResources().getColor(R.color.gold));
         mLeftText.setTypeface(null,Typeface.BOLD);
-        mRightText.setTextColor(Color.WHITE);
+        mRightText.setTextColor(getResources().getColor(R.color.gold));
         mRightText.setTypeface(null,Typeface.BOLD);
 
         // Start lengthy operation in a background thread
@@ -206,10 +206,9 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
                 	mLeftText.setTextColor(Color.RED);
                 	mRightText.setTextColor(Color.RED);
                 }else{
-                	mLeftText.setTextColor(Color.WHITE);
-                	mRightText.setTextColor(Color.WHITE);                	
-                }
-                
+                	mLeftText.setTextColor(getResources().getColor(R.color.gold));
+                	mRightText.setTextColor(getResources().getColor(R.color.gold));                	
+                }                
             }
         };        
 

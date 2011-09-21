@@ -24,9 +24,9 @@
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:text="@string/main_button_websearch" 
-            android:onClick="@string/on_click_main_button_websearch"
-            android:textStyle="bold"  
+            android:onClick="@string/on_click_main_button_websearch"  
             android:textSize="22sp"
+            android:textStyle="bold"
             android:textColor="@color/cyan" 
             android:layout_marginBottom="5dp">
         </Button>                       
