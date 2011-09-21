@@ -262,19 +262,29 @@ public class RutrackerDownloaderApp extends Application {
 		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 		activity.finish();
     }
+    /////////////////
+    static public void OpenDownloadPreferencesScreen(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, DownloadPreferencesScreen.class.getName());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    	activity.startActivityForResult(intent, 0);
+    }
+    
+    static public void OpenDownloaderActivity(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, TorrentsList.class.getName());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    	activity.startActivityForResult(intent, 0);
+    }
+    /////////////////    
     
     static public void OpenPreferenceTabsActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	intent.setClassName(activity, PreferencesTabs.class.getName());
     	activity.startActivity(intent);
-    }
-
-    static public void OpenDownloaderActivity(Activity activity){
-    	Intent intent = new Intent(Intent.ACTION_VIEW);
-    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(activity, TorrentsList.class.getName());
-    	activity.startActivityForResult(intent, 0);
     }
 
     static public void OpenTorrentDownloadActivity(Activity activity){
