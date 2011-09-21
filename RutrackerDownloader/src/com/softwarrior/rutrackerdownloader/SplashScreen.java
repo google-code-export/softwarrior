@@ -7,7 +7,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -110,13 +109,8 @@ public class SplashScreen extends Activity {
 		WebViewDatabase webViewDB = WebViewDatabase.getInstance(this);
 		if (webViewDB==null) {
 			showDialog(DIALOG_UPDATE_INCORRECT);
-		} else {		
-	    	Intent intent = new Intent(Intent.ACTION_VIEW);
-	    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//	    	intent.setClassName(this, PreferencesTabs.class.getName());   	
-	    	intent.setClassName(this, MainScreen.class.getName());
-	    	startActivity(intent);
-	    	overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		} else {
+			RutrackerDownloaderApp.OpenMainScreen(this);
 	    	finish();
 		}
     }    

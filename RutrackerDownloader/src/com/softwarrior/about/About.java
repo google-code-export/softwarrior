@@ -3,6 +3,8 @@ package com.softwarrior.about;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,10 +30,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
-public class About extends TabActivity {
-
+public class About extends TabActivity implements OnTabChangeListener{
+	
 	public static final String ACTION_SHOW_ABOUT_DIALOG = "com.softwarrior.about.action.SHOW_ABOUT_DIALOG";
 
 	public static final String METADATA_COMMENTS = "com.softwarrior.about.metadata.COMMENTS";
@@ -348,6 +353,7 @@ public class About extends TabActivity {
 			};			
 			//Allow a label and url through Linkify
 			Linkify.addLinks((TextView) mWebsiteText, Pattern.compile(".*"), "", null, tf);
+			mWebsiteText.setLinksClickable(true);
 		} else {
 			mWebsiteText.setVisibility(View.GONE);
 		}
@@ -361,6 +367,7 @@ public class About extends TabActivity {
 		if (!TextUtils.isEmpty(email)) {
 			mEmailImage.setImageResource(android.R.drawable.ic_dialog_email);
 			mEmailText.setText(email);
+			mEmailText.setLinksClickable(true);
 		} else {
 			mEmailImage.setImageURI(null);
 		}
@@ -381,8 +388,8 @@ public class About extends TabActivity {
     	super.onCreate(savedInstanceState);
     	
     	//Set up the layout with the TabHost
-    	tabHost = getTabHost();
-        
+    	tabHost = getTabHost();        
+    	tabHost.setOnTabChangedListener(this);
         LayoutInflater.from(this).inflate(R.layout.about,
 				tabHost.getTabContentView(), true);
         
@@ -395,7 +402,31 @@ public class About extends TabActivity {
         tabHost.addTab(tabHost.newTabSpec(getString(R.string.l_license))
                 .setIndicator(getString(R.string.l_license))
                 .setContent(R.id.sv_license));
-                
+             
+        for (int i =0; i < tabHost.getTabWidget().getChildCount(); i++) {
+
+//        	tabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 100;
+//        	tabHost.getTabWidget().getChildAt(i).getLayoutParams().width = 100;           
+
+        	final TextView tv = (TextView)tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+        	tv.setTextSize(17);
+            tv.setTextColor(getResources().getColor(R.color.cyan));
+            View vv = tabHost.getTabWidget().getChildAt(i);
+           	vv.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_tab_indicator_small));
+           	tabHost.getTabWidget().getChildAt(i).getLayoutParams().height /= 2;  // Or the size desired
+        }
+        onTabChanged(getString(R.string.l_info));
+        SetStripEnabled(tabHost);
+//        Bundle bundle = this.getIntent().getExtras();
+//        if(bundle != null){
+//        	String currentTab = bundle.getString("CurrentTab");
+//	        if(currentTab != null){
+//	        	mTabHost.setCurrentTabByTag(currentTab);
+//	        }
+//        }
+
+        
+        
         //Find the views
         mLogoImage = (ImageView) findViewById(R.id.i_logo);
         mEmailImage = (ImageView) findViewById(R.id.i_email);	
@@ -419,6 +450,49 @@ public class About extends TabActivity {
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/About");
     }
 
+	public void onTabChanged(String tabId) {
+		for(int i=0;i<tabHost.getTabWidget().getChildCount();i++){
+			final TextView tv = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+			tv.setTypeface(Typeface.DEFAULT);
+        } 				
+		final TextView tv = (TextView)tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).findViewById(android.R.id.title);
+		tv.setTypeface(Typeface.DEFAULT_BOLD);
+	}    
+    
+    private void SetStripEnabled(TabHost tabHost) {
+
+        TabWidget tw = (TabWidget) tabHost.getTabWidget();
+        
+        Field mBottomLeftStrip;
+        Field mBottomRightStrip;
+
+        try {
+            mBottomLeftStrip = tw.getClass().getDeclaredField("mBottomLeftStrip");
+            mBottomRightStrip = tw.getClass().getDeclaredField("mBottomRightStrip");
+            if (!mBottomLeftStrip.isAccessible()) {
+                mBottomLeftStrip.setAccessible(true);
+            }
+            if (!mBottomRightStrip.isAccessible()) {
+                mBottomRightStrip.setAccessible(true);
+            }
+            mBottomLeftStrip.set(tw, getResources().getDrawable(R.drawable.ic_blank_tile));
+            mBottomRightStrip.set(tw, getResources().getDrawable(R.drawable.ic_blank_tile));
+        } 
+        catch (java.lang.NoSuchFieldException e) {
+            // possibly 2.2
+            try {
+                Method stripEnabled = tw.getClass().getDeclaredMethod("setStripEnabled", boolean.class);
+                stripEnabled.invoke(tw, false);
+
+            } 
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        } 
+        catch (Exception e) {}
+    }
+
+    
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -436,7 +510,7 @@ public class About extends TabActivity {
 		switch(ActivityResultType.getValue(resultCode))
 		{
 		case RESULT_DOWNLOADER:
-		case RESULT_PREFERENCES:
+		case RESULT_MAIN:
 		case RESULT_EXIT:
 			setResult(resultCode);
 			finish();

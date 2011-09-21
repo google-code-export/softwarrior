@@ -52,7 +52,7 @@ public class Help extends Activity {
 			switch(ActivityResultType.getValue(resultCode))
 			{
 			case RESULT_DOWNLOADER:
-			case RESULT_PREFERENCES:
+			case RESULT_MAIN:
 			case RESULT_EXIT:
 				setResult(resultCode);
 				finish();

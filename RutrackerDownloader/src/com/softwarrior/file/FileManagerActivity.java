@@ -80,7 +80,7 @@ public class FileManagerActivity extends ListActivity {
 
 	private static final int MENU_ABOUT = Menu.FIRST + 11;
 	private static final int MENU_HELP = Menu.FIRST + 12;
-	private static final int MENU_PREFERENCES = Menu.FIRST + 13;
+	private static final int MENU_MAIN = Menu.FIRST + 13;
 	private static final int MENU_WEB_HISTORY = Menu.FIRST + 14;
 	private static final int MENU_EXIT = Menu.FIRST + 100;
 		
@@ -750,7 +750,7 @@ public class FileManagerActivity extends ListActivity {
  		//.setIcon(android.R.drawable.ic_menu_add).setShortcut('0', 'f');  		
  		menu.add(Menu.NONE, MENU_ABOUT, MENU_ABOUT, R.string.menu_about);
  		menu.add(Menu.NONE, MENU_HELP, MENU_HELP, R.string.menu_help);
- 		menu.add(Menu.NONE, MENU_PREFERENCES, MENU_PREFERENCES, R.string.menu_preferences);
+ 		menu.add(Menu.NONE, MENU_MAIN, MENU_MAIN, R.string.menu_main);
  		menu.add(Menu.NONE, MENU_WEB_HISTORY, MENU_WEB_HISTORY, R.string.menu_web_history);
  		menu.add(Menu.NONE, MENU_EXIT, MENU_EXIT, R.string.menu_exit);
  		return true;
@@ -788,8 +788,8 @@ public class FileManagerActivity extends ListActivity {
 		case MENU_HELP:
 			RutrackerDownloaderApp.HelpActivity(this);
 			return true;			
-		case MENU_PREFERENCES:
-			RutrackerDownloaderApp.PreferencesScreenActivity(this);
+		case MENU_MAIN:
+			RutrackerDownloaderApp.MainScreen(this);
 			return true;			
 		case MENU_WEB_HISTORY:
 			RutrackerDownloaderApp.WebHistoryActivity(this);
@@ -1288,7 +1288,7 @@ public class FileManagerActivity extends ListActivity {
     	switch(ActivityResultType.getValue(resultCode))
 		{
 		case RESULT_DOWNLOADER:
-		case RESULT_PREFERENCES:
+		case RESULT_MAIN:
 		case RESULT_EXIT:
 			setResult(resultCode);
 			finish();
