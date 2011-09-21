@@ -28,7 +28,7 @@
         android:id="@+id/ButtonsLayout" 
         android:orientation="horizontal" 
         android:layout_height="wrap_content" 
-        android:layout_alignParentBottom="true"> 
+        android:layout_alignParentBottom="true" android:layout_marginBottom="10dp"> 
         <Button 
             android:text="@string/button_activate_settings"
             android:onClick="@string/on_click_activate_settings"
