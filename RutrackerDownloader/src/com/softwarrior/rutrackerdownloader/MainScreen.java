@@ -8,13 +8,17 @@ import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResult
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 public class MainScreen extends Activity {	
 	
+		private int mBackPressedCount = 0;
+
 	    @Override
 	    public void onCreate(Bundle icicle) {
 	        super.onCreate(icicle);
@@ -31,6 +35,7 @@ public class MainScreen extends Activity {
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
+	    	mBackPressedCount = 0;
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	    }
 	    		
@@ -82,12 +87,23 @@ public class MainScreen extends Activity {
 			}
 			return true;
 		}
+		@Override 
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+	    		if(mBackPressedCount == 0){
+	    			Toast.makeText(this, getString(R.string.press_back_to_exit), Toast.LENGTH_SHORT).show();
+	    			mBackPressedCount++;
+	    			return true;
+	    		} else {
+	    			RutrackerDownloaderApp.FinalCloseApplication(this);
+	    		}
+			return super.onKeyDown(keyCode,event); 
+		}
 				
 		public void OnClickMainButtonDownload(View v){
 			RutrackerDownloaderApp.OpenDownloaderActivity(this);			
 		}
 		public void OnClickMainButtonWebSearch(View v){
-			
 		}
 		public void OnClickMainButtonRSSSearch(View v){
 			
@@ -99,6 +115,6 @@ public class MainScreen extends Activity {
 			
 		}
 		public void OnClickMainButtonSettings(View v){
-			
+			RutrackerDownloaderApp.OpenDownloadPreferencesScreen(this);			
 		}
 }

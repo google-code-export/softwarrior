@@ -16,10 +16,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import android.preference.Preference;
@@ -61,7 +61,10 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 			
 	@Override
 	protected void onCreate(Bundle icicle) {
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
 		super.onCreate(icicle);
+        
 		addPreferencesFromResource(R.xml.download_preferences);
 		
 		String savePath =  GetTorrentSavePath(this);
@@ -71,6 +74,8 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		InitSummaries(getPreferenceScreen());
 		setContentView(R.layout.download_preferences);
 
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+        
 		mIPAddressTextLabel = (TextView) findViewById(R.id.ip_address_label);
 		mIPAddressText = (TextView) findViewById(R.id.ip_address);
 		SetIPAdressText();
@@ -82,8 +87,8 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
             public void handleMessage(Message msg) {
             	SetIPAdressText();
             }
-        };        
-		
+        };  
+                        		
 		if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 		RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
 	}
@@ -335,12 +340,12 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		};
 	}
     
-	@Override 
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-			RutrackerDownloaderApp.FinalCloseApplication(this);
-		return super.onKeyDown(keyCode,event); 
-	}
+//	@Override 
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+//			RutrackerDownloaderApp.FinalCloseApplication(this);
+//		return super.onKeyDown(keyCode,event); 
+//	}
 	  
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {

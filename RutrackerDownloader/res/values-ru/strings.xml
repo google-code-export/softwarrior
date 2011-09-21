@@ -17,6 +17,8 @@
     <string name="main_button_piratesearch">Пиратский поиск</string>
     <string name="main_button_kinoafisha">Киноафиша</string>
     <string name="main_button_settings">Настройки</string>
+	
+	<string name="press_back_to_exit">Нажмите назад, чтобы выйти из программы</string>
 			
 	<string name="menu_exit">Выход</string>
     <string name="menu_help">Помощь</string>
