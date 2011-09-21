@@ -2,7 +2,22 @@
 <resources>
     <string name="app_name">Rutracker Downloader</string>
     <string name="app_desc">The program to search and download content from rutracker.org</string>
-    	
+    <string name="app_copyright">(c) Softwarrior</string>
+
+    <string name="on_click_main_button_download">OnClickMainButtonDownload</string>
+    <string name="on_click_main_button_websearch">OnClickMainButtonWebSearch</string>
+    <string name="on_click_main_button_rsssearch">OnClickMainButtonRSSSearch</string>
+    <string name="on_click_main_button_piratesearch">OnClickMainButtonPirateSearch</string>
+    <string name="on_click_main_button_kinoafisha">OnClickMainButtonKinoafisha</string>
+    <string name="on_click_main_button_settings">OnClickMainButtonSettings</string>
+    
+    <string name="main_button_download">Download</string>
+    <string name="main_button_websearch">Web search</string>
+    <string name="main_button_rsssearch">RSS search</string>
+    <string name="main_button_piratesearch">Pirate search</string>
+    <string name="main_button_kinoafisha">Kinoafisha</string>
+    <string name="main_button_settings">Settings</string>
+               	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>
     <string name="menu_about">About</string>
@@ -69,8 +84,7 @@
 	<string name="on_click_refresh_advertising">OnClickButtonRefreshAdvertising</string>
 	<string name="on_click_button_site_map">OnClickButtonSiteMap</string>
 	<string name="on_click_adview">OnClickAdview</string>
-	
-	
+    		
 	<string name="button_site_map">Site map</string>
 	<string name="button_refresh_advertising">Refresh Advertising</string>
 	<string name="button_download">Download torrent</string>
@@ -320,4 +334,10 @@ Please see contact information in the About page.
     <string name="update_incorrect">Update was not finished correct. Please uninstall application and install again</string>
     <string name="update_incorrect_dialog_title">Update Error</string>
     <string name="dialog_close">Close</string>
+<string name="on_click_button_websearch"/>
+    <string name="on_click_button_rsssearch"/>
+<string name="main_button_options"/>
+<string name="on_click_main_button_options"/>
+<string name="main_button_preference"/>
+    <string name="on_click_main_button_preference"/>
 </resources>
