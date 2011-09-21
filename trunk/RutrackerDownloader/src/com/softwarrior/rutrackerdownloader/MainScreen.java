@@ -28,8 +28,15 @@ public class MainScreen extends Activity {
 	        
 	        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 		        
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Main");
+	        if(SiteChoice.GetSite(this) == SiteChoice.SiteType.PORNOLAB)
+	        	RutrackerDownloaderApp.SetupPornolab(this);
+	        else if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
+	        	RutrackerDownloaderApp.SetupNnmclub(this);
+	        else
+	        	RutrackerDownloaderApp.SetupRutracker(this);
+	        
+	        RutrackerDownloaderApp.DownloadServiceMode = false;        	        
+	        RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
 	    }
 	    
 	    @Override
@@ -38,18 +45,21 @@ public class MainScreen extends Activity {
 	    	mBackPressedCount = 0;
 	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	    }
-	    		
-		@Override
+	    				
+	    @Override
 		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 			switch(ActivityResultType.getValue(resultCode))
 			{
-			case RESULT_DOWNLOADER:
-			case RESULT_PREFERENCES:
+			case RESULT_DOWNLOADER:{
+				RutrackerDownloaderApp.OpenDownloaderActivity(this);
+			} break;
+			case RESULT_MAIN:{			
+			} break;
 			case RESULT_EXIT:
-				setResult(resultCode);
-				finish();
-				break;
-			};		
+				RutrackerDownloaderApp.FinalCloseApplication(this);
+			default:{
+			} break;
+			};
 		}
 		
 		@Override
@@ -112,7 +122,7 @@ public class MainScreen extends Activity {
 			
 		}
 		public void OnClickMainButtonKinoafisha(View v){
-			
+			RutrackerDownloaderApp.OpenKinoafisha(this);
 		}
 		public void OnClickMainButtonSettings(View v){
 			RutrackerDownloaderApp.OpenDownloadPreferencesScreen(this);			

@@ -26,7 +26,9 @@
         <activity android:name="com.softwarrior.web.WebHistory" android:launchMode="singleTop"></activity>
         <activity android:name="SiteChoice"></activity>
         <activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
-        <activity android:name="com.softwarrior.rss.MessageList"></activity>     
+        <activity android:name="com.softwarrior.rss.MessageList"></activity>  
+        <activity android:name="com.softwarrior.about.About" android:label="@string/about_activity_name"></activity>  
+        <activity android:name="com.softwarrior.about.Help" android:label="@string/help_activity_name"></activity>             
         <activity android:name="DownloadService$Controller"
                 android:theme="@android:style/Theme.Light"
                 android:process="com.softwarrior.rutrackerdownloaderprocess"                
@@ -80,14 +82,6 @@
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>        
         </activity>
-        <activity android:label="@string/about_activity_name"
-                android:name="com.softwarrior.about.About"
-                android:theme="@android:style/Theme.Light">
-        </activity>
-        <activity android:label="@string/help_activity_name"
-                  android:name="com.softwarrior.about.Help"
-                  android:theme="@android:style/Theme.Light">
-        </activity>  
         <service android:name="DownloadService"></service>
         <!-- AdMob integration -->
         <meta-data android:value="a14d5a500187b19" android:name="ADMOB_PUBLISHER_ID" />  

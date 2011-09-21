@@ -9,6 +9,7 @@ import com.softwarrior.about.About;
 import com.softwarrior.about.Help;
 import com.softwarrior.file.FileManagerActivity;
 import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
+import com.softwarrior.web.TorrentWebClient;
 import com.softwarrior.web.WebHistory;
 import com.softwarrior.web.WebHistorySQLHelper;
 
@@ -24,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -36,7 +38,7 @@ public class RutrackerDownloaderApp extends Application {
    	//Enumerations
 	public enum ActivityResultType {
 		RESULT_OK(-1),RESULT_CANCELED(0),RESULT_FIRST_USER(1),
-		RESULT_PREFERENCES(2), RESULT_DOWNLOADER(3), RESULT_EXIT(4);
+		RESULT_MAIN(2), RESULT_DOWNLOADER(3), RESULT_EXIT(4);
 		
 		private int mCode;
 		private ActivityResultType(int code) {mCode = code;}
@@ -249,11 +251,11 @@ public class RutrackerDownloaderApp extends Application {
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.NN_CookieUrl;
     	PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_nnmclub_title));
 	}	
-    static public void PreferencesScreenActivity(Activity activity){
-    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_PREFERENCES.getCode());
+    static public void MainScreen(Activity activity){
+    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_MAIN.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	if(DownloadServiceMode)
-    		OpenPreferenceTabsActivity(activity);
+    		OpenMainScreen(activity);
     	activity.finish();
     }
 
@@ -278,12 +280,25 @@ public class RutrackerDownloaderApp extends Application {
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.startActivityForResult(intent, 0);
     }
+    
+    static public void OpenKinoafisha(Activity activity) {
+  	  Bundle bundle = new Bundle();
+  	  bundle.putString("LoadUrl", RutrackerDownloaderApp.KinoafishaCityUrl);
+  	  bundle.putString("Action", "Show");
+  	  Intent intent = new Intent(Intent.ACTION_VIEW);
+  	  intent.putExtras(bundle);
+  	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+  	  intent.setClassName(activity, TorrentWebClient.class.getName());
+  	  activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+  	  activity.startActivityForResult(intent,0);
+    }    
     /////////////////    
     
-    static public void OpenPreferenceTabsActivity(Activity activity){
+    static public void OpenMainScreen(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(activity, PreferencesTabs.class.getName());
+    	intent.setClassName(activity, MainScreen.class.getName());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.startActivity(intent);
     }
 

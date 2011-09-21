@@ -23,7 +23,7 @@
 	<string name="menu_exit">Выход</string>
     <string name="menu_help">Помощь</string>
     <string name="menu_about">О программе</string>
-	<string name="menu_preferences">Настройки</string>
+    <string name="menu_main">Главная</string>
 	<string name="menu_file_manager">Файл менеджер</string>
 	
 	<string name="preferences_select_content_title">ВЫБЕРИТЕ КОНТЕНТ</string>
@@ -214,7 +214,7 @@
 
     <!-- ABOUT -->
 
-	<string name="about_comments">Программа - Bit Torrent клиент (как mTorrent), с дополнительными возможностями поиска и загрузки контента с сайтов.</string>  
+	<string name="about_comments">Программа - Bit Torrent клиент с дополнительными возможностями поиска и загрузки контента с сайтов.</string>  
 	<string name="about_copyright">(c) 2011 Softwarrior </string>
     <!-- Add your name here, separated with comma's, if you helped out --> 
 	<string name="about_website_label">Softwarrior сайт</string> 

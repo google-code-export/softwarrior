@@ -84,7 +84,7 @@ public class TorrentWebClient extends Activity {
     final Activity activity = this;
     
     public enum MenuType{
-    	About, Help, Preferences, FileManager, WebHistory, Exit;
+    	About, Help, Main, FileManager, WebHistory, Exit;
     }
 
     @Override
@@ -384,7 +384,7 @@ public class TorrentWebClient extends Activity {
     	switch(ActivityResultType.getValue(resultCode))
 		{
 		case RESULT_DOWNLOADER:
-		case RESULT_PREFERENCES:
+		case RESULT_MAIN:
 		case RESULT_EXIT:
 			setResult(resultCode);
 			finish();
@@ -533,7 +533,7 @@ public class TorrentWebClient extends Activity {
 		super.onCreateOptionsMenu(menu);
 		menu.add(Menu.NONE, MenuType.About.ordinal(), MenuType.About.ordinal(), R.string.menu_about); 
 		menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help); 
-		menu.add(Menu.NONE, MenuType.Preferences.ordinal(), MenuType.Preferences.ordinal(), R.string.menu_preferences);
+		menu.add(Menu.NONE, MenuType.Main.ordinal(), MenuType.Main.ordinal(), R.string.menu_main);
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
@@ -552,8 +552,8 @@ public class TorrentWebClient extends Activity {
 		case Help:{
 			RutrackerDownloaderApp.HelpActivity(this);
 		} break;
-		case Preferences:{
-			RutrackerDownloaderApp.PreferencesScreenActivity(this);
+		case Main:{
+			RutrackerDownloaderApp.MainScreen(this);
 		} break;
 		case FileManager:{
 			RutrackerDownloaderApp.FileManagerActivity(this);

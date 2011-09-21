@@ -324,20 +324,17 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		return true;
 	}
 
-    @Override
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(ActivityResultType.getValue(resultCode))
 		{
-		case RESULT_DOWNLOADER:{
-			RutrackerDownloaderApp.OpenDownloaderActivity(this);
-		} break;
-		case RESULT_PREFERENCES:{			
-		} break;
+		case RESULT_DOWNLOADER:
+		case RESULT_MAIN:
 		case RESULT_EXIT:
-			RutrackerDownloaderApp.FinalCloseApplication(this);
-		default:{
-		} break;
-		};
+			setResult(resultCode);
+			finish();
+			break;
+		};		
 	}
     
 //	@Override 

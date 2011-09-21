@@ -124,7 +124,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		case RESULT_DOWNLOADER:{
 			RutrackerDownloaderApp.OpenDownloaderActivity(this);
 		} break;
-		case RESULT_PREFERENCES:{			
+		case RESULT_MAIN:{			
 		} break;
 		case RESULT_EXIT:
 			RutrackerDownloaderApp.FinalCloseApplication(this);

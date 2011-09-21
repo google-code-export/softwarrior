@@ -219,7 +219,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			case RESULT_DOWNLOADER:
 				RutrackerDownloaderApp.OpenDownloaderActivity(this);
 				return;
-			case RESULT_PREFERENCES:
+			case RESULT_MAIN:
 				return;
 			case RESULT_EXIT:
 				RutrackerDownloaderApp.FinalCloseApplication(this);
