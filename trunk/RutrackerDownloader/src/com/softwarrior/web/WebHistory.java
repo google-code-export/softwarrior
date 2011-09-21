@@ -88,9 +88,9 @@ public class WebHistory extends ListActivity{
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         mRightText = (TextView) findViewById(R.id.right_text);
         mLeftText = (TextView) findViewById(R.id.left_text);
-        mLeftText.setTextColor(Color.WHITE);
+        mLeftText.setTextColor(getResources().getColor(R.color.gold));
         mLeftText.setTypeface(null,Typeface.BOLD);
-        mRightText.setTextColor(Color.WHITE);
+        mRightText.setTextColor(getResources().getColor(R.color.gold));
         mRightText.setTypeface(null,Typeface.BOLD);
         
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
@@ -287,6 +287,7 @@ public class WebHistory extends ListActivity{
 		menu.add(Menu.NONE, MenuType.Main.ordinal(), MenuType.Main.ordinal(), R.string.menu_main);
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
+	    RutrackerDownloaderApp.SetMenuBackground(this);
 		return true;
 	}	
 	@Override

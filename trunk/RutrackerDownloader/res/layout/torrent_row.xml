@@ -13,13 +13,16 @@
         android:layout_alignParentRight="true" 
         android:textSize="25sp"
         android:textStyle="bold"
+        android:background="@drawable/button_red"
+        android:textColor="@color/cyan"                 
         android:text="X"/>
 	<TextView
 	    android:text="@string/text_torrent_state"
         android:focusable="false"
         android:textSize="12sp"	    
 	    android:layout_height="wrap_content" 
-	    android:layout_width="wrap_content" 
+	    android:layout_width="wrap_content"
+	    android:textColor="@color/green" 
 	    android:id="@+id/status_label"/>
 	<TextView
 	    android:layout_toRightOf="@+id/status_label"
@@ -28,6 +31,7 @@
 	    android:layout_width="wrap_content" 
         android:focusable="false"
         android:textSize="12sp"
+        android:textColor="@color/gold"
 	    android:id="@+id/status"/>
     <com.softwarrior.widgets.TextProgressBar 
         android:layout_height="wrap_content" 

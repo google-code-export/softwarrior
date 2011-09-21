@@ -18,7 +18,9 @@ public class Help extends Activity {
 	    public void onCreate(Bundle icicle) {
 	        super.onCreate(icicle);
 	        setContentView(R.layout.help);
-	                
+	       
+	        setTitleColor(getResources().getColor(R.color.gold));
+	        
 	        mWebViewHelp = (WebView) findViewById(R.id.WebViewHelp);
 
 	        WebSettings webSettings = mWebViewHelp.getSettings();
