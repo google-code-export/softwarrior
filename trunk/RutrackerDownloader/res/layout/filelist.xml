@@ -19,6 +19,9 @@
             android:text="@android:string/ok"
             android:layout_width="wrap_content" 
             android:layout_height="wrap_content"
+            android:background="@drawable/button_blue"
+            android:textStyle="bold"  
+            android:textColor="@color/cyan"                                             
             android:minWidth="64dip" />
     </LinearLayout>     
     <!-- The frame layout is here since we will be showing either the empty view or the list view.  -->
@@ -61,7 +64,7 @@
     </FrameLayout>
         <FrameLayout
         android:layout_width="fill_parent" 
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" android:layout_marginBottom="10dp">
         <LinearLayout 
             android:id="@+id/directory_buttons"
             android:orientation="horizontal"
@@ -77,6 +80,9 @@
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:background="@drawable/button_red"
+                android:textStyle="bold"  
+                android:textColor="@color/cyan"                                 
                 android:layout_weight="1"/>                         
             <Button 
                 style="?android:attr/buttonStyleSmall"
@@ -86,6 +92,9 @@
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:background="@drawable/button_green"
+                android:textStyle="bold"  
+                android:textColor="@color/cyan"                 
                 android:layout_weight="1"/>
             <Button 
                 style="?android:attr/buttonStyleSmall"
@@ -95,6 +104,9 @@
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:background="@drawable/button_blue"
+                android:textStyle="bold"  
+                android:textColor="@color/cyan"                 
                 android:layout_weight="1"/>                                                                     
             <Button 
                 style="?android:attr/buttonStyleSmall"
@@ -104,6 +116,9 @@
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
+                android:background="@drawable/button_blue"
+                android:textStyle="bold"  
+                android:textColor="@color/cyan"                                 
                 android:visibility="gone"
                 android:layout_weight="1"/>                                                                     
         </LinearLayout>
