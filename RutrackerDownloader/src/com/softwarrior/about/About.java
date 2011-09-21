@@ -387,6 +387,8 @@ public class About extends TabActivity implements OnTabChangeListener{
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	
+    	setTitleColor(getResources().getColor(R.color.gold));
+    	
     	//Set up the layout with the TabHost
     	tabHost = getTabHost();        
     	tabHost.setOnTabChangedListener(this);

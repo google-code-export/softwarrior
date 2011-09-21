@@ -152,6 +152,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager); 
 			menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history); 
 			menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
+		    RutrackerDownloaderApp.SetMenuBackground(this);
 			return true;
 		}		
 		@Override

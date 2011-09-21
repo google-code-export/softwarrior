@@ -69,7 +69,8 @@ public class MainScreen extends Activity {
 			menu.add(Menu.NONE, MenuType.Help.ordinal(), MenuType.Help.ordinal(), R.string.menu_help);
 			menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 			menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
-			menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
+			menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);			
+		    RutrackerDownloaderApp.SetMenuBackground(this); 
 			return true;
 		}
 		
@@ -109,7 +110,7 @@ public class MainScreen extends Activity {
 	    		}
 			return super.onKeyDown(keyCode,event); 
 		}
-				
+						
 		public void OnClickMainButtonDownload(View v){
 			RutrackerDownloaderApp.OpenDownloaderActivity(this);			
 		}
@@ -127,4 +128,6 @@ public class MainScreen extends Activity {
 		public void OnClickMainButtonSettings(View v){
 			RutrackerDownloaderApp.OpenDownloadPreferencesScreen(this);			
 		}
+		
+				
 }

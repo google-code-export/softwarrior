@@ -17,7 +17,8 @@
             android:layout_width="fill_parent"
             android:id="@+id/LoginLayout" 
             android:orientation="horizontal" 
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
+            android:background="@color/black" 
             android:layout_alignParentBottom="true" android:visibility="gone"> 
             <TextView 
                 android:layout_width="wrap_content" 
@@ -34,6 +35,9 @@
                 android:layout_alignParentRight="true" 
                 android:layout_height="wrap_content" 
                 android:layout_width="fill_parent" 
+                android:textStyle="bold"
+                android:background="@drawable/button_green"
+                android:textColor="@color/cyan"                                 
                 android:layout_toRightOf="@id/TextView"/>
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -43,6 +47,9 @@
                 android:id="@+id/ButtonFinishLogin" 
                 android:layout_alignParentLeft="true" 
                 android:layout_width="fill_parent"
+                android:textStyle="bold"
+                android:background="@drawable/button_red"
+                android:textColor="@color/cyan"                                                 
                 android:layout_toLeftOf="@id/TextView"/>  
         </RelativeLayout>
         <RelativeLayout 
@@ -50,14 +57,18 @@
             android:layout_width="fill_parent"
             android:id="@+id/DownloadLayout" 
             android:orientation="horizontal" 
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
+            android:background="@color/black" 
             android:layout_alignParentBottom="true" android:visibility="gone"> 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:text="@string/button_download"
                 android:onClick="@string/on_click_button_download"
                 android:id="@+id/ButtonDownload"
-                android:layout_height="wrap_content" 
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:background="@drawable/button_red"
+                android:textColor="@color/cyan"                                                                  
                 android:layout_width="fill_parent"/>
         </RelativeLayout>
     </ViewAnimator>
@@ -75,5 +86,8 @@
         android:onClick="@string/on_click_button_store_web_history" 
         android:text="@string/button_store_web_history"
         android:id="@+id/ButtonStoreWebHistory" 
+        android:textStyle="bold"
+        android:background="@drawable/button_blue"
+        android:textColor="@color/cyan"                         
         android:layout_alignParentRight="true"/>        
 </RelativeLayout>

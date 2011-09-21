@@ -156,6 +156,8 @@ public class FileManagerActivity extends ListActivity {
 		  requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
           setContentView(R.layout.filelist);
           
+          setTitleColor(getResources().getColor(R.color.gold));
+          
 		  mContainer =  (ViewGroup) findViewById(R.id.container);
 	      // Since we are caching large views, we want to keep their cache
 	      // between each animation
@@ -753,6 +755,7 @@ public class FileManagerActivity extends ListActivity {
  		menu.add(Menu.NONE, MENU_MAIN, MENU_MAIN, R.string.menu_main);
  		menu.add(Menu.NONE, MENU_WEB_HISTORY, MENU_WEB_HISTORY, R.string.menu_web_history);
  		menu.add(Menu.NONE, MENU_EXIT, MENU_EXIT, R.string.menu_exit);
+	    RutrackerDownloaderApp.SetMenuBackground(this);
  		return true;
  	}
 
