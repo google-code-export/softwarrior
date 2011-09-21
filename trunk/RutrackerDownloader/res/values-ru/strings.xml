@@ -2,7 +2,22 @@
 <resources>
     <string name="app_name">Rutracker Downloader</string>
     <string name="app_desc">Программа для поиска и скачивания контента с сайта rutracker.org</string>
+    <string name="app_copyright">(c) Softwarrior</string>
 	
+	<string name="on_click_main_button_download">OnClickMainButtonDownload</string>
+    <string name="on_click_main_button_websearch">OnClickMainButtonWebSearch</string>
+    <string name="on_click_main_button_rsssearch">OnClickMainButtonRSSSearch</string>
+    <string name="on_click_main_button_piratesearch">OnClickMainButtonPirateSearch</string>
+    <string name="on_click_main_button_kinoafisha">OnClickMainButtonKinoafisha</string>   
+     <string name="on_click_main_button_settings">OnClickMainButtonSettings</string>
+    
+    <string name="main_button_download">Скачивание</string>
+    <string name="main_button_websearch">Web поиск</string>
+    <string name="main_button_rsssearch">RSS поиск</string>
+    <string name="main_button_piratesearch">Пиратский поиск</string>
+    <string name="main_button_kinoafisha">Киноафиша</string>
+    <string name="main_button_settings">Настройки</string>
+			
 	<string name="menu_exit">Выход</string>
     <string name="menu_help">Помощь</string>
     <string name="menu_about">О программе</string>

@@ -10,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text = "@string/app_name"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true" android:textStyle="bold" android:textColor="@color/gold" android:textColorHighlight="@color/red"/>
     <TextView android:id="@+id/right_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
+        android:text = "@string/app_copyright"
+        android:layout_alignParentRight="true" android:textColor="@color/gold" android:textColorHighlight="@color/red" android:textStyle="bold"/>
 </RelativeLayout>
