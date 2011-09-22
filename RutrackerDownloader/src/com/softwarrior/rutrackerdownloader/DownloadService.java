@@ -211,6 +211,7 @@ public class DownloadService extends Service {
 		public void onCreate(Bundle savedInstanceState) {
     		super.onCreate(savedInstanceState);
             setContentView(R.layout.service);
+            setTitleColor(getResources().getColor(R.color.gold));
             Intent intent = getIntent();
             if(intent != null){
             	Uri localUri = getIntent().getData();
@@ -236,7 +237,7 @@ public class DownloadService extends Service {
 	    	        if(RutrackerDownloaderApp.CheckMode(Controller.this) && RutrackerDownloaderApp.CheckService(Controller.this)){
 	    	        	mAdviewBanner.setVisibility(View.GONE);
 	    	        	mAdView.setVisibility(View.GONE);
-	    	        	RutrackerDownloaderApp.ActivateTorrentFileList = true;
+//	    	        	RutrackerDownloaderApp.ActivateTorrentFileList = true;
 	    	        } else{
 	    	            //Mobclix
 	    	        	mAdviewBanner.addMobclixAdViewListener(Controller.this);
@@ -718,7 +719,7 @@ public class DownloadService extends Service {
 		public String query()		{ return null;}
 		public void onAdClick(MobclixAdView arg0) {
 			Log.v(RutrackerDownloaderApp.TAG, "Mobclix clicked");
-			RutrackerDownloaderApp.ActivateTorrentFileList = true;
+//			RutrackerDownloaderApp.ActivateTorrentFileList = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
 			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
@@ -744,7 +745,7 @@ public class DownloadService extends Service {
 		}
 		public void onLeaveApplication(Ad ad) {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");
-			RutrackerDownloaderApp.ActivateTorrentFileList = true;
+//			RutrackerDownloaderApp.ActivateTorrentFileList = true;
 		}
 		public void onPresentScreen(Ad ad) {
 			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
