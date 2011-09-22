@@ -25,6 +25,14 @@
 3) Заполните строку поиска\n
 4) Ищите или смотрите карту сайта
 </string>    
+
+<string name="rss_search_instruction">Инструкция:\n
+RSS только для rutracker.org\n
+1) Залогинтесь на сайт\n
+2) Укажите критерии поиска\n
+3) Укажите год и название\n
+4) Ищите раздачи 
+</string>
 			
 	<string name="menu_exit">Выход</string>
     <string name="menu_help">Помощь</string>

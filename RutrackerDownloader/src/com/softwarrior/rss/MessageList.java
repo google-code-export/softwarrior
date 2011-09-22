@@ -25,12 +25,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MessageList extends ListActivity {
 	
-	private List<RSSMessage> messages;
+	private List<RSSMessage> mMessages;
 	private boolean mPirateSearch = false;
 	
 	private ArrayAdapter<String> mListAdapter = null;
@@ -38,11 +39,13 @@ public class MessageList extends ListActivity {
     public enum MenuType{
     	About, Help, Main, FileManager, WebHistory, Exit;
     }
-	     
+	      
     @Override
     public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+    	super.onCreate(icicle);
         setContentView(R.layout.rss);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         if(RutrackerDownloaderApp.FeedUrl.contains(RutrackerDownloaderApp.PirateFeedUrlPrefix))
         	mPirateSearch = true;
         else
@@ -76,12 +79,6 @@ public class MessageList extends ListActivity {
         }).start();		
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");
     }
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-	}
             
     @Override
     protected void onResume() {
@@ -148,7 +145,7 @@ public class MessageList extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 
 		Bundle bundle = new Bundle();
-		bundle.putString("LoadUrl", messages.get(position).getLink().toExternalForm());
+		bundle.putString("LoadUrl", mMessages.get(position).getLink().toExternalForm());
 		bundle.putString("Action", "Show");
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.putExtras(bundle);
@@ -164,13 +161,13 @@ public class MessageList extends ListActivity {
     		Log.i(RutrackerDownloaderApp.TAG, "ParserType="+type.name());
 	    	FeedParser parser = FeedParserFactory.getParser(type);
 	    	long start = System.currentTimeMillis();
-	    	messages = parser.parse();
+	    	mMessages = parser.parse();
 	    	long duration = System.currentTimeMillis() - start;
 	    	Log.i(RutrackerDownloaderApp.TAG, "Parser duration=" + duration);
 	    	String xml = writeXml();
 	    	Log.i(RutrackerDownloaderApp.TAG, xml);
-	    	List<String> titles = new ArrayList<String>(messages.size());
-	    	for (RSSMessage msg : messages){
+	    	List<String> titles = new ArrayList<String>(mMessages.size());
+	    	for (RSSMessage msg : mMessages){
 	    		if(mPirateSearch){
 		    		Spanned spText = Html.fromHtml(msg.getTitle());
 		    		String title = spText.toString();
@@ -201,8 +198,8 @@ public class MessageList extends ListActivity {
 			serializer.setOutput(writer);
 			serializer.startDocument("UTF-8", true);
 			serializer.startTag("", "messages");
-			serializer.attribute("", "number", String.valueOf(messages.size()));
-			for (RSSMessage msg: messages){
+			serializer.attribute("", "number", String.valueOf(mMessages.size()));
+			for (RSSMessage msg: mMessages){
 				serializer.startTag("", "message");				
 				try{
 					serializer.attribute("", "date", msg.getDate());

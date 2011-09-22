@@ -11,10 +11,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import android.preference.Preference;
@@ -63,20 +63,16 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	
 	@Override
   protected void onCreate(Bundle icicle) {
+	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     super.onCreate(icicle);
     addPreferencesFromResource(R.xml.rss_preferences);
     InitSummaries(getPreferenceScreen());
     setContentView(R.layout.rss_preferences);
+    getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 	mButtonSearch = (Button)findViewById(R.id.ButtonSearch);
 	mButtonLogin = (Button)findViewById(R.id.ButtonLogin);
     if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSPreferencesScreen");
-  }
-
-	@Override
-  protected void onDestroy() {
-	super.onDestroy();
-	//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
   }
 	
   @Override
@@ -152,13 +148,6 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 		};		
 	}
     
-	@Override 
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-			RutrackerDownloaderApp.FinalCloseApplication(this);
-		return super.onKeyDown(keyCode,event); 
-	}
-	  
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {
 	  for (int i = 0; i < pg.getPreferenceCount(); ++i) {
@@ -265,6 +254,9 @@ public final class RSSPreferencesScreen extends PreferenceActivity
   }
     
   public void OnClickButtonLogin(View v) {
+      RutrackerDownloaderApp.SetSiteName(this, SearchSiteName.RUTRACKER_ORG);
+      RutrackerDownloaderApp.SetupRutracker(this);
+      
 	  Bundle bundle = new Bundle();
 	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);
 	  bundle.putString("Action", "Login");
