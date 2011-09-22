@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -55,8 +56,10 @@ public class TorrentFilesList extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.torrentfilelist);        
+    	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+    	super.onCreate(savedInstanceState);
+        setContentView(R.layout.torrentfilelist); 
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         APPLY = false;
         mCurrentDir = TorrentDirFile.CreateDirFileList(TORRENT_FILES, FILES_PRIORITY);
 
