@@ -93,12 +93,14 @@ public class TorrentFilesList extends ListActivity {
 	        mDirName.setText(R.string.select_file_disable);
 	        Button button = (Button)findViewById(R.id.ButtonApply);
 	        button.setEnabled(false);
-        } else if(!RutrackerDownloaderApp.ActivateTorrentFileList) {
-	        mDirName.setTypeface(null,Typeface.BOLD);
-	        mDirName.setText(R.string.file_list_activation);
-	        Button button = (Button)findViewById(R.id.ButtonApply);
-	        button.setEnabled(false);
-	    }	    
+        }
+//        } 
+//	        else if(!RutrackerDownloaderApp.ActivateTorrentFileList) {
+//	        mDirName.setTypeface(null,Typeface.BOLD);
+//	        mDirName.setText(R.string.file_list_activation);
+//	        Button button = (Button)findViewById(R.id.ButtonApply);
+//	        button.setEnabled(false);
+//	    }	    
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
 	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
     }

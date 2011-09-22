@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -109,6 +110,13 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 
         // Use a custom layout file
         setContentView(R.layout.torrentslist);
+        
+        Intent intent = getIntent();
+        if(intent != null){
+        	Uri localUri = getIntent().getData();
+        	if(localUri != null)
+        		RutrackerDownloaderApp.TorrentFullFileName = localUri.getPath();
+        }
         
         final ListView listView = getListView();
         // Tell the list view which view to display when the list is empty

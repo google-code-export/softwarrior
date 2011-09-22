@@ -333,7 +333,7 @@ www.mininova.org, isohunt.com\n
     <string name="dialog_cancel">ОТМЕНА</string>
     <string name="open_torrent_file_error">Torrent файл c ошибкой, файл открыть не возможно</string>
     <string name="on_click_button_storage_mode">OnClickButtonStorageMode</string>
-    <string name="button_storage_mode">Выделить место</string>
+    <string name="button_storage_mode">Выделить место под файлы</string>
     <string name="storage_mode_comment">Выделение занимает время, но ускоряет скачивание. Для больших файлов выделение занимает много времени. Функция \"Выбор файла\" доступна только в режиме \"Выделить место\".</string>                               
     <string name="select_file_disable">Функция \"Выбор файла\" доступна только в режиме \"Выделить место\".</string>
     <string name="button_stop_all">Остановить все</string>
