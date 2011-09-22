@@ -18,7 +18,13 @@
     <string name="main_button_kinoafisha">Kinoafisha</string>
     <string name="main_button_settings">Settings</string>
    
-   <string name="press_back_to_exit">Press back to exit from programm</string>
+    <string name="press_back_to_exit">Press back to exit from programm</string>    
+    <string name="web_search_instruction">Instructions:\n
+1) Select a site\n
+2) Login to the site\n
+3) Fill in the search field\n
+4) Search or see site map
+</string>    
                	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>
@@ -71,6 +77,7 @@
 	<string name="preferences_torrent_file_name">Torrent file name</string>
 	<string name="preferences_torrent_save_path">Torrent save path</string>	
 	<string name="preferences_proxy_type_dialog_title">Select proxy type</string>
+    <string name="preferences_site_name_dialog_title">Select site</string>	
 		
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
@@ -107,6 +114,7 @@
 	<string name="summary_edittext_current_zerro">(0 means undefined)\nCurrent value is</string>
 	
 	<string name="summary_preferences_proxy_type">Select proxy type</string>
+	<string name="summary_preferences_site_name">Active site</string>
 	
 	<string name="tab_web_search">Web Search</string>
 	<string name="tab_rss_search">RSS Search</string>
@@ -259,7 +267,7 @@ Please see contact information in the About page.
     <string name="preferences_rutracker_title">rutracker.org</string>
     <string name="preferences_nnmclub_title">nnm-club.ru</string>
     <string name="rss_disable">RSS is enable only for rutracker.org</string>    
-    <string name="active_site">CURRENT SITE</string>  
+    <string name="active_site">SEARCH ON SITE</string>  
     <string name="button_select_files">Files</string>  
     <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
     <string name="main_no_items">No items</string>
@@ -336,10 +344,4 @@ Please see contact information in the About page.
     <string name="update_incorrect">Update was not finished correct. Please uninstall application and install again</string>
     <string name="update_incorrect_dialog_title">Update Error</string>
     <string name="dialog_close">Close</string>
-<string name="on_click_button_websearch"/>
-    <string name="on_click_button_rsssearch"/>
-<string name="main_button_options"/>
-<string name="on_click_main_button_options"/>
-<string name="main_button_preference"/>
-    <string name="on_click_main_button_preference"/>
 </resources>

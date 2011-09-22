@@ -26,7 +26,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.softwarrior.rutrackerdownloader.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
-import com.softwarrior.rutrackerdownloader.SiteChoice;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.SearchSiteName;
 import com.softwarrior.rutrackerdownloader.TorrentsList;
 import com.softwarrior.rutrackerdownloader.WEBPreferencesScreen;
 
@@ -181,7 +181,7 @@ public class TorrentWebClient extends Activity {
 	        }
 	        else if(mAction.equals("Search")){
 	        	mCatchBackKey = true;
-	        	if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB){
+	        	if(RutrackerDownloaderApp.GetSiteName(this) == SearchSiteName.NNM_CLUB_RU){
 	        		activity.setTitle(RutrackerDownloaderApp.NN_SearchUrlPrefix);
 	        		mSearchString = mLoadUrl;
 	        		NNMClubSearchResultThread(mSearchString);
@@ -472,7 +472,7 @@ public class TorrentWebClient extends Activity {
 	            new Thread(new Runnable() {
 	                public void run() {
 	                	try{
-		            		if(SiteChoice.GetSite(TorrentWebClient.this) == SiteChoice.SiteType.NNMCLUB)
+		            		if(RutrackerDownloaderApp.GetSiteName(TorrentWebClient.this) == SearchSiteName.NNM_CLUB_RU)
 		            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
 		            		else
 		            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					

@@ -18,7 +18,13 @@
     <string name="main_button_kinoafisha">Киноафиша</string>
     <string name="main_button_settings">Настройки</string>
 	
-	<string name="press_back_to_exit">Нажмите назад, чтобы выйти из программы</string>
+	<string name="press_back_to_exit">Нажмите назад, чтобы выйти из программы</string>		
+    <string name="web_search_instruction">Инструкция:\n
+1) Выберите сайт\n
+2) Залогинтесь на сайте\n
+3) Заполните строку поиска\n
+4) Ищите или смотрите карту сайта
+</string>    
 			
 	<string name="menu_exit">Выход</string>
     <string name="menu_help">Помощь</string>
@@ -71,6 +77,7 @@
 	<string name="preferences_torrent_file_name">Имя торент файла</string>
 	<string name="preferences_torrent_save_path">Путь для сохранения торента</string>	
 	<string name="preferences_proxy_type_dialog_title">Выберите тип прокси</string>
+	<string name="preferences_site_name_dialog_title">Выберите сайт</string>
 		
 	<string name="on_click_button_search">OnClickButtonSearch</string>
 	<string name="on_click_button_login">OnClickButtonLogin</string>
@@ -107,6 +114,7 @@
 	<string name="summary_edittext_current_zerro">(0 значит не определено)\nТекущее значение</string>
 	
 	<string name="summary_preferences_proxy_type">Выберите тип прокси</string>
+	<string name="summary_preferences_site_name">Активный сайт</string>
 	
 	<string name="tab_web_search">Web поиск</string>
 	<string name="tab_rss_search">RSS поиск</string>
@@ -259,7 +267,7 @@
     <string name="preferences_rutracker_title">rutracker.org</string>
     <string name="preferences_nnmclub_title">nnm-club.ru</string>
     <string name="rss_disable">RSS поиск только в rutracker.org</string>
-    <string name="active_site">АКТИВНЫЙ САЙТ</string>
+    <string name="active_site">ИСКАТЬ НА САЙТЕ</string>
     <string name="button_select_files">Файлы</string>
     <string name="on_click_button_select_files">OnClickButtonSelectFiles</string>
     <string name="main_no_items">Нет элементов</string>

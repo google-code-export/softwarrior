@@ -376,7 +376,6 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     	if(key.equals(KEY_LISTEN_PORT) ||
     	   key.equals(KEY_UPLOAD_LIMIT) ||
 		   key.equals(KEY_DOWNLOAD_LIMIT) ||
-		   key.equals(KEY_PROXY_TYPE) ||
 		   key.equals(KEY_PORT_NUMBER))
     		editTextPreference.setSummary(getString(R.string.summary_edittext_current_zerro) + ": " + editTextPreference.getText());
     	else
@@ -400,35 +399,28 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		  if(key.equals(KEY_LISTEN_PORT) ||
 			 key.equals(KEY_UPLOAD_LIMIT) ||
 			 key.equals(KEY_DOWNLOAD_LIMIT) ||
-			 key.equals(KEY_PROXY_TYPE) ||
 			 key.equals(KEY_PORT_NUMBER) ){
 			
 			String  str = sharedPreferences.getString(key, "0");
-			if(key.equals(KEY_PROXY_TYPE))
-					str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ProxyType));		
-			else if(key.equals(KEY_LISTEN_PORT))
+			if(key.equals(KEY_LISTEN_PORT))
 					str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ListenPort));
 			int value = 0;
 			try{
 				value = Integer.parseInt(str);
 			}catch(Exception e){
 					str = "0";
-				if(key.equals(KEY_PROXY_TYPE))
-					str = Integer.toString(RutrackerDownloaderApp.ProxyType);
-				else if(key.equals(KEY_LISTEN_PORT))
+				if(key.equals(KEY_LISTEN_PORT))
 					str = Integer.toString(RutrackerDownloaderApp.ListenPort);
 				pr.setText(str);
 			}
 			if(key.equals(KEY_LISTEN_PORT) && value < 0)
 				pr.setText(Integer.toString(RutrackerDownloaderApp.ListenPort));
-			else if(key.equals(KEY_PROXY_TYPE) && value < 0)
-				pr.setText(Integer.toString(RutrackerDownloaderApp.ProxyType));
 		  } 
 		  else if(key.equals(KEY_TORRENT_SAVE_PATH)){
 			  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.DefaultTorrentSavePath);
 			  if(savePath == null || savePath.length() < 3)
 				  pr.setText(RutrackerDownloaderApp.DefaultTorrentSavePath);		    	
-		  }	  
+		  }
 	  }
 	  SetSummary(pref);	  
   }

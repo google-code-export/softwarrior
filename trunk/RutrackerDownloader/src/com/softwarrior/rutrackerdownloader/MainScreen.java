@@ -27,14 +27,13 @@ public class MainScreen extends Activity {
 	        setContentView(R.layout.main_screen);
 	        
 	        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
-		        
-	        if(SiteChoice.GetSite(this) == SiteChoice.SiteType.PORNOLAB)
-	        	RutrackerDownloaderApp.SetupPornolab(this);
-	        else if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
-	        	RutrackerDownloaderApp.SetupNnmclub(this);
-	        else
-	        	RutrackerDownloaderApp.SetupRutracker(this);
-	        
+
+	        switch(RutrackerDownloaderApp.GetSiteName(this)){
+		        case PORNOLAB_NET: RutrackerDownloaderApp.SetupPornolab(this); break;
+		        case RUTRACKER_ORG: RutrackerDownloaderApp.SetupRutracker(this); break;
+		        case NNM_CLUB_RU: RutrackerDownloaderApp.SetupNnmclub(this); break;
+		        default: RutrackerDownloaderApp.SetupRutracker(this); break;
+	        }	        
 	        RutrackerDownloaderApp.DownloadServiceMode = false;        	        
 	        RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
 	    }
@@ -115,6 +114,7 @@ public class MainScreen extends Activity {
 			RutrackerDownloaderApp.OpenDownloaderActivity(this);			
 		}
 		public void OnClickMainButtonWebSearch(View v){
+			RutrackerDownloaderApp.OpenWebPreferencesScreen(this);
 		}
 		public void OnClickMainButtonRSSSearch(View v){
 			
