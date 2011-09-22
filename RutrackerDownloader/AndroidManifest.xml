@@ -20,6 +20,7 @@
         <activity android:name="PreferencesTabs"></activity>
         <activity android:name="WEBPreferencesScreen"></activity>
         <activity android:name="RSSPreferencesScreen"></activity>
+        <activity android:name="PiratePreferencesScreen"></activity>
         <activity android:name="DownloadPreferencesScreen"></activity>
         <activity android:name="TorrentFilesList"></activity>
         <activity android:name="TorrentsList" android:launchMode="singleTop"></activity>
