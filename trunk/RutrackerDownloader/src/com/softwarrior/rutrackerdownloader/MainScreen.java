@@ -120,7 +120,7 @@ public class MainScreen extends Activity {
 			RutrackerDownloaderApp.OpenRSSPreferencesScreen(this);
 		}
 		public void OnClickMainButtonPirateSearch(View v){
-			
+			RutrackerDownloaderApp.OpenPiratePreferencesScreen(this);
 		}
 		public void OnClickMainButtonKinoafisha(View v){
 			RutrackerDownloaderApp.OpenKinoafisha(this);

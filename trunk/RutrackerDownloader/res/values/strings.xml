@@ -33,6 +33,13 @@ RSS is only for rutracker.org\n
 3) Provide year and title\n
 4) Search the torrent
 </string>
+
+<string name="pirate_search_instruction">Instructions:\n
+Search on sites: piratebay.org,\n 
+www.mininova.org, isohunt.com\n
+1) Enter the name in English\n
+2) Search torrents
+</string>
                	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>
