@@ -25,7 +25,6 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -43,7 +42,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 
 		private static boolean mAdClicked=false;
 		
-		public enum SiteType{
+		public enum SiteTypeOld{
 			RUTRACKER, PORNOLAB, NNMCLUB
 		}		
 		private Timer mAdRefreshTimer;
@@ -67,17 +66,17 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	        	mAdClicked = flag;
 		}
 		
-		public static SiteType GetSite(Context context){
-			SiteType result = SiteType.RUTRACKER; 
-			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if(preferences.getBoolean(KEY_RUTRACKER, false))
-				 result = SiteType.RUTRACKER;
-			else if(preferences.getBoolean(KEY_PORNOLAB, false))
-				 result = SiteType.PORNOLAB;
-			else if(preferences.getBoolean(KEY_NNMCLUB, false))
-				 result = SiteType.NNMCLUB;
-			return result;
-		}
+//		public static SiteType GetSite(Context context){
+//			SiteType result = SiteType.RUTRACKER; 
+//			SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+//			if(preferences.getBoolean(KEY_RUTRACKER, false))
+//				 result = SiteType.RUTRACKER;
+//			else if(preferences.getBoolean(KEY_PORNOLAB, false))
+//				 result = SiteType.PORNOLAB;
+//			else if(preferences.getBoolean(KEY_NNMCLUB, false))
+//				 result = SiteType.NNMCLUB;
+//			return result;
+//		}
 
 	   @Override
 	    public void onCreate(Bundle savedInstanceState) {

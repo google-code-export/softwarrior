@@ -2,9 +2,14 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">	
 	<PreferenceCategory android:title="@string/preferences_search_title">
-	     <PreferenceScreen
-	       android:title="@string/active_site"
-	       android:key="preferences_search_on_site"/>
+		<ListPreference 
+			android:title="@string/active_site" 
+			android:key="preferences_search_on_site"
+			android:summary="@string/summary_preferences_site_name"
+			android:entries="@array/entries_preferences_site_name"
+			android:entryValues="@array/entryvalues_preferences_site_name"
+			android:dialogTitle="@string/preferences_site_name_dialog_title" 
+			android:defaultValue="rutracker.org"/>	    
 		<EditTextPreference 
     		android:key="preferences_search_string" 
 	       	android:title="@string/preferences_search_string_title" android:defaultValue="\0"/>		

@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 
 import com.softwarrior.rss.MessageList;
 import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloader.RutrackerDownloaderApp.SearchSiteName;
 import com.softwarrior.web.TorrentWebClient;
 
 import android.app.Activity;
@@ -14,12 +15,12 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.view.Window;
 
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.CheckBoxPreference;
@@ -38,45 +39,29 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		About, Help, FileManager, WebHistory, Exit;
 	}
 		
-	//TITLE
-	public static final String KEY_SEARCH_STRING = "preferences_search_string";
-	public static final String KEY_SEARCH_ON_SITE = "preferences_search_on_site";
-
 	@Override
   protected void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
-    addPreferencesFromResource(R.xml.web_preferences);
-    InitSummaries(getPreferenceScreen());
-    setContentView(R.layout.web_preferences);
-    RelativeLayout buttonsLayoutEx = (RelativeLayout) findViewById(R.id.ButtonsLayoutEx);
-    buttonsLayoutEx.setVisibility(RelativeLayout.VISIBLE);
-    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+	super.onCreate(icicle);    
+	addPreferencesFromResource(R.xml.web_preferences);
+	InitSummaries(getPreferenceScreen());
+	setContentView(R.layout.web_preferences);
+	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
 	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/WEBPreferencesScreen");
   }
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-	}
 	
   @Override
   protected void onPause() {
 	super.onPause();
 	getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+	InitSummaries(getPreferenceScreen());
   }
   
   @Override
   protected void onResume() {
 	super.onResume();
-	try{
-	    mPSSearchOnSite.setSummary(PreferencesTabs.GetRightCustomTitle());
-	    PreferenceScreen preferences = getPreferenceScreen();
-		Preference pref =  preferences.findPreference(KEY_SEARCH_STRING);
-		EditTextPreference pr = (EditTextPreference) pref;
-		String searchString = GetSearchString(this);
-		pr.setText(searchString);
-		SetSummary(pref);
-	}catch(Exception ex){}
+	InitSummaries(getPreferenceScreen());
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }
@@ -118,29 +103,20 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		return true;
 	}
     
-    @Override
+	
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch(ActivityResultType.getValue(resultCode))
 		{
-		case RESULT_DOWNLOADER:{
-			RutrackerDownloaderApp.OpenDownloaderActivity(this);
-		} break;
-		case RESULT_MAIN:{			
-		} break;
+		case RESULT_DOWNLOADER:
+		case RESULT_MAIN:
 		case RESULT_EXIT:
-			RutrackerDownloaderApp.FinalCloseApplication(this);
-		default:{
-		} break;
-		};
+			setResult(resultCode);
+			finish();
+			break;
+		};		
 	}
-    
-	@Override 
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-			RutrackerDownloaderApp.FinalCloseApplication(this);
-		return super.onKeyDown(keyCode,event); 
-	}
-	
+    	
   //Set the summaries of all preferences
   private void InitSummaries(PreferenceGroup pg) {
 	  for (int i = 0; i < pg.getPreferenceCount(); ++i) {
@@ -148,7 +124,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		  if (p instanceof PreferenceGroup)
 		  {	
 			  String key = p.getKey();
-			  if(key!= null && key.equals(KEY_SEARCH_ON_SITE))
+			  if(key!= null && key.equals(RutrackerDownloaderApp.KEY_SEARCH_ON_SITE))
 				  mPSSearchOnSite = (PreferenceScreen) p;			  
 			  InitSummaries((PreferenceGroup) p); // recursion
 		  }
@@ -167,7 +143,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	  mString = GetSearchString(context);
 
 	  if(mString.length()>0){
-		  	if(SiteChoice.GetSite(context) == SiteChoice.SiteType.NNMCLUB){
+		  	if(RutrackerDownloaderApp.GetSiteName(context) == SearchSiteName.NNM_CLUB_RU){
 		  		RutrackerDownloaderApp.SearchUrl = mString; 
 		  	} else {
 				RutrackerDownloaderApp.SearchUrl += "?nm=";		  
@@ -210,16 +186,16 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   
 	public static String GetSearchString(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_SEARCH_STRING, "");																
+		return preferences.getString(RutrackerDownloaderApp.KEY_SEARCH_STRING, "");																
 	}
-	
+			
 	public static void SetSearchString(Context context, String SearchString){
 		String searchString = new String("");
 		if(SearchString != null)
 			searchString = SearchString;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(KEY_SEARCH_STRING, searchString);
+		editor.putString(RutrackerDownloaderApp.KEY_SEARCH_STRING, searchString);
 		editor.commit();
 	}
     
@@ -233,6 +209,21 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     else if(pref instanceof EditTextPreference) {
     	EditTextPreference editTextPreference = (EditTextPreference) pref;
     	editTextPreference.setSummary(getString(R.string.summary_edittext_current) + ": " + editTextPreference.getText()); 
+    }
+    else if(pref instanceof ListPreference) {
+    	ListPreference listPreference = (ListPreference) pref;    	
+		int code = 0;
+    	try{
+			code = Integer.parseInt(listPreference.getValue());
+		}catch(Exception e){}
+    	listPreference.setSummary(SearchSiteName.getString(code));
+
+    	switch(SearchSiteName.getValue(code)){
+        case PORNOLAB_NET: RutrackerDownloaderApp.SetupPornolab(this); break;
+        case RUTRACKER_ORG: RutrackerDownloaderApp.SetupRutracker(this); break;
+        case NNM_CLUB_RU: RutrackerDownloaderApp.SetupNnmclub(this); break;
+        default: RutrackerDownloaderApp.SetupRutracker(this); break;
+    }	        
     }
   }
   

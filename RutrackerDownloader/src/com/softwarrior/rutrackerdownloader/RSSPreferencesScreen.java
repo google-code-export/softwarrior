@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -89,16 +88,16 @@ public final class RSSPreferencesScreen extends PreferenceActivity
   @Override
   protected void onResume() {
 	super.onResume();
-    if(SiteChoice.GetSite(this) == SiteChoice.SiteType.RUTRACKER) {
-    	getPreferenceScreen().setEnabled(true);
-    	mButtonSearch.setEnabled(true);
-    	mButtonLogin.setEnabled(true);    	
-    } else{
-    	getPreferenceScreen().setEnabled(false);
-    	mButtonSearch.setEnabled(false);
-    	mButtonLogin.setEnabled(false);
-        Toast.makeText(this, R.string.rss_disable,Toast.LENGTH_SHORT).show();
-    }
+//    if(SiteChoice.GetSite(this) == SiteChoice.SiteType.RUTRACKER) {
+//    	getPreferenceScreen().setEnabled(true);
+//    	mButtonSearch.setEnabled(true);
+//    	mButtonLogin.setEnabled(true);    	
+//    } else{
+//    	getPreferenceScreen().setEnabled(false);
+//    	mButtonSearch.setEnabled(false);
+//    	mButtonLogin.setEnabled(false);
+//        Toast.makeText(this, R.string.rss_disable,Toast.LENGTH_SHORT).show();
+//    }
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
   }

@@ -27,7 +27,7 @@
         android:layout_width="fill_parent"
         android:id="@+id/ButtonsLayout" 
         android:layout_height="wrap_content" 
-        android:layout_alignParentBottom="true" android:layout_marginBottom="10dp"> 
+        android:layout_alignParentBottom="true" android:layout_marginBottom="5dp"> 
         <Button 
             android:text="@string/button_activate_settings"
             android:onClick="@string/on_click_activate_settings"

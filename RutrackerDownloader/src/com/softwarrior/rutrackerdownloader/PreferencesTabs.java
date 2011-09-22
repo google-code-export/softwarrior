@@ -46,12 +46,12 @@ public class PreferencesTabs extends TabActivity {
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         mRightText = (TextView) findViewById(R.id.right_text);
         
-        if(SiteChoice.GetSite(this) == SiteChoice.SiteType.PORNOLAB)
-        	RutrackerDownloaderApp.SetupPornolab(this);
-        else if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
-        	RutrackerDownloaderApp.SetupNnmclub(this);
-        else
-        	RutrackerDownloaderApp.SetupRutracker(this);
+//        if(SiteChoice.GetSite(this) == SiteChoice.SiteType.PORNOLAB)
+//        	RutrackerDownloaderApp.SetupPornolab(this);
+//        else if(SiteChoice.GetSite(this) == SiteChoice.SiteType.NNMCLUB)
+//        	RutrackerDownloaderApp.SetupNnmclub(this);
+//        else
+//        	RutrackerDownloaderApp.SetupRutracker(this);
         
         RutrackerDownloaderApp.DownloadServiceMode = false;        
         RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");

@@ -30,6 +30,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
@@ -58,6 +59,38 @@ public class RutrackerDownloaderApp extends Application {
 			return result;
 		}
 	}	
+
+   	//Enumerations
+	public enum SearchSiteName {
+		RUTRACKER_ORG(0), PORNOLAB_NET(1), NNM_CLUB_RU(2);
+		
+		private int mCode;
+		private SearchSiteName(int code) {mCode = code;}
+		
+		public int getCode() {return mCode;}
+
+		public static int getDefaultCode() {return 0;}
+		public static SearchSiteName getDefaultValue(){return RUTRACKER_ORG;} 
+		public static String getDefaultString(){return "rutracker.org";} 
+
+		public static SearchSiteName getValue(int code){
+			SearchSiteName result = RUTRACKER_ORG;
+			for (SearchSiteName value : SearchSiteName.values()) {
+				if(value.getCode() == code){result = value; break;}					
+			}
+			return result;
+		}
+		public static String getString(int code){
+			String result = "rutracker.org";
+			switch(getValue(code)){
+				case RUTRACKER_ORG: result = "rutracker.org"; break;
+				case PORNOLAB_NET: result ="pornolab.net"; break;
+				case NNM_CLUB_RU: result ="nnm-club.ru"; break;		
+			}			
+			return result;
+		}
+	}	
+	
 	public static GoogleAnalyticsTracker AnalyticsTracker = GoogleAnalyticsTracker.getInstance();
 
 	//Constants
@@ -101,7 +134,7 @@ public class RutrackerDownloaderApp extends Application {
 	public static final boolean NATPMP = false;
 	
 	public static final int		StorageModeCompactMB = 750; //MB
-
+	
 	public static final int		ProxyType = 0; //none
 	public static final String 	HostName =  new String("");
 	public static final int 	PortNumber = 0;
@@ -237,7 +270,7 @@ public class RutrackerDownloaderApp extends Application {
     	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.PL_TorrentDL;
     	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.PL_TorrentTopic;
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.PL_CookieUrl;
-		PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_pornolab_title));
+		//PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_pornolab_title));
 	}
 	static public void SetupRutracker(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.RT_TorrentLoginUrl;
@@ -246,7 +279,7 @@ public class RutrackerDownloaderApp extends Application {
     	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.RT_TorrentDL;
     	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.RT_TorrentTopic;
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.RT_CookieUrl;
-    	PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_rutracker_title));
+    	//PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_rutracker_title));
 	}
 	static public void SetupNnmclub(Activity activity){
     	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.NN_TorrentLoginUrl;
@@ -255,7 +288,7 @@ public class RutrackerDownloaderApp extends Application {
     	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.NN_TorrentDL;
     	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.NN_TorrentTopic;
     	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.NN_CookieUrl;
-    	PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_nnmclub_title));
+    	//PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_nnmclub_title));
 	}	
     static public void MainScreen(Activity activity){
     	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_MAIN.getCode());
@@ -275,6 +308,14 @@ public class RutrackerDownloaderApp extends Application {
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
     	intent.setClassName(activity, DownloadPreferencesScreen.class.getName());
+    	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+    	activity.startActivityForResult(intent, 0);
+    }
+
+    static public void OpenWebPreferencesScreen(Activity activity){
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    	intent.setClassName(activity, WEBPreferencesScreen.class.getName());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.startActivityForResult(intent, 0);
     }
@@ -504,5 +545,30 @@ public class RutrackerDownloaderApp extends Application {
 	    return null;
 	        }
 	});
-	    }	
+	}
+	//TITLE
+	public static final String KEY_SEARCH_STRING = "preferences_search_string";
+	public static final String KEY_SEARCH_ON_SITE = "preferences_search_on_site";
+	
+	public static SearchSiteName GetSiteName(Context context){
+		int code = 0;
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String str = preferences.getString(KEY_SEARCH_ON_SITE, String.valueOf(SearchSiteName.getDefaultCode()));
+		try{
+			code = Integer.parseInt(str);
+		}catch(Exception e){
+			SetSiteName(context,SearchSiteName.getDefaultValue());
+		}
+		return SearchSiteName.getValue(code);
+	}
+
+	public static void SetSiteName(Context context, SearchSiteName siteName){
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		if(siteName == null)
+			editor.putString(KEY_SEARCH_ON_SITE, Integer.toString(SearchSiteName.getDefaultCode()));
+		else
+			editor.putString(KEY_SEARCH_ON_SITE, Integer.toString(siteName.getCode()));
+		editor.commit();								
+	}
 }

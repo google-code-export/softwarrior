@@ -6,7 +6,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,7 +33,7 @@ public class WebHistory extends ListActivity{
     static public ArrayList<WebHistoryContainer> WebHistories = new ArrayList<WebHistoryContainer>();
         
     static private WebHistoryAdapter mAdapter;
-    private SiteChoice.SiteType mActiveSite = SiteChoice.SiteType.RUTRACKER; 
+//    private SearchSiteName mActiveSite = SearchSiteName.getDefaultValue(); 
 	TextView mRightText = null;
 	TextView mLeftText = null;
 	
@@ -101,17 +100,17 @@ public class WebHistory extends ListActivity{
     protected void onResume() {
         super.onResume();
         mAdapter.notifyDataSetChanged();
-        mActiveSite = SiteChoice.GetSite(this);
-    	if(mLeftText!=null)
-    		mLeftText.setText(R.string.app_name); 
-    	if(mRightText!=null){
-            if(mActiveSite == SiteChoice.SiteType.PORNOLAB)            	
-            	mRightText.setText(R.string.preferences_pornolab_title);
-            else if(mActiveSite == SiteChoice.SiteType.RUTRACKER)            	
-            	mRightText.setText(R.string.preferences_rutracker_title);
-            else if(mActiveSite == SiteChoice.SiteType.NNMCLUB)            	
-                	mRightText.setText(R.string.preferences_nnmclub_title);
-    	}
+//        mActiveSite = RutrackerDownloaderApp.GetSiteName(this);
+//    	if(mLeftText!=null)
+//    		mLeftText.setText(R.string.app_name); 
+//    	if(mRightText!=null){
+//            if(mActiveSite == SearchSiteName.PORNOLAB_NET)            	
+//            	mRightText.setText(R.string.preferences_pornolab_title);
+//            else if(mActiveSite == SearchSiteName.RUTRACKER_ORG)            	
+//            	mRightText.setText(R.string.preferences_rutracker_title);
+//            else if(mActiveSite == SearchSiteName.NNM_CLUB_RU)            	
+//                	mRightText.setText(R.string.preferences_nnmclub_title);
+//    	}
         if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
     }
         
@@ -199,27 +198,27 @@ public class WebHistory extends ListActivity{
             TextView tv_name = (TextView)v.findViewById( R.id.name );
             TextView tv_url = (TextView)v.findViewById( R.id.url );
             Button b_close = (Button)v.findViewById(R.id.button_menu);
-            if(mActiveSite == SiteChoice.SiteType.PORNOLAB){
-            	if(tc.Url.contains(RutrackerDownloaderApp.RT_Site) ||
-            	   tc.Url.contains(RutrackerDownloaderApp.NN_Site)){
-            	   v.setClickable(true);
-            	   v.setBackgroundColor(Color.LTGRAY);
-            	}
-            }
-            else if(mActiveSite == SiteChoice.SiteType.NNMCLUB){
-            	if(tc.Url.contains(RutrackerDownloaderApp.RT_Site) ||
-                   tc.Url.contains(RutrackerDownloaderApp.PL_Site)){
-             	   v.setClickable(true);
-            	   v.setBackgroundColor(Color.LTGRAY);
-            	}
-            }
-            else if(mActiveSite == SiteChoice.SiteType.RUTRACKER){
-            	if(tc.Url.contains(RutrackerDownloaderApp.NN_Site) ||
-                   tc.Url.contains(RutrackerDownloaderApp.PL_Site)){
-             	   v.setClickable(true);
-            	   v.setBackgroundColor(Color.LTGRAY);
-            	}
-            }            
+//            if(mActiveSite == SearchSiteName.PORNOLAB_NET){
+//            	if(tc.Url.contains(RutrackerDownloaderApp.RT_Site) ||
+//            	   tc.Url.contains(RutrackerDownloaderApp.NN_Site)){
+//            	   v.setClickable(true);
+//            	   v.setBackgroundColor(Color.LTGRAY);
+//            	}
+//            }
+//            else if(mActiveSite == SearchSiteName.NNM_CLUB_RU){
+//            	if(tc.Url.contains(RutrackerDownloaderApp.RT_Site) ||
+//                   tc.Url.contains(RutrackerDownloaderApp.PL_Site)){
+//             	   v.setClickable(true);
+//            	   v.setBackgroundColor(Color.LTGRAY);
+//            	}
+//            }
+//            else if(mActiveSite == SearchSiteName.RUTRACKER_ORG){
+//            	if(tc.Url.contains(RutrackerDownloaderApp.NN_Site) ||
+//                   tc.Url.contains(RutrackerDownloaderApp.PL_Site)){
+//             	   v.setClickable(true);
+//            	   v.setBackgroundColor(Color.LTGRAY);
+//            	}
+//            }            
             if(b_close != null){
 	            b_close.setTag(tc);
 	            b_close.setOnClickListener(new OnClickListener() {			

@@ -20,6 +20,19 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
+    <string-array name="entries_preferences_site_name">
+        <item>rutracker.org</item>
+        <item>pornolab.net</item>
+        <item>nnm-club.ru</item>
+    </string-array>
+
+     <!-- Used in download_preferences.xml -->
+    <string-array name="entryvalues_preferences_site_name">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
      
     <string-array name="about_authors"><!-- Add your name here if you helped out -->
         <item></item>
