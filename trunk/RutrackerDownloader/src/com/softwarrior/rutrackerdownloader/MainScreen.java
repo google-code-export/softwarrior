@@ -117,7 +117,7 @@ public class MainScreen extends Activity {
 			RutrackerDownloaderApp.OpenWebPreferencesScreen(this);
 		}
 		public void OnClickMainButtonRSSSearch(View v){
-			
+			RutrackerDownloaderApp.OpenRSSPreferencesScreen(this);
 		}
 		public void OnClickMainButtonPirateSearch(View v){
 			

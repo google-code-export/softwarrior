@@ -25,6 +25,14 @@
 3) Fill in the search field\n
 4) Search or see site map
 </string>    
+
+<string name="rss_search_instruction">Instructions:\n
+RSS is only for rutracker.org\n
+1) Login to the site\n
+2) Specify the search criteria\n
+3) Provide year and title\n
+4) Search the torrent
+</string>
                	
 	<string name="menu_exit">Exit</string>
     <string name="menu_help">Help</string>

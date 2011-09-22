@@ -48,6 +48,16 @@ public class AndroidSaxFeedParser extends BaseFeedParser {
 			}
 		});
 		try {
+//			try {
+//				enc_text = URLEncoder.encode(body, "cp-1251");
+//				enc_text = new String(body.getBytes(),"windows-1251");
+//			}catch (UnsupportedEncodingException e) {
+//				e.printStackTrace();
+//			}
+			
+//			BufferedReader br = new BufferedReader(new InputStreamReader(this.getInputStream(), "cp-1251"));
+//			Xml.parse(br, root.getContentHandler());
+//			InputStreamReader isReader = new InputStreamReader(this.getInputStream(), "cp-1251");
 			Xml.parse(this.getInputStream(), Xml.Encoding.UTF_8, root.getContentHandler());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
