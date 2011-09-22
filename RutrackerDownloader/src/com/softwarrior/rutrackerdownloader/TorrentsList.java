@@ -129,7 +129,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
               TorrentContainer tc = Torrents.get(position);
               RutrackerDownloaderApp.TorrentFullFileName = tc.Name;
               RutrackerDownloaderApp.OpenTorrentDownloadActivity(TorrentsList.this);
-              finish();
             }
         });        
         // Set up our adapter

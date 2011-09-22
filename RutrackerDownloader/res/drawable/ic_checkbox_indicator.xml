@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_enabled="false" android:state_checked="false"
+      android:drawable="@drawable/btn_check_off_disable" />
+<item android:state_enabled="false" android:state_checked="true"
+      android:drawable="@drawable/btn_check_on_disable" />
 <item android:state_checked="true" 
-      android:drawable="@drawable/btn_check_on_pressed" /> <!-- checked --> 
+      android:drawable="@drawable/btn_check_on_pressed" /> 
 <item android:state_checked="false" 
-      android:drawable="@drawable/btn_check_off_pressed" /> <!-- unchecked --> 
-<!--
-<item android:state_focused="true"
-      android:drawable="@drawable/btn_check_onfocus" /> //on fuces  
-<item android:drawable="@drawable/btn_check_off" />  //default
- --> 
+      android:drawable="@drawable/btn_check_off_pressed" />  
 </selector>
