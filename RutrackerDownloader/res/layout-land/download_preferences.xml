@@ -17,17 +17,16 @@
     <TextView 
         android:id="@+id/ip_address"
         android:text="@string/ip_address_unknown"
-        android:textColor="@color/cyan"
         android:layout_width="wrap_content" 
         android:layout_height="wrap_content"
         android:paddingTop="5sp" 
-        android:paddingBottom="5sp"        
+        android:paddingBottom="5sp" 
+        android:textColor="@color/cyan"       
         android:layout_toRightOf="@+id/ip_address_label"/>    
     <RelativeLayout 
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:id="@+id/ButtonsLayout" 
-        android:orientation="horizontal" 
         android:layout_height="wrap_content" 
         android:layout_alignParentBottom="true" android:layout_marginBottom="5dp"> 
         <Button 
