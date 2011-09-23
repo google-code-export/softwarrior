@@ -10,7 +10,9 @@
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
         android:paddingTop="5sp" 
-        android:paddingBottom="5sp" 
+        android:paddingBottom="5sp"
+        android:text="dir_name"
+        android:textColor="@color/red" 
         android:singleLine="false"/>
     <!--
     <TextView 
