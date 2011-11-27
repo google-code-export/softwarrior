@@ -28,6 +28,7 @@ public class AboutActivity extends Activity {
 	}
 	TextView tvVersion = (TextView)findViewById(R.id.TextViewVersionName);
 	tvVersion.setText(strVersion);
+//COMMENT
 	
 	LinearLayout layout = (LinearLayout)findViewById(R.id.LinearLayoutAbout);
 	layout.setOnTouchListener(new View.OnTouchListener() {
