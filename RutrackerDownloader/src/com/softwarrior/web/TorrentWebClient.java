@@ -118,6 +118,7 @@ public class TorrentWebClient extends Activity {
 	        webSettings.setSaveFormData(true);
 	        webSettings.setJavaScriptEnabled(true);
 	        webSettings.setSupportZoom(true);
+	        webSettings.setBuiltInZoomControls(true);
 	        webSettings.setPluginState(WebSettings.PluginState.OFF); 
 	               
 	        mWebView.setWebChromeClient(new WebChromeClient() {
