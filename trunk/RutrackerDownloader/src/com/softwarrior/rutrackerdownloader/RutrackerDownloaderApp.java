@@ -8,6 +8,7 @@ import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 import com.softwarrior.about.About;
 import com.softwarrior.about.Help;
 import com.softwarrior.file.FileManagerActivity;
+import com.softwarrior.piratesearch.PirateSearchActivity;
 import com.softwarrior.rutrackerdownloader.DownloadService.Controller.ControllerState;
 import com.softwarrior.web.TorrentWebClient;
 import com.softwarrior.web.WebHistory;
@@ -331,7 +332,8 @@ public class RutrackerDownloaderApp extends Application {
     static public void OpenPiratePreferencesScreen(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(activity, PiratePreferencesScreen.class.getName());
+    	//intent.setClassName(activity, PiratePreferencesScreen.class.getName());
+    	intent.setClassName(activity, PirateSearchActivity.class.getName());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.startActivityForResult(intent, 0);
     }

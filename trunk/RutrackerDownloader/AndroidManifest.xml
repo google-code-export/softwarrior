@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
       android:sharedUserId="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionName="2.6.5.5" android:versionCode="18">
+      android:installLocation="auto" android:versionName="2.7.5.5" android:versionCode="19">
     <!-- android:screenOrientation="portrait" -->
     <application 
         android:process="com.softwarrior.rutrackerdownloaderprocess"    
@@ -16,11 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="MainScreen"></activity>         
+        <activity android:name="MainScreen"></activity>
         <activity android:name="PreferencesTabs"></activity>
         <activity android:name="WEBPreferencesScreen"></activity>
         <activity android:name="RSSPreferencesScreen"></activity>
         <activity android:name="PiratePreferencesScreen"></activity>
+        <activity android:name="com.softwarrior.piratesearch.PirateSearchActivity"></activity>
         <activity android:name="DownloadPreferencesScreen"></activity>
         <activity android:name="TorrentFilesList"></activity>
         <activity android:name="DownloadService$Controller" android:launchMode="singleTop"></activity>
