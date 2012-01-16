@@ -166,7 +166,7 @@ namespace libtorrent
 			invalid_lt_tracker_message,
 			reserved108,
 			reserved109,
-			reserved110,
+			invalid_dont_have,
 			reserved111,
 			reserved112,
 			reserved113,
@@ -210,6 +210,7 @@ namespace libtorrent
 			reserved147,
 			reserved148,
 			reserved149,
+
 // HTTP errors
 			http_parse_error, // 150
 			http_missing_location,

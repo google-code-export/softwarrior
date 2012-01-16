@@ -376,7 +376,9 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 		}
 		if(add_file == false){
 			Toast.makeText(context, context.getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
-		}    	
+		} else{
+			RutrackerDownloaderApp.StoreTorrentsToDB(context);
+		}		
     }
 
     static public void FinalRemoveTorrents(){
@@ -392,7 +394,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     	}
     }
 
-    static private void RemoveTorrent(String FileName){
+    static private void RemoveTorrent(Context context, String FileName){
     	for(int i=0;i<Torrents.size();i++){
     		TorrentContainer tc = Torrents.get(i);
     		if(tc.Name.equals(FileName)){
@@ -403,6 +405,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
    					e.printStackTrace();
    				}
     			Torrents.remove(i);
+    			RutrackerDownloaderApp.StoreTorrentsToDB(context);
     		    RutrackerDownloaderApp.TorrentFullFileName =  new String("undefined");
     			return;
     		}
@@ -611,7 +614,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 	            b_close.setOnClickListener(new OnClickListener() {			
 					public void onClick(View v) {
 						TorrentContainer tc = (TorrentContainer)v.getTag();
-						RemoveTorrent(tc.Name);
+						RemoveTorrent(TorrentsList.this,tc.Name);
 					}
 	    		});
             }

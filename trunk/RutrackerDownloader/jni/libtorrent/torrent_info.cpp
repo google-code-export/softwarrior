@@ -367,10 +367,9 @@ namespace libtorrent
 		for (i = 0; pieces > 0; pieces >>= 1, ++i);
 		return 1 << i;
 	}
-	static error_code load_file_ec;
-	int load_file(fs::path const& filename, std::vector<char>& v)
+
+	int load_file(fs::path const& filename, std::vector<char>& v, error_code& ec)
 	{
-		error_code& ec = load_file_ec;
 		ec.clear();
 		file f;
 		if (!f.open(filename, file::read_only, ec)) return -1;
@@ -529,8 +528,8 @@ namespace libtorrent
 		, m_merkle_first_leaf(0)
 	{
 		std::vector<char> buf;
-		int ret = load_file(filename, buf);
-		error_code ec = load_file_ec;
+		error_code ec;
+		int ret = load_file(filename, buf, ec);
 		if (ret < 0) throw invalid_torrent_file(ec);
 
 		lazy_entry e;
@@ -552,8 +551,8 @@ namespace libtorrent
 		std::vector<char> buf;
 		std::string utf8;
 		wchar_utf8(filename.string(), utf8);
-		int ret = load_file(utf8, buf);
-		error_code ec = load_file_ec;
+		error_code ec;
+		int ret = load_file(utf8, buf, ec);
 		if (ret < 0) throw invalid_torrent_file(ec);
 
 		lazy_entry e;
@@ -603,8 +602,7 @@ namespace libtorrent
 		, m_merkle_first_leaf(0)
 	{
 		std::vector<char> buf;
-		int ret = load_file(filename, buf);
-		ec = load_file_ec;
+		int ret = load_file(filename, buf, ec);
 		if (ret < 0) return;
 
 		lazy_entry e;
@@ -628,8 +626,7 @@ namespace libtorrent
 		std::vector<char> buf;
 		std::string utf8;
 		wchar_utf8(filename.string(), utf8);
-		int ret = load_file(utf8, buf);
-		error_code ec = load_file_ec;
+		int ret = load_file(utf8, buf, ec);
 		if (ret < 0) return;
 
 		lazy_entry e;

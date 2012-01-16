@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
-import com.softwarrior.about.About;
+import com.softwarrior.about.AboutHTML;
 import com.softwarrior.about.Help;
 import com.softwarrior.file.FileManagerActivity;
 import com.softwarrior.piratesearch.PirateSearchActivity;
@@ -447,7 +447,7 @@ public class RutrackerDownloaderApp extends Application {
     static public void AboutActivity(Activity activity){
     	Intent intent = new Intent(Intent.ACTION_VIEW);
     	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-    	intent.setClassName(activity, About.class.getName());
+    	intent.setClassName(activity, AboutHTML.class.getName());
     	activity.startActivityForResult(intent, 0);
     }
 

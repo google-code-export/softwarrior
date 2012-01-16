@@ -70,13 +70,14 @@ namespace libtorrent
 
 			if ((((e.mode & file::rw_mask) != file::read_write)
 				&& ((m & file::rw_mask) == file::read_write))
-				|| (e.mode & file::no_buffer) != (m & file::no_buffer))
+				|| (e.mode & file::no_buffer) != (m & file::no_buffer)
+				|| (e.mode & file::random_access) != (m & file::random_access))
 			{
 				// close the file before we open it with
 				// the new read/write privilages
 				TORRENT_ASSERT(e.file_ptr.unique());
 				e.file_ptr->close();
-				if (!e.file_ptr->open(p, m, ec))
+				if (!e.file_ptr->open(p, m | O_LARGEFILE, ec))
 				{
 					m_files.erase(i);
 					return boost::shared_ptr<file>();
@@ -113,7 +114,7 @@ namespace libtorrent
 			ec = error_code(ENOMEM, get_posix_category());
 			return e.file_ptr;
 		}
-		if (!e.file_ptr->open(p, m, ec))
+		if (!e.file_ptr->open(p, m | O_LARGEFILE, ec))
 			return boost::shared_ptr<file>();
 		e.mode = m;
 		e.key = st;

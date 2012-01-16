@@ -315,7 +315,7 @@ namespace libtorrent
 			void set_dht_proxy(proxy_settings const& s)
 			{
 				m_dht_proxy = s;
-				m_dht_socket.set_proxy_settings(s);
+				m_dht_socket->set_proxy_settings(s);
 			}
 			proxy_settings const& dht_proxy() const
 			{ return m_dht_proxy; }
@@ -663,7 +663,7 @@ namespace libtorrent
 			// but for the udp port used by the DHT.
 			int m_external_udp_port;
 
-			rate_limited_udp_socket m_dht_socket;
+			boost::intrusive_ptr<rate_limited_udp_socket> m_dht_socket;
 
 			// these are used when starting the DHT
 			// (and bootstrapping it), and then erased
@@ -718,6 +718,26 @@ namespace libtorrent
 			std::ofstream m_buffer_usage_logger;
 			// the number of send buffers that are allocated
 			int m_buffer_allocations;
+
+			enum
+			{
+				on_read_counter,
+				on_write_counter,
+				on_tick_counter,
+				on_lsd_counter,
+				on_lsd_peer_counter,
+				on_udp_counter,
+				on_accept_counter,
+				on_disk_queue_counter,
+				on_disk_read_counter,
+				on_disk_write_counter,
+				max_messages
+			};
+			int m_num_messages[max_messages];
+			// 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192,
+			// 16384, 32768, 65536, 131072, 262144, 524288, 1048576
+			int m_send_buffer_sizes[18];
+			int m_recv_buffer_sizes[18];
 #endif
 #if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
 			boost::shared_ptr<logger> create_log(std::string const& name

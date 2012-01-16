@@ -97,6 +97,7 @@ namespace libtorrent
 		, m_state(read_protocol_identifier)
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		, m_upload_only_id(0)
+		, m_dont_have_id(0)
 		, m_supports_extensions(false)
 #endif
 		, m_supports_dht_port(false)
@@ -132,6 +133,7 @@ namespace libtorrent
 		, m_state(read_protocol_identifier)
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		, m_upload_only_id(0)
+		, m_dont_have_id(0)
 		, m_supports_extensions(false)
 #endif
 		, m_supports_dht_port(false)
@@ -1155,12 +1157,36 @@ namespace libtorrent
 		// classify the received data as protocol chatter
 		// or data payload for the statistics
 		int piece_bytes = 0;
-		if (recv_pos <= 9)
+
+		int header_size = merkle?13:9;
+
+		peer_request p;
+		int list_size = 0;
+
+		if (recv_pos >= header_size)
+		{
+			const char* ptr = recv_buffer.begin + 1;
+			p.piece = detail::read_int32(ptr);
+			p.start = detail::read_int32(ptr);
+
+			if (merkle)
+			{
+				list_size = detail::read_int32(ptr);
+				p.length = packet_size() - list_size - header_size;
+				header_size += list_size;
+			}
+			else
+			{
+				p.length = packet_size() - header_size;
+			}
+		}
+
+		if (recv_pos <= header_size)
 		{
 			// only received protocol data
 			m_statistics.received_bytes(0, received);
 		}
-		else if (recv_pos - received >= 9)
+		else if (recv_pos - received >= header_size)
 		{
 			// only received payload data
 			m_statistics.received_bytes(received, 0);
@@ -1169,35 +1195,16 @@ namespace libtorrent
 		else
 		{
 			// received a bit of both
-			TORRENT_ASSERT(recv_pos - received < 9);
-			TORRENT_ASSERT(recv_pos > 9);
-			TORRENT_ASSERT(9 - (recv_pos - received) <= 9);
+			TORRENT_ASSERT(recv_pos - received < header_size);
+			TORRENT_ASSERT(recv_pos > header_size);
+			TORRENT_ASSERT(header_size - (recv_pos - received) <= header_size);
 			m_statistics.received_bytes(
-				recv_pos - 9
-				, 9 - (recv_pos - received));
-			piece_bytes = recv_pos - 9;
+				recv_pos - header_size
+				, header_size - (recv_pos - received));
+			piece_bytes = recv_pos - header_size;
 		}
-
-		const int header_size = merkle?13:9;
 
 		if (recv_pos < header_size) return;
-
-		const char* ptr = recv_buffer.begin + 1;
-		peer_request p;
-		p.piece = detail::read_int32(ptr);
-		p.start = detail::read_int32(ptr);
-
-		int list_size = 0;
-
-		if (merkle)
-		{
-			list_size = detail::read_int32(ptr);
-			p.length = packet_size() - list_size - header_size;
-		}
-		else
-		{
-			p.length = packet_size() - header_size;
-		}
 
 #ifdef TORRENT_VERBOSE_LOGGING
 //			(*m_logger) << time_now_string() << " <== PIECE_FRAGMENT p: " << p.piece
@@ -1223,7 +1230,7 @@ namespace libtorrent
 			(*m_logger) << time_now_string() << " <== HASHPIECE " << p.piece << " list: " << list_size << " ";
 #endif
 			lazy_entry hash_list;
-			if (lazy_bdecode(recv_buffer.begin + 13, recv_buffer.end + 13 + list_size, hash_list) != 0)
+			if (lazy_bdecode(recv_buffer.begin + 13, recv_buffer.begin + 13 + list_size, hash_list) != 0)
 			{
 				disconnect(errors::invalid_hash_piece, 2);
 				return;
@@ -1458,7 +1465,17 @@ namespace libtorrent
 		if (extended_id == upload_only_msg)
 		{
 			if (!packet_finished()) return;
+			if (packet_size() != 3) return;
 			set_upload_only(detail::read_uint8(recv_buffer.begin));
+			return;
+		}
+
+		if (extended_id == dont_have_msg)
+		{
+			if (!packet_finished()) return;
+			if (packet_size() != 6) return;
+			int piece = detail::read_uint32(recv_buffer.begin) != 0;
+			incoming_dont_have(piece);
 			return;
 		}
 
@@ -1515,7 +1532,10 @@ namespace libtorrent
 
 		// upload_only
 		if (lazy_entry const* m = root.dict_find_dict("m"))
-			m_upload_only_id = m->dict_find_int_value("upload_only", 0);
+		{
+			m_upload_only_id = boost::uint8_t(m->dict_find_int_value("upload_only", 0));
+			m_dont_have_id = boost::uint8_t(m->dict_find_int_value("lt_donthave", 0));
+		}
 
 		// there is supposed to be a remote listen port
 		int listen_port = root.dict_find_int_value("p");
@@ -1541,13 +1561,13 @@ namespace libtorrent
 		if (!myip.empty())
 		{
 			// TODO: don't trust this blindly
-			if (myip.size() == address_v4::bytes_type::static_size)
+			if (myip.size() == address_v4::bytes_type().size())
 			{
 				address_v4::bytes_type bytes;
 				std::copy(myip.begin(), myip.end(), bytes.begin());
 				m_ses.set_external_address(address_v4(bytes));
 			}
-			else if (myip.size() == address_v6::bytes_type::static_size)
+			else if (myip.size() == address_v6::bytes_type().size())
 			{
 				address_v6::bytes_type bytes;
 				std::copy(myip.begin(), myip.end(), bytes.begin());
@@ -1867,6 +1887,7 @@ namespace libtorrent
 		TORRENT_ASSERT(t);
 
 		m["upload_only"] = upload_only_msg;
+		m["lt_donthave"] = dont_have_msg;
 
 		// if we're using lazy bitfields or if we're super seeding, don't say
 		// we're upload only, since it might make peers disconnect

@@ -2,8 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
       android:sharedUserId="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionName="2.7.5.5" android:versionCode="19">
+      android:installLocation="auto" android:versionName="2.8.5.5" android:versionCode="20">
     <!-- android:screenOrientation="portrait" -->
+    <uses-sdk android:minSdkVersion="8" />
+    <uses-permission android:name="android.permission.INTERNET" />  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
+    <!-- Optional Permissions
+    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+     -->
+    <supports-screens android:smallScreens="true"
+                      android:normalScreens="true" 
+                      android:largeScreens="true" 
+                      android:anyDensity="true" 
+                      android:resizeable="true"/>
     <application 
         android:process="com.softwarrior.rutrackerdownloaderprocess"    
         android:icon="@drawable/ic_launcher" 
@@ -29,7 +46,7 @@
         <activity android:name="SiteChoice"></activity>
         <activity android:name="com.softwarrior.web.TorrentWebClient"></activity>
         <activity android:name="com.softwarrior.rss.MessageList"></activity>  
-        <activity android:name="com.softwarrior.about.About" android:label="@string/about_activity_name"></activity>  
+        <activity android:name="com.softwarrior.about.AboutHTML"></activity>  
         <activity android:name="com.softwarrior.about.Help" android:label="@string/help_activity_name"></activity>             
         <activity android:name="TorrentsList"
                 android:process="com.softwarrior.rutrackerdownloaderprocess"                
@@ -123,21 +140,4 @@
         <meta-data android:name="com.softwarrior.about.metadata.EMAIL"
                        android:value="@string/about_email" />
     </application>
-    <uses-sdk android:minSdkVersion="8" />
-    <uses-permission android:name="android.permission.INTERNET" />  
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
-    <!-- Optional Permissions
-    <uses-permission android:name="android.permission.GET_TASKS"></uses-permission>    
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-     -->
-    <supports-screens android:smallScreens="true"
-                      android:normalScreens="true" 
-                      android:largeScreens="true" 
-                      android:anyDensity="true" 
-                      android:resizeable="true"/>
 </manifest>
