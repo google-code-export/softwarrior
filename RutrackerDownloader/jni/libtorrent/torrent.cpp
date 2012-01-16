@@ -1357,6 +1357,19 @@ namespace libtorrent
 		for (int i = 0; i < int(m_trackers.size()); ++i)
 		{
 			announce_entry& ae = m_trackers[i];
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING
+			char msg[1000];
+			snprintf(msg, sizeof(msg), "*** announce with tracker: considering \"%s\" "
+				"[ announce_to_all_tiers: %d announce_to_all_trackers: %d"
+				" i->tier: %d tier: %d "
+				" is_working: %d fails: %d fail_limit: %d updating: %d"
+				" can_announce: %d sent_announce: %d ]"
+				, ae.url.c_str(), m_settings.announce_to_all_tiers
+				, m_settings.announce_to_all_trackers
+				, ae.tier, tier, ae.is_working(), ae.fails, ae.fail_limit
+				, ae.updating, ae.can_announce(now, is_seed()), sent_announce);
+			debug_log(msg);
+#endif
 			if (m_settings.announce_to_all_tiers
 				&& !m_settings.announce_to_all_trackers
 				&& sent_announce
@@ -1364,18 +1377,12 @@ namespace libtorrent
 				&& tier != INT_MAX)
 				continue;
 
-			if (ae.tier > tier && !m_settings.announce_to_all_tiers) break;
+			if (ae.tier > tier && sent_announce && !m_settings.announce_to_all_tiers) break;
 			if (ae.is_working()) { tier = ae.tier; sent_announce = false; }
 			if (!ae.can_announce(now, is_seed()))
 			{
-				if (ae.is_working())
-				{
-					sent_announce = true; // this counts
-
-					if (!m_settings.announce_to_all_trackers
-						&& !m_settings.announce_to_all_tiers)
-						break;
-				}
+				// this counts
+				if (ae.is_working()) sent_announce = true;
 				continue;
 			}
 			
@@ -1403,8 +1410,8 @@ namespace libtorrent
 			}
 			else
 #endif
-				m_ses.m_tracker_manager.queue_request(m_ses.m_io_service, m_ses.m_half_open, req
-					, tracker_login() , shared_from_this());
+			m_ses.m_tracker_manager.queue_request(m_ses.m_io_service, m_ses.m_half_open, req
+				, tracker_login() , shared_from_this());
 			ae.updating = true;
 			ae.next_announce = now + seconds(20);
 			ae.min_announce = now + seconds(10);
@@ -2554,6 +2561,29 @@ namespace libtorrent
 		std::list<time_critical_piece>::iterator i = std::upper_bound(m_time_critical_pieces.begin()
 			, m_time_critical_pieces.end(), p);
 		m_time_critical_pieces.insert(i, p);
+
+		piece_picker::downloading_piece pi;
+		m_picker->piece_info(piece, pi);
+		if (pi.requested == 0) return;
+		// this means we have outstanding requests (or queued
+		// up requests that haven't been sent yet). Promote them
+		// to deadline pieces immediately
+		std::vector<void*> downloaders;
+		m_picker->get_downloaders(downloaders, piece);
+
+		int block = 0;
+		for (std::vector<void*>::iterator i = downloaders.begin()
+			, end(downloaders.end()); i != end; ++i, ++block)
+		{
+			policy::peer* p = (policy::peer*)*i;
+			if (p == 0 || p->connection == 0) continue;
+			p->connection->make_time_critical(piece_block(piece, block));
+		}
+	}
+
+	void torrent::reset_piece_deadline(int piece)
+	{
+		remove_time_critical_piece(piece);
 	}
 
 	void torrent::remove_time_critical_piece(int piece, bool finished)
@@ -4846,6 +4876,7 @@ namespace libtorrent
 			{
 				torrent* t = i->second.get();
 				if (t->m_sequence_number > max_seq) max_seq = t->m_sequence_number;
+				if (t->m_sequence_number >= p) ++t->m_sequence_number;
 			}
 			m_sequence_number = (std::min)(max_seq + 1, p);
 		}
@@ -5251,7 +5282,13 @@ namespace libtorrent
 
 	void torrent::update_tracker_timer(ptime now)
 	{
-		if (!m_announcing) return;
+		if (!m_announcing)
+		{
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
+			debug_log("*** update tracker timer: not announcing");
+#endif
+			return;
+		}
 
 		ptime next_announce = max_time();
 		int tier = INT_MAX;
@@ -5261,6 +5298,18 @@ namespace libtorrent
 		for (std::vector<announce_entry>::iterator i = m_trackers.begin()
 			, end(m_trackers.end()); i != end; ++i)
 		{
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING
+			char msg[1000];
+			snprintf(msg, sizeof(msg), "*** update tracker timer: considering \"%s\" "
+				"[ announce_to_all_tiers: %d announce_to_all_trackers: %d"
+				" found_working: %d i->tier: %d tier: %d "
+				" is_working: %d fails: %d fail_limit: %d updating: %d ]"
+				, i->url.c_str(), m_settings.announce_to_all_tiers
+				, m_settings.announce_to_all_trackers, found_working
+				, i->tier, tier, i->is_working(), i->fails, i->fail_limit
+				, i->updating);
+			debug_log(msg);
+#endif
 			if (m_settings.announce_to_all_tiers
 				&& found_working
 				&& i->tier <= tier
@@ -5270,26 +5319,38 @@ namespace libtorrent
 			if (i->tier > tier && !m_settings.announce_to_all_tiers) break;
 			if (i->is_working()) { tier = i->tier; found_working = false; }
 			if (i->fails >= i->fail_limit && i->fail_limit != 0) continue;
-			if (i->updating) { found_working = true; continue; }
-			ptime next_tracker_announce = (std::max)(i->next_announce, i->min_announce);
-			if (!i->updating
-				&& next_tracker_announce < next_announce
-				&& (!found_working || i->is_working()))
-				next_announce = next_tracker_announce;
+			if (i->updating)
+			{
+				found_working = true;
+			}
+			else
+			{
+				ptime next_tracker_announce = (std::max)(i->next_announce, i->min_announce);
+				if (next_tracker_announce < next_announce
+					&& (!found_working || i->is_working()))
+					next_announce = next_tracker_announce;
+			}
 			if (i->is_working()) found_working = true;
-			if (!m_settings.announce_to_all_trackers
+			if (found_working
+				&& !m_settings.announce_to_all_trackers
 				&& !m_settings.announce_to_all_tiers) break;
 		}
 
-		if (next_announce <= now) return;
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING
+		char msg[200];
+		snprintf(msg, sizeof(msg), "*** update tracker timer: next_announce < now %d"
+			" m_waiting_tracker: %d next_announce_in: %d"
+			, next_announce <= now, m_waiting_tracker, total_seconds(now - next_announce));
+		debug_log(msg);
+#endif
+		if (next_announce <= now) next_announce = now;
 
 		m_waiting_tracker = true;
 		error_code ec;
 		boost::weak_ptr<torrent> self(shared_from_this());
 
-		// since we don't know if we have to re-issue the async_wait or not
-		// always do it
-//		if (m_tracker_timer.expires_at() <= next_announce) return;
+		// don't re-issue the timer if it's the same expiration time as last time
+		if (m_tracker_timer.expires_at() == next_announce) return;
 
 		m_tracker_timer.expires_at(next_announce, ec);
 		m_tracker_timer.async_wait(boost::bind(&torrent::on_tracker_announce_disp, self, _1));
@@ -5498,8 +5559,6 @@ namespace libtorrent
 		if (!is_finished() && !m_web_seeds.empty() && m_files_checked
 			&& int(m_connections.size()) < m_max_connections
 			&& int(m_ses.m_connections.size()) < m_ses.max_connections())
-			return;
-
 		{
 			// keep trying web-seeds if there are any
 			// first find out which web seeds we are connected to
@@ -5571,6 +5630,9 @@ namespace libtorrent
 	void torrent::request_time_critical_pieces()
 	{
 		// build a list of peers and sort it by download_queue_time
+		// we use this sorted list to determine which peer we should
+		// request a block from. The higher up a peer is in the list,
+		// the sooner we will fully download the block we request.
 		std::vector<peer_connection*> peers;
 		peers.reserve(m_connections.size());
 		std::remove_copy_if(m_connections.begin(), m_connections.end()
@@ -5588,23 +5650,31 @@ namespace libtorrent
 
 		ptime now = time_now();
 
+		// now, iterate over all time critical pieces, in order of importance, and
+		// request them from the peers, in order of responsiveness. i.e. request
+		// the most time critical pieces from the fastest peers.
 		for (std::list<time_critical_piece>::iterator i = m_time_critical_pieces.begin()
 			, end(m_time_critical_pieces.end()); i != end; ++i)
 		{
+			if (peers.empty()) break;
+
 			if (i != m_time_critical_pieces.begin() && i->deadline > now
 				+ m_average_piece_time + m_piece_time_deviation * 4)
 			{
 				// don't request pieces whose deadline is too far in the future
+				// this is one of the termination conditions. We don't want to
+				// send requests for all pieces in the torrent right away
 				break;
 			}
 
-			// loop until every block has been requested from
+			// loop until every block has been requested from this piece (i->piece)
 			do
 			{
 				// pick the peer with the lowest download_queue_time that has i->piece
 				std::vector<peer_connection*>::iterator p = std::find_if(peers.begin(), peers.end()
 					, boost::bind(&peer_connection::has_piece, _1, i->piece));
 
+				// obviously we'll have to skip it if we don't have a peer that has this piece
 				if (p == peers.end()) break;
 				peer_connection& c = **p;
 
@@ -5630,7 +5700,11 @@ namespace libtorrent
 				}
 				else if (!interesting_blocks.empty())
 				{
-					c.add_request(interesting_blocks.front(), peer_connection::req_time_critical);
+					if (!c.add_request(interesting_blocks.front(), peer_connection::req_time_critical))
+					{
+						peers.erase(p);
+						continue;
+					}
 					added_request = true;
 				}
 
@@ -5985,7 +6059,7 @@ namespace libtorrent
 		st.all_time_upload = m_total_uploaded;
 		st.all_time_download = m_total_downloaded;
 
-		st.active_time = total_seconds(m_active_time);
+		st.finished_time = total_seconds(m_finished_time);
 		st.active_time = total_seconds(m_active_time);
 		st.seeding_time = total_seconds(m_seeding_time);
 
@@ -6125,8 +6199,8 @@ namespace libtorrent
 		TORRENT_ASSERT(b > 0);
 		m_total_redundant_bytes += b;
 		m_ses.add_redundant_bytes(b);
-		TORRENT_ASSERT(m_total_redundant_bytes + m_total_failed_bytes
-			<= m_stat.total_payload_download());
+//		TORRENT_ASSERT(m_total_redundant_bytes + m_total_failed_bytes
+//			<= m_stat.total_payload_download());
 	}
 
 	void torrent::add_failed_bytes(int b)
@@ -6157,7 +6231,7 @@ namespace libtorrent
 		INVARIANT_CHECK;
 
 #if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
-		debug_log("*** tracker timed out");
+		debug_log("*** tracker timed out [" + r.url + "]");
 #endif
 
 		if (r.kind == tracker_request::announce_request)
@@ -6166,6 +6240,10 @@ namespace libtorrent
 			if (ae)
 			{
 				ae->failed();
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
+				debug_log("*** increment tracker fail count ["
+					+ std::string(to_string(ae->fails).elems) + "]");
+#endif
 				int tracker_index = ae - &m_trackers[0];
 				deprioritize_tracker(tracker_index);
 			}
@@ -6224,7 +6302,8 @@ namespace libtorrent
 			}
 		}
 		// announce to the next working tracker
-		if (!m_abort) announce_with_tracker();
+		if ((!m_abort && !is_paused()) || r.event == tracker_request::stopped)
+			announce_with_tracker(r.event);
 		update_tracker_timer(time_now());
 	}
 

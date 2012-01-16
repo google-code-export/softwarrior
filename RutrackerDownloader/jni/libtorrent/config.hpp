@@ -36,6 +36,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/config.hpp>
 #include <boost/version.hpp>
 #include <stdio.h> // for snprintf
+#include <limits.h> // for IOV_MAX
 
 #ifndef WIN32
 #define __STDC_FORMAT_MACROS
@@ -162,7 +163,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 // should wpath or path be used?
 #if defined UNICODE && !defined BOOST_FILESYSTEM_NARROW_ONLY \
-	&& BOOST_VERSION >= 103400 && !defined __APPLE__ && !defined TORRENT_MINGW
+	&& BOOST_VERSION >= 103400 && !defined __APPLE__ \
+	&& !defined TORRENT_MINGW \
+	&& !defined TORRENT_SOLARIS
 #define TORRENT_USE_WPATH 1
 #else
 #define TORRENT_USE_WPATH 0
@@ -215,6 +218,14 @@ inline int snprintf(char* buf, int len, char const* fmt, ...)
 #define TORRENT_USE_LOCALE_FILENAMES 1
 #else
 #define TORRENT_USE_LOCALE_FILENAMES 0
+#endif
+
+#if !defined TORRENT_IOV_MAX
+#ifdef IOV_MAX
+#define TORRENT_IOV_MAX IOV_MAX
+#else
+#define TORRENT_IOV_MAX INT_MAX
+#endif
 #endif
 
 #if !defined(TORRENT_READ_HANDLER_MAX_SIZE)

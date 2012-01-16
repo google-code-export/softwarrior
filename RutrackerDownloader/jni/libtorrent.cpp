@@ -6,6 +6,8 @@
 #include "libtorrent/alert_types.hpp"
 #include "libtorrent/size_type.hpp"
 //-----------------------------------------------------------------------------
+#include "boost/filesystem.hpp"
+//-----------------------------------------------------------------------------
 void JniToStdString(JNIEnv *env, std::string* StdString, jstring JniString);
 //-----------------------------------------------------------------------------
 class TorrentFileInfo {
@@ -28,7 +30,8 @@ private:
 		libtorrent::error_code ec;
 		t = new libtorrent::torrent_info(TorrentFileName.c_str(), ec);
 		if (ec){
-			LOG_ERR("%s: %s\n", TorrentFileName.c_str(), ec.message().c_str());
+			std::string errorMessage = ec.message();
+			LOG_ERR("%s: %s\n", TorrentFileName.c_str(), errorMessage.c_str());
 		}
 		else{
 			ContentFileName = t->name();
@@ -70,20 +73,22 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 		int listenPort = 54321;
 		if(ListenPort > 0)
 			listenPort = ListenPort;
-		gSession.listen_on(std::make_pair(listenPort, listenPort+10));
+			gSession.listen_on(std::make_pair(listenPort, listenPort+10));
 
 		int uploadLimit = UploadLimit;
-		if(uploadLimit > 0)
+		if(uploadLimit > 0){
 			gSession.set_upload_rate_limit(uploadLimit * 1000);
-		else
+		}
+		else{
 			gSession.set_upload_rate_limit(0);
-
+		}
 		int downloadLimit = DownloadLimit;
-		if(downloadLimit > 0)
+		if(downloadLimit > 0){
 			gSession.set_download_rate_limit(downloadLimit * 1000);
-		else
+		}
+		else{
 			gSession.set_download_rate_limit(0);
-
+		}
 		LOG_INFO("ListenPort: %d\n", listenPort);
 		LOG_INFO("DownloadLimit: %d\n", downloadLimit);
 		LOG_INFO("UploadLimit: %d\n", uploadLimit);
@@ -101,7 +106,8 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_SetSession
 void JniToStdString(JNIEnv *env, std::string* StdString, jstring JniString){
 	if(JniString){
 		StdString->clear();
-		const char* ch = env->GetStringUTFChars(JniString, false);
+		jboolean isCopy = false;
+		const char* ch = env->GetStringUTFChars(JniString, &isCopy);
 		int chLen =  env->GetStringUTFLength(JniString);
 		for(int i=0; i<chLen; i++) StdString->push_back(ch[i]);
 		env->ReleaseStringUTFChars(JniString,ch);
@@ -213,7 +219,8 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 				libtorrent::error_code ec;
 				t = new libtorrent::torrent_info(torrentFileInfo.TorrentFileName.c_str(), ec);
 				if (ec){
-					LOG_ERR("%s: %s\n", torrentFileInfo.TorrentFileName.c_str(), ec.message().c_str());
+					std::string errorMessage = ec.message();
+					LOG_ERR("%s: %s\n", torrentFileInfo.TorrentFileName.c_str(), errorMessage.c_str());
 				}
 				else{
 					LOG_INFO("%s\n", t->name().c_str());
@@ -222,10 +229,11 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 					libtorrent::add_torrent_params torrentParams;
 					libtorrent::lazy_entry resume_data;
 
-					boost::filesystem::path save_path = torrentFileInfo.SavePath;
-					std::string filename = (save_path / (t->name() + ".resume")).string();
+		//			boost::filesystem2::path save_path = torrentFileInfo.SavePath;
+					std::string filename = torrentFileInfo.SavePath + "/" +  t->name() +  ".resume";
 					std::vector<char> buf;
-					if (libtorrent::load_file(filename.c_str(), buf) == 0)
+					boost::system::error_code errorCode;
+					if (libtorrent::load_file(filename.c_str(), buf, errorCode) == 0)
 						torrentParams.resume_data = &buf;
 
 					torrentParams.ti = t;
@@ -241,11 +249,16 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AddTorrent
 					torrentParams.storage_mode = storageMode;
 					libtorrent::torrent_handle th = gSession.add_torrent(torrentParams,ec);
 					if(ec) {
-						LOG_ERR("failed to add torrent: %s\n", ec.message().c_str());
+						std::string errorMessage = ec.message();
+						LOG_ERR("failed to add torrent: %s\n", errorMessage.c_str());
 					}
 					else{
-						if(th.is_paused()) th.resume();
-						if(!th.is_auto_managed()) th.auto_managed(true);
+						if(th.is_paused()){
+							th.resume();
+						}
+						if(!th.is_auto_managed()){
+							th.auto_managed(true);
+						}
 						gTorrents[torrentFileInfo] = th;
 						result=JNI_TRUE;
 					}
@@ -316,11 +329,14 @@ JNIEXPORT jboolean JNICALL Java_com_softwarrior_libtorrent_LibTorrent_AbortSessi
 	return result;
 }
 //-----------------------------------------------------------------------------
-int SaveFile(boost::filesystem::path const& filename, std::vector<char>& v)
+int SaveFile(const std::string& filename, std::vector<char>& v)
 {
+	std::string saveFileLog = "SaveFile: " + filename;
+	LOG_INFO(saveFileLog.c_str());
 	libtorrent::file f;
 	libtorrent::error_code ec;
-	if (!f.open(filename, libtorrent::file::write_only, ec)) return -1;
+	if (!f.open(filename, libtorrent::file::write_only, ec))
+		return -1;
 	if (ec) return -1;
 	libtorrent::file::iovec_t b = {&v[0], v.size()};
 	libtorrent::size_type written = f.writev(0, &b, 1, ec);
@@ -329,36 +345,40 @@ int SaveFile(boost::filesystem::path const& filename, std::vector<char>& v)
 	return 0;
 }
 //-----------------------------------------------------------------------------
-void HandleAlert(libtorrent::alert* a)
-{
-	if (libtorrent::torrent_finished_alert* p = libtorrent::alert_cast<libtorrent::torrent_finished_alert>(a))
-	{
+void HandleAlert(libtorrent::alert* a){
+	libtorrent::torrent_finished_alert* finishedAlert = libtorrent::alert_cast<libtorrent::torrent_finished_alert>(a);
+	if(finishedAlert){
 		// write resume data for the finished torrent
 		// the alert handler for save_resume_data_alert
 		// will save it to disk
-		p->handle.set_max_connections(10);
-		libtorrent::torrent_handle h = p->handle;
+		finishedAlert->handle.set_max_connections(10);
+		libtorrent::torrent_handle h = finishedAlert->handle;
 		h.save_resume_data();
 		LOG_INFO("torrent_finished_alert: save_resume_data");
 	}
-	else if (libtorrent::save_resume_data_alert* p = libtorrent::alert_cast<libtorrent::save_resume_data_alert>(a))
-	{
-		libtorrent::torrent_handle h = p->handle;
-		TORRENT_ASSERT(p->resume_data);
-		if (p->resume_data)
-		{
-			std::vector<char> out;
-			libtorrent::bencode(std::back_inserter(out), *p->resume_data);
-			SaveFile(h.save_path() / (h.name() + ".resume"), out);
-			gSession.remove_torrent(h);
-			LOG_INFO("save_resume_data_alert: remove_torrent");
+	else {
+		libtorrent::save_resume_data_alert* resumeDataAlert = libtorrent::alert_cast<libtorrent::save_resume_data_alert>(a);
+		if(resumeDataAlert) {
+			libtorrent::torrent_handle h = resumeDataAlert->handle;
+			TORRENT_ASSERT(p->resume_data);
+			if(resumeDataAlert->resume_data){
+				std::vector<char> out;
+				libtorrent::bencode(std::back_inserter(out), *resumeDataAlert->resume_data);
+				std::string savePath = h.save_path().string();
+				std::string fileName = h.name();
+				SaveFile((savePath +  fileName + ".resume"), out);
+				gSession.remove_torrent(h);
+				LOG_INFO("save_resume_data_alert: remove_torrent");
+			}
 		}
-	}
-	else if (libtorrent::save_resume_data_failed_alert* p = libtorrent::alert_cast<libtorrent::save_resume_data_failed_alert>(a))
-	{
-		libtorrent::torrent_handle h = p->handle;
-		gSession.remove_torrent(h);
-		LOG_INFO("save_resume_data_failed_alert: remove_torrent");
+		else {
+			libtorrent::save_resume_data_failed_alert* dataFailedAlert = libtorrent::alert_cast<libtorrent::save_resume_data_failed_alert>(a);
+			if(dataFailedAlert){
+				libtorrent::torrent_handle h = dataFailedAlert->handle;
+				gSession.remove_torrent(h);
+				LOG_INFO("save_resume_data_failed_alert: remove_torrent");
+			}
+		}
 	}
 }
 //-----------------------------------------------------------------------------
@@ -862,7 +882,8 @@ JNIEXPORT jstring JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentN
 		libtorrent::error_code ec;
 		t = new libtorrent::torrent_info(torrentFile.c_str(), ec);
 		if (ec){
-			LOG_ERR("%s: %s\n", torrentFile.c_str(), ec.message().c_str());
+			std::string errorMessage = ec.message();
+			LOG_ERR("%s: %s\n", torrentFile.c_str(), errorMessage.c_str());
 		}
 		else{
 			LOG_INFO("%s\n", t->name().c_str());
@@ -886,7 +907,8 @@ JNIEXPORT jlong JNICALL Java_com_softwarrior_libtorrent_LibTorrent_GetTorrentSiz
 		libtorrent::error_code ec;
 		info = new libtorrent::torrent_info(torrentFile.c_str(), ec);
 		if (ec){
-			LOG_ERR("%s: %s\n", torrentFile.c_str(), ec.message().c_str());
+			std::string errorMessage = ec.message();
+			LOG_ERR("%s: %s\n", torrentFile.c_str(), errorMessage.c_str());
 		}
 		else{
 			long long bytes_size = 0;

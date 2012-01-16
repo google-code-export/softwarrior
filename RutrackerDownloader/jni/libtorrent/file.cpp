@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (c) 2003, Arvid Norberg
 All rights reserved.
@@ -64,6 +64,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <fcntl.h> // for F_LOG2PHYS
 #include <sys/stat.h>
 #include <sys/types.h>
+//#include <sys/statvfs.h>
 #include <sys/statfs.h>
 #include <errno.h>
 #ifdef TORRENT_LINUX
@@ -100,7 +101,7 @@ static int my_fallocate(int fd, int mode, loff_t offset, loff_t len)
 // related functions support 64-bit offsets.
 // this test makes sure lseek() returns a type
 // at least 64 bits wide
-//BOOST_STATIC_ASSERT(sizeof(lseek(0, 0, 0)) >= 8);
+BOOST_STATIC_ASSERT(sizeof(lseek64(0, 0, 0)) >= 8);
 
 #endif
 
@@ -174,19 +175,19 @@ namespace libtorrent
 		const static open_mode_t mode_array[] =
 		{
 			// read_only
-			{GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS},
+			{GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, 0},
 			// write_only
-			{GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS},
+			{GENERIC_WRITE, FILE_SHARE_READ, OPEN_ALWAYS, 0},
 			// read_write
-			{GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS},
+			{GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, OPEN_ALWAYS, 0},
 			// invalid option
 			{0,0,0,0},
 			// read_only no_buffer
-			{GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, FILE_FLAG_RANDOM_ACCESS | FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING },
+			{GENERIC_READ, FILE_SHARE_READ, OPEN_EXISTING, FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING },
 			// write_only no_buffer
-			{GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS | FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING },
+			{GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, OPEN_ALWAYS, FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING },
 			// read_write no_buffer
-			{GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS | FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING },
+			{GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, OPEN_ALWAYS, FILE_FLAG_OVERLAPPED | FILE_FLAG_NO_BUFFERING },
 			// invalid option
 			{0,0,0,0}
 		};
@@ -211,8 +212,11 @@ namespace libtorrent
 		open_mode_t const& m = mode_array[mode & mode_mask];
 		DWORD a = attrib_array[(mode & attribute_mask) >> 12];
 
+		DWORD extra_flags = ((mode & random_access) ? FILE_FLAG_RANDOM_ACCESS : 0)
+			| (a ? a : FILE_ATTRIBUTE_NORMAL);
+
 		m_file_handle = CreateFile_(m_path.c_str(), m.rw_mode, m.share_mode, 0
-			, m.create_mode, m.flags | (a ? a : FILE_ATTRIBUTE_NORMAL), 0);
+			, m.create_mode, m.flags | extra_flags, 0);
 
 		if (m_file_handle == INVALID_HANDLE_VALUE)
 		{
@@ -244,8 +248,8 @@ namespace libtorrent
 		static const int no_buffer_flag[] = {0, 0};
 #endif
 
- 		m_fd = ::open(convert_to_native(path.external_file_string()).c_str()
- 			, mode_array[mode & rw_mask] | no_buffer_flag[(mode & no_buffer) >> 2], permissions);
+  m_fd = ::open(convert_to_native(path.external_file_string()).c_str()
+		, (mode_array[mode & rw_mask] | no_buffer_flag[(mode & no_buffer) >> 2]) | O_LARGEFILE, permissions);
 
 #ifdef TORRENT_LINUX
 		// workaround for linux bug
@@ -254,9 +258,8 @@ namespace libtorrent
 		{
 			mode &= ~no_buffer;
 			m_fd = ::open(path.external_file_string().c_str()
-				, mode & (rw_mask | no_buffer), permissions);
+				, (mode & (rw_mask | no_buffer)) | O_LARGEFILE, permissions);
 		}
-
 #endif
 		if (m_fd == -1)
 		{
@@ -274,8 +277,11 @@ namespace libtorrent
 #endif
 
 #ifdef POSIX_FADV_RANDOM
-		// disable read-ahead
-		posix_fadvise(m_fd, 0, 0, POSIX_FADV_RANDOM);
+		if (mode & random_access)
+		{
+			// disable read-ahead
+			posix_fadvise(m_fd, 0, 0, POSIX_FADV_RANDOM);
+		}
 #endif
 
 #endif
@@ -301,6 +307,8 @@ namespace libtorrent
 #if defined TORRENT_LINUX
 		if (m_sector_size == 0)
 		{
+//			struct statvfs fs;
+//			if (fstatvfs(m_fd, &fs) == 0)
 			struct statfs fs;
 			if (fstatfs(m_fd, &fs) == 0)
 				m_sector_size = fs.f_bsize;
@@ -498,14 +506,15 @@ namespace libtorrent
 		if (ReadFileScatter(m_file_handle, segment_array, size, 0, &ol) == 0)
 		{
 			DWORD last_error = GetLastError();
-			if (last_error != ERROR_IO_PENDING && last_error != ERROR_HANDLE_EOF)
+			if (last_error != ERROR_IO_PENDING)
 			{
 				TORRENT_ASSERT(GetLastError() != ERROR_BAD_ARGUMENTS);
 				ec = error_code(GetLastError(), get_system_category());
 				CloseHandle(ol.hEvent);
 				return -1;
 			}
-			if (GetOverlappedResult(m_file_handle, &ol, &ret, true) == 0)
+			DWORD num_read;
+			if (GetOverlappedResult(m_file_handle, &ol, &num_read, true) == 0)
 			{
 				if (GetLastError() != ERROR_HANDLE_EOF)
 				{
@@ -514,13 +523,14 @@ namespace libtorrent
 					return -1;
 				}
 			}
+			if (num_read < ret) ret = num_read;
 		}
 		CloseHandle(ol.hEvent);
 		return ret;
 
 #else // TORRENT_WINDOWS
 
-		size_type ret = lseek(m_fd, file_offset, SEEK_SET);
+		size_type ret = lseek64(m_fd, file_offset, SEEK_SET);
 		if (ret < 0)
 		{
 			ec = error_code(errno, get_posix_category());
@@ -528,40 +538,55 @@ namespace libtorrent
 		}
 #if TORRENT_USE_READV
 
+		ret = 0;
+		while (num_bufs > 0)
+		{
+			int nbufs = (std::min)(num_bufs, TORRENT_IOV_MAX);
+			int tmp_ret = 0;
 #ifdef TORRENT_LINUX
-		bool aligned = false;
-		int size = 0;
-		// if we're not opened in no-buffer mode, we don't need alignment
-		if ((m_open_mode & no_buffer) == 0) aligned = true;
-		if (!aligned)
-		{
-			size = bufs_size(bufs, num_bufs);
-			if ((size & (size_alignment()-1)) == 0) aligned = true;
-		}
-		if (aligned)
-#endif // TORRENT_LINUX
-		{
-			ret = ::readv(m_fd, bufs, num_bufs);
-			if (ret < 0)
+			bool aligned = false;
+			int size = 0;
+			// if we're not opened in no-buffer mode, we don't need alignment
+			if ((m_open_mode & no_buffer) == 0) aligned = true;
+			if (!aligned)
 			{
-				ec = error_code(errno, get_posix_category());
-				return -1;
+				size = bufs_size(bufs, nbufs);
+				if ((size & (size_alignment()-1)) == 0) aligned = true;
 			}
-			return ret;
-		}
-#ifdef TORRENT_LINUX
-		file::iovec_t* temp_bufs = TORRENT_ALLOCA(file::iovec_t, num_bufs);
-		memcpy(temp_bufs, bufs, sizeof(file::iovec_t) * num_bufs);
-		iovec_t& last = temp_bufs[num_bufs-1];
-		last.iov_len = (last.iov_len & ~(size_alignment()-1)) + m_page_size;
-		ret = ::readv(m_fd, temp_bufs, num_bufs);
-		if (ret < 0)
-		{
-			ec = error_code(errno, get_posix_category());
-			return -1;
-		}
-		return (std::min)(ret, size_type(size));
+			if (aligned)
 #endif // TORRENT_LINUX
+			{
+				tmp_ret = ::readv(m_fd, bufs, nbufs);
+				if (tmp_ret < 0)
+				{
+					ec = error_code(errno, get_posix_category());
+					return -1;
+				}
+				ret += tmp_ret;
+			}
+#ifdef TORRENT_LINUX
+			else
+			{
+				file::iovec_t* temp_bufs = TORRENT_ALLOCA(file::iovec_t, nbufs);
+				memcpy(temp_bufs, bufs, sizeof(file::iovec_t) * nbufs);
+				iovec_t& last = temp_bufs[nbufs-1];
+				last.iov_len = (last.iov_len & ~(size_alignment()-1)) + m_page_size;
+				tmp_ret = ::readv(m_fd, temp_bufs, nbufs);
+				if (tmp_ret < 0)
+				{
+					ec = error_code(errno, get_posix_category());
+					return -1;
+				}
+			}
+			ret += (std::min)(tmp_ret, size);
+
+#endif // TORRENT_LINUX
+
+			num_bufs -= nbufs;
+			bufs += nbufs;
+		}
+
+		return ret;
 
 #else // TORRENT_USE_READV
 
@@ -614,7 +639,16 @@ namespace libtorrent
 				size += i->iov_len;
 			}
 			error_code code;
-			if (eof) TORRENT_ASSERT(file_offset + size >= get_size(code));
+			if (eof) 
+			{
+				size_type fsize = get_size(code);
+				if (code) printf("get_size: %s\n", code.message().c_str());
+				if (file_offset + size < fsize)
+				{
+					printf("offset: %d size: %d get_size: %d\n", int(file_offset), int(size), int(fsize));
+					TORRENT_ASSERT(false);
+				}
+			}
 		}
 #endif
 
@@ -681,17 +715,12 @@ namespace libtorrent
 		ol.hEvent = CreateEvent(0, true, false, 0);
 
 		ret += size;
-		// if file_size is > 0, the file will be opened in unbuffered
-		// mode after the write completes, and truncate the file to
-		// file_size.
 		size_type file_size = 0;
 	
 		if ((size & (m_page_size-1)) != 0)
 		{
 			// if size is not an even multiple, this must be the tail
-			// of the file. Write the whole page and then open a new
-			// file without FILE_FLAG_NO_BUFFERING and set the
-			// file size to file_offset + size
+			// of the file.
 
 			file_size = file_offset + size;
 			size = num_pages * m_page_size;
@@ -706,54 +735,21 @@ namespace libtorrent
 				CloseHandle(ol.hEvent);
 				return -1;
 			}
-			DWORD tmp;
-			if (GetOverlappedResult(m_file_handle, &ol, &tmp, true) == 0)
+			DWORD num_written;
+			if (GetOverlappedResult(m_file_handle, &ol, &num_written, true) == 0)
 			{
 				ec = error_code(GetLastError(), get_system_category());
 				CloseHandle(ol.hEvent);
 				return -1;
 			}
-			if (tmp < ret) ret = tmp;
+			if (num_written < ret) ret = num_written;
 		}
 		CloseHandle(ol.hEvent);
 
-		if (file_size > 0)
-		{
-#if TORRENT_USE_WPATH
-#define CreateFile_ CreateFileW
-#else
-#define CreateFile_ CreateFileA
-#endif
-			HANDLE f = CreateFile_(m_path.c_str(), GENERIC_WRITE
-			, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING
-			, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_RANDOM_ACCESS, 0);
-
-			if (f == INVALID_HANDLE_VALUE)
-			{
-				ec = error_code(GetLastError(), get_system_category());
-				return -1;
-			}
-
-			LARGE_INTEGER offs;
-			offs.QuadPart = file_size;
-			if (SetFilePointerEx(f, offs, &offs, FILE_BEGIN) == FALSE)
-			{
-				CloseHandle(f);
-				ec = error_code(GetLastError(), get_system_category());
-				return -1;
-			}
-			if (::SetEndOfFile(f) == FALSE)
-			{
-				ec = error_code(GetLastError(), get_system_category());
-				CloseHandle(f);
-				return -1;
-			}
-			CloseHandle(f);
-		}
-
+		if (file_size > 0) set_size(file_size, ec);
 		return ret;
 #else
-		size_type ret = lseek(m_fd, file_offset, SEEK_SET);
+		size_type ret = lseek64(m_fd, file_offset, SEEK_SET);
 		if (ret < 0)
 		{
 			ec = error_code(errno, get_posix_category());
@@ -762,45 +758,59 @@ namespace libtorrent
 
 #if TORRENT_USE_WRITEV
 
+		ret = 0;
+		while (num_bufs > 0)
+		{
+			int nbufs = (std::min)(num_bufs, TORRENT_IOV_MAX);
+			int tmp_ret = 0;
 #ifdef TORRENT_LINUX
-		bool aligned = false;
-		int size = 0;
-		// if we're not opened in no-buffer mode, we don't need alignment
-		if ((m_open_mode & no_buffer) == 0) aligned = true;
-		if (!aligned)
-		{
-			size = bufs_size(bufs, num_bufs);
-			if ((size & (size_alignment()-1)) == 0) aligned = true;
-		}
-		if (aligned)
-#endif
-		{
-			ret = ::writev(m_fd, bufs, num_bufs);
-			if (ret < 0)
+			bool aligned = false;
+			int size = 0;
+			// if we're not opened in no-buffer mode, we don't need alignment
+			if ((m_open_mode & no_buffer) == 0) aligned = true;
+			if (!aligned)
 			{
-				ec = error_code(errno, get_posix_category());
-				return -1;
+				size = bufs_size(bufs, nbufs);
+				if ((size & (size_alignment()-1)) == 0) aligned = true;
 			}
-			return ret;
-		}
+			if (aligned)
+#endif
+			{
+				tmp_ret = ::writev(m_fd, bufs, nbufs);
+				if (tmp_ret < 0)
+				{
+					ec = error_code(errno, get_posix_category());
+					return -1;
+				}
+				ret += tmp_ret;
+			}
 #ifdef TORRENT_LINUX
-		file::iovec_t* temp_bufs = TORRENT_ALLOCA(file::iovec_t, num_bufs);
-		memcpy(temp_bufs, bufs, sizeof(file::iovec_t) * num_bufs);
-		iovec_t& last = temp_bufs[num_bufs-1];
-		last.iov_len = (last.iov_len & ~(size_alignment()-1)) + size_alignment();
-		ret = ::writev(m_fd, temp_bufs, num_bufs);
-		if (ret < 0)
-		{
-			ec = error_code(errno, get_posix_category());
-			return -1;
-		}
-		if (ftruncate(m_fd, file_offset + size) < 0)
-		{
-			ec = error_code(errno, get_posix_category());
-			return -1;
-		}
-		return (std::min)(ret, size_type(size));
+			else
+			{
+				file::iovec_t* temp_bufs = TORRENT_ALLOCA(file::iovec_t, nbufs);
+				memcpy(temp_bufs, bufs, sizeof(file::iovec_t) * nbufs);
+				iovec_t& last = temp_bufs[nbufs-1];
+				last.iov_len = (last.iov_len & ~(size_alignment()-1)) + size_alignment();
+				tmp_ret = ::writev(m_fd, temp_bufs, nbufs);
+				if (tmp_ret < 0)
+				{
+					ec = error_code(errno, get_posix_category());
+					return -1;
+				}
+				if (ftruncate(m_fd, file_offset + size) < 0)
+				{
+					ec = error_code(errno, get_posix_category());
+					return -1;
+				}
+				ret += (std::min)(tmp_ret, size);
+			}
 #endif // TORRENT_LINUX
+
+			num_bufs -= nbufs;
+			bufs += nbufs;
+		}
+
+		return ret;
 
 #else // TORRENT_USE_WRITEV
 
@@ -858,7 +868,7 @@ namespace libtorrent
 		// http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/man2/fcntl.2.html
 
 		log2phys l;
-		size_type ret = lseek(m_fd, offset, SEEK_SET);
+		size_type ret = lseek64(m_fd, offset, SEEK_SET);
 		if (ret < 0) return 0;
 		if (fcntl(m_fd, F_LOG2PHYS, &l) == -1) return 0;
 		return l.l2p_devoffset;
@@ -901,6 +911,53 @@ namespace libtorrent
   		TORRENT_ASSERT(s >= 0);
 
 #ifdef TORRENT_WINDOWS
+
+		if ((m_open_mode & no_buffer) && (s & (size_alignment()-1)) != 0)
+		{
+			// the file is opened in unbuffered mode, and the size is not
+			// aligned to the required cluster size. Use NtSetInformationFile
+
+#define FileEndOfFileInformation 20
+#ifndef NT_SUCCESS
+#define NT_SUCCESS(x) (!((x) & 0x80000000))
+#endif
+			
+			// for NtSetInformationFile, see: 
+			// http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/File/NtSetInformationFile.html
+
+			typedef DWORD _NTSTATUS;
+			typedef _NTSTATUS (NTAPI * NtSetInformationFile_t)(HANDLE file, PULONG_PTR iosb, PVOID data, ULONG len, ULONG file_info_class);
+
+			static NtSetInformationFile_t NtSetInformationFile = 0;
+			static bool failed_ntdll = false;
+
+			if (NtSetInformationFile == 0 && !failed_ntdll)
+			{
+				HMODULE nt = LoadLibraryA("ntdll");
+				if (nt)
+				{
+					NtSetInformationFile = (NtSetInformationFile_t)GetProcAddress(nt, "NtSetInformationFile");
+					if (NtSetInformationFile == 0) failed_ntdll = true;
+				}
+				else failed_ntdll = true;
+			}
+
+			if (!failed_ntdll && NtSetInformationFile)
+			{
+				ULONG_PTR Iosb[2];
+				LARGE_INTEGER fsize;
+				fsize.QuadPart = s;
+				_NTSTATUS st = NtSetInformationFile(m_file_handle
+					, Iosb, &fsize, sizeof(fsize), FileEndOfFileInformation);
+				if (!NT_SUCCESS(st)) 
+				{
+					ec.assign(INVALID_SET_FILE_POINTER, get_system_category());
+					return false;
+				}
+				return true;
+			}
+		}
+
 		LARGE_INTEGER offs;
 		LARGE_INTEGER cur_size;
 		if (GetFileSizeEx(m_file_handle, &cur_size) == FALSE)
@@ -946,7 +1003,7 @@ namespace libtorrent
 #endif // _WIN32_WINNT >= 0x501
 #else // NON-WINDOWS
 		struct stat st;
-		if (fstat(m_fd, &st) != 0)
+		if (fstat64(m_fd, &st) != 0)
 		{
 			ec.assign(errno, get_posix_category());
 			return false;
@@ -1043,7 +1100,7 @@ namespace libtorrent
 		return file_size.QuadPart;
 #else
 		struct stat fs;
-		if (fstat(m_fd, &fs) != 0)
+		if (fstat64(m_fd, &fs) != 0)
 		{
 			ec = error_code(errno, get_posix_category());
 			return -1;
@@ -1092,8 +1149,9 @@ typedef struct _FILE_ALLOCATED_RANGE_BUFFER {
 		
 #elif defined SEEK_DATA
 		// this is supported on solaris
-		size_type ret = lseek(m_fd, start, SEEK_DATA);
+		size_type ret = lseek64(m_fd, start, SEEK_DATA);
 		if (ret < 0) return start;
+		return start;
 #else
 		return start;
 #endif

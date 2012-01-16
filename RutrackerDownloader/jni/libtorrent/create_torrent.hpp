@@ -180,13 +180,13 @@ namespace libtorrent
 #if TORRENT_USE_WPATH
 		inline bool wdefault_pred(boost::filesystem::wpath const&) { return true; }
 #endif
+
 		inline bool ignore_subdir(std::string const& leaf)
 		{ return leaf == ".." || leaf == "."; }
 
-#if TORRENT_USE_WPATH
-		inline bool ignore_subdir(std::wstring const& leaf)
-		{ return leaf == L".." || leaf == L"."; }
-#endif
+//		inline bool ignore_subdir(std::wstring const& leaf)
+//		{ return leaf == L".." || leaf == L"."; }
+
 		inline void nop(int i) {}
 
 		int TORRENT_EXPORT get_file_attributes(boost::filesystem::path const& p);

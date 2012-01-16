@@ -179,7 +179,8 @@ namespace libtorrent
 			:settings.tracker_completion_timeout;
 
 		m_tracker_connection->get(url, seconds(timeout)
-			, 1, &m_ps, 5, settings.user_agent, bind_interface());
+			, tracker_req().event == tracker_request::stopped ? 2 : 1
+			, &m_ps, 5, settings.user_agent, bind_interface());
 
 		// the url + 100 estimated header size
 		sent_bytes(url.size() + 100);
@@ -461,10 +462,10 @@ namespace libtorrent
 		if (ip_ent)
 		{
 			char const* p = ip_ent->string_ptr();
-			if (ip_ent->string_length() == address_v4::bytes_type::static_size)
+			if (ip_ent->string_length() == address_v4::bytes_type().size())
 				external_ip = detail::read_v4_address(p);
 #if TORRENT_USE_IPV6
-			else if (ip_ent->string_length() == address_v6::bytes_type::static_size)
+			else if (ip_ent->string_length() == address_v6::bytes_type().size())
 				external_ip = detail::read_v6_address(p);
 #endif
 		}

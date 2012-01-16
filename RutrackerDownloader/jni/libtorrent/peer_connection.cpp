@@ -1534,6 +1534,65 @@ namespace libtorrent
 	}
 
 	// -----------------------------
+	// -------- DONT HAVE ----------
+	// -----------------------------
+
+	void peer_connection::incoming_dont_have(int index)
+	{
+		INVARIANT_CHECK;
+
+		boost::shared_ptr<torrent> t = m_torrent.lock();
+		TORRENT_ASSERT(t);
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_dont_have(index)) return;
+		}
+#endif
+
+		if (is_disconnecting()) return;
+
+#ifdef TORRENT_VERBOSE_LOGGING
+		(*m_logger) << time_now_string() << " <== DONT_HAVE [ piece: " << index << " ]\n";
+#endif
+
+		if (is_disconnecting()) return;
+
+		// if we got an invalid message, abort
+		if (index >= int(m_have_piece.size()) || index < 0)
+		{
+			disconnect(errors::invalid_dont_have, 2);
+			return;
+		}
+
+		if (!m_have_piece[index])
+		{
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_ERROR_LOGGING
+			(*m_logger) << time_now_string() << "   got redundant DONT_HAVE message for index: " <<  index << "\n";
+#endif
+			return;
+		}
+
+		bool was_seed = is_seed();
+		m_have_piece.clear_bit(index);
+		TORRENT_ASSERT(m_num_pieces > 0);
+		--m_num_pieces;
+
+		// only update the piece_picker if
+		// we have the metadata and if
+		// we're not a seed (in which case
+		// we won't have a piece picker)
+		if (!t->valid_metadata()) return;
+
+		t->peer_lost(index);
+
+		if (was_seed)
+			t->get_policy().set_seed(m_peer_info, false);
+	}
+
+	// -----------------------------
 	// --------- BITFIELD ----------
 	// -----------------------------
 
@@ -2266,6 +2325,9 @@ namespace libtorrent
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
+#ifdef TORRENT_STATS
+		++m_ses.m_num_messages[aux::session_impl::on_disk_write_counter];
+#endif
 		INVARIANT_CHECK;
 
 		m_outstanding_writing_bytes -= p.length;
@@ -2558,6 +2620,10 @@ namespace libtorrent
 		if ((int)m_download_queue.size() + (int)m_request_queue.size()
 			> m_desired_queue_size * 2) return false;
 		if (on_parole()) return false; 
+		if (m_disconnecting) return false;
+		boost::shared_ptr<torrent> t = m_torrent.lock();
+		TORRENT_ASSERT(t);
+		if (t->upload_mode()) return false;
 		return true;
 	}
 
@@ -3885,7 +3951,7 @@ namespace libtorrent
 		// only add new piece-chunks if the send buffer is small enough
 		// otherwise there will be no end to how large it will be!
 		
-		int buffer_size_watermark = int(m_statistics.upload_rate()) / 2;
+		int buffer_size_watermark = int(m_statistics.upload_rate());
 		if (buffer_size_watermark < 512) buffer_size_watermark = 512;
 		else if (buffer_size_watermark > m_ses.settings().send_buffer_watermark)
 		{
@@ -3933,6 +3999,9 @@ namespace libtorrent
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
+#ifdef TORRENT_STATS
+		++m_ses.m_num_messages[aux::session_impl::on_disk_read_counter];
+#endif
 		m_reading_bytes -= r.length;
 
 		disk_buffer_holder buffer(m_ses, j.buffer);
@@ -4469,6 +4538,16 @@ namespace libtorrent
 		, std::size_t bytes_transferred)
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
+#ifdef TORRENT_STATS
+		++m_ses.m_num_messages[aux::session_impl::on_read_counter];
+		int size = 8;
+		int index = 0;
+		while (bytes_transferred > size) { size <<= 1; ++index; }
+		int num_max = sizeof(m_ses.m_recv_buffer_sizes)/sizeof(m_ses.m_recv_buffer_sizes[0]);
+		if (index >= num_max) index = num_max - 1;
+		++m_ses.m_recv_buffer_sizes[index];
+#endif
 		on_receive_data_nolock(error, bytes_transferred);
 	}
 
@@ -4758,6 +4837,15 @@ namespace libtorrent
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
+#ifdef TORRENT_STATS
+		++m_ses.m_num_messages[aux::session_impl::on_write_counter];
+		int size = 8;
+		int index = 0;
+		while (bytes_transferred > size) { size <<= 1; ++index; }
+		int num_max = sizeof(m_ses.m_send_buffer_sizes)/sizeof(m_ses.m_send_buffer_sizes[0]);
+		if (index >= num_max) index = num_max - 1;
+		++m_ses.m_send_buffer_sizes[index];
+#endif
 		INVARIANT_CHECK;
 
 		// keep ourselves alive in until this function exits in
