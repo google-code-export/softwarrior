@@ -1,0 +1,11 @@
+#summary How to specify different directories to download.
+
+*Instructions, how to specify different directories to download*
+
+ # Choose the directory in the settings "Torent options"
+ # Add a torrent file
+Note: When the program will add a torrent file then your specified path will stored in a database.
+ # Change the directory settings in "Torent options"
+ # Add a new torrent file.
+
+*The result: every file will download to selected directory.*
