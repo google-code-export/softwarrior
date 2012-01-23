@@ -1,0 +1,17 @@
+#summary Selecting files from the torrent file to download
+
+*User Question:* 
+Sometimes you need to download (for example) series. I downloaded some series previously, now they have updated. I want to download new series, but without those series that looked earlier ... Can make this the program?
+
+*Instructions on how to select the files step by step:*
+
+ # Download torrent file.
+ # Add a torrent file to download.
+ # Select the check - "Allocate space."
+ # Press "Start Download" and immediately press "Pause".
+ # Choose which files that we would like  to download.
+ # Press "Continue"
+
+*Result: Download only selected files.*
+
+*Not selected files will appear in the directory after downloading. If you look at them in the file manager, you'll see their name and size. But they will not take up space on the disk. This is a feature on Linux.*
