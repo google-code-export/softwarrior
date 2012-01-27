@@ -25,7 +25,7 @@ public class AboutHTML extends Activity {
 	        setTitleColor(getResources().getColor(R.color.gold));
 	        
 	        mWebView = (WebView) findViewById(R.id.WebViewHelp);
-			mWebView.setInitialScale(100);
+			mWebView.setInitialScale(0);
 			mWebView.setVerticalScrollBarEnabled(false);
 	        WebSettings browserset = mWebView.getSettings();
 	        browserset.setLoadsImagesAutomatically(true);
