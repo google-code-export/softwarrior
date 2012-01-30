@@ -1,4 +1,4 @@
-#summary FAQ in english
+#summary FAQ (english)
 
 = FAQ: =
  # [http://code.google.com/p/softwarrior/wiki/DownloadDirectoryEn How to specify different directories to download]
