@@ -1,7 +1,6 @@
 #summary FAQ
 
 = FAQ =
-FAQ:
  # [http://code.google.com/p/softwarrior/wiki/DownloadDirectoryRu Как задавать разные директории для скачивания]
  # [http://code.google.com/p/softwarrior/wiki/DownloadTorrentFilesRu Скачивание torrent файлов с rutracker.org]
  # [http://code.google.com/p/softwarrior/wiki/TorrentFileRutrackerRu Rutracker.org - Torrent-файл с ошибкой, файл открыть не возможно]
