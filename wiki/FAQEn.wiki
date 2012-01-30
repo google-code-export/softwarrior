@@ -1,0 +1,5 @@
+#summary FAQ in english
+
+= FAQ: =
+ # [http://code.google.com/p/softwarrior/wiki/DownloadDirectoryEn How to specify different directories to download]
+ # [http://code.google.com/p/softwarrior/wiki/SelectFilesToDownloadEn Selecting files from the torrent file to download]
