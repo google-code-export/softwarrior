@@ -164,11 +164,22 @@ new Ext.Application({
             html:"<div>\
                 <p><h1><FONT COLOR=green>Извините</FONT></h1></p>\
                 <p>Нам очень важно Ваше сообщение о проблеме. Вышлите сообщение с описанием проблемы и Вы поможете сделать приложение лучше.</p>\
+                <p><b>Пожалуйста, прочитайте инструкцию, перед тем как отправлять сообщение.<b><p>\
                 </div>"
         },
         {
             xtype:'button',
             ui:'confirm',
+            cls:'like_button',
+            text:'Инструкция',
+            iconCls:'favorites',
+            iconMask:true,
+            linkId: 'mailLink',
+            url:'http://code.google.com/p/softwarrior/wiki/FAQRu',
+            plugins:[new simfla.ux.plugins.linkButton()]
+        },
+        {
+            xtype:'button',
             cls:'like_button',
             text:'Отправить email',
             iconCls:'mail',

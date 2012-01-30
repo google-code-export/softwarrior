@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.softwarrior.rutrackerdownloader"
       android:sharedUserId="com.softwarrior.rutrackerdownloader"
-      android:installLocation="auto" android:versionName="2.8.5.5" android:versionCode="20">
+      android:installLocation="auto" android:versionName="2.8.6.5" android:versionCode="21">
     <!-- android:screenOrientation="portrait" -->
     <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" />  

@@ -57,6 +57,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
@@ -166,6 +167,8 @@ public class TorrentWebClient extends Activity {
 	        	viewAnimator.setVisibility(View.VISIBLE);
 	        	RelativeLayout buttonsLayout = (RelativeLayout) findViewById(R.id.LoginLayout);
 	        	buttonsLayout.setVisibility(View.VISIBLE);
+	        	LinearLayout buttonsLayoutMain = (LinearLayout) findViewById(R.id.ButtonsLayoutMain);
+	        	buttonsLayoutMain.setVisibility(View.VISIBLE);
 	        	viewAnimator.bringChildToFront(buttonsLayout);
 	    		activity.setTitle(mLoadUrl);        
 	    		mWebView.loadUrl(mLoadUrl);
@@ -404,6 +407,7 @@ public class TorrentWebClient extends Activity {
 	        	RelativeLayout downloadLayout = (RelativeLayout) findViewById(R.id.DownloadLayout);
 	        	downloadLayout.setVisibility(View.VISIBLE);
 	        	viewAnimator.bringChildToFront(downloadLayout);
+	        	Toast.makeText(TorrentWebClient.this, getString(R.string.download_torrent_instruction), Toast.LENGTH_SHORT).show();
 	    	}
 	    	else if(current_url.contains(RutrackerDownloaderApp.KinoafishaUrl) && current_url.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
 	    		mDistributionNumber = "";
@@ -413,7 +417,7 @@ public class TorrentWebClient extends Activity {
 	        	downloadLayout.setVisibility(View.VISIBLE);
 	        	viewAnimator.bringChildToFront(downloadLayout);	 
 	        	Button download = (Button) findViewById(R.id.ButtonDownload);
-	        	download.setText(R.string.button_search_torrent);	        	
+	        	download.setText(R.string.button_search_torrent);
 	    	}
 	    	else {
 	    		mDistributionNumber = new String();
