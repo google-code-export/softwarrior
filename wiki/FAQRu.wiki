@@ -1,4 +1,4 @@
-#summary FAQ
+#summary FAQ (русский)
 
 = FAQ: =
  # [http://code.google.com/p/softwarrior/wiki/DownloadDirectoryRu Как задавать разные директории для скачивания]
