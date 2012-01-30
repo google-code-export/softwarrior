@@ -1,4 +1,4 @@
-#summary How to specify different directories to download.
+#summary How to specify different directories to download
 
 *Instructions, how to specify different directories to download*
 
