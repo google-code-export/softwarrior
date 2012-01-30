@@ -318,4 +318,7 @@ Please see contact information in the About page.
     <string name="dialog_close">Close</string>
     <string name="pirate_search_button">Search</string>
     <string name="pirate_available_sites">Sites to search</string>
+    <string name="login_instruction">After login you should return to the search. You can download torrent file only after as buttons `Search` or `Site map` were clicked</string>
+    <string name="download_torrent_instruction">To download the torrent file, tap the red button `Download torrent` at the bottom of the screen</string>
+    <string name="online_faq">http://code.google.com/p/softwarrior/wiki/FAQEn</string>
 </resources>

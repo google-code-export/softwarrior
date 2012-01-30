@@ -11,47 +11,68 @@
         android:id="@+id/ViewAnimator" 
         android:orientation="horizontal" 
         android:layout_height="wrap_content" 
-        android:layout_alignParentBottom="true" android:visibility="gone"> 
+        android:layout_alignParentBottom="true" 
+        android:visibility="gone"> 
         <RelativeLayout 
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:id="@+id/LoginLayout" 
-            android:orientation="horizontal" 
             android:layout_height="wrap_content"
             android:background="@color/black" 
-            android:layout_alignParentBottom="true" android:visibility="gone"> 
-            <TextView 
-                android:layout_width="wrap_content" 
-                android:layout_height="wrap_content" 
-                android:id="@+id/TextView" 
-                android:text="" 
-                android:layout_centerHorizontal="true" 
-                android:layout_centerVertical="true"/>
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:text="@string/button_refresh_page"
-                android:onClick="@string/on_click_button_refresh_page"
-                android:id="@+id/ButtonRefreshPage"
-                android:layout_alignParentRight="true" 
-                android:layout_height="wrap_content" 
-                android:layout_width="fill_parent" 
-                android:textStyle="bold"
-                android:background="@drawable/button_green"
-                android:textColor="@color/cyan"                                 
-                android:layout_toRightOf="@id/TextView"/>
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:text="@string/button_finish_login"
-                android:onClick="@string/on_click_button_finish_login"
-                android:layout_height="wrap_content" 
-                android:id="@+id/ButtonFinishLogin" 
-                android:layout_alignParentLeft="true" 
-                android:layout_width="fill_parent"
-                android:textStyle="bold"
-                android:background="@drawable/button_red"
-                android:textColor="@color/cyan"                                                 
-                android:layout_toLeftOf="@id/TextView"/>  
-        </RelativeLayout>
+            android:visibility="gone"> 
+            <LinearLayout
+        		android:id="@+id/ButtonsLayoutMain" 
+        		android:layout_height="wrap_content" 
+        		android:layout_width="fill_parent"
+        		android:background="@color/black"
+        		android:orientation="vertical"
+        		android:visibility="gone">
+	            <TextView 
+	                android:layout_width="wrap_content" 
+	                android:layout_height="wrap_content" 
+	                android:id="@+id/TextViewHelp" 
+	                android:text="@string/login_instruction" 
+	                android:textColor="@color/gold"/>                
+                <RelativeLayout
+		            xmlns:android="http://schemas.android.com/apk/res/android"    
+		            android:layout_width="fill_parent"
+		            android:id="@+id/ButtonsLayout1" 
+		            android:orientation="horizontal" 
+		            android:layout_height="wrap_content">                 
+		            <TextView 
+		                android:layout_width="wrap_content" 
+		                android:layout_height="wrap_content" 
+		                android:id="@+id/TextView" 
+		                android:text="" 
+		                android:layout_centerHorizontal="true" 
+		                android:layout_centerVertical="true"/>
+		            <Button
+		                style="?android:attr/buttonStyleSmall"
+		                android:text="@string/button_refresh_page"
+		                android:onClick="@string/on_click_button_refresh_page"
+		                android:id="@+id/ButtonRefreshPage"
+		                android:layout_alignParentRight="true" 
+		                android:layout_height="wrap_content" 
+		                android:layout_width="fill_parent" 
+		                android:textStyle="bold"
+		                android:background="@drawable/button_green"
+		                android:textColor="@color/cyan"                                 
+		                android:layout_toRightOf="@id/TextView"/>
+		            <Button
+		                style="?android:attr/buttonStyleSmall"
+		                android:text="@string/button_finish_login"
+		                android:onClick="@string/on_click_button_finish_login"
+		                android:layout_height="wrap_content" 
+		                android:id="@+id/ButtonFinishLogin" 
+		                android:layout_alignParentLeft="true" 
+		                android:layout_width="fill_parent"
+		                android:textStyle="bold"
+		                android:background="@drawable/button_red"
+		                android:textColor="@color/cyan"                                                 
+		                android:layout_toLeftOf="@id/TextView"/>  
+        		</RelativeLayout>
+			</LinearLayout>                		            
+		</RelativeLayout>
         <RelativeLayout 
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
@@ -59,8 +80,8 @@
             android:orientation="horizontal" 
             android:layout_height="wrap_content"
             android:background="@color/black" 
-            android:layout_alignParentBottom="true" android:visibility="gone"> 
-            <Button
+            android:visibility="gone"> 
+            <Button                
                 style="?android:attr/buttonStyleSmall"
                 android:text="@string/button_download"
                 android:onClick="@string/on_click_button_download"
@@ -74,8 +95,7 @@
     </ViewAnimator>
     <WebView
         android:id="@+id/webview"
-        android:layout_width="fill_parent" 
-        android:layout_weight="1"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
         android:layout_above="@id/ViewAnimator"/>
         <!-- android:layout_height="0dip" -->

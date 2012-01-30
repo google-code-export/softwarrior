@@ -318,4 +318,7 @@ RSS только для rutracker.org\n
     <string name="dialog_close">Закрыть</string>
     <string name="pirate_search_button">Поиск</string>
     <string name="pirate_available_sites">Сайты для поиска</string>
+    <string name="login_instruction">После логина вернитесь в поиск. Скачивать torrent файлы возможно только после нажатия на кнопки «Поиск» или «Карта сайта»</string>
+    <string name="download_torrent_instruction">Чтобы скачать torrent файл нажмите красную кнопку «Скачать torrent» внизу экрана</string>
+    <string name="online_faq">http://code.google.com/p/softwarrior/wiki/FAQRu</string>
 </resources>
