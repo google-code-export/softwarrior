@@ -125,6 +125,11 @@ body > * {
     margin-right:auto;
     margin-left:auto;
 }
+.feedback_panel img{
+    width:auto; 
+    height:26%;
+    max-height:80px;
+}
 .feedback_panel p{
     color:#FFF;
     text-align:center;
