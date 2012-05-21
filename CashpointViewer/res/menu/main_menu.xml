@@ -1,6 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/browserSettings" android:title="@string/settings" android:icon="@drawable/tools"></item>
-<item android:id="@+id/chooseLayers" android:title="@string/layers" android:icon="@drawable/layers"></item>
-<item android:id="@+id/aboutApp" android:title="@string/about_app" android:icon="@drawable/about"></item>
-<item android:title="@string/exit" android:id="@+id/exitApp" android:icon="@drawable/exit"></item>
-</menu>
