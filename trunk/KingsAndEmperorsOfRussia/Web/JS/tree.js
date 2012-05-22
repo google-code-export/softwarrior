@@ -3,6 +3,9 @@
 //----------------------------------------------------------------------
 var stage = null;
 var layer = null;
+var treeGroup = null;
+var groupArray = null;
+var offsetXArray = null;
 //----------------------------------------------------------------------
 //--- Functions ---
 //----------------------------------------------------------------------
@@ -107,23 +110,28 @@ function initStage(images) {
       width: 800,
       height: 480
     });
-    var treeGroup = new Kinetic.Group({
+    
+    groupArray = new Array();
+    offsetXArray = new Array();
+    
+    treeGroup = new Kinetic.Group({
       x: 0,
       y: 0,
       draggable: false
     });
-
+    offsetXArray.push(0);
     var king001Group = new Kinetic.Group({
       x: 142.03,
       y: 458.47,
       draggable: false
     });
+    offsetXArray.push(142.03);
     var king002Group = new Kinetic.Group({
       x: 23.51,
       y: 421.35,
       draggable: false
     });
-
+    offsetXArray.push(23.51);
     layer = new Kinetic.Layer();
 
     /*
@@ -137,6 +145,10 @@ function initStage(images) {
     layer.add(king002Group);
     stage.add(layer);
 
+    groupArray.push(treeGroup);
+    groupArray.push(king001Group);
+    groupArray.push(king002Group);
+    
     // tree
     var treeImg = new Kinetic.Image({
       x: 0,
@@ -194,14 +206,25 @@ function initStage(images) {
 }
 //----------------------------------------------------------------------
 function resizeStage() {
-    stage.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight);
+    if(stage != null) {
+        stage.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 
-    var scaleWidth = document.documentElement.clientWidth / 480;
-    var scaleHeight = document.documentElement.clientHeight / 800;
-    stage.setScale(scaleWidth, scaleHeight);
+       //var scaleWidth = document.documentElement.clientWidth / 480;
+        var scaleHeight = document.documentElement.clientHeight / 800;
+        //stage.setScale(scaleWidth, scaleHeight);
+        stage.setScale(scaleHeight, scaleHeight);
 
-    layer.draw();
-    stage.draw();
+        var centerX = stage.getWidth() / 2 ;
+        var imageWidth = stage.getHeight() /1.666666;
+        centerX = centerX - imageWidth/2;
+        
+        for (var i = 0; i < groupArray.length; ++i){
+            groupArray[i].setX(centerX+offsetXArray[i]);
+        }
+
+        layer.draw();
+        stage.draw();
+    }
 }
 //--------------------------------------------------------------
 function initTree(){
