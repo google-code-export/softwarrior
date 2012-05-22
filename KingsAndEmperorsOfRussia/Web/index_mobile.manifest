@@ -18,9 +18,6 @@ JS/tree.js
 JS/variables.js
 JS/indexInfo.js
 
-AUDIO/hymn_1816_1833.mp3
-AUDIO/hymn_1833_1917.mp3
-
 IMG/AppIcon.png
 IMG/BkGrnd.png
 IMG/facebook26.png
@@ -202,3 +199,6 @@ IMG/PHOTOS/arms_s_1883.jpg
 IMG/PHOTOS/flag_1858_1883_01.jpg
 IMG/PHOTOS/flag_1858_1883_02.jpg
 IMG/PHOTOS/flag_1858_1883_03.jpg
+
+AUDIO/hymn_1816_1833.mp3
+AUDIO/hymn_1833_1917.mp3

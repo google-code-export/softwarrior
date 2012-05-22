@@ -147,6 +147,7 @@ new Ext.Application({
     });
     mainApp.views.toolBar.setTitle('<FONT size=4 COLOR=gold>Цари и императоры России</FONT>');
     //----------------------------------------------
+    /*
     mainApp.views.sbuttonToolBar = new Ext.Toolbar({
         dock:'bottom',
         ui:'light',
@@ -184,10 +185,10 @@ new Ext.Application({
                     window.location = "http://connect.mail.ru/share?url=" + url + "&title=" + currentHistory.title + "&description=" + currentHistory.header;
                 }
             },
-
             {xtype:'spacer'}
         ]
     });
+    */
     //----------------------------------------------
     mainApp.views.historyBar = new Ext.Toolbar({
         dock:'top',
@@ -201,11 +202,6 @@ new Ext.Application({
           }
         },
         {xtype:'spacer'},
-        {
-            ui:'plain',
-            text: '<FONT size=4 COLOR=gold>Информация</FONT>' 
-        },
-        {xtype:'spacer'}
         ]
     });
     //----------------------------------------------
@@ -265,7 +261,7 @@ new Ext.Application({
     mainApp.views.historyPanel = new Ext.Panel ({
           id:'historyPanel',
           layout: 'card',
-          dockedItems:[mainApp.views.historyBar, mainApp.views.sbuttonToolBar],
+          dockedItems:[mainApp.views.historyBar/*,mainApp.views.sbuttonToolBar*/],
           cls: 'detailsPanel',
           xtype: 'panel',
           fullscreen: true,
@@ -299,7 +295,7 @@ new Ext.Application({
             html:"<div>\
                  <p><img class='app_icon_img' src='IMG/AppIcon.png'/></p>\
                  <p><h1><FONT COLOR=green>Цари и императоры России</FONT></h1></p>\
-                 <p>Программа для людей интересующихся историей России.</p>\
+                 <p>Приложение для людей, которые интересуются историей России</p>\
                  <p><FONT COLOR=blue>(с) Softwarrior</FONT></p>\
                  <p>Вам нравится приложение?</p>\
                  </div>"
@@ -359,14 +355,14 @@ new Ext.Application({
         cls:'feedback_panel',
         scroll: 'vertical',
         html:"<h2><b><u>Как работает приложение:</u></b></h2>\
-            <h2>- Приложение опубликована в Маркете без контента.<br>\
+            <h2>- Приложение опубликовано без контента.<br>\
             - Приложение скачивает контент при запуске приложения.<br>\
             - Приложение проверяет наличие обновлений интерфейса и контента, если есть обновление скачивает и устанавливает их.</h2>\
             <h2><b><u>Что делать если нет контента:</u></b></h2>\
             <h2><i>Это может произойти если Вы запустили программу, а доступа в интернет для скачивания контента нет.</i><br>\
             1) Перейдите в меню Настройки -> Приложения -> Управление приложениями -> Цари и императоры России<br>\
             2) Нажмите кнопку «Принудительно остановить» и так же «Удаление данных»<br>\
-            3) Подключитесь к интернету <br>\
+            3) Подключитесь к интернету<br>\
             4) Запустите программу (запуск программы может затянуться если у Вас медленный интернет).</p></h2>",
     });
     //----------------------------------------------
@@ -449,7 +445,7 @@ new Ext.Application({
             html:"<div>\
             <p><img class='app_icon_img' src='IMG/AppIcon.png'/></p>\
             <p>Приложение «Цари и императоры России» создано на основе контента, собранного из открытых источников интернета.</p>\
-            <p>Программа распространяется под лицензией GNU General Public License версии 2. Подробно с GPL версии 2, вы можете ознакомиться на сайте:</p>\
+            <p>Приложение распространяется под лицензией GNU General Public License версии 2. Подробно с GPL версии 2, вы можете ознакомиться на сайте:</p>\
             <p><a href='http://www.gnu.org/licenses'>http://www.gnu.org/licenses</a></p>\
             </div>"
         },
