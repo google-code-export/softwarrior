@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">Kings and emperors of Russia</string>
+    <string name="app_desc">Kings and emperors of Russia</string>
+    <string name="app_copyright">(с) Sftwarrior</string>
+    <string name="process_content">Process content</string>
+    <string name="download_msg">Check and update content.\nIf you have a slow internet it may take a long time.</string>
+    <string name="press_back_to_exit">Press back to exit from programm</string>
+    <string name="button_ads">Audio, video into your phone. Install Rutracker Downloader.</string>
+    <string name="on_click_button_ads">OnClickButtonAds</string>
+    <string name="reinstall_app">!!! ATTENTION: Do not use the button "Update" because this version is not compatible with the previous one. For an application worked to remove the application and download the new version.</string>
+</resources>
