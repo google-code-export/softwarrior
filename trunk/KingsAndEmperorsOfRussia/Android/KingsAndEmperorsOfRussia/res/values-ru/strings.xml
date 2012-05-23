@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+    <string name="app_name">Цари и императоры России</string>
+    <string name="app_desc">Цари и императоры России</string>
+    <string name="app_copyright">(с) Softwarrior</string>
+    <string name="process_content">Обрабатываю \n контент</string>
+    <string name="download_msg">Проверка и обновление контента.\nЕсли у Вас медленный интернет это может занять много времени.</string>
+    <string name="press_back_to_exit">Нажмите назад, чтобы выйти из программы</string>
+    <string name="button_ads">Аудио, видео прямо на телефон. Установите Rutracker Downloader.</string>
+    <string name="on_click_button_ads">OnClickButtonAds</string>
+    <string name="reinstall_app">!!! ВНИМАНИЕ: Не используйте кнопку «Обновить» т.к. эта версия не совместима с предыдущей. Чтобы приложение заработало необходимо удалить приложение и загрузить новую версию.</string>
+</resources>

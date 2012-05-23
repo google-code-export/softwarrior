@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.softwarrior.kingsandemperorsofrussia"
+      android:sharedUserId="com.softwarrior.kingsandemperorsofrussia"
+      android:installLocation="auto" 
+      android:versionName="1.0.0.0"
+      android:versionCode="1">
+    <uses-sdk android:minSdkVersion="8"/>    
+    <uses-permission android:name="android.permission.INTERNET" />  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <supports-screens android:smallScreens="false"
+                      android:normalScreens="true" 
+                      android:largeScreens="true" 
+                      android:anyDensity="true" 
+                      android:resizeable="true"/> 
+    <application
+        android:process="com.softwarrior.kingsandemperorsofrussiaprocess" 
+        android:icon="@drawable/ic_launcher" 
+        android:label="@string/app_name" 
+        android:name="com.softwarrior.kingsandemperorsofrussia.MainApp" 
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        android:description="@string/app_desc">
+        <activity android:name="com.softwarrior.kingsandemperorsofrussia.SplashScreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.softwarrior.kingsandemperorsofrussia.MainScreen" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <!-- AdMob integration -->
+        <activity android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation">
+        </activity> 
+        <meta-data android:value="a14f321c9fdd6ce" android:name="ADMOB_PUBLISHER_ID" />
+        <meta-data android:value="a14f321c9fdd6ce" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
+        <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
+        <!-- Used for install referrer tracking -->
+        <receiver android:name="com.google.android.apps.analytics.AnalyticsReceiver"
+                  android:exported="true">
+          <intent-filter>
+            <action android:name="com.android.vending.INSTALL_REFERRER" />
+          </intent-filter>
+        </receiver>
+    </application>
+</manifest>
