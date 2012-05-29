@@ -150,7 +150,7 @@ new Ext.Application({
             handler:function(){
                         var crownInfo = Crown[1][1];
                         mainApp.views.crownPanel.update(crownInfo);
-                        mainApp.views.historyBar.setTitle('<FONT size=4 COLOR=gold>Короны Российских правителей</FONT>');
+                        mainApp.views.historyBar.setTitle('<FONT size=4 COLOR=gold>Короны правителей</FONT>');
                         tapHandler('crown');
                     }
             },
