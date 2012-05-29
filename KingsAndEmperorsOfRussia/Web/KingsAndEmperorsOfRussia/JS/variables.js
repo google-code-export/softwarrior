@@ -20,3 +20,7 @@ var Hymn =
 var Flag =
 [[null,null],
  [null,null]];
+
+var Crown =
+[[null,null],
+ [null,null]];

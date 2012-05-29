@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+    /*
+    body {
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+    }
+    */
+    canvas {
+        border: 1px solid #9C9898;
+    }
+    #buttons_left {
+        position: absolute;
+        left: 10px;
+        top: 0px;
+        color: #0f3588;
+    }
+    #buttons_right {
+        position: absolute;
+        left: 80px;
+        top: 0px;
+        color: #0f3588;
+    }
+    button {
+        margin-top: 10px;
+        display: block;
+        border-radius: 2em;
+        color: red;
+        background: gray;
+    }
+    </style>
+    <!--
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"></meta>
+    -->
+    <title>Test Zoom</title>
+    <script src="JS/kinetic_debug.js"></script>
+    <script>
+        //--------------------------------
+        var stage = null;
+        var layer = null;
+        var startDistance = undefined;
+        var startScale = 1;
+        var groupArray = null;
+        var offsetXArray = null;
+        //--------------------------------
+        function getDistance(touch1, touch2){
+            var x1 = touch1.clientX;
+            var x2 = touch2.clientX;
+            var y1 = touch1.clientY;
+            var y2 = touch2.clientY;
+ 
+            return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+        }
+        //--------------------------------
+        function ResizeAndScale(zoomInFlag){
+            var zoom = 20;
+            var zoomWidth = 0;
+            var zoomHeight = 0;
+            var scale = 0.1;
+            var newScale = 0;
+            if(zoomInFlag == true){
+                zoomWidth = stage.getWidth() + zoom; 
+                zoomHeight = stage.getHeight() + zoom;
+                newScale =  startScale + scale;
+            }
+            else {
+                zoomWidth = stage.getWidth() - zoom; 
+                zoomHeight = stage.getHeight() - zoom;
+                newScale = startScale - scale;
+            }
+
+            stage.setSize(zoomWidth,zoomHeight)
+            stage.setScale(newScale, newScale);
+                        
+            for (var i = 0; i < groupArray.length; ++i){
+                if(zoomInFlag == true){
+                    groupArray[i].setX(offsetXArray[i]-(zoom/2));
+                    offsetXArray[i] = (offsetXArray[i]-(zoom/2));
+                } else {
+                    groupArray[i].setX(offsetXArray[i]+(zoom/2));
+                    offsetXArray[i] = (offsetXArray[i]+(zoom/2));
+                }
+            }
+            
+            layer.draw();
+            stage.draw();
+            
+            startScale = stage.getScale().x;
+        }
+        //--------------------------------
+        window.onload = function(){
+            stage = new Kinetic.Stage({
+              container: "container",
+              width: 578,
+              height: 200
+            });
+
+            layer = new Kinetic.Layer();
+            startDistance = undefined;
+            startScale = 1;
+            groupArray = new Array();
+            offsetXArray = new Array();
+ 
+            var triangle = new Kinetic.RegularPolygon({
+                x: 190,
+                y: 120,
+                sides: 3,
+                radius: 70,
+                fill: "#00D2FF",
+                stroke: "black",
+                strokeWidth: 4
+            });
+            offsetXArray.push(190);
+            groupArray.push(triangle);
+            var circle = new Kinetic.Circle({
+                x: 380,
+                y: stage.getHeight() / 2,
+                radius: 70,
+                fill: "red",
+                stroke: "black",
+                strokeWidth: 4
+            });
+            offsetXArray.push(380);
+            groupArray.push(circle);
+          
+            stage._onContent("touchmove", function(evt){
+                var touch1 = evt.touches[0];
+                var touch2 = evt.touches[1];
+ 
+                if (touch1 && touch2) {
+                    if (startDistance === undefined) {
+                        startDistance = getDistance(touch1, touch2);
+                    }
+                    else {
+                        var dist = getDistance(touch1, touch2);
+                        var scale = (dist / startDistance) * startScale;
+                        if(startScale < scale)
+                            ResizeAndScale(true);
+                        else
+                            ResizeAndScale(false);
+                    }
+                }
+            });
+
+            stage._onContent("touchend", function(){
+                startDistance = undefined;
+                startScale = stage.getScale().x;
+            });
+            
+            layer.add(triangle);
+            layer.add(circle);
+
+            stage.add(layer);
+            
+            layer.draw();
+            stage.draw();
+            
+            startScale = stage.getScale().x;
+            
+            document.getElementById("button_zoom_in").addEventListener("click", function() {
+                console.log("button ++");
+                ResizeAndScale(true);
+            }, false);
+            document.getElementById("button_zoom_out").addEventListener("click", function() {
+                console.log("button --");
+                ResizeAndScale(false);
+            }, false);
+        };
+    </script>
+  </head>
+  <body onmousedown="return false;">
+    <div id="container"></div>
+    <div id="buttons_left"> <button id="button_zoom_in">zoom ++</button></div>
+    <div id="buttons_right"> <button id="button_zoom_out">zoom --</button></div>
+  </body>
+</html>
