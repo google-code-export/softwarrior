@@ -9,6 +9,10 @@ var regExp = new RegExp("<(\"[^\"]*\"|'[^']*'|[^'\">])*>", "g");
 var JSBridge;
 var ApplicationAddonUrl = 'https://market.android.com/details?id=com.softwarrior.KingsAndEmperorsOfRussia.noads';
 var ApplicationUrl = 'https://market.android.com/details?id=com.softwarrior.KingsAndEmperorsOfRussia';
+var extendedPanel;
+var extendedPanelType;
+var treeZoomIn;
+var treeZoomOut;
 ///////////////////////////////////////////////////////////////////////////////
 //Functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -48,9 +52,11 @@ var historyPanelTemplate = new Ext.XTemplate(
     '<p>{description}</p></div>'
 );
 var treePanelTemplate = new Ext.XTemplate(
-    '<div class="description">',
-    '<div id="container"></div>',
-    '</div>'
+    '<div id="span" class="spanInfo"></div>',
+    '<div id="imageScale" class="viewport">',
+        '<div id="container" class="clipped"></div>',
+    '</div>',
+    '<div id="zoom_buttons"></div>'
 );
 var armsPanelTemplate = new Ext.XTemplate(
     '<div class="description">',
@@ -61,6 +67,10 @@ var hymnPanelTemplate = new Ext.XTemplate(
     '<p>{description}</p></div>'
 );
 var flagPanelTemplate = new Ext.XTemplate(
+    '<div class="description">',
+    '<p>{description}</p></div>'
+);
+var crownPanelTemplate = new Ext.XTemplate(
     '<div class="description">',
     '<p>{description}</p></div>'
 );
@@ -129,10 +139,21 @@ new Ext.Application({
     });
     mainApp.views.toolBar = new Ext.Toolbar({
         dock:'top',
-        ui:'light',
+        //ui:'light',
         //title: Ext.util.Format.date(new Date()),
         items:[
-            {xtype:'spacer'},
+            {
+            iconCls:'info_crown',
+            text: '   ',
+            ui:'plain',
+            iconMask:true,
+            handler:function(){
+                        var crownInfo = Crown[1][1];
+                        mainApp.views.crownPanel.update(crownInfo);
+                        mainApp.views.historyBar.setTitle('<FONT size=4 COLOR=gold>Короны Российских правителей</FONT>');
+                        tapHandler('crown');
+                    }
+            },
             {xtype:'spacer'},
             {
                 iconCls:'info_heart',
@@ -192,7 +213,7 @@ new Ext.Application({
     //----------------------------------------------
     mainApp.views.historyBar = new Ext.Toolbar({
         dock:'top',
-        ui:'light',
+        //ui:'light',
         items: [
         {
           text:'Назад',
@@ -282,6 +303,10 @@ new Ext.Application({
         else if (page=="info"){
             mainApp.views.viewport.setActiveItem(mainApp.views.infoTab,{type: 'slide', direction:'up',reveal:true});
             JSBridge.log("KingsAndEmperorsOfRussiaInfoScreen");
+        }
+        else if (page=="crown"){
+            mainApp.views.viewport.setActiveItem(mainApp.views.crownPanel,direction);
+            JSBridge.log("KingsAndEmperorsOfRussiaCrownScreen");
         }
     }
     //----------------------------------------------
@@ -531,18 +556,38 @@ new Ext.Application({
         }]
     });
     //----------------------------------------------
-    mainApp.views.treeTabPanel = new Ext.Panel ({
-          id:'treeTabPanel',
-          xtype: 'panel',
-          fullscreen: true,
-          cardSwitchAnimation:'slide',
-          title:'Генеалогическое <br> древо',
-          iconCls:'tab_tree',
-          layout: 'card',
-          cls: 'detailsPanel',
-          scroll: 'false',
-          tpl:treePanelTemplate
+    InitPinchZoomBegin();
+    mainApp.views.treeTabPanel = new extendedPanelType ({
+        id:'treeTabPanel',
+        //xtype: 'panel',
+        //fullscreen: true,
+        cardSwitchAnimation:'slide',
+        title:'Генеалогическое <br> древо',
+        iconCls:'tab_tree',
+        //layout: 'card',
+        cls: 'detailsPanel',
+        scroll: 'false',
+        tpl:treePanelTemplate,
+        dockedItems : [{
+            xtype : 'toolbar', 
+            dock : 'top', 
+            layout : {
+                pack : 'center'
+            }, 
+            items : [{
+                    iconMask : true, 
+                    ui : "plain", 
+                    iconCls : 'zoomIn', 
+                    handler : treeZoomIn
+                }, {
+                    iconMask : true, 
+                    ui : "plain", 
+                    iconCls : 'zoomOut', 
+                    handler : treeZoomOut
+           }]
+        }]
     });
+    extendedPanel = mainApp.views.treeTabPanel;
     //----------------------------------------------
     mainApp.views.armsTabPanel = new Ext.Panel ({
           id:'armsTabPanel',
@@ -581,6 +626,18 @@ new Ext.Application({
           cls: 'detailsPanel',
           scroll: 'false',
           tpl:flagPanelTemplate
+    });
+    //----------------------------------------------
+    mainApp.views.crownPanel = new Ext.Panel ({
+        id:'crownPanel',
+        layout: 'card',
+        dockedItems:[mainApp.views.historyBar],
+        cls: 'detailsPanel',
+        xtype: 'panel',
+        fullscreen: true,
+        //scroll: 'vertical',
+        scroll: 'false',
+        tpl:crownPanelTemplate
     });
     //----------------------------------------------
     mainApp.views.mainTab = new Ext.TabPanel({
@@ -629,14 +686,15 @@ new Ext.Application({
         fullscreen: true,
         layout: 'card',
         cardSwitchAnimation: 'slide',
-        items:[mainApp.views.mainTab,mainApp.views.historyPanel,mainApp.views.infoTab],
+        items:[mainApp.views.mainTab,mainApp.views.historyPanel,mainApp.views.infoTab, mainApp.views.crownPanel],
     });
     //----------------------------------------------
     try{
         ShowContentByIndex(1,1);
         mainApp.views.mainTab.doLayout();
-        initTree();
         JSBridge.log("KingsAndEmperorsOfRussiaMainScreen");
+        InitPinchZoomEnd();
+        initTree();
     }
     catch(err){
         var txt="Ошибка обработки контента, требуется загрузка.\n";
