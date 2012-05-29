@@ -231,9 +231,6 @@ function InitPinchZoomBegin() {
                      pinchend : this.onPinchEnd, 
                     scope : this
                 });
-            
-     
-            
         }, 
         onTouchstart : function (event, html, obj) {
             
@@ -350,9 +347,9 @@ function InitPinchZoomBegin() {
             var iScale = parseInt(e.scale);
             
             if (iScale == 0) 
-                zoomOut();
+                treeZoomOut();
             else 
-                zoomIn();
+                treeZoomIn();
         } 
     }); // Ext.Extend
 }
@@ -362,6 +359,4 @@ function InitPinchZoomEnd(){
     for (counter = 0; counter < image_array.length; counter++) {
         cacheImage(image_array[counter], counter);
     }
-}
-
- 
+} 
