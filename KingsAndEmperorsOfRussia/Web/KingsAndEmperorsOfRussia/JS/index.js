@@ -221,8 +221,7 @@ new Ext.Application({
           handler: function(){
             tapHandler('home'); Ext.select('.selection').setHeight(0); 
           }
-        },
-        {xtype:'spacer'},
+        }
         ]
     });
     //----------------------------------------------
