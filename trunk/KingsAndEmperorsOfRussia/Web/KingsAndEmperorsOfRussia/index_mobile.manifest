@@ -8,7 +8,12 @@ CSS/custom.css
 CSS/sencha-touch.css
 
 JS/index.js
-JS/indexInfo.js
+JS/infoArms.js
+JS/infoCrown.js
+JS/infoFlag.js
+JS/infoHistory.js
+JS/infoHymn.js
+JS/infoTree.js
 JS/kinetic.js
 JS/phonegap.js
 JS/pinch_zoom_tree.js
