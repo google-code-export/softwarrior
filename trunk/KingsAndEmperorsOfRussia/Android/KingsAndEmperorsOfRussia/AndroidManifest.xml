@@ -3,8 +3,8 @@
       package="com.softwarrior.kingsandemperorsofrussia"
       android:sharedUserId="com.softwarrior.kingsandemperorsofrussia"
       android:installLocation="auto" 
-      android:versionName="1.0.0.1"
-      android:versionCode="2">
+      android:versionName="1.0.0.2"
+      android:versionCode="3">
     <uses-sdk android:minSdkVersion="8"/>    
     <uses-permission android:name="android.permission.INTERNET" />  
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
@@ -32,8 +32,8 @@
         <activity android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation">
         </activity> 
-        <meta-data android:value="a14f321c9fdd6ce" android:name="ADMOB_PUBLISHER_ID" />
-        <meta-data android:value="a14f321c9fdd6ce" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
+        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_PUBLISHER_ID" />
+        <meta-data android:value="a14d5a500187b19" android:name="ADMOB_INTERSTITIAL_PUBLISHER_ID" />
         <meta-data android:value="false" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
         <!-- Used for install referrer tracking -->
         <receiver android:name="com.google.android.apps.analytics.AnalyticsReceiver"

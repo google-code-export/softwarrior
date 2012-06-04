@@ -74,6 +74,7 @@ public class MainScreen extends FullWakeActivity implements AdListener {
     
     //private final String mContentFileMask = "index_%02d_%s";
     private final String mContentUrlPrefix = "http://www.softwarrior.org/KingsAndEmperorsOfRussia/";
+    //private final String mContentUrlPrefix = "http://oranienbaum.i-free.com/test/KingsAndEmperorsOfRussia/";
     //private final String mServerTimeUrl = "http://oranienbaum.i-free.com/almanac/server_time.php";
     
     private final String mContentFile = "index_mobile.html";
@@ -224,7 +225,7 @@ public class MainScreen extends FullWakeActivity implements AdListener {
         browserset.setAppCacheEnabled(true);
         String caschePath = getApplicationContext().getDir("cashe", 0).getPath();
         browserset.setAppCachePath(caschePath);
-        browserset.setAppCacheMaxSize(30*1024*1024);                
+        browserset.setAppCacheMaxSize(50*1024*1024);                
         //Cache move to AppData
         try{
           Method m = CacheManager.class.getDeclaredMethod("setCacheDisabled", boolean.class);
@@ -308,9 +309,10 @@ public class MainScreen extends FullWakeActivity implements AdListener {
                 if(mContentUrlCheck.equals(failingUrl)) {
                     mUrlCheckError = true;
                     if(MainApp.isNetworkAvailable(MainScreen.this)){
-                        ClearCash();
+                        //ClearCash();
                         //mCheckProgress = true;
                         mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+                    	//mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
                         mWebView.loadUrl(mContentUrl);
                         Toast.makeText(MainScreen.this, getString(R.string.download_msg), Toast.LENGTH_LONG).show();
                     } else {
@@ -331,7 +333,7 @@ public class MainScreen extends FullWakeActivity implements AdListener {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
                 //Toast.makeText(MainScreen.this, "Url loading=" + url, Toast.LENGTH_SHORT).show();                
                 try {
-                    if (url.contains("oranienbaum.i-free.com")){
+                    if (url.contains("softwarrior.org")){
                           view.loadUrl(url);
                           return false;                     
                     } else {
@@ -571,7 +573,7 @@ public class MainScreen extends FullWakeActivity implements AdListener {
             mWebView.loadUrl(mContentUrlCheck);
 //        }
     }    
-    private void ClearCash(){
+    void ClearCash(){
         Log.w(MainApp.TAG,"ClearCash:");
         mWebView.clearHistory();
         mWebView.clearFormData();
@@ -605,14 +607,6 @@ public class MainScreen extends FullWakeActivity implements AdListener {
 //      FreeAlmanacApp.ClearAppData(this);
 //      FreeAlmanacApp.ClearCache(this);
     }        
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
-//            mWebView.goBack();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
     @Override
     protected void onResume() {
         CookieSyncManager.getInstance().startSync();
