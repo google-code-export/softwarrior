@@ -31,7 +31,7 @@ public class MainApp extends Application {
     public void onCreate() {
         super.onCreate();
         try{
-            MainApp.AnalyticsTracker.startNewSession("UA-28551057-2", 30, this); 
+            MainApp.AnalyticsTracker.startNewSession("UA-21583368-5", 30, this); 
             WebViewDatabase webViewDB = WebViewDatabase.getInstance(this);
             if (webViewDB == null){
                 Toast.makeText(getApplicationContext(), getString(R.string.reinstall_app), Toast.LENGTH_LONG).show();
@@ -215,7 +215,7 @@ public class MainApp extends Application {
 
     public static void StartServiceActivity(Context context){ 
         try {
-            String keyPkg = "com.ifree.almanac.noads"; 
+            String keyPkg = "com.softwarrior.kingsandemperorsofrussia.noads"; 
             Intent intent = new Intent();
             intent.setClassName(keyPkg, keyPkg + ".ServiceActivity");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -226,8 +226,8 @@ public class MainApp extends Application {
     public static boolean CheckMode(Context context){ 
         boolean result = false;
         try {
-            String mainAppPkg = "com.ifree.almanac"; 
-            String keyPkg = "com.ifree.almanac.noads"; 
+            String mainAppPkg = "com.softwarrior.kingsandemperorsofrussia"; 
+            String keyPkg = "com.softwarrior.kingsandemperorsofrussia.noads"; 
             int sigMatch = context.getPackageManager().checkSignatures(mainAppPkg, keyPkg); 
             if(sigMatch == PackageManager.SIGNATURE_MATCH){
                   result = true;
