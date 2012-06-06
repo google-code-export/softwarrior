@@ -1664,7 +1664,7 @@ function initStage(images) {
         ShowHistory(74);
     });
     //---------------------------------
-    /*
+        /*
     stage._onContent("touchmove", function(evt){
         var touch1 = evt.touches[0];
         var touch2 = evt.touches[1];
@@ -1701,7 +1701,7 @@ function resizeStage() {
             var scaleHeight = document.documentElement.clientHeight / 800;
             //stage.setScale(scaleWidth, scaleHeight);
             stage.setScale(scaleHeight, scaleHeight);
-            /*
+            
             var centerX = stage.getWidth() / 2 ;
             var imageWidth = stage.getHeight() /1.666666;
             centerX = centerX - imageWidth/2;
@@ -1709,11 +1709,10 @@ function resizeStage() {
             for (var i = 0; i < groupArray.length; ++i){
                 groupArray[i].setX(centerX+offsetXArray[i]);
             }
-            */
         }
         layer.draw();
         stage.draw();
-        //startScale = stage.getScale().x;
+        startScale = stage.getScale().x;
     }
 }
 //--------------------------------
@@ -1735,17 +1734,17 @@ function ResizeAndScale(zoomInFlag){
         
         var scaleHeight = stage.getHeight() / 800;
         stage.setScale(scaleHeight, scaleHeight);
-        /*
+        
         var centerX = stage.getWidth() / 2 ;
         var imageWidth = stage.getHeight() /1.666666;
         centerX = centerX - imageWidth/2;
         for (var i = 0; i < groupArray.length; ++i){
             groupArray[i].setX(centerX+offsetXArray[i]);
         }
-        */
+        
         layer.draw();
         stage.draw();
-        //startScale = stage.getScale().x;
+        startScale = stage.getScale().x;
     }
 }
 //--------------------------------------------------------------
