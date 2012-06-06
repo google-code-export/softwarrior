@@ -197,26 +197,26 @@ function InitPinchZoomBegin() {
                     listeners : {
                        orientationchange: this.onOrientationChange
                     },
-                    
                      onOrientationChange: function(orientation, w, h){
-                     this.doLayout();
-                     setImage();
-                /*     if(this.orientation == 'portrait') {
-                     alert('portrait');
-                     } else {
-                     alert('landscape');
-                     }*/
-
+                        this.doLayout();
+                        setImage();
+                        /* if(this.orientation == 'portrait') {
+                         alert('portrait');
+                         } else {
+                         alert('landscape');
+                         }*/
                     },
                     afterrender : function (c) {
                     }
-                }); // Ext.Apply
+            }); // Ext.Apply
             extendedPanelType.superclass.constructor.apply(this, arguments);
         }, // Constructor
         onRender : function (ct, position) {
+            console.log("onRender");
             extendedPanelType.superclass.onRender.call(this, ct, position);
         }, 
         afterRender : function () {
+            console.log("afterRender");
             extendedPanelType.superclass.afterRender.call(this);
             this.on('dragend', this.onDragend, this);
             this.mon(
@@ -231,6 +231,7 @@ function InitPinchZoomBegin() {
                 });
         }, 
         onTouchstart : function (event, html, obj) {
+            console.log("onTouchstart");
             //span.innerHTML = "Touch Start";
             //alert(event.target.className);
             // Titlebar == 'x-layout-box-inner x-layout-box'
@@ -260,6 +261,7 @@ function InitPinchZoomBegin() {
             }
         }, 
         addTouchEvents : function () {
+            console.log("addTouchEvents");
             this.mon(
                 this.el, {
                     touchmove : this.onTouchmove, 
@@ -271,6 +273,7 @@ function InitPinchZoomBegin() {
                 });
         }, 
         removeTouchEvents : function () {
+            console.log("removeTouchEvents");
             this.mun(
                 this.el, {
                     touchmove : this.onTouchmove, 
@@ -282,9 +285,11 @@ function InitPinchZoomBegin() {
                 });
         }, 
         onDoubleTap : function (event, html, obj) {
+            console.log("onDoubleTap");
             //span.innerHTML = "Double Tap";
         }, 
         onTouchmove : function (event, html, obj) {
+            console.log("onTouchmove");
             var dx = undefined;
             var dy = undefined;
             
@@ -309,6 +314,7 @@ function InitPinchZoomBegin() {
             }
         }, 
         onTouchend : function (event, html, obj) {
+            console.log("onTouchend");
             offX = stripPX(currentImageObj.style.left);
             offY = stripPX(currentImageObj.style.top);
             /*
@@ -320,6 +326,7 @@ function InitPinchZoomBegin() {
             */
         }, 
         onDragend : function (draggable, event) {
+            console.log("onDragend");
             /*
             span.innerHTML = 
                 'Drag End <br/>' + 
@@ -328,8 +335,10 @@ function InitPinchZoomBegin() {
             */
         }, 
         onPinch : function (e, el, obj) {
+            console.log("onPinch");
         }, 
         onPinchEnd : function (e, el, obj) {
+            console.log("onPinchEnd");
             /*
             span.innerHTML = 
                 'Pinch End<br/>' + 
@@ -341,7 +350,6 @@ function InitPinchZoomBegin() {
             'e.distance: ' + e.distance + '<br>';
             */
             var iScale = parseInt(e.scale);
-
             if (iScale == 0) 
                 treeZoomOut();
             else 
