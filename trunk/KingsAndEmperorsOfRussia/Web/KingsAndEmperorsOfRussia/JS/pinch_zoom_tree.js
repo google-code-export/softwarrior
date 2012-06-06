@@ -214,11 +214,9 @@ function InitPinchZoomBegin() {
             extendedPanelType.superclass.constructor.apply(this, arguments);
         }, // Constructor
         onRender : function (ct, position) {
-            console.log("onRender");
             extendedPanelType.superclass.onRender.call(this, ct, position);
         }, 
         afterRender : function () {
-            console.log("afterRender");
             extendedPanelType.superclass.afterRender.call(this);
             this.on('dragend', this.onDragend, this);
             this.mon(
@@ -233,19 +231,14 @@ function InitPinchZoomBegin() {
                 });
         }, 
         onTouchstart : function (event, html, obj) {
-            console.log("onTouchstart");
-
             //span.innerHTML = "Touch Start";
             //alert(event.target.className);
-            
             // Titlebar == 'x-layout-box-inner x-layout-box'
             // Button = 'x-button x-button-forward x-button-pressed'
             // x-button-label
             // x-buton x-button-back x-button-pressed'
             // zoomIn x-icon-mask
             // zoomOut x-icon-mask
-             
-            
             // if touch on the playground area creat a new box
             if ((event.target.className == 'x-panel-body') || 
                 (event.target.className == '') || 
@@ -265,11 +258,8 @@ function InitPinchZoomBegin() {
                 'offX: ' + offX + ' offY: ' + offY + '<br />';
                 */
             }
-            //stage.touchStart = true;
-            //stage._traverseChildren(layer,event);
         }, 
         addTouchEvents : function () {
-            console.log("addTouchEvents");
             this.mon(
                 this.el, {
                     touchmove : this.onTouchmove, 
@@ -281,7 +271,6 @@ function InitPinchZoomBegin() {
                 });
         }, 
         removeTouchEvents : function () {
-            console.log("removeTouchEvents");
             this.mun(
                 this.el, {
                     touchmove : this.onTouchmove, 
@@ -293,12 +282,9 @@ function InitPinchZoomBegin() {
                 });
         }, 
         onDoubleTap : function (event, html, obj) {
-            console.log("onDoubleTap");
             //span.innerHTML = "Double Tap";
         }, 
         onTouchmove : function (event, html, obj) {
-            console.log("onTouchmove");
-            
             var dx = undefined;
             var dy = undefined;
             
@@ -321,14 +307,8 @@ function InitPinchZoomBegin() {
             if (dx || dy) {
                 setViewportDelta(dx, dy);
             }
-            //stage.touchMove = true;
-            //stage._traverseChildren(layer,event);
-            layer.draw();
-            stage.draw();
         }, 
         onTouchend : function (event, html, obj) {
-            console.log("onTouchend");
-            
             offX = stripPX(currentImageObj.style.left);
             offY = stripPX(currentImageObj.style.top);
             /*
@@ -338,11 +318,8 @@ function InitPinchZoomBegin() {
             'x: ' + event.pageX + ' y: ' + event.pageY + '<br />' + 
             'offX: ' + offX + ' offY: ' + offY + '<br />';
             */
-            //stage.customEvent = true;
-            //stage._traverseChildren(groupArray[1],event);
         }, 
         onDragend : function (draggable, event) {
-            console.log("onDragend");
             /*
             span.innerHTML = 
                 'Drag End <br/>' + 
@@ -351,10 +328,8 @@ function InitPinchZoomBegin() {
             */
         }, 
         onPinch : function (e, el, obj) {
-            console.log("onPinch");
         }, 
         onPinchEnd : function (e, el, obj) {
-            console.log("onPinchEnd");
             /*
             span.innerHTML = 
                 'Pinch End<br/>' + 
