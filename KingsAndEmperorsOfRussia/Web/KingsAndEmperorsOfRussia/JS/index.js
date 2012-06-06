@@ -150,7 +150,7 @@ new Ext.Application({
             handler:function(){
                         var crownInfo = Crown[1][1];
                         mainApp.views.crownPanel.update(crownInfo);
-                        mainApp.views.historyBar.setTitle('<FONT size=4 COLOR=gold>Короны правителей</FONT>');
+                        mainApp.views.historyBar.setTitle('<FONT size=4 COLOR=gold>Короны</FONT>');
                         tapHandler('crown');
                     }
             },
@@ -294,6 +294,7 @@ new Ext.Application({
         //JSBridge.log('tabHandler '+page);
         if (page=="history"){
             mainApp.views.viewport.setActiveItem(mainApp.views.historyPanel,direction);
+            mainApp.views.historyBar.setTitle('');
             JSBridge.log("KingsAndEmperorsOfRussiaHistoryScreen");
         }
         else if (page=="home"){
