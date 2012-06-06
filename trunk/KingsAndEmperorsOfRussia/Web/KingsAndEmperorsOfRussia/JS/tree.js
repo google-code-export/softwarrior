@@ -7,7 +7,7 @@ var treeGroup = null;
 var groupArray = null;
 var offsetXArray = null;
 var startDistance = undefined;
-var startScale = 1;
+//var startScale = 1;
 var DEBUG_TREE = false;
 //----------------------------------------------------------------------
 //--- Functions ---
@@ -70,7 +70,7 @@ function addAnchor(group, x, y, name) {
       update(group, this);
       layer.draw();
     });
-    anchor.on("mousedown touchstart", function() {
+    anchor.on("mousedown touchend", function() {
       group.draggable(false);
       this.moveToTop();
     });
@@ -651,10 +651,9 @@ function initStage(images) {
       height: 35,
       name: "image"
     });
-    
     king001Group.add(king001Img);
     
-    king001Group.on("click touchstart", function() {
+    king001Group.on("click touchend", function() {
         console.log("x=" + king001Group.getX());
         console.log("y=" + king001Group.getY());
         ShowHistory(0);
@@ -672,7 +671,7 @@ function initStage(images) {
     
     king003Group.add(king003Img);
     
-    king003Group.on("click touchstart", function() {
+    king003Group.on("click touchend", function() {
         console.log("x=" + king003Group.getX());
         console.log("y=" + king003Group.getY());
         ShowHistory(2);
@@ -689,7 +688,7 @@ function initStage(images) {
     
     king004Group.add(king004Img);
     
-    king004Group.on("click touchstart", function() {
+    king004Group.on("click touchend", function() {
         console.log("x=" + king004Group.getX());
         console.log("y=" + king004Group.getY());
         ShowHistory(3);
@@ -706,7 +705,7 @@ function initStage(images) {
     
     king005Group.add(king005Img);
     
-    king005Group.on("click touchstart", function() {
+    king005Group.on("click touchend", function() {
         console.log("x=" + king005Group.getX());
         console.log("y=" + king005Group.getY());
         ShowHistory(4);
@@ -723,7 +722,7 @@ function initStage(images) {
     
     king006Group.add(king006Img);
     
-    king006Group.on("click touchstart", function() {
+    king006Group.on("click touchend", function() {
         console.log("x=" + king006Group.getX());
         console.log("y=" + king006Group.getY());
         ShowHistory(5);
@@ -740,7 +739,7 @@ function initStage(images) {
     
     king007Group.add(king007Img);
     
-    king007Group.on("click touchstart", function() {
+    king007Group.on("click touchend", function() {
         console.log("x=" + king007Group.getX());
         console.log("y=" + king007Group.getY());
         ShowHistory(6);
@@ -757,7 +756,7 @@ function initStage(images) {
     
     king008Group.add(king008Img);
     
-    king008Group.on("click touchstart", function() {
+    king008Group.on("click touchend", function() {
         console.log("x=" + king008Group.getX());
         console.log("y=" + king008Group.getY());
         ShowHistory(7);
@@ -774,7 +773,7 @@ function initStage(images) {
     
     king009Group.add(king009Img);
     
-    king009Group.on("click touchstart", function() {
+    king009Group.on("click touchend", function() {
         console.log("x=" + king009Group.getX());
         console.log("y=" + king009Group.getY());
         ShowHistory(8);
@@ -791,7 +790,7 @@ function initStage(images) {
     
     king010Group.add(king010Img);
     
-    king010Group.on("click touchstart", function() {
+    king010Group.on("click touchend", function() {
         console.log("x=" + king010Group.getX());
         console.log("y=" + king010Group.getY());
         ShowHistory(9);
@@ -808,7 +807,7 @@ function initStage(images) {
     
     king011Group.add(king011Img);
     
-    king011Group.on("click touchstart", function() {
+    king011Group.on("click touchend", function() {
         console.log("x=" + king011Group.getX());
         console.log("y=" + king011Group.getY());
         ShowHistory(10);
@@ -825,7 +824,7 @@ function initStage(images) {
     
     king012Group.add(king012Img);
     
-    king012Group.on("click touchstart", function() {
+    king012Group.on("click touchend", function() {
         console.log("x=" + king012Group.getX());
         console.log("y=" + king012Group.getY());
         ShowHistory(11);
@@ -842,7 +841,7 @@ function initStage(images) {
     
     king013Group.add(king013Img);
     
-    king013Group.on("click touchstart", function() {
+    king013Group.on("click touchend", function() {
         console.log("x=" + king013Group.getX());
         console.log("y=" + king013Group.getY());
         ShowHistory(12);
@@ -859,7 +858,7 @@ function initStage(images) {
     
     king014Group.add(king014Img);
     
-    king014Group.on("click touchstart", function() {
+    king014Group.on("click touchend", function() {
         console.log("x=" + king014Group.getX());
         console.log("y=" + king014Group.getY());
         ShowHistory(13);
@@ -876,7 +875,7 @@ function initStage(images) {
     
     king015Group.add(king015Img);
     
-    king015Group.on("click touchstart", function() {
+    king015Group.on("click touchend", function() {
         console.log("x=" + king015Group.getX());
         console.log("y=" + king015Group.getY());
         ShowHistory(14);
@@ -893,7 +892,7 @@ function initStage(images) {
     
     king016Group.add(king016Img);
     
-    king016Group.on("click touchstart", function() {
+    king016Group.on("click touchend", function() {
         console.log("x=" + king016Group.getX());
         console.log("y=" + king016Group.getY());
         ShowHistory(15);
@@ -910,7 +909,7 @@ function initStage(images) {
     
     king018Group.add(king018Img);
     
-    king018Group.on("click touchstart", function() {
+    king018Group.on("click touchend", function() {
         console.log("x=" + king018Group.getX());
         console.log("y=" + king018Group.getY());
         ShowHistory(17);
@@ -927,7 +926,7 @@ function initStage(images) {
     
     king020Group.add(king020Img);
     
-    king020Group.on("click touchstart", function() {
+    king020Group.on("click touchend", function() {
         console.log("x=" + king020Group.getX());
         console.log("y=" + king020Group.getY());
         ShowHistory(19);
@@ -944,7 +943,7 @@ function initStage(images) {
     
     king024Group.add(king024Img);
     
-    king024Group.on("click touchstart", function() {
+    king024Group.on("click touchend", function() {
         console.log("x=" + king024Group.getX());
         console.log("y=" + king024Group.getY());
         ShowHistory(23);
@@ -961,7 +960,7 @@ function initStage(images) {
     
     king025Group.add(king025Img);
     
-    king025Group.on("click touchstart", function() {
+    king025Group.on("click touchend", function() {
         console.log("x=" + king025Group.getX());
         console.log("y=" + king025Group.getY());
         ShowHistory(24);
@@ -978,7 +977,7 @@ function initStage(images) {
     
     king026Group.add(king026Img);
     
-    king026Group.on("click touchstart", function() {
+    king026Group.on("click touchend", function() {
         console.log("x=" + king026Group.getX());
         console.log("y=" + king026Group.getY());
         ShowHistory(25);
@@ -995,7 +994,7 @@ function initStage(images) {
     
     king027Group.add(king027Img);
     
-    king027Group.on("click touchstart", function() {
+    king027Group.on("click touchend", function() {
         console.log("x=" + king027Group.getX());
         console.log("y=" + king027Group.getY());
         ShowHistory(26);
@@ -1012,7 +1011,7 @@ function initStage(images) {
     
     king028Group.add(king028Img);
     
-    king028Group.on("click touchstart", function() {
+    king028Group.on("click touchend", function() {
         console.log("x=" + king028Group.getX());
         console.log("y=" + king028Group.getY());
         ShowHistory(27);
@@ -1029,7 +1028,7 @@ function initStage(images) {
     
     king030Group.add(king030Img);
     
-    king030Group.on("click touchstart", function() {
+    king030Group.on("click touchend", function() {
         console.log("x=" + king030Group.getX());
         console.log("y=" + king030Group.getY());
         ShowHistory(29);
@@ -1046,7 +1045,7 @@ function initStage(images) {
     
     king031Group.add(king031Img);
     
-    king031Group.on("click touchstart", function() {
+    king031Group.on("click touchend", function() {
         console.log("x=" + king031Group.getX());
         console.log("y=" + king031Group.getY());
         ShowHistory(30);
@@ -1063,7 +1062,7 @@ function initStage(images) {
     
     king032Group.add(king032Img);
     
-    king032Group.on("click touchstart", function() {
+    king032Group.on("click touchend", function() {
         console.log("x=" + king032Group.getX());
         console.log("y=" + king032Group.getY());
         ShowHistory(31);
@@ -1080,7 +1079,7 @@ function initStage(images) {
     
     king033Group.add(king033Img);
     
-    king033Group.on("click touchstart", function() {
+    king033Group.on("click touchend", function() {
         console.log("x=" + king033Group.getX());
         console.log("y=" + king033Group.getY());
         ShowHistory(32);
@@ -1097,7 +1096,7 @@ function initStage(images) {
     
     king034Group.add(king034Img);
     
-    king034Group.on("click touchstart", function() {
+    king034Group.on("click touchend", function() {
         console.log("x=" + king034Group.getX());
         console.log("y=" + king034Group.getY());
         ShowHistory(33);
@@ -1114,7 +1113,7 @@ function initStage(images) {
     
     king035Group.add(king035Img);
     
-    king035Group.on("click touchstart", function() {
+    king035Group.on("click touchend", function() {
         console.log("x=" + king035Group.getX());
         console.log("y=" + king035Group.getY());
         ShowHistory(34);
@@ -1131,7 +1130,7 @@ function initStage(images) {
     
     king036Group.add(king036Img);
     
-    king036Group.on("click touchstart", function() {
+    king036Group.on("click touchend", function() {
         console.log("x=" + king036Group.getX());
         console.log("y=" + king036Group.getY());
         ShowHistory(35);
@@ -1148,7 +1147,7 @@ function initStage(images) {
     
     king037Group.add(king037Img);
     
-    king037Group.on("click touchstart", function() {
+    king037Group.on("click touchend", function() {
         console.log("x=" + king037Group.getX());
         console.log("y=" + king037Group.getY());
         ShowHistory(36);
@@ -1165,7 +1164,7 @@ function initStage(images) {
     
     king039Group.add(king039Img);
     
-    king039Group.on("click touchstart", function() {
+    king039Group.on("click touchend", function() {
         console.log("x=" + king039Group.getX());
         console.log("y=" + king039Group.getY());
         ShowHistory(38);
@@ -1182,7 +1181,7 @@ function initStage(images) {
     
     king040Group.add(king040Img);
     
-    king040Group.on("click touchstart", function() {
+    king040Group.on("click touchend", function() {
         console.log("x=" + king040Group.getX());
         console.log("y=" + king040Group.getY());
         ShowHistory(39);
@@ -1199,7 +1198,7 @@ function initStage(images) {
     
     king041Group.add(king041Img);
     
-    king041Group.on("click touchstart", function() {
+    king041Group.on("click touchend", function() {
         console.log("x=" + king041Group.getX());
         console.log("y=" + king041Group.getY());
         ShowHistory(40);
@@ -1216,7 +1215,7 @@ function initStage(images) {
     
     king042Group.add(king042Img);
     
-    king042Group.on("click touchstart", function() {
+    king042Group.on("click touchend", function() {
         console.log("x=" + king042Group.getX());
         console.log("y=" + king042Group.getY());
         ShowHistory(41);
@@ -1233,7 +1232,7 @@ function initStage(images) {
     
     king043Group.add(king043Img);
     
-    king043Group.on("click touchstart", function() {
+    king043Group.on("click touchend", function() {
         console.log("x=" + king043Group.getX());
         console.log("y=" + king043Group.getY());
         ShowHistory(42);
@@ -1250,7 +1249,7 @@ function initStage(images) {
     
     king044Group.add(king044Img);
     
-    king044Group.on("click touchstart", function() {
+    king044Group.on("click touchend", function() {
         console.log("x=" + king044Group.getX());
         console.log("y=" + king044Group.getY());
         ShowHistory(43);
@@ -1267,7 +1266,7 @@ function initStage(images) {
     
     king045Group.add(king045Img);
     
-    king045Group.on("click touchstart", function() {
+    king045Group.on("click touchend", function() {
         console.log("x=" + king045Group.getX());
         console.log("y=" + king045Group.getY());
         ShowHistory(44);
@@ -1284,7 +1283,7 @@ function initStage(images) {
     
     king046Group.add(king046Img);
     
-    king046Group.on("click touchstart", function() {
+    king046Group.on("click touchend", function() {
         console.log("x=" + king046Group.getX());
         console.log("y=" + king046Group.getY());
         ShowHistory(45);
@@ -1301,7 +1300,7 @@ function initStage(images) {
     
     king049Group.add(king049Img);
     
-    king049Group.on("click touchstart", function() {
+    king049Group.on("click touchend", function() {
         console.log("x=" + king049Group.getX());
         console.log("y=" + king049Group.getY());
         ShowHistory(48);
@@ -1318,7 +1317,7 @@ function initStage(images) {
     
     king050Group.add(king050Img);
     
-    king050Group.on("click touchstart", function() {
+    king050Group.on("click touchend", function() {
         console.log("x=" + king050Group.getX());
         console.log("y=" + king050Group.getY());
         ShowHistory(49);
@@ -1335,7 +1334,7 @@ function initStage(images) {
     
     king051Group.add(king051Img);
     
-    king051Group.on("click touchstart", function() {
+    king051Group.on("click touchend", function() {
         console.log("x=" + king051Group.getX());
         console.log("y=" + king051Group.getY());
         ShowHistory(50);
@@ -1352,7 +1351,7 @@ function initStage(images) {
     
     king052Group.add(king052Img);
     
-    king052Group.on("click touchstart", function() {
+    king052Group.on("click touchend", function() {
         console.log("x=" + king052Group.getX());
         console.log("y=" + king052Group.getY());
         ShowHistory(51);
@@ -1369,7 +1368,7 @@ function initStage(images) {
     
     king057Group.add(king057Img);
     
-    king057Group.on("click touchstart", function() {
+    king057Group.on("click touchend", function() {
         console.log("x=" + king057Group.getX());
         console.log("y=" + king057Group.getY());
         ShowHistory(56);
@@ -1386,7 +1385,7 @@ function initStage(images) {
     
     king058Group.add(king058Img);
     
-    king058Group.on("click touchstart", function() {
+    king058Group.on("click touchend", function() {
         console.log("x=" + king058Group.getX());
         console.log("y=" + king058Group.getY());
         ShowHistory(57);
@@ -1403,7 +1402,7 @@ function initStage(images) {
     
     king059Group.add(king059Img);
     
-    king059Group.on("click touchstart", function() {
+    king059Group.on("click touchend", function() {
         console.log("x=" + king059Group.getX());
         console.log("y=" + king059Group.getY());
         ShowHistory(58);
@@ -1420,7 +1419,7 @@ function initStage(images) {
     
     king060Group.add(king060Img);
     
-    king060Group.on("click touchstart", function() {
+    king060Group.on("click touchend", function() {
         console.log("x=" + king060Group.getX());
         console.log("y=" + king060Group.getY());
         ShowHistory(59);
@@ -1437,7 +1436,7 @@ function initStage(images) {
     
     king061Group.add(king061Img);
     
-    king061Group.on("click touchstart", function() {
+    king061Group.on("click touchend", function() {
         console.log("x=" + king061Group.getX());
         console.log("y=" + king061Group.getY());
         ShowHistory(60);
@@ -1454,7 +1453,7 @@ function initStage(images) {
     
     king062Group.add(king062Img);
     
-    king062Group.on("click touchstart", function() {
+    king062Group.on("click touchend", function() {
         console.log("x=" + king062Group.getX());
         console.log("y=" + king062Group.getY());
         ShowHistory(61);
@@ -1471,7 +1470,7 @@ function initStage(images) {
     
     king063Group.add(king063Img);
     
-    king063Group.on("click touchstart", function() {
+    king063Group.on("click touchend", function() {
         console.log("x=" + king063Group.getX());
         console.log("y=" + king063Group.getY());
         ShowHistory(62);
@@ -1488,7 +1487,7 @@ function initStage(images) {
     
     king064Group.add(king064Img);
     
-    king064Group.on("click touchstart", function() {
+    king064Group.on("click touchend", function() {
         console.log("x=" + king064Group.getX());
         console.log("y=" + king064Group.getY());
         ShowHistory(63);
@@ -1506,7 +1505,7 @@ function initStage(images) {
     
     king065Group.add(king065Img);
     
-    king065Group.on("click touchstart", function() {
+    king065Group.on("click touchend", function() {
         console.log("x=" + king065Group.getX());
         console.log("y=" + king065Group.getY());
         ShowHistory(64);
@@ -1523,7 +1522,7 @@ function initStage(images) {
     
     king066Group.add(king066Img);
     
-    king066Group.on("click touchstart", function() {
+    king066Group.on("click touchend", function() {
         console.log("x=" + king066Group.getX());
         console.log("y=" + king066Group.getY());
         ShowHistory(65);
@@ -1540,7 +1539,7 @@ function initStage(images) {
     
     king068Group.add(king068Img);
     
-    king068Group.on("click touchstart", function() {
+    king068Group.on("click touchend", function() {
         console.log("x=" + king068Group.getX());
         console.log("y=" + king068Group.getY());
         ShowHistory(67);
@@ -1557,7 +1556,7 @@ function initStage(images) {
     
     king069Group.add(king069Img);
     
-    king069Group.on("click touchstart", function() {
+    king069Group.on("click touchend", function() {
         console.log("x=" + king069Group.getX());
         console.log("y=" + king069Group.getY());
         ShowHistory(68);
@@ -1574,7 +1573,7 @@ function initStage(images) {
     
     king070Group.add(king070Img);
     
-    king070Group.on("click touchstart", function() {
+    king070Group.on("click touchend", function() {
         console.log("x=" + king070Group.getX());
         console.log("y=" + king070Group.getY());
         ShowHistory(69);
@@ -1591,7 +1590,7 @@ function initStage(images) {
     
     king071Group.add(king071Img);
     
-    king071Group.on("click touchstart", function() {
+    king071Group.on("click touchend", function() {
         console.log("x=" + king071Group.getX());
         console.log("y=" + king071Group.getY());
         ShowHistory(70);
@@ -1608,7 +1607,7 @@ function initStage(images) {
     
     king072Group.add(king072Img);
     
-    king072Group.on("click touchstart", function() {
+    king072Group.on("click touchend", function() {
         console.log("x=" + king072Group.getX());
         console.log("y=" + king072Group.getY());
         ShowHistory(71);
@@ -1625,7 +1624,7 @@ function initStage(images) {
     
     king073Group.add(king073Img);
     
-    king073Group.on("click touchstart", function() {
+    king073Group.on("click touchend", function() {
         console.log("x=" + king073Group.getX());
         console.log("y=" + king073Group.getY());
         ShowHistory(72);
@@ -1642,7 +1641,7 @@ function initStage(images) {
     
     king074Group.add(king074Img);
     
-    king074Group.on("click touchstart", function() {
+    king074Group.on("click touchend", function() {
         console.log("x=" + king074Group.getX());
         console.log("y=" + king074Group.getY());
         ShowHistory(73);
@@ -1659,7 +1658,7 @@ function initStage(images) {
     
     king075Group.add(king075Img);
     
-    king075Group.on("click touchstart", function() {
+    king075Group.on("click touchend", function() {
         console.log("x=" + king075Group.getX());
         console.log("y=" + king075Group.getY());
         ShowHistory(74);
@@ -1684,7 +1683,7 @@ function initStage(images) {
             }
         }
     });
-    stage._onContent("touchend", function(){
+    stage._onContent("click touchend", function(){
         startDistance = undefined;
         startScale = stage.getScale().x;
     });
@@ -1695,61 +1694,59 @@ function initStage(images) {
 //----------------------------------------------------------------------
 function resizeStage() {
     if(stage != null) {
-    if(DEBUG_TREE == false) {
-        stage.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight);
+        if(DEBUG_TREE == false) {
+            stage.setSize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 
-       //var scaleWidth = document.documentElement.clientWidth / 480;
-        var scaleHeight = document.documentElement.clientHeight / 800;
-        //stage.setScale(scaleWidth, scaleHeight);
-        stage.setScale(scaleHeight, scaleHeight);
-
-        var centerX = stage.getWidth() / 2 ;
-        var imageWidth = stage.getHeight() /1.666666;
-        centerX = centerX - imageWidth/2;
-        
-        for (var i = 0; i < groupArray.length; ++i){
-            groupArray[i].setX(centerX+offsetXArray[i]);
+           //var scaleWidth = document.documentElement.clientWidth / 480;
+            var scaleHeight = document.documentElement.clientHeight / 800;
+            //stage.setScale(scaleWidth, scaleHeight);
+            stage.setScale(scaleHeight, scaleHeight);
+            /*
+            var centerX = stage.getWidth() / 2 ;
+            var imageWidth = stage.getHeight() /1.666666;
+            centerX = centerX - imageWidth/2;
+            
+            for (var i = 0; i < groupArray.length; ++i){
+                groupArray[i].setX(centerX+offsetXArray[i]);
+            }
+            */
         }
-    }
         layer.draw();
         stage.draw();
-        
-        startScale = stage.getScale().x;
+        //startScale = stage.getScale().x;
     }
 }
 //--------------------------------
 function ResizeAndScale(zoomInFlag){
-if(DEBUG_TREE == false){
-    var zoom = 20;
-    var zoomWidth = 0;
-    var zoomHeight = 0;
-    if(zoomInFlag == true){
-        zoomWidth = stage.getWidth() + zoom; 
-        zoomHeight = stage.getHeight() + zoom;
-    }
-    else {
-        zoomWidth = stage.getWidth() - zoom; 
-        zoomHeight = stage.getHeight() - zoom;
-    }
+    if(DEBUG_TREE == false){
+        var zoom = 20;
+        var zoomWidth = 0;
+        var zoomHeight = 0;
+        if(zoomInFlag == true){
+            zoomWidth = stage.getWidth() + zoom; 
+            zoomHeight = stage.getHeight() + zoom;
+        }
+        else {
+            zoomWidth = stage.getWidth() - zoom; 
+            zoomHeight = stage.getHeight() - zoom;
+        }
 
-    stage.setSize(zoomWidth,zoomHeight)
-    
-    var scaleHeight = stage.getHeight() / 800;
-    stage.setScale(scaleHeight, scaleHeight);
-
-    var centerX = stage.getWidth() / 2 ;
-    var imageWidth = stage.getHeight() /1.666666;
-    centerX = centerX - imageWidth/2;
-    
-    for (var i = 0; i < groupArray.length; ++i){
-        groupArray[i].setX(centerX+offsetXArray[i]);
+        stage.setSize(zoomWidth,zoomHeight)
+        
+        var scaleHeight = stage.getHeight() / 800;
+        stage.setScale(scaleHeight, scaleHeight);
+        /*
+        var centerX = stage.getWidth() / 2 ;
+        var imageWidth = stage.getHeight() /1.666666;
+        centerX = centerX - imageWidth/2;
+        for (var i = 0; i < groupArray.length; ++i){
+            groupArray[i].setX(centerX+offsetXArray[i]);
+        }
+        */
+        layer.draw();
+        stage.draw();
+        //startScale = stage.getScale().x;
     }
-
-    layer.draw();
-    stage.draw();
-    
-    startScale = stage.getScale().x;
-}
 }
 //--------------------------------------------------------------
 function initTree(){
@@ -1834,6 +1831,8 @@ function initTree(){
             king075: "IMG/075_tree.png"
         };
         loadImages(sources, initStage);
+        
+        resizeStage();
         //------------------------------
         /*
         var zoom_buttons = document.getElementById('zoom_buttons');

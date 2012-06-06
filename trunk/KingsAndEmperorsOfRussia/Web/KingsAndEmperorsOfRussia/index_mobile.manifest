@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#rev1
+#rev_1_0_0_1
 
 index_mobile.html
 index_mobile_check.html
@@ -8,8 +8,9 @@ CSS/custom.css
 CSS/sencha-touch.css
 
 JS/kinetic.js
-JS/phonegap.js
 JS/sencha-touch.js
+
+JS/phonegap.js
 JS/simfla.ux.plugins.linkButton.js
 
 JS/variables.js
@@ -32,8 +33,6 @@ JS/index.js
 
 IMG/AppIcon.png
 IMG/BkGrnd.png
-IMG/empty_image.png
-IMG/facebook26.png
 IMG/ic_menu_crown.png
 IMG/ic_menu_gallery.png
 IMG/ic_menu_info_details.png
@@ -45,12 +44,8 @@ IMG/ic_tab_flag.png
 IMG/ic_tab_history.png
 IMG/ic_tab_hymn.png
 IMG/ic_tab_tree.png
-IMG/loading.gif
-IMG/mailru-share-26.png
-IMG/no_image.jpg
 IMG/tree.png
-IMG/twitter26.png
-IMG/vk26.png
+IMG/empty_image.png
 IMG/zoom_in.png
 IMG/zoom_out.png
 

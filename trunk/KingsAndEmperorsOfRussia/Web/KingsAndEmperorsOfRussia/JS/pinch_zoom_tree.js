@@ -211,15 +211,15 @@ function InitPinchZoomBegin() {
                     afterrender : function (c) {
                     }
                 }); // Ext.Apply
-            
             extendedPanelType.superclass.constructor.apply(this, arguments);
         }, // Constructor
         onRender : function (ct, position) {
+            console.log("onRender");
             extendedPanelType.superclass.onRender.call(this, ct, position);
         }, 
         afterRender : function () {
+            console.log("afterRender");
             extendedPanelType.superclass.afterRender.call(this);
-            
             this.on('dragend', this.onDragend, this);
             this.mon(
                 this.el, {
@@ -228,13 +228,14 @@ function InitPinchZoomBegin() {
                     touchstart : this.onTouchstart, 
                     touchend : this.onTouchend, 
                     pinch : this.onPinch, 
-                     pinchend : this.onPinchEnd, 
+                    pinchend : this.onPinchEnd, 
                     scope : this
                 });
         }, 
         onTouchstart : function (event, html, obj) {
-            
-            span.innerHTML = "Touch Start";
+            console.log("onTouchstart");
+
+            //span.innerHTML = "Touch Start";
             //alert(event.target.className);
             
             // Titlebar == 'x-layout-box-inner x-layout-box'
@@ -246,8 +247,7 @@ function InitPinchZoomBegin() {
              
             
             // if touch on the playground area creat a new box
-            if (
-                (event.target.className == 'x-panel-body') || 
+            if ((event.target.className == 'x-panel-body') || 
                 (event.target.className == '') || 
                 (event.target.className == undefined) || 
                 (event.target.className == 'imageScale')||
@@ -257,15 +257,19 @@ function InitPinchZoomBegin() {
                 offY = stripPX(currentImageObj.style.top);
                 startX = undefined;
                 startY = undefined;
-                
+                /*
                 span.innerHTML = 
                     'Touch Start <br/>' + 
                     'w: ' + this.getWidth() + ' h: ' + this.getHeight() + '<br />' + 
                 'x: ' + event.pageX + ' y: ' + event.pageY + '<br />';
                 'offX: ' + offX + ' offY: ' + offY + '<br />';
+                */
             }
+            //stage.touchStart = true;
+            //stage._traverseChildren(layer,event);
         }, 
         addTouchEvents : function () {
+            console.log("addTouchEvents");
             this.mon(
                 this.el, {
                     touchmove : this.onTouchmove, 
@@ -277,6 +281,7 @@ function InitPinchZoomBegin() {
                 });
         }, 
         removeTouchEvents : function () {
+            console.log("removeTouchEvents");
             this.mun(
                 this.el, {
                     touchmove : this.onTouchmove, 
@@ -288,9 +293,12 @@ function InitPinchZoomBegin() {
                 });
         }, 
         onDoubleTap : function (event, html, obj) {
-            span.innerHTML = "Double Tap";
+            console.log("onDoubleTap");
+            //span.innerHTML = "Double Tap";
         }, 
         onTouchmove : function (event, html, obj) {
+            console.log("onTouchmove");
+            
             var dx = undefined;
             var dy = undefined;
             
@@ -303,38 +311,51 @@ function InitPinchZoomBegin() {
                 startY = event.pageY;
             else 
                 dy = startY - event.pageY;
-
+            /*
             span.innerHTML = 
                 'Touch Move <br/>' + 
                 'w: ' + this.getWidth() + ' h: ' + this.getHeight() + '<br />' + 
             'x: ' + event.pageX + ' y: ' + event.pageY + '<br />' + 
             'dx:  ' + dx + 'dy: ' + dy + '<br/>';
+            */
             if (dx || dy) {
                 setViewportDelta(dx, dy);
             }
-
+            //stage.touchMove = true;
+            //stage._traverseChildren(layer,event);
+            layer.draw();
+            stage.draw();
         }, 
         onTouchend : function (event, html, obj) {
+            console.log("onTouchend");
+            
             offX = stripPX(currentImageObj.style.left);
             offY = stripPX(currentImageObj.style.top);
-            
+            /*
             span.innerHTML = 
                 'Touch End <br/>' + 
                 'w: ' + this.getWidth() + ' h: ' + this.getHeight() + '<br />' + 
             'x: ' + event.pageX + ' y: ' + event.pageY + '<br />' + 
             'offX: ' + offX + ' offY: ' + offY + '<br />';
-            
+            */
+            //stage.customEvent = true;
+            //stage._traverseChildren(groupArray[1],event);
         }, 
         onDragend : function (draggable, event) {
+            console.log("onDragend");
+            /*
             span.innerHTML = 
                 'Drag End <br/>' + 
                 'w: ' + this.getWidth() + ' h: ' + this.getHeight() + '<br />' + 
             'x: ' + event.pageX + ' y: ' + event.pageY + '<br />';
+            */
         }, 
-         
         onPinch : function (e, el, obj) {
+            console.log("onPinch");
         }, 
         onPinchEnd : function (e, el, obj) {
+            console.log("onPinchEnd");
+            /*
             span.innerHTML = 
                 'Pinch End<br/>' + 
                 'w: ' + this.getWidth() + ' h: ' + this.getHeight() + '<br />' + 
@@ -343,9 +364,9 @@ function InitPinchZoomBegin() {
             'e.deltaScale: ' + e.deltaScale + '<br>' + 
             'e.previousScale: ' + e.previousScale + '<br>' + 
             'e.distance: ' + e.distance + '<br>';
-
+            */
             var iScale = parseInt(e.scale);
-            
+
             if (iScale == 0) 
                 treeZoomOut();
             else 
@@ -359,4 +380,5 @@ function InitPinchZoomEnd(){
     for (counter = 0; counter < image_array.length; counter++) {
         cacheImage(image_array[counter], counter);
     }
-} 
+}
+//----------------------------------------------------------------------
