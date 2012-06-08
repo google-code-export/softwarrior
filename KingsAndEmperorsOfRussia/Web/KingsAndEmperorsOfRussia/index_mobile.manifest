@@ -28,7 +28,6 @@ JS/infoFlag.js
 JS/infoHymn.js
 JS/infoTree.js
 JS/tree.js
-JS/pinch_zoom_tree.js
 JS/index.js
 
 IMG/AppIcon.png
@@ -48,6 +47,7 @@ IMG/tree_full.png
 IMG/empty_image.png
 IMG/zoom_in.png
 IMG/zoom_out.png
+IMG/zoom_default.png
 
 IMG/001_icon.png
 IMG/002_icon.png

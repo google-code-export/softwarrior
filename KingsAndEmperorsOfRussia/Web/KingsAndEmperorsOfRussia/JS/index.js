@@ -9,10 +9,9 @@ var regExp = new RegExp("<(\"[^\"]*\"|'[^']*'|[^'\">])*>", "g");
 var JSBridge;
 var ApplicationAddonUrl = 'https://market.android.com/details?id=com.softwarrior.KingsAndEmperorsOfRussia.noads';
 var ApplicationUrl = 'https://market.android.com/details?id=com.softwarrior.KingsAndEmperorsOfRussia';
-var extendedPanel;
-var extendedPanelType;
 var treeZoomIn;
 var treeZoomOut;
+var treeZoomDefault;
 ///////////////////////////////////////////////////////////////////////////////
 //Functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -52,11 +51,7 @@ var historyPanelTemplate = new Ext.XTemplate(
     '<p>{description}</p></div>'
 );
 var treePanelTemplate = new Ext.XTemplate(
-    '<div id="span" class="spanInfo"></div>',
-    '<div id="imageScale" class="viewport">',
-        '<div id="container" class="clipped"></div>',
-    '</div>',
-    '<div id="zoom_buttons"></div>'
+    '<div id="container" class="clipped"></div>'
 );
 var armsPanelTemplate = new Ext.XTemplate(
     '<div class="description">',
@@ -556,8 +551,7 @@ new Ext.Application({
         }]
     });
     //----------------------------------------------
-    InitPinchZoomBegin();
-    mainApp.views.treeTabPanel = new extendedPanelType ({
+    mainApp.views.treeTabPanel = new Ext.Panel ({
         id:'treeTabPanel',
         //xtype: 'panel',
         //fullscreen: true,
@@ -574,20 +568,28 @@ new Ext.Application({
             layout : {
                 pack : 'center'
             }, 
-            items : [{
+            items : [
+                {
                     iconMask : true, 
                     ui : "plain", 
                     iconCls : 'zoomIn', 
                     handler : treeZoomIn
-                }, {
+                }, 
+                {
                     iconMask : true, 
                     ui : "plain", 
                     iconCls : 'zoomOut', 
                     handler : treeZoomOut
-           }]
+                },
+                {
+                    iconMask : true, 
+                    ui : "plain", 
+                    iconCls : 'zoomDefault', 
+                    handler : treeZoomDefault
+                }
+            ]
         }]
     });
-    extendedPanel = mainApp.views.treeTabPanel;
     //----------------------------------------------
     mainApp.views.armsTabPanel = new Ext.Panel ({
           id:'armsTabPanel',
@@ -693,7 +695,6 @@ new Ext.Application({
         ShowContentByIndex(1,1);
         mainApp.views.mainTab.doLayout();
         JSBridge.log("KingsAndEmperorsOfRussiaMainScreen");
-        InitPinchZoomEnd();
         initTree();
     }
     catch(err){
