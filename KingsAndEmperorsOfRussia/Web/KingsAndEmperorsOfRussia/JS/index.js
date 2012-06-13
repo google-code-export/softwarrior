@@ -93,7 +93,9 @@ new Ext.Application({
         var result = new Array();
         var index = 0;
         for (var i = 1; i < tempHistoryArray.length; ++i){
-              if(tempHistoryArray[i].ver == 'free'){
+              if(tempHistoryArray != null && 
+                 tempHistoryArray[i] != null && 
+                 tempHistoryArray[i].ver == 'free'){
                   currentHistoryArray[index++] = tempHistoryArray[i];
               }
         }
@@ -464,7 +466,19 @@ new Ext.Application({
         {
             html:"<div>\
             <p><img class='app_icon_img' src='IMG/AppIcon.png'/></p>\
-            <p>Приложение «Цари и императоры России» создано на основе контента, собранного из открытых источников интернета.</p>\
+            <p>Приложение «Цари и императоры России» создано на основе контента, собранного из открытых источников интернета:</p>\
+            <p><a href='http://ru.wikipedia.org'>http://ru.wikipedia.org</a></p>\
+            <p><a href='http://www.krugosvet.ru'>http://www.krugosvet.ru</a></p>\
+            <p><a href='http://www.calend.ru'>http://www.calend.ru</a></p>\
+            <p><a href='http://www.rulex.ru'>http://www.rulex.ru</a></p>\
+            <p><a href='http://www.lawtoday.ru'>http://www.lawtoday.ru</a></p>\
+            <p><a href='http://www.kremlion.ru'>http://www.kremlion.ru</a></p>\
+            <p><a href='http://www.istorik.ru'>http://www.istorik.ru</a></p>\
+            <p><a href='http://www.rusizn.ru'>http://www.rusizn.ru</a></p>\
+            <p><a href='http://www.hronos.ru'>http://www.hronos.ru</a></p>\
+            <p><a href='http://www.drevo-info.ru'>http://www.drevo-info.ru</a></p>\
+            <p><a href='http://www.bibliotekar.ru'>http://www.bibliotekar.ru</a></p>\
+            <p><a href='http://www.allmonarchs.net'>http://www.allmonarchs.net</a></p>\
             <p>Приложение распространяется под лицензией GNU General Public License версии 2. Подробно с GPL версии 2, вы можете ознакомиться на сайте:</p>\
             <p><a href='http://www.gnu.org/licenses'>http://www.gnu.org/licenses</a></p>\
             </div>"
