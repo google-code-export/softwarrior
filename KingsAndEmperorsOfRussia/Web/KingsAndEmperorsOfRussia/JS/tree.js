@@ -2,7 +2,10 @@
 //--- Variables ---
 //----------------------------------------------------------------------
 var stage = null;
-var currentScale = 1.0
+var currentScale = 1.0;
+var imageDraggable = false;
+var treeGroupDraggable = true;
+var strokeColor = "green";
 //----------------------------------------------------------------------
 //--- Functions ---
 //----------------------------------------------------------------------
@@ -28,34 +31,39 @@ function loadImages(sources, callback) {
 function addHandle(img, id) {
     var layer = img.getLayer();
     img.on("dragmove", function() {
-        console.log("dragmove");
+        //console.log("dragmove");
         //update(img,this);
         layer.draw();
     });
     img.on("dragend", function() {
-        console.log("dragend");
+        //console.log("dragend");
         layer.draw();
     });
     img.on("dragstart", function() {
-        console.log("dragstart");
+        //console.log("dragstart");
         this.moveToTop();
     });
     img.on("mouseover", function() {
-        console.log("mouseover");
+        //console.log("mouseover");
         document.body.style.cursor = "pointer";
         layer.draw();
     });
     img.on("mouseout", function() {
-        console.log("mouseout");
+        //console.log("mouseout");
         document.body.style.cursor = "default";
         layer.draw();
     });
     img.on("mousedown touchstart", function() {
-        console.log("mousedown touchstart");
+        //console.log("mousedown touchstart");
         this.moveToTop();
     });
     img.on("click touchend", function() {
-        console.log("click touchend");
+        if(imageDraggable == true){
+            console.log("x=" + img.getX());
+            console.log("y=" + img.getY());
+            console.log("id=" + id);
+        }
+        //console.log("click touchend");
         ShowHistory(id);
     });
 }
@@ -153,7 +161,7 @@ function initStage(images) {
     var treeGroup = new Kinetic.Group({
         x: 0,
         y: 0,
-        draggable: true,
+        draggable: treeGroupDraggable,
         name: "treeGroup"
     });
     //---------------------------------
@@ -175,480 +183,648 @@ function initStage(images) {
         x: 18+147.93,
         y: 18+428.62,
         radius: 18,
-        stroke: "green",
+        stroke: strokeColor,
         name: "circle",
+        draggable: imageDraggable,
         strokeWidth: 1
     });
     var king003Img = new Kinetic.Circle({
       x: 18+135.51,
       y: 18+473.35,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king004Img = new Kinetic.Circle({
       x: 18+90,
       y: 18+495,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king005Img = new Kinetic.Circle({
       x: 18+43,
       y: 18+471,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king006Img = new Kinetic.Circle({
       x: 18+77,
       y: 18+442,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king007Img = new Kinetic.Circle({
       x: 18+35,
       y: 18+425,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king008Img = new Kinetic.Circle({
       x: 18+111,
       y: 18+417,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king009Img = new Kinetic.Circle({
       x: 18+52,
       y: 18+382,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king010Img = new Kinetic.Circle({
       x: 18+96,
       y: 18+377,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king011Img = new Kinetic.Circle({
       x: 18+64,
       y: 18+339,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king012Img = new Kinetic.Circle({
       x: 18+145,
       y: 18+378,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king013Img = new Kinetic.Circle({
       x: 18+73,
       y: 18+298,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king014Img = new Kinetic.Circle({
       x: 18+121,
       y: 18+301,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king015Img = new Kinetic.Circle({
       x: 18+100,
       y: 18+336,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king016Img = new Kinetic.Circle({
       x: 18+26,
       y: 18+257,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king018Img = new Kinetic.Circle({
       x: 18+154,
       y: 18+331,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king020Img = new Kinetic.Circle({
       x: 18+76,
       y: 18+252,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king024Img = new Kinetic.Circle({
       x: 18+121,
       y: 18+261,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king025Img = new Kinetic.Circle({
       x: 18+46,
       y: 18+221,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king026Img = new Kinetic.Circle({
       x: 18+158,
       y: 18+284,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king027Img = new Kinetic.Circle({
       x: 18+163,
       y: 18+246,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king028Img = new Kinetic.Circle({
       x: 18+106,
       y: 18+218,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king030Img = new Kinetic.Circle({
       x: 18+134,
       y: 18+179,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king031Img = new Kinetic.Circle({
       x: 18+99,
       y: 18+166,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king032Img = new Kinetic.Circle({
       x: 18+150,
       y: 18+211,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king033Img = new Kinetic.Circle({
       x: 18+73,
       y: 18+194,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king034Img = new Kinetic.Circle({
       x: 18+91,
       y: 18+124,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king035Img = new Kinetic.Circle({
       x: 18+136,
       y: 18+143,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king036Img = new Kinetic.Circle({
       x: 18+181,
       y: 18+183,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king037Img = new Kinetic.Circle({
       x: 18+179,
       y: 18+98,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king039Img = new Kinetic.Circle({
       x: 18+199,
       y: 18+220,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king040Img = new Kinetic.Circle({
       x: 18+157,
       y: 18+64,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king041Img = new Kinetic.Circle({
       x: 18+117,
       y: 18+76,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king042Img = new Kinetic.Circle({
       x: 18+200,
       y: 18+55,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king043Img = new Kinetic.Circle({
       x: 18+240,
       y: 18+153,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king044Img = new Kinetic.Circle({
       x: 18+243,
       y: 18+44,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king045Img = new Kinetic.Circle({
       x: 18+240,
       y: 18+86,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king046Img = new Kinetic.Circle({
-      x: 18+277,
-      y: 18+59,
+      x: 296.00,
+      y: 75.84,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king049Img = new Kinetic.Circle({
-      x: 18+323,
-      y: 18+86,
+      x: 340.09,
+      y: 103.09,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king050Img = new Kinetic.Circle({
       x: 18+283,
       y: 18+99,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king051Img = new Kinetic.Circle({
       x: 18+286,
       y: 18+144,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king052Img = new Kinetic.Circle({
-      x: 18+328,
-      y: 18+130,
+      x: 346.90,
+      y: 147.09,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king057Img = new Kinetic.Circle({
       x: 18+282,
       y: 18+497,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king058Img = new Kinetic.Circle({
       x: 18+309,
       y: 18+452,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king059Img = new Kinetic.Circle({
       x: 18+261,
       y: 18+432,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king060Img = new Kinetic.Circle({
       x: 18+294,
       y: 18+363,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king061Img = new Kinetic.Circle({
       x: 18+348,
       y: 18+417,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king062Img = new Kinetic.Circle({
       x: 18+395,
       y: 18+423,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king063Img = new Kinetic.Circle({
       x: 18+391,
       y: 18+374,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king064Img = new Kinetic.Circle({
       x: 18+336,
       y: 18+500,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king065Img = new Kinetic.Circle({
-      x: 18+249,
-      y: 18+382,
+      x: 267,
+      y: 399.09,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king066Img = new Kinetic.Circle({
       x: 18+245,
       y: 18+274,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king068Img = new Kinetic.Circle({
       x: 18+379,
       y: 18+303,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king069Img = new Kinetic.Circle({
       x: 18+332,
       y: 18+318,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king070Img = new Kinetic.Circle({
       x: 18+354,
       y: 18+265,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king071Img = new Kinetic.Circle({
       x: 18+318,
       y: 18+242,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king072Img = new Kinetic.Circle({
       x: 18+400,
       y: 18+256,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king073Img = new Kinetic.Circle({
       x: 18+385,
       y: 18+211,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king074Img = new Kinetic.Circle({
       x: 18+343,
       y: 18+195,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     var king075Img = new Kinetic.Circle({
       x: 18+299,
       y: 18+200,
       radius: 18,
-      stroke: "green",
+      stroke: strokeColor,
       name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king101Img = new Kinetic.Circle({
+      x: 42.39,
+      y: 361.90,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king102Img = new Kinetic.Circle({
+      x: 43.60,
+      y: 320.43,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king103Img = new Kinetic.Circle({
+      x: 188.67,
+      y: 166.07,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king104Img = new Kinetic.Circle({
+      x: 221.60,
+      y: 144.12,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king105Img = new Kinetic.Circle({
+      x: 152.14,
+      y: 125.31,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king106Img = new Kinetic.Circle({
+      x: 322.87,
+      y: 427.75,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king107Img = new Kinetic.Circle({
+      x: 370.43,
+      y: 472.87,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king108Img = new Kinetic.Circle({
+      x: 431.41,
+      y: 485.07,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king109Img = new Kinetic.Circle({
+      x: 396.04,
+      y: 509.46,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king110Img = new Kinetic.Circle({
+      x: 428.97,
+      y: 352.14,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king111Img = new Kinetic.Circle({
+      x: 293.60,
+      y: 341.17,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
+      strokeWidth: 1
+    });
+    var king112Img = new Kinetic.Circle({
+      x: 311.90,
+      y: 293.60,
+      radius: 18,
+      stroke: strokeColor,
+      name: "circle",
+      draggable: imageDraggable,
       strokeWidth: 1
     });
     //---------------------------------
@@ -713,6 +889,18 @@ function initStage(images) {
     treeGroup.add(king073Img);
     treeGroup.add(king074Img);
     treeGroup.add(king075Img);
+    treeGroup.add(king101Img);
+    treeGroup.add(king102Img);
+    treeGroup.add(king103Img);
+    treeGroup.add(king104Img);
+    treeGroup.add(king105Img);
+    treeGroup.add(king106Img);
+    treeGroup.add(king107Img);
+    treeGroup.add(king108Img);
+    treeGroup.add(king109Img);
+    treeGroup.add(king110Img);
+    treeGroup.add(king111Img);
+    treeGroup.add(king112Img);
     //---------------------------------
     //addAnchor(treeGroup, 0, 0, "topLeft");
     //addAnchor(treeGroup, 480, 0, "topRight");
@@ -783,6 +971,18 @@ function initStage(images) {
     addHandle(king073Img,72);
     addHandle(king074Img,73);
     addHandle(king075Img,74);
+    addHandle(king101Img,75);
+    addHandle(king102Img,76);
+    addHandle(king103Img,77);
+    addHandle(king104Img,78);
+    addHandle(king105Img,79);
+    addHandle(king106Img,80);
+    addHandle(king107Img,81);
+    addHandle(king108Img,82);
+    addHandle(king109Img,83);
+    addHandle(king110Img,84);
+    addHandle(king111Img,85);
+    addHandle(king112Img,86);
     //-------------------------
     resizeStage();
 }

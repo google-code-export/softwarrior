@@ -567,12 +567,12 @@ new Ext.Application({
     //----------------------------------------------
     mainApp.views.treeTabPanel = new Ext.Panel ({
         id:'treeTabPanel',
-        //xtype: 'panel',
-        //fullscreen: true,
+        //xtype: 'panel',//
+        //fullscreen: true,//
         cardSwitchAnimation:'slide',
         title:'Генеалогическое <br> древо',
         iconCls:'tab_tree',
-        //layout: 'card',
+        //layout: 'card',//
         cls: 'detailsPanel',
         scroll: 'false',
         tpl:treePanelTemplate,
