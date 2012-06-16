@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#rev_1_0_0_2
+#rev_1_0_0_3
 
 index_mobile.html
 index_mobile_check.html
@@ -44,7 +44,7 @@ IMG/ic_tab_flag.png
 IMG/ic_tab_history.png
 IMG/ic_tab_hymn.png
 IMG/ic_tab_tree.png
-IMG/tree_full.png
+IMG/tree.png
 IMG/empty_image.png
 IMG/zoom_in.png
 IMG/zoom_out.png
