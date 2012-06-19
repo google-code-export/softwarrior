@@ -1,1 +1,1 @@
-adb install -r "D:/ANDROID/FreeAlmanac/release/FreeAlmanac_1_3_3_12.apk"
+adb install -r "D:/SOFTWARRIOR/KingsAndEmperorsOfRussia/Android/KingsAndEmperorsOfRussia/release/KingsAndEmperorsOfRussia_1_0_0_0.apk"
