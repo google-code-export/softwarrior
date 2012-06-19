@@ -3,8 +3,8 @@
       package="com.softwarrior.kingsandemperorsofrussia"
       android:sharedUserId="com.softwarrior.kingsandemperorsofrussia"
       android:installLocation="auto" 
-      android:versionName="1.0.0.2"
-      android:versionCode="3">
+      android:versionName="1.0.0.0"
+      android:versionCode="1">
     <uses-sdk android:minSdkVersion="8"/>    
     <uses-permission android:name="android.permission.INTERNET" />  
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />              
