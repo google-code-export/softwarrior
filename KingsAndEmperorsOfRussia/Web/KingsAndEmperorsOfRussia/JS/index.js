@@ -547,7 +547,7 @@ new Ext.Application({
         id:'historyTabPanel',
         fullscreen: true,
         cardSwitchAnimation:'slide',
-        title:'Список по датам <br> правления',
+        title:'Даты <br> правления',
         iconCls:'tab_history',
         layout: 'fit',
         scroll: 'vertical',
@@ -570,7 +570,7 @@ new Ext.Application({
         //xtype: 'panel',//
         //fullscreen: true,//
         cardSwitchAnimation:'slide',
-        title:'Генеалогическое <br> древо',
+        title:'Генеал-кое <br> древо',
         iconCls:'tab_tree',
         //layout: 'card',//
         cls: 'detailsPanel',
