@@ -1044,7 +1044,7 @@ function initTree(){
 //window.onload = function() {
     if(stage == null){
         var sources = {
-            tree: "IMG/tree.png"
+            tree: "IMG/tree.gif"
         };
         loadImages(sources, initStage);
         resizeStage();

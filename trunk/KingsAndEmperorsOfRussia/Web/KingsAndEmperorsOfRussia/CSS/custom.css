@@ -1,33 +1,33 @@
 @charset "UTF-8";
 body {
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 body > * {
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
-.x-tab img.tab_flag,.x-button img.x-icon-mask.tab_flag{-webkit-mask-image:url(../IMG/ic_tab_flag.png)}
-.x-tab img.tab_hymn,.x-button img.x-icon-mask.tab_hymn{-webkit-mask-image:url(../IMG/ic_tab_hymn.png)}
-.x-tab img.tab_arms,.x-button img.x-icon-mask.tab_arms{-webkit-mask-image:url(../IMG/ic_tab_arms.png)}
-.x-tab img.tab_tree,.x-button img.x-icon-mask.tab_tree{-webkit-mask-image:url(../IMG/ic_tab_tree.png)}
-.x-tab img.tab_history,.x-button img.x-icon-mask.tab_history{-webkit-mask-image:url(../IMG/ic_tab_history.png)}
-.x-tab img.heart_circle,.x-button img.x-icon-mask.heart_circle{-webkit-mask-image:url(../IMG/ic_menu_send.png)}
-.x-tab img.info_heart,.x-button img.x-icon-mask.info_heart{-webkit-mask-image:url(../IMG/ic_menu_info_details.png)}
-.x-tab img.warning_black,.x-button img.x-icon-mask.warning_black{-webkit-mask-image:url(../IMG/ic_menu_notifications.png)}
-.x-tab img.mail,.x-button img.x-icon-mask.mail{-webkit-mask-image:url(../IMG/ic_menu_send.png)}
-.x-tab img.info_crown,.x-button img.x-icon-mask.info_crown{-webkit-mask-image:url(../IMG/ic_menu_crown.png)}
+.x-tab img.tab_flag,.x-button img.x-icon-mask.tab_flag{-webkit-mask-image:url(../IMG/ic_tab_flag.gif)}
+.x-tab img.tab_hymn,.x-button img.x-icon-mask.tab_hymn{-webkit-mask-image:url(../IMG/ic_tab_hymn.gif)}
+.x-tab img.tab_arms,.x-button img.x-icon-mask.tab_arms{-webkit-mask-image:url(../IMG/ic_tab_arms.gif)}
+.x-tab img.tab_tree,.x-button img.x-icon-mask.tab_tree{-webkit-mask-image:url(../IMG/ic_tab_tree.gif)}
+.x-tab img.tab_history,.x-button img.x-icon-mask.tab_history{-webkit-mask-image:url(../IMG/ic_tab_history.gif)}
+.x-tab img.heart_circle,.x-button img.x-icon-mask.heart_circle{-webkit-mask-image:url(../IMG/ic_menu_send.gif)}
+.x-tab img.info_heart,.x-button img.x-icon-mask.info_heart{-webkit-mask-image:url(../IMG/ic_menu_info_details.gif)}
+.x-tab img.warning_black,.x-button img.x-icon-mask.warning_black{-webkit-mask-image:url(../IMG/ic_menu_notifications.gif)}
+.x-tab img.mail,.x-button img.x-icon-mask.mail{-webkit-mask-image:url(../IMG/ic_menu_send.gif)}
+.x-tab img.info_crown,.x-button img.x-icon-mask.info_crown{-webkit-mask-image:url(../IMG/ic_menu_crown.gif)}
 
 .zoomIn {
-    background-image:url(../IMG/zoom_in.png) !important;
+    background-image:url(../IMG/zoom_in.gif) !important;
  }
 .zoomOut {
-    background-image:url(../IMG/zoom_out.png) !important;
+    background-image:url(../IMG/zoom_out.gif) !important;
 }
 .zoomDefault {
-    background-image:url(../IMG/zoom_default.png) !important;
+    background-image:url(../IMG/zoom_default.gif) !important;
 }
 div.viewport {
     overflow: hidden:
@@ -155,7 +155,6 @@ canvas {
     position: relative;
     top: 1px;
 }
-
 /* gray */
 .gray {
     color: #e9e9e9;
@@ -199,7 +198,6 @@ canvas {
     background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
 }
-
 .app_icon_img{
     display:block;
     margin-top:15px;
@@ -208,7 +206,7 @@ canvas {
 }
 .feedback_panel img{
     width:auto; 
-    height:26%;
+    /*height:26%;*/
     max-height:80px;
 }
 .feedback_panel p{
@@ -240,9 +238,8 @@ canvas {
     color:#FFF;
 }
 .feedback_panel{
-    background: rgb(0,0,0);
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd_d.gif);
     background-repeat: x-repeat;
 }
 .like_button{
@@ -292,27 +289,27 @@ canvas {
 }
 .birthdayCarousel{
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .churchCarousel{
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .folkCarousel{
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .holidayCarousel{
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .historyTabPanel{
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .caption{
@@ -327,7 +324,7 @@ canvas {
 }
 .historyCarousel{
     position:absolute;
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .historyCarousel div.selection{
@@ -382,7 +379,7 @@ canvas {
     margin: -10px;
 }
 .addonPanel {
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .addonPanel h1{
@@ -399,11 +396,11 @@ canvas {
     margin-right:15px;
 }
 .detailsPanel {
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
 .mainTabPanel {
-    background-image: url(../IMG/BkGrnd.png);
+    background-image: url(../IMG/BkGrnd.gif);
     background-color: red;
 }
 .description{
@@ -485,7 +482,7 @@ ul li {
 }
 .toolbar {
     height: 45px;
-    background: url(../IMG/toolbar.png) #6d84a2 repeat-x;
+    background: url(../IMG/toolbar.gif) #6d84a2 repeat-x;
 }
 .toolbar > h1.ui-title {
     font-weight: normal;
