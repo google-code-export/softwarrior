@@ -42,7 +42,7 @@ function ShowHistory(index) {
 ///////////////////////////////////////////////////////////////////////////////  
 var historyListTemplate = new Ext.XTemplate(
     '<div class="caption">',
-    '<img hspace="10" align="left" src="IMG/{icon}.png" /><span class="caption"><b>{title}</b><br><span style="color: red">{comment}</span>{day}<span></div>'
+    '<img hspace="10" align="left" src="IMG/{icon}.gif" /><span class="caption"><b>{title}</b><br><span style="color: red">{comment}</span>{day}<span></div>'
 );
 var historyPanelTemplate = new Ext.XTemplate(
     '<div class="description">',
@@ -165,49 +165,6 @@ new Ext.Application({
     });
     mainApp.views.toolBar.setTitle('<FONT size=4 COLOR=gold>Цари и императоры России</FONT>');
     //----------------------------------------------
-    /*
-    mainApp.views.sbuttonToolBar = new Ext.Toolbar({
-        dock:'bottom',
-        ui:'light',
-        items:[
-            {xtype:'spacer'},
-            {
-                icon:'IMG/vk26.png',
-                ui:'plain',
-                iconMask:true,
-                handler:function(){
-                    window.location = "http://vkontakte.ru/share.php?url=" + url + "&title=" + currentHistory.header + "&description=" + currentHistory.description.replace(regExp, "");
-                }
-            },
-            {
-                icon:'IMG/facebook26.png',
-                ui:'plain',
-                iconMask:true,
-                handler:function(){
-                    window.location = "http://www.facebook.com/sharer.php?u=" + url + "&t=" + currentHistory.header;
-                }
-            },
-            {
-                icon:'IMG/twitter26.png',
-                ui:'plain',
-                iconMask:true,
-                handler:function(){
-                    window.location = "https://twitter.com/share?url=" + url + "&text=" + currentHistory.header;
-                }
-            },
-            {
-                icon:'IMG/mailru-share-26.png',
-                ui:'plain',
-                iconMask:true,
-                handler:function(){
-                    window.location = "http://connect.mail.ru/share?url=" + url + "&title=" + currentHistory.title + "&description=" + currentHistory.header;
-                }
-            },
-            {xtype:'spacer'}
-        ]
-    });
-    */
-    //----------------------------------------------
     mainApp.views.historyBar = new Ext.Toolbar({
         dock:'top',
         //ui:'light',
@@ -315,7 +272,7 @@ new Ext.Application({
         items:[
         {
             html:"<div>\
-                 <p><img class='app_icon_img' src='IMG/AppIcon.png'/></p>\
+                 <p><img class='app_icon_img' src='IMG/AppIcon.gif'/></p>\
                  <p><h1><FONT COLOR=green>Цари и императоры России</FONT></h1></p>\
                  <p>Приложение для людей, которые интересуются историей России</p>\
                  <p><FONT COLOR=blue>(с) Softwarrior</FONT></p>\
@@ -344,6 +301,47 @@ new Ext.Application({
                 mainApp.views.feedbackTab.setActiveItem(mainApp.views.feedbackNeg);
                 JSBridge.log("KingsAndEmperorsOfRussiaProblemScreen");
             }
+        }
+        ]
+    });
+    //----------------------------------------------
+    mainApp.views.aboutTab = new Ext.Panel({
+        dockedItems:mainApp.views.infoBar2,
+        title:'О программе',
+        iconCls:'info',
+        cls:'feedback_panel',
+        scroll: 'vertical',
+        items: [
+        {
+            html:"<div>\
+            <p><img class='app_icon_img' src='IMG/AppIcon.gif'/></p>\
+            <p>Приложение «Цари и императоры России» создано на основе контента, собранного из открытых источников интернета:</p>\
+            <p><a href='http://ru.wikipedia.org'>http://ru.wikipedia.org</a></p>\
+            <p><a href='http://www.krugosvet.ru'>http://www.krugosvet.ru</a></p>\
+            <p><a href='http://www.calend.ru'>http://www.calend.ru</a></p>\
+            <p><a href='http://www.rulex.ru'>http://www.rulex.ru</a></p>\
+            <p><a href='http://www.lawtoday.ru'>http://www.lawtoday.ru</a></p>\
+            <p><a href='http://www.kremlion.ru'>http://www.kremlion.ru</a></p>\
+            <p><a href='http://www.istorik.ru'>http://www.istorik.ru</a></p>\
+            <p><a href='http://www.rusizn.ru'>http://www.rusizn.ru</a></p>\
+            <p><a href='http://www.hronos.ru'>http://www.hronos.ru</a></p>\
+            <p><a href='http://www.drevo-info.ru'>http://www.drevo-info.ru</a></p>\
+            <p><a href='http://www.bibliotekar.ru'>http://www.bibliotekar.ru</a></p>\
+            <p><a href='http://www.allmonarchs.net'>http://www.allmonarchs.net</a></p>\
+            <p>Приложение распространяется под лицензией GNU General Public License версии 2. Подробно с GPL версии 2, вы можете ознакомиться на сайте:</p>\
+            <p><a href='http://www.gnu.org/licenses'>http://www.gnu.org/licenses</a></p>\
+            </div>"
+        },
+        {
+            xtype:'button',
+            ui:'confirm',
+            cls:'like_button',
+            text:'Отправить email',
+            iconCls:'mail',
+            iconMask:true,
+            linkId: 'mailLink',
+            url:'mailto:wise4man@gmail.com',
+            plugins:[new simfla.ux.plugins.linkButton()]
         }
         ]
     });
@@ -432,69 +430,6 @@ new Ext.Application({
         title:'Обратная связь',
         iconCls:'heart_circle',
         items:[mainApp.views.feedbackMain,mainApp.views.feedbackPos,mainApp.views.instructionPos]
-    });
-    //----------------------------------------------
-    mainApp.views.aboutTab = new Ext.Panel({
-        dockedItems:mainApp.views.infoBar2,
-        title:'О программе',
-        iconCls:'info',
-        cls:'feedback_panel',
-        scroll: 'vertical',
-        items: [
-        {
-           html:"<div><h1>Приложение «Цари и императоры России»</h1><p>создана на основе контента, собранного из открытых источников интернета.</p></div>"
-        },
-        {
-          xtype:'button',
-          text:'Отправить email',
-          iconCls:'mail',
-          iconMask:true,
-          linkId: 'mailLink',
-          url:'mailto:wise4man@gmail.com',
-          plugins:[ new simfla.ux.plugins.linkButton() ]
-        }
-        ]
-    });
-    //----------------------------------------------
-    mainApp.views.aboutTab = new Ext.Panel({
-        dockedItems:mainApp.views.infoBar2,
-        title:'О программе',
-        iconCls:'info',
-        cls:'feedback_panel',
-        scroll: 'vertical',
-        items: [
-        {
-            html:"<div>\
-            <p><img class='app_icon_img' src='IMG/AppIcon.png'/></p>\
-            <p>Приложение «Цари и императоры России» создано на основе контента, собранного из открытых источников интернета:</p>\
-            <p><a href='http://ru.wikipedia.org'>http://ru.wikipedia.org</a></p>\
-            <p><a href='http://www.krugosvet.ru'>http://www.krugosvet.ru</a></p>\
-            <p><a href='http://www.calend.ru'>http://www.calend.ru</a></p>\
-            <p><a href='http://www.rulex.ru'>http://www.rulex.ru</a></p>\
-            <p><a href='http://www.lawtoday.ru'>http://www.lawtoday.ru</a></p>\
-            <p><a href='http://www.kremlion.ru'>http://www.kremlion.ru</a></p>\
-            <p><a href='http://www.istorik.ru'>http://www.istorik.ru</a></p>\
-            <p><a href='http://www.rusizn.ru'>http://www.rusizn.ru</a></p>\
-            <p><a href='http://www.hronos.ru'>http://www.hronos.ru</a></p>\
-            <p><a href='http://www.drevo-info.ru'>http://www.drevo-info.ru</a></p>\
-            <p><a href='http://www.bibliotekar.ru'>http://www.bibliotekar.ru</a></p>\
-            <p><a href='http://www.allmonarchs.net'>http://www.allmonarchs.net</a></p>\
-            <p>Приложение распространяется под лицензией GNU General Public License версии 2. Подробно с GPL версии 2, вы можете ознакомиться на сайте:</p>\
-            <p><a href='http://www.gnu.org/licenses'>http://www.gnu.org/licenses</a></p>\
-            </div>"
-        },
-        {
-            xtype:'button',
-            ui:'confirm',
-            cls:'like_button',
-            text:'Отправить email',
-            iconCls:'mail',
-            iconMask:true,
-            linkId: 'mailLink',
-            url:'mailto:wise4man@gmail.com',
-            plugins:[new simfla.ux.plugins.linkButton()]
-        }
-        ]
     });
     //----------------------------------------------
     mainApp.views.infoTab = new Ext.TabPanel({
