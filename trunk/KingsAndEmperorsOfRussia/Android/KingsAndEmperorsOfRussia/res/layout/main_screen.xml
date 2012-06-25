@@ -19,7 +19,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  ads:adSize="BANNER"
-                 ads:adUnitId="a14d5a500187b19">
+                 ads:adUnitId="a14fe8845cc340a">
             </com.google.ads.AdView>
             <Button 
                 android:id="@+id/ButtonAds"
