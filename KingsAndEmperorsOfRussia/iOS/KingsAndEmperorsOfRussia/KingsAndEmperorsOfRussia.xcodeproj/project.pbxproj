@@ -13,6 +13,8 @@
 		5526C3291598C8A9004D5D86 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */; };
 		5526C32B1598C92D004D5D86 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C32A1598C92D004D5D86 /* AudioToolbox.framework */; };
 		5526C32D1598C942004D5D86 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C32C1598C942004D5D86 /* MessageUI.framework */; };
+		552B4DAD159A0BB600B47AF7 /* Newsstand_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 552B4DAC159A0BB600B47AF7 /* Newsstand_icon.png */; };
+		552B4DAF159A0CFD00B47AF7 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 552B4DAE159A0CFD00B47AF7 /* Icon@2x.png */; };
 		5530A23C1534AE4100F704F4 /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530A23B1534AE4100F704F4 /* SDURLCache.m */; };
 		5536755D14F403AA00A51174 /* ic_splash_hor.png in Resources */ = {isa = PBXBuildFile; fileRef = 5536755814F403AA00A51174 /* ic_splash_hor.png */; };
 		5536755E14F403AA00A51174 /* ic_splash_ver.png in Resources */ = {isa = PBXBuildFile; fileRef = 5536755914F403AA00A51174 /* ic_splash_ver.png */; };
@@ -49,7 +51,6 @@
 		55FE16C51523256000D2E1BA /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55FE16BB1523256000D2E1BA /* Icon-Small-50@2x.png */; };
 		55FE16C61523256000D2E1BA /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 55FE16BC1523256000D2E1BA /* Icon-Small.png */; };
 		55FE16C71523256000D2E1BA /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55FE16BD1523256000D2E1BA /* Icon-Small@2x.png */; };
-		55FE16C81523256000D2E1BA /* Icon2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55FE16BE1523256000D2E1BA /* Icon2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,8 @@
 		5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		5526C32A1598C92D004D5D86 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		5526C32C1598C942004D5D86 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		552B4DAC159A0BB600B47AF7 /* Newsstand_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Newsstand_icon.png; sourceTree = "<group>"; };
+		552B4DAE159A0CFD00B47AF7 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		5530A23A1534AE4100F704F4 /* SDURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDURLCache.h; sourceTree = "<group>"; };
 		5530A23B1534AE4100F704F4 /* SDURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDURLCache.m; sourceTree = "<group>"; };
 		5536755814F403AA00A51174 /* ic_splash_hor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_splash_hor.png; sourceTree = "<group>"; };
@@ -131,7 +134,6 @@
 		55FE16BB1523256000D2E1BA /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
 		55FE16BC1523256000D2E1BA /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		55FE16BD1523256000D2E1BA /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
-		55FE16BE1523256000D2E1BA /* Icon2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon2x.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,8 @@
 		5536755414F403AA00A51174 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				552B4DAE159A0CFD00B47AF7 /* Icon@2x.png */,
+				552B4DAC159A0BB600B47AF7 /* Newsstand_icon.png */,
 				55483F5F152342B6002020B7 /* Default.png */,
 				55483F60152342B6002020B7 /* Default@2x.png */,
 				55483F4E1523304B002020B7 /* Default-Landscape~ipad.png */,
@@ -177,7 +181,6 @@
 				55FE16BB1523256000D2E1BA /* Icon-Small-50@2x.png */,
 				55FE16BC1523256000D2E1BA /* Icon-Small.png */,
 				55FE16BD1523256000D2E1BA /* Icon-Small@2x.png */,
-				55FE16BE1523256000D2E1BA /* Icon2x.png */,
 				5574A0C8151CA8EE00D98DCD /* Icon-72.png */,
 				5574A0C9151CA8EE00D98DCD /* Icon.png */,
 				5536755814F403AA00A51174 /* ic_splash_hor.png */,
@@ -394,11 +397,12 @@
 				55FE16C51523256000D2E1BA /* Icon-Small-50@2x.png in Resources */,
 				55FE16C61523256000D2E1BA /* Icon-Small.png in Resources */,
 				55FE16C71523256000D2E1BA /* Icon-Small@2x.png in Resources */,
-				55FE16C81523256000D2E1BA /* Icon2x.png in Resources */,
 				55483F521523304B002020B7 /* Default-Landscape~ipad.png in Resources */,
 				55483F531523304B002020B7 /* Default-Portrait~ipad.png in Resources */,
 				55483F61152342B6002020B7 /* Default.png in Resources */,
 				55483F62152342B6002020B7 /* Default@2x.png in Resources */,
+				552B4DAD159A0BB600B47AF7 /* Newsstand_icon.png in Resources */,
+				552B4DAF159A0CFD00B47AF7 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,147 +506,15 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		55483F6715234945002020B7 /* Release Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "67566E0F-B5F9-4BAD-9455-510C62DACACF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "67566E0F-B5F9-4BAD-9455-510C62DACACF";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Release Ad Hoc";
-		};
-		55483F6815234945002020B7 /* Release Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
-				INFOPLIST_FILE = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Library\"",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "67566E0F-B5F9-4BAD-9455-510C62DACACF";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "67566E0F-B5F9-4BAD-9455-510C62DACACF";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Release Ad Hoc";
-		};
-		55483F6915234945002020B7 /* Release Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KingsAndEmperorsOfRussia.app/KingsAndEmperorsOfRussia";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
-				INFOPLIST_FILE = "KingsAndEmperorsOfRussiaTests/KingsAndEmperorsOfRussiaTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = "Release Ad Hoc";
-		};
-		55483F6B15235057002020B7 /* Release App Store */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "BA6DB8B2-41BF-4DD7-B752-46DD94AA6BD0";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BA6DB8B2-41BF-4DD7-B752-46DD94AA6BD0";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "Release App Store";
-		};
-		55483F6C15235057002020B7 /* Release App Store */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
-				INFOPLIST_FILE = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Library\"",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Release App Store";
-		};
-		55483F6D15235057002020B7 /* Release App Store */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KingsAndEmperorsOfRussia.app/KingsAndEmperorsOfRussia";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
-				INFOPLIST_FILE = "KingsAndEmperorsOfRussiaTests/KingsAndEmperorsOfRussiaTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = "Release App Store";
-		};
 		55C4F80214F3A1CE00EAD510 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Andrey Pilipenko";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -657,8 +529,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
+				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				"PROVISIONING_PROFILE[sdk=*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -671,8 +544,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -681,7 +554,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -691,9 +565,9 @@
 		55C4F80514F3A1CE00EAD510 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Andrey Pilipenko";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
 				INFOPLIST_FILE = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Info.plist";
@@ -703,9 +577,9 @@
 					"\"$(SRCROOT)/Library\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				"PROVISIONING_PROFILE[sdk=*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -714,8 +588,8 @@
 		55C4F80614F3A1CE00EAD510 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
 				INFOPLIST_FILE = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Info.plist";
@@ -725,8 +599,8 @@
 					"\"$(SRCROOT)/Library\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -784,33 +658,27 @@
 			buildConfigurations = (
 				55C4F80214F3A1CE00EAD510 /* Debug */,
 				55C4F80314F3A1CE00EAD510 /* Release */,
-				55483F6B15235057002020B7 /* Release App Store */,
-				55483F6715234945002020B7 /* Release Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release Ad Hoc";
+			defaultConfigurationName = Release;
 		};
 		55C4F80414F3A1CE00EAD510 /* Build configuration list for PBXNativeTarget "KingsAndEmperorsOfRussia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55C4F80514F3A1CE00EAD510 /* Debug */,
 				55C4F80614F3A1CE00EAD510 /* Release */,
-				55483F6C15235057002020B7 /* Release App Store */,
-				55483F6815234945002020B7 /* Release Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release Ad Hoc";
+			defaultConfigurationName = Release;
 		};
 		55C4F80714F3A1CE00EAD510 /* Build configuration list for PBXNativeTarget "KingsAndEmperorsOfRussiaTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55C4F80814F3A1CE00EAD510 /* Debug */,
 				55C4F80914F3A1CE00EAD510 /* Release */,
-				55483F6D15235057002020B7 /* Release App Store */,
-				55483F6915234945002020B7 /* Release Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = "Release Ad Hoc";
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
