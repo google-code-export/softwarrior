@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GADBannerView.h"
 
 @class MainWebView;
 
@@ -15,6 +16,8 @@
     MainWebView *_mainWebView;
     NSTimer *_splashTimer;
     NSTimer *_internetTimer;
+    
+    GADBannerView *_bannerView;
     
     bool _splashViewVisible;
 }

@@ -36,7 +36,7 @@
     [NSURLCache setSharedURLCache:cache];
 
     
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-28551057-3"
+    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-21583368-6"
                                            dispatchPeriod:30
                                                  delegate:nil];
     return YES;
