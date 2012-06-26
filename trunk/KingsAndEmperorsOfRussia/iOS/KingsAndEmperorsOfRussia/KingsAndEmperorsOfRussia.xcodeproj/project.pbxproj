@@ -10,6 +10,9 @@
 		5521E74B15066843007CB44E /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5521E74A15066843007CB44E /* SplashViewController.m */; };
 		55258EB2150100EA000B44F6 /* iToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 55258EB1150100EA000B44F6 /* iToast.m */; };
 		55258EB5150113B6000B44F6 /* MainWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55258EB4150113B6000B44F6 /* MainWebView.m */; };
+		5526C3291598C8A9004D5D86 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */; };
+		5526C32B1598C92D004D5D86 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C32A1598C92D004D5D86 /* AudioToolbox.framework */; };
+		5526C32D1598C942004D5D86 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C32C1598C942004D5D86 /* MessageUI.framework */; };
 		5530A23C1534AE4100F704F4 /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530A23B1534AE4100F704F4 /* SDURLCache.m */; };
 		5536755D14F403AA00A51174 /* ic_splash_hor.png in Resources */ = {isa = PBXBuildFile; fileRef = 5536755814F403AA00A51174 /* ic_splash_hor.png */; };
 		5536755E14F403AA00A51174 /* ic_splash_ver.png in Resources */ = {isa = PBXBuildFile; fileRef = 5536755914F403AA00A51174 /* ic_splash_ver.png */; };
@@ -66,6 +69,18 @@
 		55258EB1150100EA000B44F6 /* iToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iToast.m; sourceTree = "<group>"; };
 		55258EB4150113B6000B44F6 /* MainWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWebView.m; sourceTree = "<group>"; };
 		55258ED215011D30000B44F6 /* MainWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWebView.h; sourceTree = "<group>"; };
+		5526C31E1598C893004D5D86 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		5526C31F1598C893004D5D86 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		5526C3201598C893004D5D86 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		5526C3211598C893004D5D86 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		5526C3221598C893004D5D86 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		5526C3231598C893004D5D86 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		5526C3241598C893004D5D86 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		5526C3251598C893004D5D86 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		5526C3261598C893004D5D86 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		5526C32A1598C92D004D5D86 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		5526C32C1598C942004D5D86 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		5530A23A1534AE4100F704F4 /* SDURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDURLCache.h; sourceTree = "<group>"; };
 		5530A23B1534AE4100F704F4 /* SDURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDURLCache.m; sourceTree = "<group>"; };
 		5536755814F403AA00A51174 /* ic_splash_hor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_splash_hor.png; sourceTree = "<group>"; };
@@ -124,6 +139,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5526C32D1598C942004D5D86 /* MessageUI.framework in Frameworks */,
+				5526C32B1598C92D004D5D86 /* AudioToolbox.framework in Frameworks */,
 				5594BD08151CD5EE003DCE5B /* libsqlite3.0.dylib in Frameworks */,
 				5594BD06151CD5C0003DCE5B /* CFNetwork.framework in Frameworks */,
 				5540547915176FB4000E3EBC /* SystemConfiguration.framework in Frameworks */,
@@ -131,6 +148,7 @@
 				55C4F7D514F3A1CD00EAD510 /* Foundation.framework in Frameworks */,
 				55C4F7D714F3A1CD00EAD510 /* CoreGraphics.framework in Frameworks */,
 				5594BD04151CD54C003DCE5B /* libGoogleAnalytics.a in Frameworks */,
+				5526C3291598C8A9004D5D86 /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +189,7 @@
 		5594BD02151CD54C003DCE5B /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */,
 				5594BD03151CD54C003DCE5B /* libGoogleAnalytics.a */,
 			);
 			path = Library;
@@ -179,6 +198,8 @@
 		55C4F7C314F3A1CD00EAD510 = {
 			isa = PBXGroup;
 			children = (
+				5526C32C1598C942004D5D86 /* MessageUI.framework */,
+				5526C32A1598C92D004D5D86 /* AudioToolbox.framework */,
 				55C4F7D814F3A1CD00EAD510 /* KingsAndEmperorsOfRussia */,
 				55C4F7F914F3A1CE00EAD510 /* KingsAndEmperorsOfRussiaTests */,
 				55C4F7D114F3A1CD00EAD510 /* Frameworks */,
@@ -212,6 +233,15 @@
 		55C4F7D814F3A1CD00EAD510 /* KingsAndEmperorsOfRussia */ = {
 			isa = PBXGroup;
 			children = (
+				5526C31E1598C893004D5D86 /* GADAdMobExtras.h */,
+				5526C31F1598C893004D5D86 /* GADAdNetworkExtras.h */,
+				5526C3201598C893004D5D86 /* GADAdSize.h */,
+				5526C3211598C893004D5D86 /* GADBannerView.h */,
+				5526C3221598C893004D5D86 /* GADBannerViewDelegate.h */,
+				5526C3231598C893004D5D86 /* GADInterstitial.h */,
+				5526C3241598C893004D5D86 /* GADInterstitialDelegate.h */,
+				5526C3251598C893004D5D86 /* GADRequest.h */,
+				5526C3261598C893004D5D86 /* GADRequestError.h */,
 				5530A23A1534AE4100F704F4 /* SDURLCache.h */,
 				5530A23B1534AE4100F704F4 /* SDURLCache.m */,
 				5594BD00151CD52E003DCE5B /* GANTracker.h */,
