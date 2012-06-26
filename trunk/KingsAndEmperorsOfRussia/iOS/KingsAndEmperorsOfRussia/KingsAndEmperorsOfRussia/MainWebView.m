@@ -260,7 +260,7 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
             [self CheckAndLoadUrl];
             return NO;
          }
-         else if([logString containsString:@"FrivolousAlmanac"]){
+         else if([logString containsString:@"KingsAndEmperorsOfRussia"]){
              NSString *analyticsMessage =  [NSString stringWithFormat:@"/%@", logString]; 
              ALog(@"GoogleAnalytics %@", analyticsMessage);                 
              NSError *error = nil;

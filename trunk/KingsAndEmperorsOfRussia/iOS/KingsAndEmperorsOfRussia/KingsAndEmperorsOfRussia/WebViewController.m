@@ -151,6 +151,43 @@
     ALog("********** viewDidLoad %@",@"***********");
     
     [super viewDidLoad];
+    ////////////////////////////////////////
+    // Создание представления стандартного размера внизу экрана.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
+    {
+        /* run something specific for the iPad */
+        _bannerView  = [[GADBannerView alloc]
+                       initWithFrame:CGRectMake(0.0,
+                                                self.view.frame.size.height -
+                                                GAD_SIZE_728x90.height,
+                                                GAD_SIZE_728x90.width,
+                                                GAD_SIZE_728x90.height)];
+    } 
+    else
+    {
+        /* run something specific for the iPhone */
+        _bannerView = [[GADBannerView alloc]
+                       initWithFrame:CGRectMake(0.0,
+                                                self.view.frame.size.height -
+                                                GAD_SIZE_320x50.height,
+                                                GAD_SIZE_320x50.width,
+                                                GAD_SIZE_320x50.height)];
+    }
+
+    // Назначение идентификатора объявлению. Указывается идентификатор издателя AdMob.
+    _bannerView.adUnitID = @"a14fe885dfa9a34";
+    
+    // Укажите, какой UIViewController необходимо восстановить после перехода
+    // пользователя по объявлению и добавить в иерархию представлений.
+    _bannerView.rootViewController = self;
+    [self.view addSubview:_bannerView];
+    
+    // Инициирование общего запроса на загрузку вместе с объявлением.
+    [_bannerView loadRequest:[GADRequest request]];
+    
+    [_bannerView setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin];
+    
+    ////////////////////////////////////////
     // Do any additional setup after loading the view, typically from a nib.
     _splashViewVisible = false;
         
