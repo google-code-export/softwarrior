@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="admodaad1">false</item>
+    <item type="id" name="gridview">false</item>
+    <item type="id" name="admodaad2">false</item>
+    <item type="id" name="toast_layout_root">false</item>
+    <item type="id" name="image">false</item>
+    <item type="id" name="text">false</item>
+    <item type="id" name="VideoView">false</item>
+    <item type="id" name="advertising_banner_view">false</item>
+</resources>

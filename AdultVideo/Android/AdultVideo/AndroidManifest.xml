@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest android:versionCode="1" android:versionName="1.0.0.0" package="com.softwarrior.avideo"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
+        <activity android:label="@string/app_name" android:name=".AdultMoviesLite" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".VideoViewer" android:screenOrientation="landscape" />
+        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="F6BE4DE7-8382-4E84-B3EB-31600EDE749F" />
+        <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:name="com.mobclix.android.sdk.MobclixBrowserActivity" />
+        <meta-data android:name="com.reporo.android.meta.dom" android:value="767a-6e78-7161-2e76.reporo.net" />
+        <meta-data android:name="com.reporo.android.meta.zone.smart" android:value="2200, 2202" />
+    </application>
+</manifest>
