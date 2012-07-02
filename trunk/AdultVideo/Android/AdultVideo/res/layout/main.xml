@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res/com.vid.pornvideosprivate_ads">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <com.mobclix.android.sdk.MobclixMMABannerXLAdView android:id="@id/admodaad1" android:layout_width="300.0dip" android:layout_height="50.0dip" android:layout_alignParentTop="true" />
+        <GridView android:gravity="center" android:id="@id/gridview" android:layout_width="fill_parent" android:layout_height="fill_parent" android:horizontalSpacing="10.0dip" android:verticalSpacing="10.0dip" android:stretchMode="columnWidth" android:columnWidth="120.0dip" android:numColumns="auto_fit" android:layout_above="@id/admodaad2" android:layout_below="@id/admodaad1"
+          xmlns:android="http://schemas.android.com/apk/res/android" />
+        <com.mobclix.android.sdk.MobclixMMABannerXLAdView android:id="@id/admodaad2" android:layout_width="300.0dip" android:layout_height="50.0dip" android:layout_above="@id/admodaad2" android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+</FrameLayout>
