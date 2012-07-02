@@ -13,7 +13,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".VideoViewer" android:screenOrientation="landscape" />
-        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="F6BE4DE7-8382-4E84-B3EB-31600EDE749F" />
+        <meta-data android:name="com.mobclix.APPLICATION_ID" android:value="5747DB07-5754-41F2-B51A-39B3C61E2AAA" />
         <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" android:name="com.mobclix.android.sdk.MobclixBrowserActivity" />
         <meta-data android:name="com.reporo.android.meta.dom" android:value="767a-6e78-7161-2e76.reporo.net" />
         <meta-data android:name="com.reporo.android.meta.zone.smart" android:value="2200, 2202" />
