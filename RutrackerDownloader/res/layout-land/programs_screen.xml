@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout 
+     xmlns:android="http://schemas.android.com/apk/res/android"     
+     android:background="@drawable/background_land"
+     android:layout_width="match_parent" 
+     android:layout_height="match_parent" 
+     android:orientation="vertical" 
+     android:gravity="center_vertical|center_horizontal">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:layout_weight="1.3" android:id="@+id/linearLayoutDesc" android:gravity="center_vertical|center_horizontal">
+        <TextView
+            android:id="@+id/TextViewDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:contentDescription=""
+            android:gravity="center"
+            android:text="@string/main_text_desc"
+            android:textColor="@color/cyan"
+            android:textSize="18sp"
+            android:textStyle="bold">
+        </TextView>         
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayoutProg1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/ImageViewProg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_prog1" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/TextViewProg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/ImageViewProg1"
+            android:contentDescription="@string/app_name"
+            android:text="@string/main_button_prog1"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:textStyle="bold" >
+        </TextView>     
+        <Button
+            android:id="@+id/ButtonProg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/button_yellow"
+            android:onClick="@string/on_click_main_button_prog1"
+            android:text="@string/main_button_install"
+            android:textColor="@color/cyan"
+            android:textSize="18sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold" >
+        </Button>       
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayoutProg2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView 
+            android:id="@+id/ImageViewProg2"
+            android:src="@drawable/icon_prog2"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:contentDescription="@string/app_name"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"            
+            android:layout_marginRight="10dp">
+        </ImageView>
+        <TextView
+            android:id="@+id/TextViewProg2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@id/ImageViewProg2"
+            android:contentDescription="@string/app_name"
+            android:text="@string/main_button_prog2"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:textStyle="bold" >
+         </TextView>                    
+         <Button
+             android:id="@+id/ButtonProg2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:background="@drawable/button_yellow"
+             android:onClick="@string/on_click_main_button_prog2"
+             android:text="@string/main_button_install"
+             android:textColor="@color/cyan"
+             android:textSize="18sp"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true"
+             android:layout_marginRight="10dp"           
+             android:textStyle="bold" >
+        </Button> 
+    </RelativeLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="1.5" android:id="@+id/linearLayoutBoottom" android:gravity="center_vertical|center_horizontal">        
+    </LinearLayout>     
+</LinearLayout>
