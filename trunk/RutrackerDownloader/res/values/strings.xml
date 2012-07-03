@@ -9,12 +9,20 @@
     <string name="on_click_main_button_piratesearch">OnClickMainButtonPirateSearch</string>
     <string name="on_click_main_button_kinoafisha">OnClickMainButtonKinoafisha</string>
     <string name="on_click_main_button_settings">OnClickMainButtonSettings</string>
+    <string name="on_click_main_button_programs">OnClickMainButtonPrograms</string>
+    <string name="on_click_main_button_prog1">OnClickMainButtonProg1</string>
+    <string name="on_click_main_button_prog2">OnClickMainButtonProg2</string>
     <string name="main_button_download">Download</string>
     <string name="main_button_websearch">Web search</string>
     <string name="main_button_rsssearch">RSS search</string>
     <string name="main_button_piratesearch">Pirate search</string>
     <string name="main_button_kinoafisha">Kinoafisha</string>
     <string name="main_button_settings">Settings</string>
+    <string name="main_button_programs">Programs</string>
+    <string name="main_button_prog1">Kings and emperors of Russia\n - the chronology of the Board</string>
+    <string name="main_button_prog2">Adult Video</string>
+    <string name="main_button_install">Install</string>
+    <string name="main_text_desc">We represent your attention of other products Softwarrior:</string>
     <string name="press_back_to_exit">Press back to exit from programm</string>
     <string name="web_search_instruction">Instructions:\n
 1) Select a site\n

@@ -9,12 +9,20 @@
     <string name="on_click_main_button_piratesearch">OnClickMainButtonPirateSearch</string>
     <string name="on_click_main_button_kinoafisha">OnClickMainButtonKinoafisha</string>
     <string name="on_click_main_button_settings">OnClickMainButtonSettings</string>
+    <string name="on_click_main_button_programs">OnClickMainButtonPrograms</string>
+    <string name="on_click_main_button_prog1">OnClickMainButtonProg1</string>
+    <string name="on_click_main_button_prog2">OnClickMainButtonProg2</string>
     <string name="main_button_download">Скачивание</string>
     <string name="main_button_websearch">Web поиск</string>
     <string name="main_button_rsssearch">RSS поиск</string>
     <string name="main_button_piratesearch">Пиратский поиск</string>
     <string name="main_button_kinoafisha">Киноафиша</string>
     <string name="main_button_settings">Настройки</string>
+    <string name="main_button_programs">Программы</string>
+    <string name="main_button_prog1">Цари и императоры России\n - хронология правления</string>
+    <string name="main_button_prog2">Видео для взрослых</string>
+    <string name="main_button_install">Установить</string>
+    <string name="main_text_desc">Представляем Вашему вниманию другие продукты Softwarrior:</string>
     <string name="press_back_to_exit">Нажмите назад, чтобы выйти из программы</string>
     <string name="web_search_instruction">Инструкция:\n
 1) Выберите сайт\n

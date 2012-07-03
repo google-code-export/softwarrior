@@ -128,6 +128,7 @@ public class MainScreen extends Activity {
 		public void OnClickMainButtonSettings(View v){
 			RutrackerDownloaderApp.OpenDownloadPreferencesScreen(this);			
 		}
-		
-				
+		public void OnClickMainButtonPrograms(View v){
+			RutrackerDownloaderApp.OpenProgramsScreen(this);			
+		}						
 }
