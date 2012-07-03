@@ -17,7 +17,7 @@
             android:textStyle="bold"  
             android:textSize="22sp"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonWebSearch"
@@ -29,7 +29,7 @@
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonRSSSearch"
@@ -41,7 +41,7 @@
             android:textStyle="bold"  
             android:textSize="22sp"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonPirateSearch"
@@ -53,7 +53,7 @@
             android:textStyle="bold"  
             android:textSize="22sp"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonKinoafisha"
@@ -65,7 +65,7 @@
             android:textStyle="bold"  
             android:textSize="22sp"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonOptions"
@@ -77,7 +77,7 @@
             android:textStyle="bold"  
             android:textSize="22sp"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>
         <Button 
             android:id="@+id/ButtonPrograms"
@@ -89,7 +89,7 @@
             android:textStyle="bold"  
             android:textSize="22sp"
             android:textColor="@color/cyan" 
-            android:layout_marginBottom="2dp">
+            android:layout_marginBottom="1dp">
         </Button>        
     </LinearLayout>
     <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="0.3" android:id="@+id/linearLayoutRight"></LinearLayout>
