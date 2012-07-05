@@ -267,7 +267,7 @@ new Ext.Application({
     mainApp.views.feedbackMain = new Ext.Panel({
         dockedItems:mainApp.views.infoBar,
         iconCls:'heart_circle',
-        cls:'feedback_panel',
+        cls:'feedback_panel_s',
         scroll: 'vertical',
         items:[
         {
