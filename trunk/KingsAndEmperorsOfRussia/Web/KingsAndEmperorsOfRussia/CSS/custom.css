@@ -242,6 +242,81 @@ canvas {
     background-image: url(../IMG/BkGrnd_d.gif);
     background-repeat: x-repeat;
 }
+.feedback_panel img{
+    width:auto; 
+    max-height:80px;
+}
+.feedback_panel p{
+    color:#FFF;
+    text-align:center;
+    margin:10px;
+}
+.feedback_panel p.version{
+    padding-top:0px;
+    margin-top:5px;
+    font-size:12px;
+    font-weight:normal;
+}
+.feedback_panel h1{
+    text-align:center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top:10px;
+    margin-bottom:10px;
+    color:#FFF;
+}
+.feedback_panel h2{
+    text-align:left;
+    font-size: 16px;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:10px;
+    margin-right:10px;
+    color:#FFF;
+}
+.feedback_panel{
+    position:absolute;
+    background-image: url(../IMG/BkGrnd_d.gif);
+    background-repeat: x-repeat;
+}
+.feedback_panel_s img{
+    width:auto; 
+    height:26%;
+    max-height:80px;
+}
+.feedback_panel_s p{
+    color:#FFF;
+    text-align:center;
+    margin:10px;
+}
+.feedback_panel_s p.version{
+    padding-top:0px;
+    margin-top:5px;
+    font-size:12px;
+    font-weight:normal;
+}
+.feedback_panel_s h1{
+    text-align:center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-top:10px;
+    margin-bottom:10px;
+    color:#FFF;
+}
+.feedback_panel_s h2{
+    text-align:left;
+    font-size: 16px;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:10px;
+    margin-right:10px;
+    color:#FFF;
+}
+.feedback_panel_s{
+    position:absolute;
+    background-image: url(../IMG/BkGrnd_d.gif);
+    background-repeat: x-repeat;
+}
 .like_button{
     margin-top:10px;
     margin-bottom:10px;
