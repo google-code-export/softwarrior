@@ -13,7 +13,6 @@
 		5526C3291598C8A9004D5D86 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */; };
 		5526C32B1598C92D004D5D86 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C32A1598C92D004D5D86 /* AudioToolbox.framework */; };
 		5526C32D1598C942004D5D86 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5526C32C1598C942004D5D86 /* MessageUI.framework */; };
-		552B4DAD159A0BB600B47AF7 /* Newsstand_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 552B4DAC159A0BB600B47AF7 /* Newsstand_icon.png */; };
 		552B4DAF159A0CFD00B47AF7 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 552B4DAE159A0CFD00B47AF7 /* Icon@2x.png */; };
 		5530A23C1534AE4100F704F4 /* SDURLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5530A23B1534AE4100F704F4 /* SDURLCache.m */; };
 		5536755D14F403AA00A51174 /* ic_splash_hor.png in Resources */ = {isa = PBXBuildFile; fileRef = 5536755814F403AA00A51174 /* ic_splash_hor.png */; };
@@ -82,7 +81,6 @@
 		5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		5526C32A1598C92D004D5D86 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		5526C32C1598C942004D5D86 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		552B4DAC159A0BB600B47AF7 /* Newsstand_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Newsstand_icon.png; sourceTree = "<group>"; };
 		552B4DAE159A0CFD00B47AF7 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		5530A23A1534AE4100F704F4 /* SDURLCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDURLCache.h; sourceTree = "<group>"; };
 		5530A23B1534AE4100F704F4 /* SDURLCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDURLCache.m; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				552B4DAE159A0CFD00B47AF7 /* Icon@2x.png */,
-				552B4DAC159A0BB600B47AF7 /* Newsstand_icon.png */,
 				55483F5F152342B6002020B7 /* Default.png */,
 				55483F60152342B6002020B7 /* Default@2x.png */,
 				55483F4E1523304B002020B7 /* Default-Landscape~ipad.png */,
@@ -401,7 +398,6 @@
 				55483F531523304B002020B7 /* Default-Portrait~ipad.png in Resources */,
 				55483F61152342B6002020B7 /* Default.png in Resources */,
 				55483F62152342B6002020B7 /* Default@2x.png in Resources */,
-				552B4DAD159A0BB600B47AF7 /* Newsstand_icon.png in Resources */,
 				552B4DAF159A0CFD00B47AF7 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
