@@ -29,6 +29,17 @@ function setWidth() {
     }
     mainApp.views.historyPanel.doLayout();
 }
+//----------------------------------------------------------
+function playHymn() {
+    var curID = event.srcElement.id;
+    audio = Ext.getCmp('audioPlayer');
+    audio.media.dom.src = curID;
+    audio.media.dom.load();
+    audioPlaying = false;
+    audioButton = Ext.getCmp('audioButton');
+    audioButton.setText(audioPlaying ? 'Пауза' : 'Играть');
+    tapHandler('audio'); Ext.select('.selection').setHeight(0); 
+}
 //----------------------------------------------------------------------
 function ShowHistory(index) {
     //JSBridge.log(index);
@@ -67,6 +78,11 @@ var flagPanelTemplate = new Ext.XTemplate(
 );
 var crownPanelTemplate = new Ext.XTemplate(
     '<div class="description">',
+    '<p>{description}</p></div>'
+);
+var audioPanelTemplate = new Ext.XTemplate(
+    '<div class="description">',
+    '<h2>{title}</h2>',
     '<p>{description}</p></div>'
 );
 ///////////////////////////////////////////////////////////////////////////////
@@ -210,6 +226,18 @@ new Ext.Application({
         ]
     });
     //----------------------------------------------
+    mainApp.views.homeBar = new Ext.Toolbar({
+        dock:'top',
+        items:[{
+           ui:'back',
+           text:'Назад',
+           handler:function(){
+                tapHandler('home'); Ext.select('.selection').setHeight(0);
+           }
+        }
+        ]
+    });
+    //----------------------------------------------
     mainApp.views.infoBar = new Ext.Toolbar({
         dock:'top',
         items:[{
@@ -261,6 +289,10 @@ new Ext.Application({
         else if (page=="crown"){
             mainApp.views.viewport.setActiveItem(mainApp.views.crownPanel,direction);
             JSBridge.log("KingsAndEmperorsOfRussiaCrownScreen");
+        }
+        else if (page=="audio"){
+             mainApp.views.viewport.setActiveItem(mainApp.views.audioPanel,direction);
+            JSBridge.log("KingsAndEmperorsOfRussiaAudioScreen");
         }
     }
     //----------------------------------------------
@@ -632,12 +664,59 @@ new Ext.Application({
             }
         }
     });
+        //-----------------------------------------------
+     mainApp.views.audioToolBar = new Ext.Toolbar({
+        dock:'bottom',
+        ui:'light',
+        items:[
+            {xtype:'spacer'},
+            {
+                text: 'Играть',
+                id: 'audioButton',
+                flex: 1,
+                xtype: 'button',
+                handler: function() {
+                    audio = Ext.getCmp('audioPlayer');
+                    if(audioPlaying == false){
+                        audio.play();
+                        audioPlaying = true;
+                    } else {
+                        audio.pause();
+                        audioPlaying = false;
+                    }
+                    this.setText(audioPlaying ? 'Пауза' : 'Играть');
+                }
+            },
+            {xtype:'spacer'}
+        ]
+    });
+    //-----------------------------------------------
+     mainApp.views.audioPanel = new Ext.Panel({
+        id:'audioPanel',
+        layout: 'card',
+        dockedItems:[mainApp.views.homeBar, mainApp.views.audioToolBar],
+        cls: 'detailsPanel',
+        xtype: 'panel',
+        fullscreen: true,
+        //scroll: 'vertical',
+        scroll: 'false',
+        tpl:audioPanelTemplate,
+        html:'<h1>Чтобы послушать аудио нажмите на кнопку внизу экрана</h1>',
+        items: [
+            {
+                xtype : 'audio',
+                id: 'audioPlayer',
+                hidden: true,
+                url: ""
+            }
+        ]
+    });
     //----------------------------------------------
     mainApp.views.viewport = new Ext.Panel({
         fullscreen: true,
         layout: 'card',
         cardSwitchAnimation: 'slide',
-        items:[mainApp.views.mainTab,mainApp.views.historyPanel,mainApp.views.infoTab, mainApp.views.crownPanel],
+        items:[mainApp.views.mainTab,mainApp.views.historyPanel,mainApp.views.infoTab, mainApp.views.crownPanel,mainApp.views.audioPanel],
     });
     //----------------------------------------------
     try{
