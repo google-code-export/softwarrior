@@ -33,13 +33,15 @@ function setWidth() {
 //----------------------------------------------------------
 function playHymn() {
     var curID = event.srcElement.id;
+    audioUrl = curID;
+    //window.location = "audio_player.html";
     audio = Ext.getCmp('audioPlayer');
     audio.media.dom.src = curID;
     audio.media.dom.load();
     audioPlaying = false;
     audioButton = Ext.getCmp('audioButton');
     audioButton.setText(audioPlaying ? 'Пауза' : 'Играть');
-    tapHandler('audio'); Ext.select('.selection').setHeight(0); 
+    tapHandler('audio'); Ext.select('.selection').setHeight(0);
 }
 //----------------------------------------------------------------------
 function ShowHistory(index) {
@@ -665,7 +667,7 @@ new Ext.Application({
             }
         }
     });
-        //-----------------------------------------------
+    //-----------------------------------------------
      mainApp.views.audioToolBar = new Ext.Toolbar({
         dock:'bottom',
         ui:'light',
@@ -692,32 +694,58 @@ new Ext.Application({
         ]
     });
     //-----------------------------------------------
-     mainApp.views.audioPanel = new Ext.Panel({
-        id:'audioPanel',
-        layout: 'card',
-        dockedItems:[mainApp.views.homeBar, mainApp.views.audioToolBar],
-        cls: 'detailsPanel',
-        xtype: 'panel',
-        fullscreen: true,
-        //scroll: 'vertical',
-        scroll: 'false',
-        tpl:audioPanelTemplate,
-        html:'<h1>Чтобы послушать аудио нажмите на кнопку внизу экрана</h1>',
-        items: [
-            {
-                xtype : 'audio',
-                id: 'audioPlayer',
-                hidden: true,
-                url: ""
-            }
-        ]
-    });
+    mainApp.views.audioPanel = null;
+    if(userArentName.indexOf("Android") > 0){
+         mainApp.views.audioPanel = new Ext.Panel({
+            id:'audioPanel',
+            layout: 'card',
+            dockedItems:[mainApp.views.homeBar, mainApp.views.audioToolBar],
+            cls: 'detailsPanel',
+            xtype: 'panel',
+            fullscreen: true,
+            //scroll: 'vertical',
+            scroll: 'false',
+            tpl:audioPanelTemplate,
+            html:'<h1>Чтобы послушать аудио нажмите на кнопку внизу экрана</h1>',
+            items: [
+                {
+                    xtype : 'audio',
+                    id: 'audioPlayer',
+                    hidden: true,
+                    loop: true,
+                    enableControls: false,
+                    url: ""
+                }
+            ]
+        });
+    } else {
+         mainApp.views.audioPanel = new Ext.Panel({
+            id:'audioPanel',
+            dockedItems:[mainApp.views.homeBar],
+            fullscreen: true,
+            cls: 'audioPanel',
+            layout: {
+                type : 'vbox',
+                pack : 'center',
+                align: 'stretch'
+            }, 
+            items: [
+                {
+                    xtype : 'audio',
+                    id: 'audioPlayer',
+                    loop: true,
+                    enableControls: true,
+                    url: "AUDIO/hymn_1816_1833.mp3"
+                }
+            ]
+        });
+    }
     //----------------------------------------------
     mainApp.views.viewport = new Ext.Panel({
         fullscreen: true,
         layout: 'card',
         cardSwitchAnimation: 'slide',
-        items:[mainApp.views.mainTab,mainApp.views.historyPanel,mainApp.views.infoTab, mainApp.views.crownPanel,mainApp.views.audioPanel],
+        items:[mainApp.views.mainTab,mainApp.views.historyPanel,mainApp.views.infoTab, mainApp.views.crownPanel, mainApp.views.audioPanel]
     });
     //----------------------------------------------
     try{
