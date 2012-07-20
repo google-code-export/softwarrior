@@ -9,16 +9,16 @@ body > * {
     background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
-.x-tab img.tab_flag,.x-button img.x-icon-mask.tab_flag{-webkit-mask-image:url(../IMG/ic_tab_flag.gif)}
-.x-tab img.tab_hymn,.x-button img.x-icon-mask.tab_hymn{-webkit-mask-image:url(../IMG/ic_tab_hymn.gif)}
-.x-tab img.tab_arms,.x-button img.x-icon-mask.tab_arms{-webkit-mask-image:url(../IMG/ic_tab_arms.gif)}
-.x-tab img.tab_tree,.x-button img.x-icon-mask.tab_tree{-webkit-mask-image:url(../IMG/ic_tab_tree.gif)}
-.x-tab img.tab_history,.x-button img.x-icon-mask.tab_history{-webkit-mask-image:url(../IMG/ic_tab_history.gif)}
-.x-tab img.heart_circle,.x-button img.x-icon-mask.heart_circle{-webkit-mask-image:url(../IMG/ic_menu_send.gif)}
-.x-tab img.info_heart,.x-button img.x-icon-mask.info_heart{-webkit-mask-image:url(../IMG/ic_menu_info_details.gif)}
-.x-tab img.warning_black,.x-button img.x-icon-mask.warning_black{-webkit-mask-image:url(../IMG/ic_menu_notifications.gif)}
-.x-tab img.mail,.x-button img.x-icon-mask.mail{-webkit-mask-image:url(../IMG/ic_menu_send.gif)}
-.x-tab img.info_crown,.x-button img.x-icon-mask.info_crown{-webkit-mask-image:url(../IMG/ic_menu_crown.gif)}
+.tab_flag,.x-button img.x-icon-mask.tab_flag{-webkit-mask-image:url(../IMG/ic_tab_flag.gif)}
+.tab_hymn,.x-button img.x-icon-mask.tab_hymn{-webkit-mask-image:url(../IMG/ic_tab_hymn.gif)}
+.tab_arms,.x-button img.x-icon-mask.tab_arms{-webkit-mask-image:url(../IMG/ic_tab_arms.gif)}
+.tab_tree,.x-button img.x-icon-mask.tab_tree{-webkit-mask-image:url(../IMG/ic_tab_tree.gif)}
+.tab_history,.x-button img.x-icon-mask.tab_history{-webkit-mask-image:url(../IMG/ic_tab_history.gif)}
+.heart_circle,.x-button img.x-icon-mask.heart_circle{-webkit-mask-image:url(../IMG/ic_menu_send.gif)}
+.info_heart,.x-button img.x-icon-mask.info_heart{-webkit-mask-image:url(../IMG/ic_menu_info_details.gif)}
+.warning_black,.x-button img.x-icon-mask.warning_black{-webkit-mask-image:url(../IMG/ic_menu_notifications.gif)}
+.mail,.x-button img.x-icon-mask.mail{-webkit-mask-image:url(../IMG/ic_menu_send.gif)}
+.info_crown,.x-button img.x-icon-mask.info_crown{-webkit-mask-image:url(../IMG/ic_menu_crown.gif)}
 
 .zoomIn {
     background-image:url(../IMG/zoom_in.gif) !important;
@@ -243,6 +243,7 @@ canvas {
     background-repeat: x-repeat;
 }
 .feedback_panel img{
+    margin-top:10px;
     width:auto; 
     max-height:80px;
 }
@@ -275,44 +276,6 @@ canvas {
     color:#FFF;
 }
 .feedback_panel{
-    position:absolute;
-    background-image: url(../IMG/BkGrnd_d.gif);
-    background-repeat: x-repeat;
-}
-.feedback_panel_s img{
-    width:auto; 
-    height:26%;
-    max-height:80px;
-}
-.feedback_panel_s p{
-    color:#FFF;
-    text-align:center;
-    margin:10px;
-}
-.feedback_panel_s p.version{
-    padding-top:0px;
-    margin-top:5px;
-    font-size:12px;
-    font-weight:normal;
-}
-.feedback_panel_s h1{
-    text-align:center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-top:10px;
-    margin-bottom:10px;
-    color:#FFF;
-}
-.feedback_panel_s h2{
-    text-align:left;
-    font-size: 16px;
-    margin-top:10px;
-    margin-bottom:10px;
-    margin-left:10px;
-    margin-right:10px;
-    color:#FFF;
-}
-.feedback_panel_s{
     position:absolute;
     background-image: url(../IMG/BkGrnd_d.gif);
     background-repeat: x-repeat;
@@ -387,11 +350,6 @@ canvas {
     background-image: url(../IMG/BkGrnd.gif);
     background-repeat: x-repeat;
 }
-.caption{
-    font-size: 16px;
-    font-weight:normal;
-    width:100%;
-}
 .historyTabPanel img{
     width:auto;
     /*height:26%;*/
@@ -411,45 +369,6 @@ canvas {
     padding:0px;
     margin:-13px;
 }
-.historyCarousel div .caption, #historyList li a .caption {
-    font-size: 12px;
-    font-weight:normal;
-    /*width:100px;*/
-    width:100%;
-    /*text-align: center;*/
-    /*text-overflow: ellipsis;*/
-    /*overflow:hidden;*/
-    /*white-space: nowrap;*/
-}
-.historyCarousel div, #historyList li {
-    float: left;
-    /*width: 31%;*/
-    width: 100%;
-    padding: 2px;
-    margin: 0px;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-}
-.historyCarousel div img, #historyList li a img {
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    width:auto;
-    height:26%;
-    /*max-height:120px;*/
-    max-height:80px;
-}
-#historyList {
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: none;
-    border-left-style: none;
-    margin: 0px;
-    padding: 0px;
-}
 .cabbageWhiteImg {
     margin: -10px;
 }
@@ -459,7 +378,7 @@ canvas {
 }
 .addonPanel h1{
     text-align:center;
-    font-size: 20x;
+    font-size: 20px;
     font-weight: bold;
     margin-top:10px;
     margin-bottom:10px;
@@ -480,7 +399,7 @@ canvas {
 }
 .detailsPanel h1{
     text-align:center;
-    font-size: 20x;
+    font-size: 20px;
     font-weight: bold;
     margin-top:10px;
     margin-bottom:10px;
