@@ -41,7 +41,7 @@ function playHymn() {
     audioPlaying = false;
     var audioButton = Ext.getCmp('audioButton');
     audioButton.setText(audioPlaying ? 'Пауза' : 'Играть');
-    tapHandler('audio'); Ext.select('.selection').setHeight(0);
+    tapHandler('audio');
 }
 //----------------------------------------------------------------------
 function ShowHistory(index) {
@@ -322,7 +322,7 @@ Ext.application({
             JSBridge.log("KingsAndEmperorsOfRussiaCrownScreen");
         }
         else if (page=="audio"){
-            mainObj.viewport.animateActiveItem(mainObj.audioPanel,direction);
+            mainObj.viewport.animateActiveItem(mainObj.audioPanel,{type: 'slide', direction:'down',reveal:true});
             JSBridge.log("KingsAndEmperorsOfRussiaAudioScreen");
         }
     }
@@ -834,6 +834,7 @@ Ext.application({
         });
     }
     mainObj.audioPanel = Ext.create('mainApp.views.audioPanel');
+    mainObj.historyBar2.setTitle('<FONT size=4 COLOR=gold>Послушать аудио</FONT>');
     //----------------------------------------------
     Ext.define('mainApp.views.viewport', {
         extend: 'Ext.Panel',
