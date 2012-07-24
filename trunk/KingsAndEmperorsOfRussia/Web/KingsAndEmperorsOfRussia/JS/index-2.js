@@ -48,6 +48,7 @@ function ShowHistory(index) {
     //JSBridge.log(index);
     currentHistory = currentHistoryArray[index];
     mainObj.historyPanel.setData(currentHistory);
+    mainObj.viewport.remove(mainObj.historyPanel,false);
     //historyBar.setTitle('Информация');
     tapHandler('history');
 }
@@ -112,8 +113,8 @@ Ext.application({
     var userArentName = navigator.userAgent;
     if((userArentName.indexOf("iPhone") > 0) ||
        (userArentName.indexOf("iPad") > 0)){
-        ApplicationAddonUrl = 'http://itunes.apple.com/hk/app/KingsAndEmperorsOfRussia/id514886237?mt=8';
-        ApplicationUrl = 'http://itunes.apple.com/hk/app/KingsAndEmperorsOfRussia/id514886237?mt=8';
+        ApplicationAddonUrl = 'http://itunes.apple.com/ru/app/cari-i-imperatory-rossii/id539987228?mt=8';
+        ApplicationUrl = 'http://itunes.apple.com/ru/app/cari-i-imperatory-rossii/id539987228?mt=8';
     }
     //----------------------------------------------
     if(JSBridge == null){
@@ -215,7 +216,7 @@ Ext.application({
               text:'Назад',
               ui: 'back',
               handler: function(){
-                tapHandler('home'); Ext.select('.selection').setHeight(0); 
+                   tapHandler('home'); Ext.select('.selection').setHeight(0);
               }
             }
             ]
@@ -290,7 +291,14 @@ Ext.application({
             xtype: 'panel',
             fullscreen: true,
             scrollable: 'vertical',
-            tpl:historyPanelTemplate
+            tpl:historyPanelTemplate,
+            /*
+            listeners: {
+                updatedata: function(component, newData, eOpts){
+                    console.log("updatedata");
+                }
+            }
+            */
         }
     });
     mainObj.historyPanel = Ext.create('mainApp.views.historyPanel');
@@ -299,7 +307,7 @@ Ext.application({
         //JSBridge.log('tabHandler '+page);
         if (page=="history"){
             mainObj.viewport.setActiveItem(mainObj.historyPanel,direction);
-            mainObj.historyBar.setTitle('');
+            //mainObj.historyBar.setTitle('');
             JSBridge.log("KingsAndEmperorsOfRussiaHistoryScreen");
         }
         else if (page=="home"){
@@ -718,24 +726,24 @@ Ext.application({
             items:[mainObj.toolBar, mainObj.historyTabPanel, mainObj.treeTabPanel, mainObj.armsTabPanel, mainObj.hymnTabPanel, mainObj.flagTabPanel]
             ,
             listeners: {
-                cardswitch:  function(container, newCard, oldCard, index, animated ){
-                    if(index == 0){
+                activeitemchange :  function(container, newCard, oldCard, eOpts ){
+                    if(newCard.getId() == 'historyTabPanel'){
                         mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Цари и императоры России</FONT>');
                         JSBridge.log("KingsAndEmperorsOfRussiaMainScreen");
                     }
-                    else if(index == 1){
+                    else if(newCard.getId() == 'treeTabPanel'){
                         mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Генеалогическое древо</FONT>');
                         JSBridge.log("KingsAndEmperorsOfRussiaTreeScreen");
                     }
-                    else if(index == 2){
+                    else if(newCard.getId() == 'armsTabPanel'){
                         mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Герб Российской империи</FONT>');
                         JSBridge.log("KingsAndEmperorsOfRussiaArmsScreen");
                     }
-                    else if(index == 3){
+                    else if(newCard.getId() == 'hymnTabPanel'){
                         mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Гимн Российской империи</FONT>');
                         JSBridge.log("KingsAndEmperorsOfRussiaHymnScreen");
                     }
-                    else if(index == 4){
+                    else if(newCard.getId() == 'flagTabPanel'){
                         mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Флаг Российской империи</FONT>');
                         JSBridge.log("KingsAndEmperorsOfRussiaFlagScreen");
                     }
