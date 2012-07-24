@@ -234,7 +234,7 @@ Ext.application({
                ui:'back',
                text:'Назад',
                handler:function(){
-                    mainObj.feedbackTab.setActiveItem(mainObj.feedbackMain,{type:'slide',reverse:true});
+                    mainObj.feedbackTab.animateActiveItem(mainObj.feedbackMain,{type:'slide',reverse:true});
                }
             }
             ]
@@ -251,13 +251,13 @@ Ext.application({
                ui:'back',
                text:'Назад',
                handler:function(){
-                    mainObj.feedbackTab.setActiveItem(mainObj.feedbackNeg,{type:'slide',reverse:true});
+                    mainObj.feedbackTab.animateActiveItem(mainObj.feedbackNeg,{type:'slide',reverse:true});
                }
             },
             {xtype:'spacer'},
             {
                 ui:'plain',
-                text: '<FONT size=4 COLOR=green>'+'Инструкция'+'</FONT>'
+                text: '<FONT size=4 COLOR=red>'+'Инструкция'+'</FONT>'
             },
             {xtype:'spacer'}
             ]
@@ -273,7 +273,7 @@ Ext.application({
                ui:'action',
                text:'Готово',
                handler:function(){
-                   mainObj.viewport.setActiveItem(mainObj.mainTab,{type:'slide', direction:'down',reveal:true});
+                   mainObj.viewport.animateActiveItem(mainObj.mainTab,{type:'slide', direction:'down',reveal:true});
                }
             }]
         }
@@ -306,23 +306,23 @@ Ext.application({
     tapHandler = function(page, direction){
         //JSBridge.log('tabHandler '+page);
         if (page=="history"){
-            mainObj.viewport.setActiveItem(mainObj.historyPanel,direction);
+            mainObj.viewport.animateActiveItem(mainObj.historyPanel,{type: 'slide', direction:'down',reveal:true});
             //mainObj.historyBar.setTitle('');
             JSBridge.log("KingsAndEmperorsOfRussiaHistoryScreen");
         }
         else if (page=="home"){
-            mainObj.viewport.setActiveItem(mainObj.mainTab,{type: 'slide',reverse: true});
+            mainObj.viewport.animateActiveItem(mainObj.mainTab,{type: 'slide',reverse: true});
         }
         else if (page=="info"){
-            mainObj.viewport.setActiveItem(mainObj.infoTab,{type: 'slide', direction:'up',reveal:true});
+            mainObj.viewport.animateActiveItem(mainObj.infoTab,{type: 'slide', direction:'up',reveal:true});
             JSBridge.log("KingsAndEmperorsOfRussiaInfoScreen");
         }
         else if (page=="crown"){
-            mainObj.viewport.setActiveItem(mainObj.crownPanel,direction);
+            mainObj.viewport.animateActiveItem(mainObj.crownPanel,{type: 'slide', direction:'up',reveal:true});
             JSBridge.log("KingsAndEmperorsOfRussiaCrownScreen");
         }
         else if (page=="audio"){
-            mainObj.viewport.setActiveItem(mainObj.audioPanel,direction);
+            mainObj.viewport.animateActiveItem(mainObj.audioPanel,direction);
             JSBridge.log("KingsAndEmperorsOfRussiaAudioScreen");
         }
     }
@@ -338,7 +338,7 @@ Ext.application({
             {
                 html:"<div>\
                      <p><img src='IMG/AppIcon.gif'/></p>\
-                     <p><h1><FONT COLOR=green>Цари и императоры России</FONT></h1></p>\
+                     <p><h1><FONT COLOR=red>Цари и императоры России</FONT></h1></p>\
                      <p>Приложение для людей, которые интересуются историей России</p>\
                      <p><FONT COLOR=blue>(с) Softwarrior</FONT></p>\
                      <p>Вам нравится приложение?</p>\
@@ -375,6 +375,7 @@ Ext.application({
     Ext.define('mainApp.views.aboutTab', {
         extend: 'Ext.Panel',
         config: {
+            id: 'aboutTab',
             title:'О программе',
             iconCls:'info_heart',
             cls:'feedback_panel',
@@ -408,9 +409,9 @@ Ext.application({
                 text:'Отправить email',
                 iconCls:'mail',
                 iconMask:true,
-                linkId: 'mailLink',
-                url:'mailto:wise4man@gmail.com',
-                //plugins:[new simfla.ux.plugins.linkButton()]
+                handler: function(){
+                    window.open('mailto:wise4man@gmail.com', "_self")
+                }
             }
             ]
         }
@@ -424,22 +425,22 @@ Ext.application({
             scrollable: 'vertical',
             items: [
                 mainObj.feedback2Bar,
-            {
-                html:"<div>\
-                <p><h1><FONT COLOR=green>Спасибо</FONT></h1></p>\
-                <p>Нам очень важно Ваше мнение о приложении. Хотите ли Вы выставить рейтинг?</p></div>"
-            },
-            {
-                xtype:'button',
-                ui:'confirm',
-                cls:'like_button',
-                text:'Да, я выставлю рейтинг',
-                iconCls:'action',
-                iconMask:true,
-                linkId:'rateLink',
-                url:ApplicationUrl,
-                //plugins:[new simfla.ux.plugins.linkButton()]
-            }
+                {
+                    html:"<div>\
+                    <p><h1><FONT COLOR=red>Спасибо</FONT></h1></p>\
+                    <p>Нам очень важно Ваше мнение о приложении. Хотите ли Вы выставить рейтинг?</p></div>"
+                },
+                {
+                    xtype:'button',
+                    ui:'confirm',
+                    cls:'like_button',
+                    text:'Да, я выставлю рейтинг',
+                    iconCls:'action',
+                    iconMask:true,
+                    handler: function(){
+                        window.open(ApplicationUrl, "_self")
+                    }
+                }
             ]
         }
     });
@@ -474,7 +475,7 @@ Ext.application({
             mainObj.feedback2Bar1,
             {
                 html:"<div>\
-                    <p><h1><FONT COLOR=green>Извините</FONT></h1></p>\
+                    <p><h1><FONT COLOR=red>Извините</FONT></h1></p>\
                     <p>Нам очень важно Ваше сообщение о проблеме. Вышлите сообщение с описанием проблемы и Вы поможете сделать приложение лучше.</p>\
                     <p><b>Пожалуйста, прочитайте инструкцию, перед тем как отправлять сообщение.<b><p>\
                     </div>"
@@ -487,7 +488,7 @@ Ext.application({
                 iconCls:'favorites',
                 iconMask:true,
                 handler:function(){
-                  feedbackTab.setActiveItem(instructionPos);
+                  mainObj.feedbackTab.setActiveItem(mainObj.instructionPos);
                   JSBridge.log("KingsAndEmperorsOfRussiaInstructionScreen");
                 }
             },
@@ -497,9 +498,9 @@ Ext.application({
                 text:'Отправить email',
                 iconCls:'mail',
                 iconMask:true,
-                linkId: 'mailLink',
-                url:'mailto:wise4man@gmail.com',
-                //plugins:[new simfla.ux.plugins.linkButton()]
+                handler: function(){
+                    window.open('mailto:wise4man@gmail.com', "_self")
+                }
             }
             ]
         }
@@ -509,6 +510,7 @@ Ext.application({
     Ext.define('mainApp.views.feedbackTab', {
         extend: 'Ext.Panel',
         config: {
+            id: 'feedbackTab',
             fullscreen: true,
             layout: 'card',
             cardSwitchAnimation: 'slide',  
@@ -534,12 +536,11 @@ Ext.application({
             },
             items:[mainObj.feedbackTab,mainObj.aboutTab],
             listeners: {
-                cardswitch:  function(container, newCard, oldCard, index, animated ){
-                    if(index == 0){
-                        JSBridge.log("KingsAndEmperorsOfRussiaInfoScreen");
-                    }
-                    else if(index == 1){
+                activeitemchange :  function(container, newCard, oldCard, eOpts ){
+                    if(newCard.getId() == 'aboutTab'){
                         JSBridge.log("KingsAndEmperorsOfRussiaAboutScreen");
+                    } else if(newCard.getId() == 'feedbackTab'){
+                        JSBridge.log("KingsAndEmperorsOfRussiaInfoScreen");
                     }
                 }
             }
@@ -712,19 +713,16 @@ Ext.application({
         extend: 'Ext.TabPanel',
         config: {
             fullscreen:true,
-            layout: 'card',
-            region:'center',
-            deferredRender:false,
-            activeTab:0,
-            defaults:{autoScroll:true},
-            cardSwitchAnimation: 'slide',
             tabBar:{
               docked:'bottom',
               layout:{
-                pack:'center'
+                pack:'center',
             },},
-            items:[mainObj.toolBar, mainObj.historyTabPanel, mainObj.treeTabPanel, mainObj.armsTabPanel, mainObj.hymnTabPanel, mainObj.flagTabPanel]
-            ,
+            cardSwitchAnimation:{
+              type:'slide',
+              cover:true,
+            },
+            items:[mainObj.toolBar, mainObj.historyTabPanel, mainObj.treeTabPanel, mainObj.armsTabPanel, mainObj.hymnTabPanel, mainObj.flagTabPanel],
             listeners: {
                 activeitemchange :  function(container, newCard, oldCard, eOpts ){
                     if(newCard.getId() == 'historyTabPanel'){
