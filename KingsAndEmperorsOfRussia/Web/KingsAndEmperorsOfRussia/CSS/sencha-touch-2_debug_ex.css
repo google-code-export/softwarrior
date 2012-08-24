@@ -7369,7 +7369,7 @@ audio {
 /* line 69, ../themes/stylesheets/sencha-touch/default/widgets/_toolbar.scss */
 .x-title {
   line-height: 2.1em;
-  font-size: 1.2em;
+  /*font-size: 1.2em;*/
   text-align: center;
   font-weight: bold;
   white-space: nowrap;
