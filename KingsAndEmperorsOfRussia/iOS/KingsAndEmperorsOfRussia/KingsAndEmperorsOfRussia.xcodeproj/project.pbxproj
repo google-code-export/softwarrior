@@ -508,9 +508,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -525,9 +525,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
-				"PROVISIONING_PROFILE[sdk=*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -540,8 +540,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -550,8 +550,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -561,9 +561,9 @@
 		55C4F80514F3A1CE00EAD510 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
 				INFOPLIST_FILE = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Info.plist";
@@ -573,9 +573,9 @@
 					"\"$(SRCROOT)/Library\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
-				"PROVISIONING_PROFILE[sdk=*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -584,8 +584,8 @@
 		55C4F80614F3A1CE00EAD510 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Andrey Pilipenko";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Andrey Pilipenko";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Prefix.pch";
 				INFOPLIST_FILE = "KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia-Info.plist";
@@ -595,8 +595,8 @@
 					"\"$(SRCROOT)/Library\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "81D9ADBA-D095-4318-9F43-6593C6E02551";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "81D9ADBA-D095-4318-9F43-6593C6E02551";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

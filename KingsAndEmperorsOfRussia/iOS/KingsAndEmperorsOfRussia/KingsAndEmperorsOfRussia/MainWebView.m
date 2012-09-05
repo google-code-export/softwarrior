@@ -36,7 +36,7 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
         _contentUrlCheck =[NSMutableString stringWithString:@"undefined.url"]; 
         //_contentFile = [NSMutableString stringWithString:@"undefined.url"];
         //_contentFileCheck = [NSMutableString stringWithString:@"undefined.url"];
-        _contentFile = [NSMutableString stringWithString:@"index_mobile.html"];
+        _contentFile = [NSMutableString stringWithString:@"index-2_mobile.html"];
         _contentFileCheck = [NSMutableString stringWithString:@"index_mobile_check.html"];
 
         
