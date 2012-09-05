@@ -389,9 +389,9 @@ canvas {
     margin: 10px;
     margin-right:15px;
 }
-.audioPanel {
-    background-image: url(../IMG/BkGrnd.gif);
-    background-repeat: x-repeat;
+.audioPlayer {
+    position:relative;
+    top:10px;
 }
 .detailsPanel {
     background-image: url(../IMG/BkGrnd.gif);
