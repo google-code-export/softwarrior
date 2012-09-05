@@ -14,6 +14,7 @@ var treeZoomOut;
 var treeZoomDefault;
 var audioPlaying = false;
 var mainObj;
+var audioUrl = "";
 ///////////////////////////////////////////////////////////////////////////////
 //Functions
 ///////////////////////////////////////////////////////////////////////////////
@@ -38,9 +39,11 @@ function playHymn() {
     audio = Ext.getCmp('audioPlayer');
     audio.media.dom.src = curID;
     audio.media.dom.load();
-    audioPlaying = false;
-    var audioButton = Ext.getCmp('audioButton');
-    audioButton.setText(audioPlaying ? 'Пауза' : 'Играть');
+    if (Ext.os.is.Android){
+        audioPlaying = false;
+        var audioButton = Ext.getCmp('audioButton');
+        audioButton.setText(audioPlaying ? 'Пауза' : 'Играть');
+    }
     tapHandler('audio');
 }
 //----------------------------------------------------------------------
@@ -93,17 +96,14 @@ var crownPanelTemplate = new Ext.XTemplate(
     '<div class="description">',
     '<p>{description}</p></div>'
 );
-var audioPanelTemplate = new Ext.XTemplate(
-    '<div class="description">',
-    '<h2>{title}</h2>',
-    '<p>{description}</p></div>'
-);
 ///////////////////////////////////////////////////////////////////////////////
 //Application
 ///////////////////////////////////////////////////////////////////////////////  
-Ext.application({
-    name: 'mainApp',
-    launch: function() {
+//Ext.application({
+//    name: 'mainApp',
+//    launch: function() {
+Ext.setup({
+    onReady: function () {
     //----------------------------------------------
     mainObj = this;
     //----------------------------------------------
@@ -183,7 +183,7 @@ Ext.application({
                 handler:function(){
                             var crownInfo = Crown[1][1];
                             mainObj.crownPanel.setData(crownInfo);
-                            mainObj.historyBar1.setTitle('<FONT size=4 COLOR=gold>Короны</FONT>');
+                            mainObj.historyBar1.setTitle('<FONT size=3 COLOR=gold>Короны</FONT>');
                             tapHandler('crown');
                         }
                 },
@@ -201,7 +201,7 @@ Ext.application({
         }
     });
     mainObj.toolBar = Ext.create('mainApp.views.toolBar');
-    mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Цари и императоры России</FONT>');
+    mainObj.toolBar.setTitle('<FONT size=3 COLOR=gold>Цари и императоры России</FONT>');
     //----------------------------------------------
     Ext.define('mainApp.views.historyBar', {
         extend: 'Ext.Toolbar',
@@ -254,7 +254,7 @@ Ext.application({
             {xtype:'spacer'},
             {
                 ui:'plain',
-                text: '<FONT size=4 COLOR=red>'+'Инструкция'+'</FONT>'
+                text: '<FONT size=3 COLOR=red>'+'Инструкция'+'</FONT>'
             },
             {xtype:'spacer'}
             ]
@@ -705,54 +705,13 @@ Ext.application({
         }
     });
     mainObj.crownPanel = Ext.create('mainApp.views.crownPanel');
-    //----------------------------------------------
-    Ext.define('mainApp.views.mainTab', {
-        extend: 'Ext.TabPanel',
-        config: {
-            fullscreen:true,
-            tabBar:{
-              docked:'bottom',
-              layout:{
-                pack:'center',
-            },},
-            cardSwitchAnimation:{
-              type:'slide',
-              cover:true,
-            },
-            items:[mainObj.toolBar, mainObj.historyTabPanel, mainObj.treeTabPanel, mainObj.armsTabPanel, mainObj.hymnTabPanel, mainObj.flagTabPanel],
-            listeners: {
-                activeitemchange :  function(container, newCard, oldCard, eOpts ){
-                    if(newCard.getId() == 'historyTabPanel'){
-                        mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Цари и императоры России</FONT>');
-                        JSBridge.log("KingsAndEmperorsOfRussiaMainScreen");
-                    }
-                    else if(newCard.getId() == 'treeTabPanel'){
-                        mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Генеалогическое древо</FONT>');
-                        JSBridge.log("KingsAndEmperorsOfRussiaTreeScreen");
-                    }
-                    else if(newCard.getId() == 'armsTabPanel'){
-                        mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Герб Российской империи</FONT>');
-                        JSBridge.log("KingsAndEmperorsOfRussiaArmsScreen");
-                    }
-                    else if(newCard.getId() == 'hymnTabPanel'){
-                        mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Гимн Российской империи</FONT>');
-                        JSBridge.log("KingsAndEmperorsOfRussiaHymnScreen");
-                    }
-                    else if(newCard.getId() == 'flagTabPanel'){
-                        mainObj.toolBar.setTitle('<FONT size=4 COLOR=gold>Флаг Российской империи</FONT>');
-                        JSBridge.log("KingsAndEmperorsOfRussiaFlagScreen");
-                    }
-                }
-            }
-        }
-    });
-    mainObj.mainTab = Ext.create('mainApp.views.mainTab');
     //-----------------------------------------------
+    /*
     Ext.define('mainApp.views.audioToolBar', {
         extend: 'Ext.Toolbar',
         config: {
             docked:'bottom',
-            ui:'light',
+            //ui:'light',
             items:[
                 {xtype:'spacer'},
                 {
@@ -777,61 +736,113 @@ Ext.application({
         }
     });
     mainObj.audioToolBar = Ext.create('mainApp.views.audioToolBar');
+    */
     //-----------------------------------------------
     mainObj.audioPanel = null;
-    if(userArentName.indexOf("Android") > 0){
-        Ext.define('mainApp.views.audioPanel', {
-            extend: 'Ext.Panel',
+    if (Ext.os.is.Android){
+        //android devices do not support the <audio> tag controls
+        Ext.define('mainApp.views.audioPlayer', {
+            extend: 'Ext.Container',
             config: {
-                id:'audioPanel',
-                layout: 'card',
-                cls: 'detailsPanel',
-                xtype: 'panel',
-                fullscreen: true,
-                scrollable: 'vertical',
-                tpl:audioPanelTemplate,
-                html:'<h1>Чтобы послушать аудио нажмите на кнопку внизу экрана</h1>',
+                cls: 'audioPlayer',
                 items: [
-                    mainObj.historyBar2, 
-                    mainObj.audioToolBar,
                     {
-                        xtype : 'audio',
+                        xtype : 'button',
+                        id: 'audioButton',
+                        text  : 'Играть',
+                        margin: 10,
+                        handler: function() {
+                            var audio = Ext.getCmp('audioPlayer');
+                            if(audioPlaying == false){
+                                audio.play();
+                                audioPlaying = true;
+                            } else {
+                                audio.pause();
+                                audioPlaying = false;
+                            }
+                            this.setText(audioPlaying ? 'Пауза' : 'Играть');
+                        }
+                    },
+                    {
+                        xtype: 'audio',
                         id: 'audioPlayer',
-                        hidden: true,
-                        loop: true,
+                        url : audioUrl,
                         enableControls: false,
-                        url: ""
+                        loop : true
                     }
-                ]
-            }
-        });
-    } else {
-        Ext.define('mainApp.views.audioPanel', {
-            extend: 'Ext.Panel',
-            config: {
-                id:'audioPanel',
-                fullscreen: true,
-                cls: 'audioPanel',
-                layout: {
-                    type : 'vbox',
-                    pack : 'center',
-                    align: 'stretch'
-                }, 
-                items: [
-                    mainObj.historyBar2,
-                    {
-                        xtype : 'audio',
-                        id: 'audioPlayer',
-                        loop: true,
-                        enableControls: true,
-                        url: "AUDIO/hymn_1816_1833.mp3"
-                    }
+
                 ]
             }
         });
     }
+    else {
+        Ext.define('mainApp.views.audioPlayer', {
+            extend: 'Ext.Audio',
+            config: {
+                xtype: 'audio',
+                id: 'audioPlayer',
+                url  : audioUrl,
+                loop : true,
+                cls: 'audioPlayer',
+                enableControls: true
+            }
+        });
+    }
+    mainObj.audioPlayer = Ext.create('mainApp.views.audioPlayer');
+    Ext.define('mainApp.views.audioPanel', {
+        extend: 'Ext.Panel',
+        config: {
+            cls: 'detailsPanel',
+            items: [
+                mainObj.historyBar2,
+                mainObj.audioPlayer
+            ]
+        }
+    });
     mainObj.audioPanel = Ext.create('mainApp.views.audioPanel');
-    mainObj.historyBar2.setTitle('<FONT size=4 COLOR=gold>Послушать аудио</FONT>');
+    mainObj.historyBar2.setTitle('<FONT size=3 COLOR=gold>Послушать аудио</FONT>');
+    //----------------------------------------------
+    Ext.define('mainApp.views.mainTab', {
+        extend: 'Ext.TabPanel',
+        config: {
+            fullscreen:true,
+            tabBar:{
+              docked:'bottom',
+              layout:{
+                pack:'center',
+            },},
+            cardSwitchAnimation:{
+              type:'slide',
+              cover:true,
+            },
+            items:[mainObj.toolBar, mainObj.historyTabPanel, mainObj.treeTabPanel, mainObj.armsTabPanel, mainObj.hymnTabPanel, mainObj.flagTabPanel],
+            listeners: {
+                activeitemchange :  function(container, newCard, oldCard, eOpts ){
+                    if(newCard.getId() == 'historyTabPanel'){
+                        mainObj.toolBar.setTitle('<FONT size=3 COLOR=gold>Цари и императоры России</FONT>');
+                        JSBridge.log("KingsAndEmperorsOfRussiaMainScreen");
+                    }
+                    else if(newCard.getId() == 'treeTabPanel'){
+                        mainObj.toolBar.setTitle('<FONT size=3 COLOR=gold>Генеалогическое древо</FONT>');
+                        JSBridge.log("KingsAndEmperorsOfRussiaTreeScreen");
+                    }
+                    else if(newCard.getId() == 'armsTabPanel'){
+                        mainObj.toolBar.setTitle('<FONT size=3 COLOR=gold>Герб Российской империи</FONT>');
+                        JSBridge.log("KingsAndEmperorsOfRussiaArmsScreen");
+                    }
+                    else if(newCard.getId() == 'hymnTabPanel'){
+                        mainObj.toolBar.setTitle('<FONT size=3 COLOR=gold>Гимн Российской империи</FONT>');
+                        JSBridge.log("KingsAndEmperorsOfRussiaHymnScreen");
+                    }
+                    else if(newCard.getId() == 'flagTabPanel'){
+                        mainObj.toolBar.setTitle('<FONT size=3 COLOR=gold>Флаг Российской империи</FONT>');
+                        JSBridge.log("KingsAndEmperorsOfRussiaFlagScreen");
+                    }
+                }
+            }
+        }
+    });
+    mainObj.mainTab = Ext.create('mainApp.views.mainTab');
     //----------------------------------------------
     Ext.define('mainApp.views.viewport', {
         extend: 'Ext.Panel',
