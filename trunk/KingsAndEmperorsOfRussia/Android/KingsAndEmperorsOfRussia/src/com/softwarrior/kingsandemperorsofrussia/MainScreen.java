@@ -73,11 +73,17 @@ public class MainScreen extends FullWakeActivity implements AdListener {
     private volatile int mBackPressedCount = 0;
     
     //private final String mContentFileMask = "index_%02d_%s";
-    private final String mContentUrlPrefix = "http://www.softwarrior.org/KingsAndEmperorsOfRussia/";
-    //private final String mContentUrlPrefix = "http://oranienbaum.i-free.com/test/KingsAndEmperorsOfRussia/";
-    //private final String mServerTimeUrl = "http://oranienbaum.i-free.com/almanac/server_time.php";
     
-    private final String mContentFile = "index_mobile.html";
+    //RELEASE
+    private final String mContentUrlPrefix = "http://www.softwarrior.org/KingsAndEmperorsOfRussia/";
+    private final String mContentFile = "index-2_mobile.html";
+    //DEBUG
+    //private final String mContentUrlPrefix = "http://oranienbaum.i-free.com/test/25/";
+    //private final String mContentFile = "index-2_mobile.html";
+    
+    //private final String mContentUrlPrefix = "http://oranienbaum.i-free.com/test/KingsAndEmperorsOfRussia/";
+    //private final String mServerTimeUrl = "http://oranienbaum.i-free.com/almanac/server_time.php";    
+    
     private final String mContentFileCheck = "index_mobile_check.html";
     
     private final long MAX_QUOTA = 104857600L;
@@ -333,9 +339,12 @@ public class MainScreen extends FullWakeActivity implements AdListener {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
                 //Toast.makeText(MainScreen.this, "Url loading=" + url, Toast.LENGTH_SHORT).show();                
                 try {
-                    if (url.contains("softwarrior.org")){
+                    if(url.contains("softwarrior.org") || url.contains("oranienbaum.i-free.com")){
                           view.loadUrl(url);
-                          return false;                     
+                          return false; 
+                    }
+                    else if (url.contains("about:blank")){
+                    	  return false;
                     } else {
                         Log.w(MainApp.TAG,"shouldOverrideUrlLoading="+url);
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url)); 
