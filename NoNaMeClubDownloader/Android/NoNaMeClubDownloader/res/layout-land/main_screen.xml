@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:baselineAligned="false"
+  android:background="@drawable/background_land" android:gravity="center_vertical|center_horizontal" android:orientation="horizontal">
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="0.3" android:id="@+id/linearLayoutLeft"></LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="1" android:id="@+id/linearLayoutButtons" android:gravity="center_vertical|center_horizontal">
+        <Button 
+            android:id="@+id/ButtonDownload"
+            android:background="@drawable/button_red" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="@string/main_button_download" 
+            android:onClick="@string/on_click_main_button_download"
+            android:textStyle="bold"  
+            android:textSize="22sp"
+            android:textColor="@color/cyan" 
+            android:layout_marginBottom="1dp">
+        </Button>                       
+        <Button 
+            android:id="@+id/ButtonWebSearch"
+            android:background="@drawable/button_green" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="@string/main_button_websearch" 
+            android:onClick="@string/on_click_main_button_websearch"  
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/cyan" 
+            android:layout_marginBottom="1dp">
+        </Button>                       
+        <Button 
+            android:id="@+id/ButtonRSSSearch"
+            android:background="@drawable/button_green" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="@string/main_button_rsssearch" 
+            android:onClick="@string/on_click_main_button_rsssearch"
+            android:textStyle="bold"  
+            android:textSize="22sp"
+            android:textColor="@color/cyan" 
+            android:layout_marginBottom="1dp">
+        </Button>                       
+        <Button 
+            android:id="@+id/ButtonPirateSearch"
+            android:background="@drawable/button_green" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="@string/main_button_piratesearch" 
+            android:onClick="@string/on_click_main_button_piratesearch"
+            android:textStyle="bold"  
+            android:textSize="22sp"
+            android:textColor="@color/cyan" 
+            android:layout_marginBottom="1dp">
+        </Button>                       
+        <Button 
+            android:id="@+id/ButtonKinoafisha"
+            android:background="@drawable/button_green" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="@string/main_button_kinoafisha" 
+            android:onClick="@string/on_click_main_button_kinoafisha"
+            android:textStyle="bold"  
+            android:textSize="22sp"
+            android:textColor="@color/cyan" 
+            android:layout_marginBottom="1dp">
+        </Button>                       
+        <Button 
+            android:id="@+id/ButtonOptions"
+            android:background="@drawable/button_blue" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:text="@string/main_button_settings" 
+            android:onClick="@string/on_click_main_button_settings"
+            android:textStyle="bold"  
+            android:textSize="22sp"
+            android:textColor="@color/cyan" 
+            android:layout_marginBottom="1dp">
+        </Button>        
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="0.3" android:id="@+id/linearLayoutRight"></LinearLayout>
+</LinearLayout>
