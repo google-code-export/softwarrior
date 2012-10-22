@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background_land"
+    android:orientation="vertical">
+    <TextView 
+       android:layout_width="fill_parent" 
+       android:layout_height="wrap_content" 
+       android:id="@+id/TextViewInstruction" 
+       android:text="@string/pirate_search_instruction"
+       android:paddingTop="5sp"
+       android:paddingBottom="5sp"
+       android:textColor="@color/cyan"/>                
+    <LinearLayout    
+        android:id="@+id/ButtonsLayoutMain" 
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true" 
+        android:orientation="vertical"         
+        android:layout_width="fill_parent" android:layout_marginBottom="5dp">
+        <RelativeLayout 
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:id="@+id/ButtonsLayout2" 
+            android:orientation="horizontal"
+            android:layout_above="@id/ButtonsLayout" 
+            android:layout_height="wrap_content">
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:text="@string/button_pirate_search"
+                android:onClick="@string/on_click_button_pirate_search"
+                android:layout_height="wrap_content" 
+                android:id="@+id/ButtonPirateSearch"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:background="@drawable/button_green"                 
+                android:layout_width="fill_parent"/>
+        </RelativeLayout>
+    </LinearLayout >              
+    <ListView android:id="@android:id/list"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_below="@id/TextViewInstruction" 
+              android:layout_above="@id/ButtonsLayoutMain"/>
+</RelativeLayout>

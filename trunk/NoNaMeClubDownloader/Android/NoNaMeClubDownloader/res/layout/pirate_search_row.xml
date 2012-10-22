@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+    <TextView
+        android:id="@+id/piratesearch_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <TextView
+        android:id="@+id/piratesearch_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dip"
+        android:paddingTop="5dip"
+        android:text="Torrent name"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/piratesearch_torrenturl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <TextView
+        android:id="@+id/piratesearch_detailsurl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <TextView
+        android:id="@+id/piratesearch_added"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/piratesearch_name"
+        android:paddingLeft="5dip"
+        android:text="12.05.1952"
+        android:textSize="12sp" />        
+    <TextView
+        android:id="@+id/piratesearch_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/piratesearch_name"
+        android:layout_toRightOf="@+id/piratesearch_added"
+        android:layout_marginLeft="5dip"
+        android:text="Size: 1234.5MB"
+        android:textSize="12sp" />    
+    <TextView
+        android:id="@+id/piratesearch_leechers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/piratesearch_name"
+        android:paddingRight="5dip"
+        android:text="89"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/piratesearchLeechers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/piratesearch_leechers"
+        android:layout_below="@+id/piratesearch_name"
+        android:paddingRight="5dip"
+        android:text="Leechers:"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/piratesearch_seeders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/piratesearch_name"
+        android:layout_toLeftOf="@+id/piratesearchLeechers"
+        android:paddingRight="5dip"
+        android:text="6"
+        android:textSize="12sp" />    
+    <TextView
+        android:id="@+id/piratesearchSeeders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/piratesearch_name"
+        android:layout_toLeftOf="@+id/piratesearch_seeders"
+        android:paddingRight="5dip"
+        android:text="Seeds:"
+        android:textSize="12sp" />
+</RelativeLayout>
