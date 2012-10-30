@@ -55,7 +55,7 @@
 		                android:layout_height="wrap_content" 
 		                android:layout_width="fill_parent" 
 		                android:textStyle="bold"
-		                android:background="@drawable/button_green"
+		                android:background="@drawable/button_nnm_light"
 		                android:textColor="@color/cyan"                                 
 		                android:layout_toRightOf="@id/TextView"/>
 		            <Button
@@ -67,7 +67,7 @@
 		                android:layout_alignParentLeft="true" 
 		                android:layout_width="fill_parent"
 		                android:textStyle="bold"
-		                android:background="@drawable/button_red"
+		                android:background="@drawable/button_nnm_light"
 		                android:textColor="@color/cyan"                                                 
 		                android:layout_toLeftOf="@id/TextView"/>  
         		</RelativeLayout>
@@ -88,7 +88,7 @@
                 android:id="@+id/ButtonDownload"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:background="@drawable/button_red"
+                android:background="@drawable/button_nnm_light"
                 android:textColor="@color/cyan"                                                                  
                 android:layout_width="fill_parent"/>
         </RelativeLayout>

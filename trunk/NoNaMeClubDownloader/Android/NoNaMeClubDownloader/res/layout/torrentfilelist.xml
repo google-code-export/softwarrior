@@ -49,7 +49,7 @@
                 android:layout_alignParentRight="true" 
                 android:layout_height="wrap_content" 
                 android:layout_width="fill_parent"
-                android:background="@drawable/button_red" 
+                android:background="@drawable/button_nnm_light" 
                 android:textStyle="bold"              
                 android:textColor="@color/cyan"                                
                 android:layout_toRightOf="@id/TextView1"/>
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"  
                 android:layout_alignParentLeft="true" 
                 android:layout_width="fill_parent"
-                android:background="@drawable/button_red" 
+                android:background="@drawable/button_nnm_light" 
                 android:textStyle="bold"              
                 android:textColor="@color/cyan"                                                              
                 android:layout_toLeftOf="@id/TextView1"/>  

@@ -34,7 +34,7 @@
                 android:id="@+id/ButtonPirateSearch"
                 android:textStyle="bold"
                 android:textColor="@color/cyan"
-                android:background="@drawable/button_green"                 
+                android:background="@drawable/button_nnm_light"                 
                 android:layout_width="fill_parent"/>
         </RelativeLayout>
     </LinearLayout >              
