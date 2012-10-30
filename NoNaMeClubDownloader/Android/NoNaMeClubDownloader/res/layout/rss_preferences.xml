@@ -42,7 +42,7 @@
                 android:layout_width="fill_parent"
                 android:textStyle="bold"
                 android:textColor="@color/cyan"
-                android:background="@drawable/button_green"                  
+                android:background="@drawable/button_nnm_light"                  
                 android:layout_toRightOf="@id/TextView"/>
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -54,7 +54,7 @@
                 android:layout_width="fill_parent"
                 android:textStyle="bold"
                 android:textColor="@color/cyan"
-                android:background="@drawable/button_red"                
+                android:background="@drawable/button_nnm_light"                
                 android:layout_toLeftOf="@id/TextView"/>  
         </RelativeLayout>
     </LinearLayout>              

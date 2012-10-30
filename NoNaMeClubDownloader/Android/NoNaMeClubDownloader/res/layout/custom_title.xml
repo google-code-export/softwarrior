@@ -1,19 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent"
+    android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/nnm_icon" 
+        android:contentDescription="@string/cdesc_nnm_icon"/>    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/button_home"
+        android:focusableInTouchMode="false"
+        android:onClick="@string/OnClickHome"
+        android:scaleType="fitCenter"
+        android:src="@drawable/nnm_home" 
+        android:contentDescription="@string/cdesc_nnm_home"/>
+
+     <ImageView
+         android:id="@+id/imageView2"
+         android:layout_width="fill_parent"
+         android:layout_height="50dip"
+         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
+         android:layout_toLeftOf="@+id/imageButton1"
+         android:layout_toRightOf="@+id/imageView1"
+         android:contentDescription="@string/cdesc_nnm_name"
+         android:src="@drawable/nnm_name" />
 
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android" 
-    android:id="@+id/screen"
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView android:id="@+id/left_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "@string/app_name"
-        android:layout_alignParentLeft="true" android:textStyle="bold" android:textColor="@color/gold" android:textColorHighlight="@color/red"/>
-    <TextView android:id="@+id/right_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "@string/app_copyright"
-        android:layout_alignParentRight="true" android:textColor="@color/gold" android:textColorHighlight="@color/red" android:textStyle="bold"/>
+     <RelativeLayout
+         android:layout_width="fill_parent"
+         android:layout_height="30dip"
+         android:layout_below="@+id/imageView2"
+         android:background="@drawable/site_back"
+         android:layout_centerHorizontal="true" >
+         <TextView
+            android:id="@+id/left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="2dp"
+            android:paddingLeft="55dp"
+            android:text="@string/nnm_site"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+          <TextView
+              android:id="@+id/right_text"
+              android:layout_width="wrap_content"
+              android:layout_height="fill_parent"
+              android:layout_alignParentRight="true"
+              android:layout_marginRight="5dp"
+              android:layout_marginTop="5dp"
+              android:text="@string/c_softwarrior"
+              android:textColor="@color/nnm_titles_light"
+              android:textAppearance="?android:attr/textAppearanceSmall" />
+     </RelativeLayout>
 </RelativeLayout>

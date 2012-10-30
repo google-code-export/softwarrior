@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+    <string name="OnClickHome">OnClickHomeHandler</string>
+    <string name="cdesc_nnm_icon">icon</string>
+    <string name="cdesc_nnm_name">name</string>
+    <string name="cdesc_nnm_home">home</string>
+    <string name="nnm_site">www.nnm-club.ru</string>
+    <string name="c_softwarrior">(c) Softwarrior</string>
     <string name="app_name">NoNaMe Club Downloader</string>
     <string name="app_desc">Программа для поиска и скачивания контента с сайта nnm-club.ru</string>
     <string name="app_copyright">(c) Softwarrior</string>
@@ -12,12 +18,12 @@
     <string name="on_click_main_button_programs">OnClickMainButtonPrograms</string>
     <string name="on_click_main_button_prog1">OnClickMainButtonProg1</string>
     <string name="on_click_main_button_prog2">OnClickMainButtonProg2</string>
-    <string name="main_button_download">Скачивание</string>
-    <string name="main_button_websearch">Web поиск</string>
-    <string name="main_button_rsssearch">RSS поиск</string>
+    <string name="main_button_download">СКАЧИВАНИЕ</string>
+    <string name="main_button_websearch">WEB ПОИСК</string>
+    <string name="main_button_rsssearch">RSS ПОИСК</string>
     <string name="main_button_piratesearch">Пиратский поиск</string>
-    <string name="main_button_kinoafisha">Киноафиша</string>
-    <string name="main_button_settings">Настройки</string>
+    <string name="main_button_kinoafisha">КИНОАФИША</string>
+    <string name="main_button_settings">НАСТРОЙКИ</string>
     <string name="main_button_programs">Программы</string>
     <string name="main_button_prog1">Цари и императоры России\n - хронология правления</string>
     <string name="main_button_prog2">Видео для взрослых</string>

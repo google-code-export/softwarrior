@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:orientation="vertical"
-    android:background="@drawable/background_land"
+    android:background="@drawable/background"
     android:layout_width="match_parent" 
     android:layout_height="match_parent">
     <!-- The frame layout is here since we will be showing either
@@ -67,7 +67,7 @@
         <Button
             style="?android:attr/buttonStyleSmall"
             android:id="@+id/ButtonStopAll"
-            android:background="@drawable/button_red"
+            android:background="@drawable/button_nnm_light"
             android:textStyle="bold"
             android:textColor="@color/cyan"                                 
             android:onClick="@string/on_click_button_stop_all"
@@ -79,7 +79,7 @@
             <requestFocus />
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:background="@drawable/button_red"
+            android:background="@drawable/button_nnm_light"
             android:textStyle="bold"
             android:textColor="@color/cyan"                                             
             android:id="@+id/ButtonStartAll"
@@ -107,7 +107,7 @@
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonPauseAll"
-                android:background="@drawable/button_green"
+                android:background="@drawable/button_nnm_light"
                 android:textStyle="bold"
                 android:textColor="@color/cyan"                                                 
                 android:onClick="@string/on_click_button_pause_all"
@@ -120,7 +120,7 @@
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:id="@+id/ButtonResumeAll"
-                android:background="@drawable/button_green"
+                android:background="@drawable/button_nnm_light"
                 android:textStyle="bold"
                 android:textColor="@color/cyan"                                                  
                 android:onClick="@string/on_click_button_resume_all"

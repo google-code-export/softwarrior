@@ -40,7 +40,7 @@
 	    <Button
 	        android:textStyle="bold"
             android:textColor="@color/cyan"
-            android:background="@drawable/button_green"                 	        	        
+            android:background="@drawable/button_nnm_light"                 	        	        
 	    	android:id="@+id/querygo"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
