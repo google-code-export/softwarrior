@@ -1,8 +1,8 @@
 package com.softwarrior.about;
 
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,14 +33,14 @@ public class Help extends Activity {
 	        //mWebView.loadUrl("http://rutracker.org/forum/index.php");
 	        //mWebView.loadUrl("file:///android_asset/demo.html");
 	        //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/Help");
+	        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
+		    DownloaderApp.AnalyticsTracker.trackPageView("/Help");
 	    }
 	    
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
 	    }
 	    
 		@Override

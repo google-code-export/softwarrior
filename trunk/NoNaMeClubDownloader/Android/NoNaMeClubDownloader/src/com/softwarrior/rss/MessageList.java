@@ -7,8 +7,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlSerializer;
 
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
 import android.app.ListActivity;
@@ -39,14 +39,18 @@ public class MessageList extends ListActivity {
     public enum MenuType{
     	About, Help, Main, FileManager, WebHistory, Exit;
     }
-	      
+	 
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+	
     @Override
     public void onCreate(Bundle icicle) {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
     	super.onCreate(icicle);
         setContentView(R.layout.rss);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
-        if(RutrackerDownloaderApp.FeedUrl.contains(RutrackerDownloaderApp.PirateFeedUrlPrefix))
+        if(DownloaderApp.FeedUrl.contains(DownloaderApp.PirateFeedUrlPrefix))
         	mPirateSearch = true;
         else
         	mPirateSearch = false;
@@ -58,7 +62,7 @@ public class MessageList extends ListActivity {
         listView.setEmptyView(findViewById(R.id.empty));
         listView.setItemsCanFocus(false);
               
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
     	final ProgressDialog dialog = ProgressDialog.show(this, "", getString(R.string.progress_read), true, false);
         final Handler handler = new Handler() {
             @Override
@@ -77,13 +81,13 @@ public class MessageList extends ListActivity {
 		handler.sendEmptyMessage(0);
             }
         }).start();		
-	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");
+	    DownloaderApp.AnalyticsTracker.trackPageView("/RSSMessageList");
     }
             
     @Override
     protected void onResume() {
     	super.onResume();
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
     }
     
 	@Override
@@ -108,7 +112,7 @@ public class MessageList extends ListActivity {
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -119,22 +123,22 @@ public class MessageList extends ListActivity {
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case Main:{
-			RutrackerDownloaderApp.MainScreen(this);
+			DownloaderApp.MainScreen(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.CloseApplication(this);
+			DownloaderApp.CloseApplication(this);
 		} break;
 		}
 		return true;
@@ -158,14 +162,14 @@ public class MessageList extends ListActivity {
 
 	private void loadFeed(ParserType type){
     	try{
-    		Log.i(RutrackerDownloaderApp.TAG, "ParserType="+type.name());
+    		Log.i(DownloaderApp.TAG, "ParserType="+type.name());
 	    	FeedParser parser = FeedParserFactory.getParser(type);
 	    	long start = System.currentTimeMillis();
 	    	mMessages = parser.parse();
 	    	long duration = System.currentTimeMillis() - start;
-	    	Log.i(RutrackerDownloaderApp.TAG, "Parser duration=" + duration);
+	    	Log.i(DownloaderApp.TAG, "Parser duration=" + duration);
 	    	String xml = writeXml();
-	    	Log.i(RutrackerDownloaderApp.TAG, xml);
+	    	Log.i(DownloaderApp.TAG, xml);
 	    	List<String> titles = new ArrayList<String>(mMessages.size());
 	    	for (RSSMessage msg : mMessages){
 	    		if(mPirateSearch){
@@ -187,7 +191,7 @@ public class MessageList extends ListActivity {
 	    	}
 	    	mListAdapter =  new ArrayAdapter<String>(this, R.layout.rss_row,titles);
     	} catch (Throwable t){
-    		Log.e(RutrackerDownloaderApp.TAG,t.getMessage(),t);
+    		Log.e(DownloaderApp.TAG,t.getMessage(),t);
     	}
     }
     

@@ -49,8 +49,8 @@ import android.widget.Toast;
 
 import com.softwarrior.rutrackerdownloaderlite.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 
 public class FileManagerActivity extends ListActivity { 
 	
@@ -277,14 +277,14 @@ public class FileManagerActivity extends ListActivity {
           
           browseTo(browseto);
           
-          if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-  	      RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/FileManager");
+          if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
+  	      DownloaderApp.AnalyticsTracker.trackPageView("/FileManager");
      }
      
      @Override
     protected void onResume() {
     	super.onResume();
-    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    	if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
     }
      
      public void onDestroy() {
@@ -314,7 +314,7 @@ public class FileManagerActivity extends ListActivity {
          jumpTo(new File(mSdCardPath));    	 
      }
      public void OnClickButtonBackToDownloader(View v) {
- 		RutrackerDownloaderApp.ToDownloaderActivity(this);
+ 		DownloaderApp.ToDownloaderActivity(this);
  	 }
      public void OnClickButtonSelectCurrentDir(View v) {
     	 DownloadPreferencesScreen.SetTorrentSavePath(this, currentDirectory.getAbsolutePath() + "/");
@@ -489,11 +489,11 @@ public class FileManagerActivity extends ListActivity {
     	 try {
     		 mMimeTypes = mtp.fromXmlResource(in);
     	 } catch (XmlPullParserException e) {
-    		 Log.e(RutrackerDownloaderApp.TAG,"PreselectedChannelsActivity: XmlPullParserException",e);
+    		 Log.e(DownloaderApp.TAG,"PreselectedChannelsActivity: XmlPullParserException",e);
     		 throw new RuntimeException(
     		 "PreselectedChannelsActivity: XmlPullParserException");
     	 } catch (IOException e) {
-    		 Log.e(RutrackerDownloaderApp.TAG, "PreselectedChannelsActivity: IOException", e);
+    		 Log.e(DownloaderApp.TAG, "PreselectedChannelsActivity: IOException", e);
     		 throw new RuntimeException(
     		 "PreselectedChannelsActivity: IOException");
     	 }
@@ -554,8 +554,8 @@ public class FileManagerActivity extends ListActivity {
           
           try {
         	  if(type.equals("application/x-bittorrent")){
-        		  RutrackerDownloaderApp.TorrentFullFileName = data.getPath();
-        		  RutrackerDownloaderApp.ToDownloaderActivity(this);
+        		  DownloaderApp.TorrentFullFileName = data.getPath();
+        		  DownloaderApp.ToDownloaderActivity(this);
         	  } else
             	  startActivity(intent);        		  
           } catch (ActivityNotFoundException e) {
@@ -755,7 +755,7 @@ public class FileManagerActivity extends ListActivity {
  		menu.add(Menu.NONE, MENU_MAIN, MENU_MAIN, R.string.menu_main);
  		menu.add(Menu.NONE, MENU_WEB_HISTORY, MENU_WEB_HISTORY, R.string.menu_web_history);
  		menu.add(Menu.NONE, MENU_EXIT, MENU_EXIT, R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
  		return true;
  	}
 
@@ -786,19 +786,19 @@ public class FileManagerActivity extends ListActivity {
 			showDialog(DIALOG_NEW_FOLDER);
 			return true;			
 		case MENU_ABOUT:
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 			return true;			
 		case MENU_HELP:
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 			return true;			
 		case MENU_MAIN:
-			RutrackerDownloaderApp.MainScreen(this);
+			DownloaderApp.MainScreen(this);
 			return true;			
 		case MENU_WEB_HISTORY:
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 			return true;
 		case MENU_EXIT:
-			RutrackerDownloaderApp.CloseApplication(this);
+			DownloaderApp.CloseApplication(this);
 			return true;			
 		}
 		return super.onOptionsItemSelected(item);
@@ -812,7 +812,7 @@ public class FileManagerActivity extends ListActivity {
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) menuInfo;
 		} catch (ClassCastException e) {
-			Log.e(RutrackerDownloaderApp.TAG, "bad menuInfo", e);
+			Log.e(DownloaderApp.TAG, "bad menuInfo", e);
 			return;
 		}
 		
@@ -852,8 +852,8 @@ public class FileManagerActivity extends ListActivity {
 	        intent.setDataAndType(data, type);
 	        //intent.addCategory(Intent.CATEGORY_SELECTED_ALTERNATIVE);
 	
-	        Log.v(RutrackerDownloaderApp.TAG, "Data=" + data);
-	        Log.v(RutrackerDownloaderApp.TAG, "Type=" + type);
+	        Log.v(DownloaderApp.TAG, "Data=" + data);
+	        Log.v(DownloaderApp.TAG, "Type=" + type);
 			
 	        if (type != null) {
 	        	// Add additional options for the MIME type of the selected file.
@@ -1218,8 +1218,8 @@ public class FileManagerActivity extends ListActivity {
 		String filename = file.getName();
 		String content = "hh";
 		
-		Log.i(RutrackerDownloaderApp.TAG, "Title to send: " + filename);
-		Log.i(RutrackerDownloaderApp.TAG, "Content to send: " + content);
+		Log.i(DownloaderApp.TAG, "Title to send: " + filename);
+		Log.i(DownloaderApp.TAG, "Content to send: " + content);
 
 		Intent i = new Intent();
 		i.setAction(Intent.ACTION_SEND);
@@ -1235,7 +1235,7 @@ public class FileManagerActivity extends ListActivity {
 		} catch (ActivityNotFoundException e) {
 			Toast.makeText(this, R.string.send_not_available,
 					Toast.LENGTH_SHORT).show();
-			Log.e(RutrackerDownloaderApp.TAG, "Email client not installed");
+			Log.e(DownloaderApp.TAG, "Email client not installed");
 		}
 	}
 

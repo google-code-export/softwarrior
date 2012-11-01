@@ -17,7 +17,7 @@ import com.mobclix.android.sdk.MobclixAdViewListener;
 import com.mobclix.android.sdk.MobclixMMABannerXLAdView;
 
 import com.softwarrior.libtorrent.LibTorrent;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 import com.softwarrior.widgets.TextProgressBar;
 
 import android.app.Activity;
@@ -60,7 +60,7 @@ public class DownloadService extends Service {
     void StopServiceSelf()
     {
 		hideNotification();            
-		Log.d(RutrackerDownloaderApp.TAG, "StopServiceSelf");            
+		Log.d(DownloaderApp.TAG, "StopServiceSelf");            
 		stopSelf(mStartId);
     }
          
@@ -80,7 +80,7 @@ public class DownloadService extends Service {
 		} else {
 		    txt = "Re-delivered startId=" + mStartId;
 		}
-		Log.d(RutrackerDownloaderApp.TAG, "Service Starting: " + txt);
+		Log.d(DownloaderApp.TAG, "Service Starting: " + txt);
 	    showNotification(getString(R.string.service_created)); 
 		
 		int listenPort = DownloadPreferencesScreen.GetListenPort(getApplicationContext());
@@ -216,17 +216,17 @@ public class DownloadService extends Service {
             if(intent != null){
             	Uri localUri = getIntent().getData();
             	if(localUri != null)
-            		RutrackerDownloaderApp.TorrentFullFileName = localUri.getPath();
+            		DownloaderApp.TorrentFullFileName = localUri.getPath();
             }
             //Mobclix
 	        mAdviewBanner = (MobclixMMABannerXLAdView) findViewById(R.id.advertising_banner_view);
             //AdMob
 	        mAdView = (AdView) findViewById(R.id.adView);
 
-	        if(RutrackerDownloaderApp.DownloadServiceMode){
-	        	RutrackerDownloaderApp.StartServiceActivity(this);
-	        	RutrackerDownloaderApp.RestoryWebHistoryFromDB(this);
-	        	RutrackerDownloaderApp.RestoryTorrentsFromDB(this);
+	        if(DownloaderApp.DownloadServiceMode){
+	        	DownloaderApp.StartServiceActivity(this);
+	        	DownloaderApp.RestoryWebHistoryFromDB(this);
+	        	DownloaderApp.RestoryTorrentsFromDB(this);
 	        }
 	        
 	        mAdInitTimer = new Timer();
@@ -234,7 +234,7 @@ public class DownloadService extends Service {
 	        mAdInitTimerHandler = new Handler() {
 	            @Override
 	            public void handleMessage(Message msg) {
-	    	        if(RutrackerDownloaderApp.CheckMode(Controller.this) && RutrackerDownloaderApp.CheckService(Controller.this)){
+	    	        if(DownloaderApp.CheckMode(Controller.this) && DownloaderApp.CheckService(Controller.this)){
 	    	        	mAdviewBanner.setVisibility(View.GONE);
 	    	        	mAdView.setVisibility(View.GONE);
 //	    	        	RutrackerDownloaderApp.ActivateTorrentFileList = true;
@@ -328,13 +328,13 @@ public class DownloadService extends Service {
             mStatusThread.start();
             RestoreControllerState();
 		    doBindService();
-    		if(RutrackerDownloaderApp.ExitState){
-    			if(RutrackerDownloaderApp.DownloadServiceMode)
-    				RutrackerDownloaderApp.FinalCloseApplication(this);
+    		if(DownloaderApp.ExitState){
+    			if(DownloaderApp.DownloadServiceMode)
+    				DownloaderApp.FinalCloseApplication(this);
     			else
-    				RutrackerDownloaderApp.CloseApplication(this);    			
+    				DownloaderApp.CloseApplication(this);    			
     		}
-		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
+		    DownloaderApp.AnalyticsTracker.trackPageView("/DownloadServiceControler");
         }
 	    private class AdInitTimerTask extends TimerTask {			
 			@Override
@@ -351,31 +351,31 @@ public class DownloadService extends Service {
 			}	    	
 	    }	    
     	void RestoreControllerState(){
-    		mControllerState = TorrentsList.GetCtrlState(RutrackerDownloaderApp.TorrentFullFileName);
-    		mTorrentSavePath = TorrentsList.GetSavePath(RutrackerDownloaderApp.TorrentFullFileName);
+    		mControllerState = TorrentsList.GetCtrlState(DownloaderApp.TorrentFullFileName);
+    		mTorrentSavePath = TorrentsList.GetSavePath(DownloaderApp.TorrentFullFileName);
     		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this);
-			mTorrentTotalSize = LibTorrents.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
+			mTorrentTotalSize = LibTorrents.GetTorrentSize(DownloaderApp.TorrentFullFileName);
 			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
-			StorageMode = TorrentsList.GetStorageMode(RutrackerDownloaderApp.TorrentFullFileName);			
+			StorageMode = TorrentsList.GetStorageMode(DownloaderApp.TorrentFullFileName);			
 			if(StorageMode < 0 ){
 				StorageMode = 0;
-				if(mTorrentTotalSize > RutrackerDownloaderApp.StorageModeCompactMB) StorageMode = 2;
+				if(mTorrentTotalSize > DownloaderApp.StorageModeCompactMB) StorageMode = 2;
 			}
 			if(StorageMode > 0)
 				mCheckBoxStorageMode.setChecked(false);
 			else
 				mCheckBoxStorageMode.setChecked(true);
-            mTorrentProgressSize = TorrentsList.GetProgressSize(RutrackerDownloaderApp.TorrentFullFileName);
-            mTorrentProgress = TorrentsList.GetProgress(RutrackerDownloaderApp.TorrentFullFileName);			
+            mTorrentProgressSize = TorrentsList.GetProgressSize(DownloaderApp.TorrentFullFileName);
+            mTorrentProgress = TorrentsList.GetProgress(DownloaderApp.TorrentFullFileName);			
 			if(mTorrentTotalSize < 0 ) mTorrentTotalSize = 0;
 			mProgress.setProgress(mTorrentProgress);			
 			mProgress.setText(Long.toString(mTorrentProgressSize)+ "/" + Long.toString(mTorrentTotalSize)+ "MB");
             SetControllerState(mControllerState);
     	}
     	void SaveControllerState(){
-    		TorrentsList.AddTorrent(this, RutrackerDownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, StorageMode, mTorrentSavePath);
-    		TorrentsList.SetCtrlState(RutrackerDownloaderApp.TorrentFullFileName, mControllerState);
-    		TorrentsList.SetStorageMode(RutrackerDownloaderApp.TorrentFullFileName, StorageMode);
+    		TorrentsList.AddTorrent(this, DownloaderApp.TorrentFullFileName, mTorrentProgress, mTorrentProgressSize, StorageMode, mTorrentSavePath);
+    		TorrentsList.SetCtrlState(DownloaderApp.TorrentFullFileName, mControllerState);
+    		TorrentsList.SetStorageMode(DownloaderApp.TorrentFullFileName, StorageMode);
     	}
     	void SetControllerState(ControllerState controllerState){
     		mControllerState = controllerState; 
@@ -456,29 +456,29 @@ public class DownloadService extends Service {
     	@Override
     	protected void onResume() {
     		super.onResume();
-    		if(RutrackerDownloaderApp.ExitState){
-    			if(RutrackerDownloaderApp.DownloadServiceMode)
-    				RutrackerDownloaderApp.FinalCloseApplication(this);
+    		if(DownloaderApp.ExitState){
+    			if(DownloaderApp.DownloadServiceMode)
+    				DownloaderApp.FinalCloseApplication(this);
     			else
-    				RutrackerDownloaderApp.CloseApplication(this);    			
+    				DownloaderApp.CloseApplication(this);    			
     		}
-            if(RutrackerDownloaderApp.TorrentFullFileName.equals("undefined"))
+            if(DownloaderApp.TorrentFullFileName.equals("undefined"))
             	setTitle(R.string.torrent_file_undefined);
             else
             {
 				boolean open_result= false;
-            	mTorrentContentName = LibTorrents.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);
+            	mTorrentContentName = LibTorrents.GetTorrentName(DownloaderApp.TorrentFullFileName);
 				if(mTorrentContentName != null && mTorrentContentName.length() > 0){
-					mTorrentTotalSize = LibTorrents.GetTorrentSize(RutrackerDownloaderApp.TorrentFullFileName);
+					mTorrentTotalSize = LibTorrents.GetTorrentSize(DownloaderApp.TorrentFullFileName);
 					if(mTorrentTotalSize >= 0){
-		        		File file = new File(RutrackerDownloaderApp.TorrentFullFileName);
+		        		File file = new File(DownloaderApp.TorrentFullFileName);
 		        		String fileName = file.getName();
 						setTitle(fileName);
 						open_result = true;
 					}
 				}
 				if(open_result==false){
-					RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+					DownloaderApp.TorrentFullFileName = new String("undefined");
 					setTitle(R.string.torrent_file_undefined);
 					Toast.makeText(this, getString(R.string.open_torrent_file_error), Toast.LENGTH_LONG).show();
 				}
@@ -515,21 +515,21 @@ public class DownloadService extends Service {
     		//RutrackerDownloaderApp.AnalyticsTracker.dispatch();
         }                
     	public static String CopyTorrentFiles(String newName, String oldName){    		
-    		String result =  RutrackerDownloaderApp.TorrentFullFileName;
+    		String result =  DownloaderApp.TorrentFullFileName;
     		try{			
-				URI torrentFullName =  new URI(RutrackerDownloaderApp.DefaultTorrentSavePath + newName);
+				URI torrentFullName =  new URI(DownloaderApp.DefaultTorrentSavePath + newName);
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
 					File newFile =  new File(filepath);
 					File oldFile = new File(oldName); 
 					if(newFile != null && oldFile != null){
-						if(RutrackerDownloaderApp.CopyFile(oldFile, newFile)){
+						if(DownloaderApp.CopyFile(oldFile, newFile)){
 							result = filepath;
 						}
 					}
 				}
     		} catch (Exception ex){
-    			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+    			Log.e(DownloaderApp.TAG, ex.toString());
     	    }
     		return result;
     	}        
@@ -541,7 +541,7 @@ public class DownloadService extends Service {
 		public void OnClickButtonStartDownload(View v) {
         	if(mIsBoundService){
         		try{
-        			FileInputStream fis = new FileInputStream(RutrackerDownloaderApp.TorrentFullFileName); 
+        			FileInputStream fis = new FileInputStream(DownloaderApp.TorrentFullFileName); 
             		fis.close();  		
             	}
             	catch(Exception ex){
@@ -549,14 +549,14 @@ public class DownloadService extends Service {
                     return;
             	}
         		if(mTorrentSavePath.length() < 3) mTorrentSavePath = DownloadPreferencesScreen.GetTorrentSavePath(this); 
-            	String tempName = CopyTorrentFiles("downloader_temp.torrent",RutrackerDownloaderApp.TorrentFullFileName);
+            	String tempName = CopyTorrentFiles("downloader_temp.torrent",DownloaderApp.TorrentFullFileName);
             	//0-storage_mode_allocate
             	//1-storage_mode_sparse
             	//2-storage_mode_compact
             	int storageMode = StorageMode;
             	//if(StorageMode == 0) storageMode = 1;
             	boolean res = LibTorrents.AddTorrent(mTorrentSavePath, tempName, storageMode);
-            	if(!tempName.equals(RutrackerDownloaderApp.TorrentFullFileName))
+            	if(!tempName.equals(DownloaderApp.TorrentFullFileName))
             		DeleteFile(tempName);
         		if(res == true) SetControllerState(ControllerState.Started);
         	}
@@ -577,7 +577,7 @@ public class DownloadService extends Service {
     	    }
         } 
 		public void OnClickButtonTorrentManager(View v){
-			RutrackerDownloaderApp.OpenDownloaderActivity(this);
+			DownloaderApp.OpenDownloaderActivity(this);
 			finish();
 		}
 		public void OnClickButtonStorageMode(View v){
@@ -655,7 +655,7 @@ public class DownloadService extends Service {
 	        	switch(ActivityResultType.getValue(resultCode))
 	    		{
 	    		case RESULT_DOWNLOADER:
-	    			RutrackerDownloaderApp.OpenDownloaderActivity(this);
+	    			DownloaderApp.OpenDownloaderActivity(this);
 	    			finish();
 	    			return;
 	    		case RESULT_MAIN:
@@ -663,10 +663,10 @@ public class DownloadService extends Service {
 	    			finish();
 	    			return;
 	    		case RESULT_EXIT:
-	    			if(RutrackerDownloaderApp.DownloadServiceMode)
-	    				RutrackerDownloaderApp.FinalCloseApplication(this);
+	    			if(DownloaderApp.DownloadServiceMode)
+	    				DownloaderApp.FinalCloseApplication(this);
 	    			else
-	    				RutrackerDownloaderApp.CloseApplication(this);
+	    				DownloaderApp.CloseApplication(this);
 	    			return;
 	    		};
 			}
@@ -681,7 +681,7 @@ public class DownloadService extends Service {
     		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
     		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
     		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-		    RutrackerDownloaderApp.SetMenuBackground(this);
+		    DownloaderApp.SetMenuBackground(this);
     		return true;
     	}    	
     	@Override
@@ -691,25 +691,25 @@ public class DownloadService extends Service {
     		switch(type)
     		{
     		case About:{
-    			RutrackerDownloaderApp.AboutActivity(this);
+    			DownloaderApp.AboutActivity(this);
     		} break;
     		case Help:{
-    			RutrackerDownloaderApp.HelpActivity(this);
+    			DownloaderApp.HelpActivity(this);
     		} break;
     		case Main:{
-    			RutrackerDownloaderApp.MainScreen(this);
+    			DownloaderApp.MainScreen(this);
     		} break;
     		case FileManager:{
-    			RutrackerDownloaderApp.FileManagerActivity(this);
+    			DownloaderApp.FileManagerActivity(this);
     		} break;
     		case WebHistory:{
-    			RutrackerDownloaderApp.WebHistoryActivity(this);
+    			DownloaderApp.WebHistoryActivity(this);
     		} break;
     		case Exit:{
-    			if(RutrackerDownloaderApp.DownloadServiceMode)
-    				RutrackerDownloaderApp.FinalCloseApplication(this);
+    			if(DownloaderApp.DownloadServiceMode)
+    				DownloaderApp.FinalCloseApplication(this);
     			else
-    				RutrackerDownloaderApp.CloseApplication(this);
+    				DownloaderApp.CloseApplication(this);
     		} break;
     		}
     		return true;
@@ -718,40 +718,40 @@ public class DownloadService extends Service {
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
 		public void onAdClick(MobclixAdView arg0) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix clicked");
+			Log.v(DownloaderApp.TAG, "Mobclix clicked");
 //			RutrackerDownloaderApp.ActivateTorrentFileList = true;
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
+			Log.v(DownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
 		}
 		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + openAllocationCode);
+			Log.v(DownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + openAllocationCode);
 			return false;
 		}
 		public void onSuccessfulLoad(MobclixAdView view) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request was successful!");
+			Log.v(DownloaderApp.TAG, "Mobclix The ad request was successful!");
 			view.setVisibility(View.VISIBLE);
 		}
 		public void onFailedLoad(MobclixAdView view, int errorCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request failed with error code: " + errorCode);
+			Log.v(DownloaderApp.TAG, "Mobclix The ad request failed with error code: " + errorCode);
 			view.setVisibility(View.GONE);
 		}
 		//AdMob
 		public void onDismissScreen(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onDismissScreen");
+			Log.v(DownloaderApp.TAG, "AdMob onDismissScreen");
 		}
 		public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
+			Log.v(DownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
 		}
 		public void onLeaveApplication(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");
+			Log.v(DownloaderApp.TAG, "AdMob onLeaveApplication");
 //			RutrackerDownloaderApp.ActivateTorrentFileList = true;
 		}
 		public void onPresentScreen(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+			Log.v(DownloaderApp.TAG, "AdMob onLeaveApplication");			
 		}
 		public void onReceiveAd(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");						
+			Log.v(DownloaderApp.TAG, "AdMob onReceiveAd");						
 		}				
     }
 }

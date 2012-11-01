@@ -33,13 +33,13 @@ public class TorrentsSQLHelper extends SQLiteOpenHelper {
                 + STORAGE_MODE + " integer, "
                 + SAVE_PATH + " text not null, "
                 + FILE + " text not null);";
-        Log.d(RutrackerDownloaderApp.TAG, "onCreate: " + sql);
+        Log.d(DownloaderApp.TAG, "onCreate: " + sql);
         db.execSQL(sql);
     }
     
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(RutrackerDownloaderApp.TAG, "Upgrading database from version " + oldVersion + " to "
+        Log.w(DownloaderApp.TAG, "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS notes");
         onCreate(db);

@@ -20,8 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 import com.softwarrior.web.TorrentWebClient;
 
 public class PirateSearchActivity extends ListActivity {
@@ -55,6 +55,10 @@ public class PirateSearchActivity extends ListActivity {
 	
 	public enum MenuType{
 		About, Help, FileManager, WebHistory, Exit;
+	}
+
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
 	}
 	
     @Override
@@ -129,14 +133,14 @@ public class PirateSearchActivity extends ListActivity {
 //				}
 //			});
 //        }
-    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-    	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/PirateSearchActivity");
+    	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
+    	DownloaderApp.AnalyticsTracker.trackPageView("/PirateSearchActivity");
     }
 
     @Override
     protected void onResume() {
 	  	super.onResume();
-	  	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	  	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
     }
 
     @Override
@@ -147,7 +151,7 @@ public class PirateSearchActivity extends ListActivity {
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -158,19 +162,19 @@ public class PirateSearchActivity extends ListActivity {
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.FinalCloseApplication(this);
+			DownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;

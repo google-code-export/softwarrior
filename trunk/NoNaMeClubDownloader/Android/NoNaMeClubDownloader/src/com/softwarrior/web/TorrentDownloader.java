@@ -14,7 +14,7 @@ import java.util.zip.GZIPInputStream;
 import com.softwarrior.rutrackerdownloaderlite.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloaderlite.DownloadService;
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 
 import android.content.Context;
 import android.util.Log;
@@ -35,7 +35,7 @@ public class TorrentDownloader {
 	private String GetNNMDistributionNumber(String DistributionNumber){				
 		String result = DistributionNumber;
 		try{
-			URL url = new URL(RutrackerDownloaderApp.NN_TorrentTopic + DistributionNumber);				
+			URL url = new URL(DownloaderApp.NN_TorrentTopic + DistributionNumber);				
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httpget = (HttpURLConnection) connection;
 			httpget.setDoInput(true);
@@ -49,7 +49,7 @@ public class TorrentDownloader {
 			httpget.setRequestProperty("Connection", "keep-alive");
 			httpget.setRequestProperty("Cookie", mCookieData);
 			httpget.setRequestProperty("Host","www.nnm-club.ru");
-			httpget.setRequestProperty("Referer", RutrackerDownloaderApp.NN_SearchUrlPrefix);
+			httpget.setRequestProperty("Referer", DownloaderApp.NN_SearchUrlPrefix);
 			httpget.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16");
 
 			httpget.connect();
@@ -77,7 +77,7 @@ public class TorrentDownloader {
 		    	}		    		
 		    }			
 		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Log.e(DownloaderApp.TAG, ex.toString());
 			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 	    }
 		return result;
@@ -87,22 +87,22 @@ public class TorrentDownloader {
 		boolean result = false;
 		try{
 			String distributionNumber =  GetNNMDistributionNumber(DistributionNumber);
-			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";			
-			URL url = new URL(RutrackerDownloaderApp.NN_TorrentDL + distributionNumber);
+			DownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";			
+			URL url = new URL(DownloaderApp.NN_TorrentDL + distributionNumber);
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httpget = (HttpURLConnection) connection;
 			httpget.setDoInput(true);
 			httpget.setUseCaches(false);
 		
 			httpget.setRequestProperty("Accept", "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5");
-			httpget.setRequestProperty("Referer", RutrackerDownloaderApp.NN_TorrentTopic + DistributionNumber);
+			httpget.setRequestProperty("Referer", DownloaderApp.NN_TorrentTopic + DistributionNumber);
 			httpget.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpget.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.134 Safari/534.16");
 		    httpget.setRequestProperty("Cookie", mCookieData);			 
 
 			InputStream inputStream = httpget.getInputStream();
 	        if(inputStream != null) {
-				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
+				FileOutputStream fos = new FileOutputStream(DownloaderApp.TorrentFullFileName);
 				int length = 0;
 				byte [] data = new byte[1024];
 		        while ((length = inputStream.read(data)) != -1) {
@@ -114,10 +114,10 @@ public class TorrentDownloader {
 	        }
 	        result=RenameTorrentFiles(mContext);
 		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Log.e(DownloaderApp.TAG, ex.toString());
 	    }
 		if(result == false){
-			RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+			DownloaderApp.TorrentFullFileName = new String("undefined");
 			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 		}
 		return result;
@@ -126,8 +126,8 @@ public class TorrentDownloader {
 	public boolean Download(String DistributionNumber){
 		boolean result = false;
 		try{
-			RutrackerDownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";
-			URL url = new URL(RutrackerDownloaderApp.TorrentDL + DistributionNumber);				
+			DownloaderApp.TorrentFullFileName = mTorrentSavePath + "[" + DistributionNumber + "]" + ".torrent";
+			URL url = new URL(DownloaderApp.TorrentDL + DistributionNumber);				
 			URLConnection connection = url.openConnection();
 			HttpURLConnection httppost = (HttpURLConnection) connection;
 			httppost.setDoInput(true);
@@ -142,7 +142,7 @@ public class TorrentDownloader {
 		    httppost.setRequestProperty("Accept-Charset", "windows-1251,utf-8;q=0.7,*;q=0.7");
 		    httppost.setRequestProperty("Keep-Alive", "300");
 		    httppost.setRequestProperty("Connection", "keep-alive");
-		    httppost.setRequestProperty("Referer", RutrackerDownloaderApp.TorrentTopic + DistributionNumber);
+		    httppost.setRequestProperty("Referer", DownloaderApp.TorrentTopic + DistributionNumber);
 		    httppost.setRequestProperty("Cookie", mCookieData + "; bb_dl=" + DistributionNumber);
 		    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 		    httppost.setRequestProperty("Content-Length", "0");
@@ -151,7 +151,7 @@ public class TorrentDownloader {
 		    
 			InputStream inputStream = httppost.getInputStream();
 	        if(inputStream != null) {
-				FileOutputStream fos = new FileOutputStream(RutrackerDownloaderApp.TorrentFullFileName);
+				FileOutputStream fos = new FileOutputStream(DownloaderApp.TorrentFullFileName);
 				int length = 0;
 				byte [] data = new byte[1024];
 		        while ((length = inputStream.read(data)) != -1) {
@@ -163,10 +163,10 @@ public class TorrentDownloader {
 	        }
 	        result=RenameTorrentFiles(mContext);
 		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Log.e(DownloaderApp.TAG, ex.toString());
 	    }
 		if(result == false){
-			RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+			DownloaderApp.TorrentFullFileName = new String("undefined");
 			Toast.makeText(mContext, mContext.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 		}
 		return result;
@@ -189,24 +189,24 @@ public class TorrentDownloader {
 	static public boolean RenameTorrentFiles(Context context){
 		boolean result = false;
 		try{			
-			String torrentName = DownloadService.LibTorrents.GetTorrentName(RutrackerDownloaderApp.TorrentFullFileName);		
+			String torrentName = DownloadService.LibTorrents.GetTorrentName(DownloaderApp.TorrentFullFileName);		
 			if(torrentName != null){
 				torrentName = RemoveSpecialSymbols(torrentName);
 				URI torrentFullName =  new URI(DownloadPreferencesScreen.GetTorrentSavePath(context) + torrentName + ".torrent");
 				String filepath = torrentFullName.getPath();
 				if (filepath != null) {
 					File newFile =  new File(filepath);
-					File oldfile = new File(RutrackerDownloaderApp.TorrentFullFileName); 
+					File oldfile = new File(DownloaderApp.TorrentFullFileName); 
 					if(newFile != null && oldfile != null){
 						if(oldfile.renameTo(newFile)){
-							RutrackerDownloaderApp.TorrentFullFileName = filepath;
+							DownloaderApp.TorrentFullFileName = filepath;
 							result = true;
 						}
 					}
 				}
 			}
 		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Log.e(DownloaderApp.TAG, ex.toString());
 	    }
 		return result;
 	}
@@ -220,8 +220,8 @@ public class TorrentDownloader {
 	        c.setDoOutput(true);
 	        c.connect();
 	
-	        RutrackerDownloaderApp.TorrentFullFileName = DownloadPreferencesScreen.GetTorrentSavePath(context) + "torrent_temp.torrent";
-	        File outputFile = new File(RutrackerDownloaderApp.TorrentFullFileName);
+	        DownloaderApp.TorrentFullFileName = DownloadPreferencesScreen.GetTorrentSavePath(context) + "torrent_temp.torrent";
+	        File outputFile = new File(DownloaderApp.TorrentFullFileName);
 	        FileOutputStream fos = new FileOutputStream(outputFile);
 	
 	        InputStream is = c.getInputStream();
@@ -237,10 +237,10 @@ public class TorrentDownloader {
 	        }
 	        result=RenameTorrentFiles(context);
 	    } catch (Exception ex){ 	
- 	    	Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+ 	    	Log.e(DownloaderApp.TAG, ex.toString());
  	    }
 		if(result == false){
-			RutrackerDownloaderApp.TorrentFullFileName = new String("undefined");
+			DownloaderApp.TorrentFullFileName = new String("undefined");
 			Toast.makeText(context, context.getString(R.string.torrent_download_error), Toast.LENGTH_LONG).show();
 		}
 		return result;

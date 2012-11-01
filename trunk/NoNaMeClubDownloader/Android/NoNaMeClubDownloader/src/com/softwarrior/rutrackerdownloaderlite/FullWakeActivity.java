@@ -22,7 +22,7 @@ public class FullWakeActivity extends Activity {
     @Override
     protected void onDestroy() {
 	if(mWakeLock.isHeld()) {
-	    Log.w(RutrackerDownloaderApp.TAG, "WakeLock is still held");
+	    Log.w(DownloaderApp.TAG, "WakeLock is still held");
 	    mWakeLock.release();
 	}
 	super.onDestroy();

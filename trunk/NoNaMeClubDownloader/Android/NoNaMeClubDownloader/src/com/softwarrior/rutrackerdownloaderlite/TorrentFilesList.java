@@ -2,7 +2,7 @@ package com.softwarrior.rutrackerdownloaderlite;
 
 import java.util.ArrayList;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -54,6 +54,10 @@ public class TorrentFilesList extends ListActivity {
 	private TextView mDirName;
 	private ListView mListView;
 
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -104,14 +108,14 @@ public class TorrentFilesList extends ListActivity {
 //	        Button button = (Button)findViewById(R.id.ButtonApply);
 //	        button.setEnabled(false);
 //	    }	    
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
+	    DownloaderApp.AnalyticsTracker.trackPageView("/TorrentFilesList");
     }
         
     @Override
     protected void onResume() {
     	super.onResume();
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
     }
             
 	@Override

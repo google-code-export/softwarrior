@@ -25,7 +25,7 @@
         android:process="com.softwarrior.rutrackerdownloaderprocess"    
         android:icon="@drawable/ic_launcher" 
         android:label="@string/app_name" 
-        android:name="RutrackerDownloaderApp" 
+        android:name=".DownloaderApp" 
         android:theme="@style/CustomTheme"
         android:description="@string/app_desc">        
         <activity android:name="SplashScreen" android:theme="@android:style/Theme.Translucent">

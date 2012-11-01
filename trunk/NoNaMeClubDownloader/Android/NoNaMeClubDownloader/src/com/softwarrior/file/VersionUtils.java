@@ -1,6 +1,6 @@
 package com.softwarrior.file;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -17,7 +17,7 @@ public class VersionUtils {
 			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			version = pi.versionCode;
 		} catch (PackageManager.NameNotFoundException e) {
-			Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+			Log.e(DownloaderApp.TAG, "Package name not found", e);
 		};
 		return version;
 	}
@@ -29,7 +29,7 @@ public class VersionUtils {
 			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			version = pi.versionName;
 		} catch (PackageManager.NameNotFoundException e) {
-			Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+			Log.e(DownloaderApp.TAG, "Package name not found", e);
 		};
 		return version;
 	}
@@ -43,7 +43,7 @@ public class VersionUtils {
 			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			name = context.getString(pi.applicationInfo.labelRes);
 		} catch (PackageManager.NameNotFoundException e) {
-			Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+			Log.e(DownloaderApp.TAG, "Package name not found", e);
 		};
 		return name;
 	}
@@ -57,7 +57,7 @@ public class VersionUtils {
 			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			icon = pi.applicationInfo.icon;
 		} catch (PackageManager.NameNotFoundException e) {
-			Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+			Log.e(DownloaderApp.TAG, "Package name not found", e);
 		};
 		return icon;
 	}
