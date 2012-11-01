@@ -28,8 +28,7 @@
     </FrameLayout>
     <LinearLayout
         android:id="@+id/container"
-        android:layout_height="wrap_content" 
-        android:layout_alignParentBottom="true" 
+        android:layout_height="wrap_content"  
         android:orientation="vertical" 
         android:layout_width="fill_parent">
         <com.google.ads.AdView 
@@ -43,49 +42,26 @@
             android:layout_height="50dp"
             android:layout_width="320dp"/>  
     </LinearLayout>      
-
+
     <LinearLayout
         android:id="@+id/ButtonsLayoutMain"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="2dp"
         android:orientation="vertical" >
-
-        <RelativeLayout
+
+        <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ButtonsLayout1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="2dp"
             android:orientation="horizontal" >
- 
-        <TextView
-            android:layout_width="5dp" 
-            android:layout_height="wrap_content" 
-            android:id="@+id/TextView1" 
-            android:text="" 
-            android:layout_centerHorizontal="true" 
-            android:layout_centerVertical="true"/>
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:id="@+id/ButtonStopAll"
-            android:background="@drawable/button_nnm_light_s"
-            android:textStyle="bold"
-            android:textSize="10sp"
-            android:textColor="@color/white"                                 
-            android:onClick="@string/on_click_button_stop_all"
-            android:text="@string/button_stop_all" 
-            android:layout_alignParentRight="true" 
-            android:layout_height="wrap_content" 
-            android:layout_width="fill_parent" 
-            android:layout_toRightOf="@id/TextView1"/>
-            <requestFocus />
-        <Button
+
+         <Button
             style="?android:attr/buttonStyleSmall"
             android:background="@drawable/button_nnm_light_s"
             android:textStyle="bold"
@@ -95,96 +71,82 @@
             android:onClick="@string/on_click_button_start_all" 
             android:text="@string/button_start_all" 
             android:layout_height="wrap_content"  
-            android:layout_alignParentLeft="true" 
-            android:layout_width="fill_parent"
-            android:layout_toLeftOf="@id/TextView1"/>  
-        </RelativeLayout>
-
-        <RelativeLayout
+            android:layout_weight="0.33" 
+            android:layout_width="fill_parent"/>                          
+
+         <Button
+             android:id="@+id/ButtonPauseAll"
+             style="?android:attr/buttonStyleSmall"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="2dp"
+             android:layout_weight="0.33"
+             android:background="@drawable/button_nnm_light_s"
+             android:onClick="@string/on_click_button_pause_all"
+             android:text="@string/button_pause_all"
+             android:textColor="@color/white"
+             android:textSize="10sp"
+             android:textStyle="bold" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:id="@+id/ButtonStopAll"
+            android:background="@drawable/button_nnm_light_s"
+            android:textStyle="bold"
+            android:textSize="10sp"
+            android:textColor="@color/white"                                 
+            android:onClick="@string/on_click_button_stop_all"
+            android:text="@string/button_stop_all" 
+            android:layout_weight="0.33"
+            android:layout_height="wrap_content" 
+            android:layout_width="fill_parent"/>
+        </LinearLayout>
+        <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ButtonsLayout2"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
+            android:layout_height="fill_parent"
             android:orientation="horizontal" >
- 
-            <TextView 
-                android:layout_width="5dp" 
-                android:layout_height="wrap_content" 
-                android:id="@+id/TextView2" 
-                android:text="" 
-                android:layout_centerHorizontal="true" 
-                android:layout_centerVertical="true"/>
+
+            <Button
+                android:id="@+id/ButtonResumeAll"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:background="@drawable/button_nnm_light_s"
+                android:onClick="@string/on_click_button_resume_all"
+                android:text="@string/button_resume_all"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+	        <Button
+	            android:id="@+id/ButtonAddTorrent"
+	            style="?android:attr/buttonStyleSmall"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="2dp"
+	            android:layout_marginRight="2dp"
+	            android:layout_weight="0.33"
+	            android:background="@drawable/button_nnm_light_s"
+	            android:onClick="@string/on_click_button_add_torrent"
+	            android:text="@string/button_add_torrent"
+	            android:textColor="@color/white"
+	            android:textSize="10sp"
+	            android:textStyle="bold" />     
             <Button
                 style="?android:attr/buttonStyleSmall"
-                android:id="@+id/ButtonPauseAll"
+                android:id="@+id/ButtonRemoveTorrents"
                 android:background="@drawable/button_nnm_light_s"
                 android:textStyle="bold"
                 android:textSize="10sp"
                 android:textColor="@color/white"                                                 
-                android:onClick="@string/on_click_button_pause_all"
-                android:text="@string/button_pause_all"  
-                android:layout_alignParentRight="true" 
+                android:onClick="@string/on_click_button_remove_torrents"
+                android:text="@string/button_remove_torrents" 
+                android:layout_weight="0.33"  
                 android:layout_height="wrap_content" 
-                android:layout_width="fill_parent" 
-                android:layout_toRightOf="@id/TextView2"/>
-                <requestFocus />
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:id="@+id/ButtonResumeAll"
-                android:background="@drawable/button_nnm_light_s"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:textColor="@color/white"                                                  
-                android:onClick="@string/on_click_button_resume_all"
-                android:text="@string/button_resume_all"           
-                android:layout_height="wrap_content"  
-                android:layout_alignParentLeft="true" 
-                android:layout_width="fill_parent"
-                android:layout_toLeftOf="@id/TextView2"/>  
-         </RelativeLayout>                
-	    <RelativeLayout 
-	        xmlns:android="http://schemas.android.com/apk/res/android"
-	        android:layout_width="fill_parent"
-	        android:id="@+id/ButtonsLayout3" 
-	        android:orientation="horizontal" 
-	        android:layout_height="wrap_content" 
-	        android:layout_alignParentBottom="true"> 
-	        <TextView
-	            android:layout_width="5dp" 
-	            android:layout_height="wrap_content" 
-	            android:id="@+id/TextView1" 
-	            android:text="" 
-	            android:layout_centerHorizontal="true" 
-	            android:layout_centerVertical="true"/>
-	        <Button
-	            style="?android:attr/buttonStyleSmall"
-	            android:id="@+id/ButtonRemoveTorrents"
-	            android:background="@drawable/button_nnm_light_s"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:textColor="@color/white"                 	            
-	            android:onClick="@string/on_click_button_remove_torrents"
-	            android:text="@string/button_remove_torrents" 
-	            android:layout_alignParentRight="true" 
-	            android:layout_height="wrap_content" 
-	            android:layout_width="fill_parent"
-	            android:layout_toRightOf="@id/TextView1"/>
-	            <requestFocus />
-	        <Button
-	            style="?android:attr/buttonStyleSmall" 
-                android:id="@+id/ButtonAddTorrent"
-                android:background="@drawable/button_nnm_light_s"
-                android:textStyle="bold"
-                android:textSize="10sp"
-                android:textColor="@color/white"                 
-                android:onClick="@string/on_click_button_add_torrent"
-                android:text="@string/button_add_torrent"
-                android:layout_alignParentLeft="true" 
-	            android:layout_height="wrap_content" 
-	            android:layout_width="fill_parent"
-	            android:layout_toLeftOf="@id/TextView1"/>
-	    </RelativeLayout>              
+                android:layout_width="fill_parent"/>  
+         </LinearLayout>              
     </LinearLayout>        
 </LinearLayout>
