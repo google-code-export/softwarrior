@@ -274,9 +274,9 @@ RSS только для rutracker.org\n
     <string name="torrent_file_downloaded">Файл был сохранен</string>
     <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
     <string name="button_torrent_manager">Управление загрузкой</string>
-    <string name="button_add_torrent">Добавить torrent</string>
+    <string name="button_add_torrent">ДОБАВИТЬ\nТОРРЕНТ</string>
     <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
-    <string name="button_remove_torrents">Удалить все torrents</string>
+    <string name="button_remove_torrents">УДАЛИТЬ\n ВСЕ ТОРРЕНТЫ</string>
     <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>
     <string name="no_torrents">torrent файлов нет</string>
     <string name="preferences_upnp">UPnP сервис</string>
@@ -307,9 +307,9 @@ RSS только для rutracker.org\n
     <string name="button_storage_mode">Выделить место под файлы</string>
     <string name="storage_mode_comment">Выделение занимает время, но ускоряет скачивание. Для больших файлов выделение занимает много времени. Функция \"Выбор файла\" доступна только в режиме \"Выделить место\".</string>
     <string name="select_file_disable">Функция \"Выбор файла\" доступна только в режиме \"Выделить место\".</string>
-    <string name="button_stop_all">Остановить все</string>
+    <string name="button_stop_all">ОСТАНОВИТЬ\nВСЕ</string>
     <string name="on_click_button_stop_all">OnClickButtonStopAll</string>
-    <string name="button_start_all">Запустить все</string>
+    <string name="button_start_all">ЗАПУСТИТЬ\nВСЕ</string>
     <string name="on_click_button_start_all">OnClickButtonStartAll</string>
     <string name="remove_torrents_dialog_title">Вы хотите удалить все torrents ?</string>
     <string name="ip_address_label">Локальный IP адрес:</string>
@@ -318,9 +318,9 @@ RSS только для rutracker.org\n
     <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>
     <string name="nothing_found">Ничего не найдено</string>
     <string name="on_click_button_resume_all">OnClickButtonResumeAll</string>
-    <string name="button_resume_all">Продолжить все</string>
+    <string name="button_resume_all">ПРОДОЛЖИТЬ\nВСЕ</string>
     <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
-    <string name="button_pause_all">Приостановить все</string>
+    <string name="button_pause_all">ПРИОСТАНОВИТЬ\nВСЕ</string>
     <string name="download_progress">Ожидание загрузки...</string>
     <string name="button_clear_history">Очистить историю</string>
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
