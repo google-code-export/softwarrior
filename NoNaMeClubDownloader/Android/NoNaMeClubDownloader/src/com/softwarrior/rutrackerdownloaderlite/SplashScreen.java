@@ -99,7 +99,7 @@ public class SplashScreen extends Activity {
                 .setMessage(R.string.update_incorrect)
                 .setPositiveButton(R.string.dialog_close, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                    	RutrackerDownloaderApp.FinalCloseApplication(SplashScreen.this);
+                    	DownloaderApp.FinalCloseApplication(SplashScreen.this);
                     }
                 }).create();
         }
@@ -110,7 +110,7 @@ public class SplashScreen extends Activity {
 		if (webViewDB==null) {
 			showDialog(DIALOG_UPDATE_INCORRECT);
 		} else {
-			RutrackerDownloaderApp.OpenMainScreen(this);
+			DownloaderApp.OpenMainScreen(this);
 	    	finish();
 		}
     }    

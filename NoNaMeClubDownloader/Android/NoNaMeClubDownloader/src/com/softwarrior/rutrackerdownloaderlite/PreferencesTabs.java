@@ -2,6 +2,7 @@ package com.softwarrior.rutrackerdownloaderlite;
 
 import android.app.TabActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -11,6 +12,10 @@ public class PreferencesTabs extends TabActivity {
 		
 	static TextView mRightText = null;
 	
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
@@ -53,8 +58,8 @@ public class PreferencesTabs extends TabActivity {
 //        else
 //        	RutrackerDownloaderApp.SetupRutracker(this);
         
-        RutrackerDownloaderApp.DownloadServiceMode = false;        
-        RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
+        DownloaderApp.DownloadServiceMode = false;        
+        DownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
     } 
     
     public static void SetRightCustomTitle(String text){

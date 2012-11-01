@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.softwarrior.rutrackerdownloaderlite.*;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 //----------------------------------------------------------------------------------
 public class WebHistory extends ListActivity{
     static public ArrayList<WebHistoryContainer> WebHistories = new ArrayList<WebHistoryContainer>();
@@ -54,6 +54,10 @@ public class WebHistory extends ListActivity{
         }
     }
     
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +96,8 @@ public class WebHistory extends ListActivity{
         mRightText.setTextColor(getResources().getColor(R.color.gold));
         mRightText.setTypeface(null,Typeface.BOLD);
         
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-        RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/WebHistory");
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
+        DownloaderApp.AnalyticsTracker.trackPageView("/WebHistory");
     }
   
     @Override
@@ -111,7 +115,7 @@ public class WebHistory extends ListActivity{
 //            else if(mActiveSite == SearchSiteName.NNM_CLUB_RU)            	
 //                	mRightText.setText(R.string.preferences_nnmclub_title);
 //    	}
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
     }
         
     static public void AddWebHistory(Context context, String name, String url, String action){
@@ -286,7 +290,7 @@ public class WebHistory extends ListActivity{
 		menu.add(Menu.NONE, MenuType.Main.ordinal(), MenuType.Main.ordinal(), R.string.menu_main);
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}	
 	@Override
@@ -296,22 +300,22 @@ public class WebHistory extends ListActivity{
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case Main:{
-			RutrackerDownloaderApp.MainScreen(this);
+			DownloaderApp.MainScreen(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case Exit:{
-			if(RutrackerDownloaderApp.DownloadServiceMode)
-				RutrackerDownloaderApp.FinalCloseApplication(this);
+			if(DownloaderApp.DownloadServiceMode)
+				DownloaderApp.FinalCloseApplication(this);
 			else
-				RutrackerDownloaderApp.CloseApplication(this);
+				DownloaderApp.CloseApplication(this);
 		} break;
 		}
 		return true;

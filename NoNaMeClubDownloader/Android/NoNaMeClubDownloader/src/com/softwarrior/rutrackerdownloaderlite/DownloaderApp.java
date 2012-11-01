@@ -41,7 +41,7 @@ import android.view.LayoutInflater.Factory;
 import android.webkit.WebViewDatabase;
 import android.widget.TextView;
 
-public class RutrackerDownloaderApp extends Application {	
+public class DownloaderApp extends Application {	
 		
    	//Enumerations
 	public enum ActivityResultType {
@@ -170,7 +170,7 @@ public class RutrackerDownloaderApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		try{
-			RutrackerDownloaderApp.AnalyticsTracker.startNewSession("UA-21583368-2", 30, this);        
+			DownloaderApp.AnalyticsTracker.startNewSession("UA-21583368-2", 30, this);        
 			WebViewDatabase webViewDB = WebViewDatabase.getInstance(this);
 			if (webViewDB!=null){
 				startService(new Intent(this, DownloadService.class));
@@ -265,42 +265,48 @@ public class RutrackerDownloaderApp extends Application {
 		 }
     }
 	static public void SetupPornolab(Activity activity){
-    	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.PL_TorrentLoginUrl;
-    	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.PL_SearchUrlPrefix;
-    	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.PL_SiteMap;
-    	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.PL_TorrentDL;
-    	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.PL_TorrentTopic;
-    	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.PL_CookieUrl;
+    	DownloaderApp.TorrentLoginUrl = DownloaderApp.PL_TorrentLoginUrl;
+    	DownloaderApp.SearchUrlPrefix = DownloaderApp.PL_SearchUrlPrefix;
+    	DownloaderApp.SiteMap = DownloaderApp.PL_SiteMap;
+    	DownloaderApp.TorrentDL = DownloaderApp.PL_TorrentDL;
+    	DownloaderApp.TorrentTopic = DownloaderApp.PL_TorrentTopic;
+    	DownloaderApp.CookieUrl = DownloaderApp.PL_CookieUrl;
 		//PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_pornolab_title));
 	}
 	static public void SetupRutracker(Activity activity){
-    	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.RT_TorrentLoginUrl;
-    	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.RT_SearchUrlPrefix;
-    	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.RT_SiteMap;        			
-    	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.RT_TorrentDL;
-    	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.RT_TorrentTopic;
-    	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.RT_CookieUrl;
+    	DownloaderApp.TorrentLoginUrl = DownloaderApp.RT_TorrentLoginUrl;
+    	DownloaderApp.SearchUrlPrefix = DownloaderApp.RT_SearchUrlPrefix;
+    	DownloaderApp.SiteMap = DownloaderApp.RT_SiteMap;        			
+    	DownloaderApp.TorrentDL = DownloaderApp.RT_TorrentDL;
+    	DownloaderApp.TorrentTopic = DownloaderApp.RT_TorrentTopic;
+    	DownloaderApp.CookieUrl = DownloaderApp.RT_CookieUrl;
     	//PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_rutracker_title));
 	}
 	static public void SetupNnmclub(Activity activity){
-    	RutrackerDownloaderApp.TorrentLoginUrl = RutrackerDownloaderApp.NN_TorrentLoginUrl;
-    	RutrackerDownloaderApp.SearchUrlPrefix = RutrackerDownloaderApp.NN_SearchUrlPrefix;
-    	RutrackerDownloaderApp.SiteMap = RutrackerDownloaderApp.NN_SiteMap;        			
-    	RutrackerDownloaderApp.TorrentDL = RutrackerDownloaderApp.NN_TorrentDL;
-    	RutrackerDownloaderApp.TorrentTopic = RutrackerDownloaderApp.NN_TorrentTopic;
-    	RutrackerDownloaderApp.CookieUrl = RutrackerDownloaderApp.NN_CookieUrl;
+    	DownloaderApp.TorrentLoginUrl = DownloaderApp.NN_TorrentLoginUrl;
+    	DownloaderApp.SearchUrlPrefix = DownloaderApp.NN_SearchUrlPrefix;
+    	DownloaderApp.SiteMap = DownloaderApp.NN_SiteMap;        			
+    	DownloaderApp.TorrentDL = DownloaderApp.NN_TorrentDL;
+    	DownloaderApp.TorrentTopic = DownloaderApp.NN_TorrentTopic;
+    	DownloaderApp.CookieUrl = DownloaderApp.NN_CookieUrl;
     	//PreferencesTabs.SetRightCustomTitle(activity.getString(R.string.preferences_nnmclub_title));
 	}	
     static public void MainScreen(Activity activity){
-    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_MAIN.getCode());
+    	activity.setResult(DownloaderApp.ActivityResultType.RESULT_MAIN.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-    	if(DownloadServiceMode)
-    		OpenMainScreen(activity);
-    	activity.finish();
+    	
+    	Intent intent = new Intent(Intent.ACTION_VIEW);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	intent.setClassName(activity, MainScreen.class.getName());
+    	activity.startActivity(intent);
+    	    	
+//    	if(DownloadServiceMode)
+//    		OpenMainScreen(activity);
+//    	activity.finish();
     }
 
     static public void ToDownloaderActivity(Activity activity){
-		activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
+		activity.setResult(DownloaderApp.ActivityResultType.RESULT_DOWNLOADER.getCode());
 		activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 		activity.finish();
     }
@@ -348,7 +354,7 @@ public class RutrackerDownloaderApp extends Application {
     
     static public void OpenKinoafisha(Activity activity) {
   	  Bundle bundle = new Bundle();
-  	  bundle.putString("LoadUrl", RutrackerDownloaderApp.KinoafishaCityUrl);
+  	  bundle.putString("LoadUrl", DownloaderApp.KinoafishaCityUrl);
   	  bundle.putString("Action", "Show");
   	  Intent intent = new Intent(Intent.ACTION_VIEW);
   	  intent.putExtras(bundle);
@@ -392,14 +398,14 @@ public class RutrackerDownloaderApp extends Application {
     }
  
     static public void CloseApplication(Activity activity){
-    	RutrackerDownloaderApp.ExitState = true;
-    	activity.setResult(RutrackerDownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
+    	DownloaderApp.ExitState = true;
+    	activity.setResult(DownloaderApp.ActivityResultType.RESULT_EXIT.getCode());
     	activity.overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
     	activity.finish();
     }
         
     static public void FinalCloseApplication(final Activity activity){
-    	RutrackerDownloaderApp.ExitState = true;
+    	DownloaderApp.ExitState = true;
     	if(!StartFinalClose){
     		StartFinalClose = true;
 	    	final ProgressDialog dialog = ProgressDialog.show(activity, "", activity.getString(R.string.progress_close), true, false);
@@ -413,8 +419,8 @@ public class RutrackerDownloaderApp extends Application {
 	    	SharedPreferences.Editor ed = prefs.edit();
 	        ed.putInt(ControllerState.class.getName(), ControllerState.Undefined.ordinal());
 	        ed.commit();
-	        RutrackerDownloaderApp.AnalyticsTracker.dispatch();
-	        RutrackerDownloaderApp.AnalyticsTracker.stopSession();
+	        DownloaderApp.AnalyticsTracker.dispatch();
+	        DownloaderApp.AnalyticsTracker.stopSession();
 	        final Handler handler = new Handler() {
 	            @Override
 	            public void handleMessage(Message msg) {
@@ -430,7 +436,7 @@ public class RutrackerDownloaderApp extends Application {
 	        new Thread(new Runnable() {
 	            public void run() {
 			try{
-			        RutrackerDownloaderApp.ClearCache(activity);
+			        DownloaderApp.ClearCache(activity);
 			}catch(Exception ex){}
 			handler.sendEmptyMessage(0);
 	            }

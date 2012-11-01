@@ -1,6 +1,6 @@
 package com.softwarrior.rss;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 
 public abstract class FeedParserFactory {
 	//static String feedUrl = "http://www.androidster.com/android_news.rss";
@@ -12,13 +12,13 @@ public abstract class FeedParserFactory {
 	public static FeedParser getParser(ParserType type){
 		switch (type){
 			case SAX:
-				return new SaxFeedParser(RutrackerDownloaderApp.FeedUrl);
+				return new SaxFeedParser(DownloaderApp.FeedUrl);
 			case DOM:
-				return new DomFeedParser(RutrackerDownloaderApp.FeedUrl);
+				return new DomFeedParser(DownloaderApp.FeedUrl);
 			case ANDROID_SAX:
-				return new AndroidSaxFeedParser(RutrackerDownloaderApp.FeedUrl);
+				return new AndroidSaxFeedParser(DownloaderApp.FeedUrl);
 			case XML_PULL:
-				return new XmlPullFeedParser(RutrackerDownloaderApp.FeedUrl);
+				return new XmlPullFeedParser(DownloaderApp.FeedUrl);
 			default: return null;
 		}
 	}

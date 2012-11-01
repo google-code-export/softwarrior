@@ -60,7 +60,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		
 		private void SetAdClicked(boolean flag){
 	        Context context = getApplicationContext();
-	        if(RutrackerDownloaderApp.CheckMode(context) && RutrackerDownloaderApp.CheckService(context))
+	        if(DownloaderApp.CheckMode(context) && DownloaderApp.CheckService(context))
 	        	mAdClicked = true;
 	        else 
 	        	mAdClicked = flag;
@@ -96,7 +96,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	        mAdView = (AdView) findViewById(R.id.adView);
 	        	        	        
 	        Context context = getApplicationContext();
-	        if(RutrackerDownloaderApp.CheckMode(context) && RutrackerDownloaderApp.CheckService(context)){
+	        if(DownloaderApp.CheckMode(context) && DownloaderApp.CheckService(context)){
 	        	TextView adInfo = (TextView) findViewById(R.id.site_choice_message);
 	        	adInfo.setVisibility(View.GONE);
 	        	mAdviewBanner.setVisibility(View.GONE);
@@ -123,14 +123,14 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		        };        
 	        }
 	        	        
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-		    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/SiteChoice");
+	        if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
+		    DownloaderApp.AnalyticsTracker.trackPageView("/SiteChoice");
 	    }
 
 	    @Override
 	    protected void onDestroy() {
 			if(mWakeLock.isHeld()) {
-			    Log.w(RutrackerDownloaderApp.TAG, "WakeLock is still held");
+			    Log.w(DownloaderApp.TAG, "WakeLock is still held");
 			    mWakeLock.release();
 			}
 			super.onDestroy();
@@ -151,7 +151,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager); 
 			menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history); 
 			menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-		    RutrackerDownloaderApp.SetMenuBackground(this);
+		    DownloaderApp.SetMenuBackground(this);
 			return true;
 		}		
 		@Override
@@ -161,19 +161,19 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			switch(type)
 			{
 			case About:{
-				RutrackerDownloaderApp.AboutActivity(this);
+				DownloaderApp.AboutActivity(this);
 			} break;
 			case Help:{
-				RutrackerDownloaderApp.HelpActivity(this);
+				DownloaderApp.HelpActivity(this);
 			} break;
 			case FileManager:{
-				RutrackerDownloaderApp.FileManagerActivity(this);
+				DownloaderApp.FileManagerActivity(this);
 			} break;
 			case WebHistory:{
-				RutrackerDownloaderApp.WebHistoryActivity(this);
+				DownloaderApp.WebHistoryActivity(this);
 			} break;
 			case Exit:{
-				RutrackerDownloaderApp.FinalCloseApplication(this);
+				DownloaderApp.FinalCloseApplication(this);
 			} break;
 			}
 			return true;
@@ -181,7 +181,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		@Override 
 		public boolean onKeyDown(int keyCode, KeyEvent event) {
 			if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-				RutrackerDownloaderApp.FinalCloseApplication(this);
+				DownloaderApp.FinalCloseApplication(this);
 			return super.onKeyDown(keyCode,event); 
 		}		
 	    @Override
@@ -194,7 +194,7 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	    	} else
 	    		getPreferenceScreen().setEnabled(false);
 			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	        if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
 	    }	    
 	    @Override
 	    protected void onPause() {
@@ -214,15 +214,15 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 	    }	    		
 	    @Override
 	    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-			switch(RutrackerDownloaderApp.ActivityResultType.getValue(resultCode))
+			switch(DownloaderApp.ActivityResultType.getValue(resultCode))
 			{
 			case RESULT_DOWNLOADER:
-				RutrackerDownloaderApp.OpenDownloaderActivity(this);
+				DownloaderApp.OpenDownloaderActivity(this);
 				return;
 			case RESULT_MAIN:
 				return;
 			case RESULT_EXIT:
-				RutrackerDownloaderApp.FinalCloseApplication(this);
+				DownloaderApp.FinalCloseApplication(this);
 				return;
 			};
 	    }	    	    	    		  
@@ -235,19 +235,19 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 			if(key.equals(KEY_RUTRACKER) && flag){
 				pl.setChecked(false);
 				nn.setChecked(false);
-				RutrackerDownloaderApp.SetupRutracker(this);
+				DownloaderApp.SetupRutracker(this);
 	    		SetAdClicked(false);
 			}				
 			else if(key.equals(KEY_PORNOLAB) && flag){
 				rt.setChecked(false);
 				nn.setChecked(false);
-				RutrackerDownloaderApp.SetupPornolab(this);
+				DownloaderApp.SetupPornolab(this);
 	    		SetAdClicked(false);
 			}
 			else if(key.equals(KEY_NNMCLUB) && flag){
 				rt.setChecked(false);
 				pl.setChecked(false);
-				RutrackerDownloaderApp.SetupNnmclub(this);
+				DownloaderApp.SetupNnmclub(this);
 	    		SetAdClicked(false);
 			}
 		}
@@ -255,11 +255,11 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 		public String keywords()	{ return null;}
 		public String query()		{ return null;}
 		public void onAdClick(MobclixAdView arg0) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix clicked");
+			Log.v(DownloaderApp.TAG, "Mobclix clicked");
 			SetAdClicked(true);
 		}
 		public void onCustomAdTouchThrough(MobclixAdView adView, String string) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
+			Log.v(DownloaderApp.TAG, "Mobclix The custom ad responded with '" + string + "' when touched!");
 		}
 		public boolean onOpenAllocationLoad(MobclixAdView adView, int openAllocationCode) {
 			String allocationText = new String(""); 
@@ -271,32 +271,32 @@ public class SiteChoice extends PreferenceActivity implements OnSharedPreference
 				allocationText = new String("GOOGLE");
 			else
 				allocationText = "UNKNOWN CODE:" + openAllocationCode;
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + allocationText);									
+			Log.v(DownloaderApp.TAG, "Mobclix The ad request returned open allocation code: " + allocationText);									
 			return false;
 		}
 		public void onSuccessfulLoad(MobclixAdView view) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request was successful!");
+			Log.v(DownloaderApp.TAG, "Mobclix The ad request was successful!");
 			view.setVisibility(View.VISIBLE);
 		}
 		public void onFailedLoad(MobclixAdView view, int errorCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "Mobclix The ad request failed with error code: " + errorCode);
+			Log.v(DownloaderApp.TAG, "Mobclix The ad request failed with error code: " + errorCode);
 			view.setVisibility(View.GONE);
 		}
 		//AdMob
 		public void onDismissScreen(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onDismissScreen");
+			Log.v(DownloaderApp.TAG, "AdMob onDismissScreen");
 		}
 		public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
+			Log.v(DownloaderApp.TAG, "AdMob failed to receive ad (" + errorCode + ")");			
 		}
 		public void onLeaveApplication(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");
+			Log.v(DownloaderApp.TAG, "AdMob onLeaveApplication");
 			SetAdClicked(true);			
 		}
 		public void onPresentScreen(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onLeaveApplication");			
+			Log.v(DownloaderApp.TAG, "AdMob onLeaveApplication");			
 		}
 		public void onReceiveAd(Ad ad) {
-			Log.v(RutrackerDownloaderApp.TAG, "AdMob onReceiveAd");						
+			Log.v(DownloaderApp.TAG, "AdMob onReceiveAd");						
 		}				
 }

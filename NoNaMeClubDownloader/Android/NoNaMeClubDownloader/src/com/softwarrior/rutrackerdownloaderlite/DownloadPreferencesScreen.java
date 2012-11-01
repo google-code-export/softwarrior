@@ -29,7 +29,7 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.*;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.*;
 
 public final class DownloadPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
@@ -56,7 +56,11 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	public static final String KEY_PASSWORD="preferences_password";
 	
 	public static final String KEY_TORRENT_SAVE_PATH="preferences_torrent_save_path";
-			
+	
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
 	@Override
 	protected void onCreate(Bundle icicle) {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -67,7 +71,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		
 		String savePath =  GetTorrentSavePath(this);
 		if(savePath == null || savePath.length() < 3)
-			SetTorrentSavePath(this, RutrackerDownloaderApp.DefaultTorrentSavePath);    
+			SetTorrentSavePath(this, DownloaderApp.DefaultTorrentSavePath);    
 		
 		InitSummaries(getPreferenceScreen());
 		setContentView(R.layout.download_preferences);
@@ -86,8 +90,8 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
             }
         };  
                         		
-		if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-		RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
+		if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
+		DownloaderApp.AnalyticsTracker.trackPageView("/DownloadPreferencesScreen");
 	}
 	private class IPRefreshTimerTask extends TimerTask {			
 		@Override
@@ -108,107 +112,107 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
     	}
 	}
 	public static int GetListenPort(Context context){
-		int result = RutrackerDownloaderApp.ListenPort; 
+		int result = DownloaderApp.ListenPort; 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String str = preferences.getString(KEY_LISTEN_PORT, String.valueOf(RutrackerDownloaderApp.ListenPort));
+		String str = preferences.getString(KEY_LISTEN_PORT, String.valueOf(DownloaderApp.ListenPort));
 		try{
 			result = Integer.parseInt(str);
 		}catch(Exception e){
-			SetListenPort(context,String.valueOf(RutrackerDownloaderApp.ListenPort));
+			SetListenPort(context,String.valueOf(DownloaderApp.ListenPort));
 		}
 		if(result < 0) {
-			SetListenPort(context,String.valueOf(RutrackerDownloaderApp.ListenPort));
-			result = RutrackerDownloaderApp.ListenPort;
+			SetListenPort(context,String.valueOf(DownloaderApp.ListenPort));
+			result = DownloaderApp.ListenPort;
 		}
 		return result;						
 	}		
 	public static int GetUploadLimit(Context context){
-		int result = RutrackerDownloaderApp.UploadLimit;
+		int result = DownloaderApp.UploadLimit;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String str = preferences.getString(KEY_UPLOAD_LIMIT, String.valueOf(RutrackerDownloaderApp.UploadLimit));
+		String str = preferences.getString(KEY_UPLOAD_LIMIT, String.valueOf(DownloaderApp.UploadLimit));
 		try{
 			result = Integer.parseInt(str);
 		}catch(Exception e){
-			SetUploadLimit(context,String.valueOf(RutrackerDownloaderApp.UploadLimit));
+			SetUploadLimit(context,String.valueOf(DownloaderApp.UploadLimit));
 		}		
 		return result;												
 	}
 	public static int GetDownloadLimit(Context context){
-		int result = RutrackerDownloaderApp.DownloadLimit;
+		int result = DownloaderApp.DownloadLimit;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String str = preferences.getString(KEY_DOWNLOAD_LIMIT, String.valueOf(RutrackerDownloaderApp.DownloadLimit));
+		String str = preferences.getString(KEY_DOWNLOAD_LIMIT, String.valueOf(DownloaderApp.DownloadLimit));
 		try{
 			result = Integer.parseInt(str);
 		}catch(Exception e){
-			SetDownloadLimit(context,String.valueOf(RutrackerDownloaderApp.DownloadLimit));
+			SetDownloadLimit(context,String.valueOf(DownloaderApp.DownloadLimit));
 		}
 		return result;
 	}
 	public static boolean GetUPNP(Context context){
-		boolean result = RutrackerDownloaderApp.UPNP;
+		boolean result = DownloaderApp.UPNP;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		result = preferences.getBoolean(KEY_UPNP, RutrackerDownloaderApp.UPNP);
+		result = preferences.getBoolean(KEY_UPNP, DownloaderApp.UPNP);
 		return result;
 	}
 	public static boolean GetLSD(Context context){
-		boolean result = RutrackerDownloaderApp.LSD;
+		boolean result = DownloaderApp.LSD;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		result = preferences.getBoolean(KEY_LSD, RutrackerDownloaderApp.LSD);
+		result = preferences.getBoolean(KEY_LSD, DownloaderApp.LSD);
 		return result;
 	}
 	public static boolean GetNATPMP(Context context){
-		boolean result = RutrackerDownloaderApp.NATPMP;
+		boolean result = DownloaderApp.NATPMP;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		result = preferences.getBoolean(KEY_NATPMP, RutrackerDownloaderApp.NATPMP);
+		result = preferences.getBoolean(KEY_NATPMP, DownloaderApp.NATPMP);
 		return result;
 	}	
 	public static int GetProxyType(Context context){
-		int result = RutrackerDownloaderApp.ProxyType;
+		int result = DownloaderApp.ProxyType;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String str = preferences.getString(KEY_PROXY_TYPE, String.valueOf(RutrackerDownloaderApp.ProxyType));
+		String str = preferences.getString(KEY_PROXY_TYPE, String.valueOf(DownloaderApp.ProxyType));
 		try{
 			result = Integer.parseInt(str);
 		}catch(Exception e){
-			SetProxyType(context,String.valueOf(RutrackerDownloaderApp.ProxyType));
+			SetProxyType(context,String.valueOf(DownloaderApp.ProxyType));
 		}
 		if(result < 0) {
-			SetProxyType(context,String.valueOf(RutrackerDownloaderApp.ProxyType));
-			result = RutrackerDownloaderApp.ProxyType;
+			SetProxyType(context,String.valueOf(DownloaderApp.ProxyType));
+			result = DownloaderApp.ProxyType;
 		}
 		return result;
 	}
 	public static String GetHostName(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_HOST_NAME, RutrackerDownloaderApp.HostName);								
+		return preferences.getString(KEY_HOST_NAME, DownloaderApp.HostName);								
 	}
 	public static int GetPortNumber(Context context){
-		int result = RutrackerDownloaderApp.PortNumber;
+		int result = DownloaderApp.PortNumber;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String str = preferences.getString(KEY_PORT_NUMBER, String.valueOf(RutrackerDownloaderApp.PortNumber));
+		String str = preferences.getString(KEY_PORT_NUMBER, String.valueOf(DownloaderApp.PortNumber));
 		try{
 			result = Integer.parseInt(str);
 		}catch(Exception e){
-			SetPortNumber(context,String.valueOf(RutrackerDownloaderApp.PortNumber));
+			SetPortNumber(context,String.valueOf(DownloaderApp.PortNumber));
 		}
 		return result;
 	}
 	public static String GetUserName(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_USER_NAME, RutrackerDownloaderApp.UserName);										
+		return preferences.getString(KEY_USER_NAME, DownloaderApp.UserName);										
 	}
 	public static String GetUserPassword(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_PASSWORD, RutrackerDownloaderApp.UserPassword);												
+		return preferences.getString(KEY_PASSWORD, DownloaderApp.UserPassword);												
 	}
 	public static String GetTorrentSavePath(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.DefaultTorrentSavePath);																
+		return preferences.getString(KEY_TORRENT_SAVE_PATH, DownloaderApp.DefaultTorrentSavePath);																
 	}
 	public static void SetTorrentSavePath(Context context, String SavePath){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(SavePath == null || SavePath.length() < 3)
-			editor.putString(KEY_TORRENT_SAVE_PATH, RutrackerDownloaderApp.DefaultTorrentSavePath);
+			editor.putString(KEY_TORRENT_SAVE_PATH, DownloaderApp.DefaultTorrentSavePath);
 		else
 			editor.putString(KEY_TORRENT_SAVE_PATH, SavePath);
 		editor.commit();
@@ -217,7 +221,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(listenPort == null || listenPort.length() < 0)
-			editor.putString(KEY_LISTEN_PORT, Integer.toString(RutrackerDownloaderApp.ListenPort));
+			editor.putString(KEY_LISTEN_PORT, Integer.toString(DownloaderApp.ListenPort));
 		else
 			editor.putString(KEY_LISTEN_PORT, listenPort);
 		editor.commit();		
@@ -226,7 +230,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(uploadLimit == null || uploadLimit.length() < 0)
-			editor.putString(KEY_UPLOAD_LIMIT, Integer.toString(RutrackerDownloaderApp.UploadLimit));
+			editor.putString(KEY_UPLOAD_LIMIT, Integer.toString(DownloaderApp.UploadLimit));
 		else
 			editor.putString(KEY_UPLOAD_LIMIT, uploadLimit);
 		editor.commit();				
@@ -235,7 +239,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(downloadLimit == null || downloadLimit.length() < 0)
-			editor.putString(KEY_DOWNLOAD_LIMIT, Integer.toString(RutrackerDownloaderApp.DownloadLimit));
+			editor.putString(KEY_DOWNLOAD_LIMIT, Integer.toString(DownloaderApp.DownloadLimit));
 		else
 			editor.putString(KEY_DOWNLOAD_LIMIT, downloadLimit);
 		editor.commit();						
@@ -244,7 +248,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(proxyType == null || proxyType.length() < 0)
-			editor.putString(KEY_PROXY_TYPE, Integer.toString(RutrackerDownloaderApp.ProxyType));
+			editor.putString(KEY_PROXY_TYPE, Integer.toString(DownloaderApp.ProxyType));
 		else
 			editor.putString(KEY_PROXY_TYPE, proxyType);
 		editor.commit();								
@@ -253,7 +257,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
 		if(portNumber == null || portNumber.length() < 0)
-			editor.putString(KEY_PORT_NUMBER, Integer.toString(RutrackerDownloaderApp.PortNumber));
+			editor.putString(KEY_PORT_NUMBER, Integer.toString(DownloaderApp.PortNumber));
 		else
 			editor.putString(KEY_PORT_NUMBER, portNumber);
 		editor.commit();										
@@ -280,7 +284,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 	super.onResume();
 	 InitSummaries(getPreferenceScreen());
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
   }
 
 	@Override
@@ -291,7 +295,7 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -302,19 +306,19 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.FinalCloseApplication(this);
+			DownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;
@@ -398,30 +402,30 @@ public final class DownloadPreferencesScreen extends PreferenceActivity
 			
 			String  str = sharedPreferences.getString(key, "0");
 			if(key.equals(KEY_LISTEN_PORT))
-					str = sharedPreferences.getString(key, Integer.toString(RutrackerDownloaderApp.ListenPort));
+					str = sharedPreferences.getString(key, Integer.toString(DownloaderApp.ListenPort));
 			int value = 0;
 			try{
 				value = Integer.parseInt(str);
 			}catch(Exception e){
 					str = "0";
 				if(key.equals(KEY_LISTEN_PORT))
-					str = Integer.toString(RutrackerDownloaderApp.ListenPort);
+					str = Integer.toString(DownloaderApp.ListenPort);
 				pr.setText(str);
 			}
 			if(key.equals(KEY_LISTEN_PORT) && value < 0)
-				pr.setText(Integer.toString(RutrackerDownloaderApp.ListenPort));
+				pr.setText(Integer.toString(DownloaderApp.ListenPort));
 		  } 
 		  else if(key.equals(KEY_TORRENT_SAVE_PATH)){
-			  String savePath = sharedPreferences.getString(key, RutrackerDownloaderApp.DefaultTorrentSavePath);
+			  String savePath = sharedPreferences.getString(key, DownloaderApp.DefaultTorrentSavePath);
 			  if(savePath == null || savePath.length() < 3)
-				  pr.setText(RutrackerDownloaderApp.DefaultTorrentSavePath);		    	
+				  pr.setText(DownloaderApp.DefaultTorrentSavePath);		    	
 		  }
 	  }
 	  SetSummary(pref);	  
   }
   
   public void OnClickButtonDownloader(View v) {
-	  RutrackerDownloaderApp.OpenDownloaderActivity(this);
+	  DownloaderApp.OpenDownloaderActivity(this);
   }  
   public void OnClickButtonActivateSettings(View v) {
 	  stopService(new Intent(this,DownloadService.class));

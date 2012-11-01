@@ -23,7 +23,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceGroup;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.*;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.*;
 
 public final class RSSPreferencesScreen extends PreferenceActivity
     implements OnSharedPreferenceChangeListener {
@@ -60,6 +60,10 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	public static final String KEY_SEARCH_YEAR = "preferences_search_year";
 	public static final String KEY_SEARCH_NAME = "preferences_search_name";
 
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
 	
 	@Override
   protected void onCreate(Bundle icicle) {
@@ -71,8 +75,8 @@ public final class RSSPreferencesScreen extends PreferenceActivity
     getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 	mButtonSearch = (Button)findViewById(R.id.ButtonSearch);
 	mButtonLogin = (Button)findViewById(R.id.ButtonLogin);
-    if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/RSSPreferencesScreen");
+    if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
+	DownloaderApp.AnalyticsTracker.trackPageView("/RSSPreferencesScreen");
   }
 	
   @Override
@@ -95,7 +99,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 //        Toast.makeText(this, R.string.rss_disable,Toast.LENGTH_SHORT).show();
 //    }
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
   }
 
 	@Override
@@ -106,7 +110,7 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager); 
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history); 
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -117,19 +121,19 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.FinalCloseApplication(this);
+			DownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;
@@ -165,30 +169,30 @@ public final class RSSPreferencesScreen extends PreferenceActivity
 	  mDate = new String("");
 	  mName = new String("");
 	  
-	  RutrackerDownloaderApp.FeedUrl = RutrackerDownloaderApp.FeedUrlPrefix;
+	  DownloaderApp.FeedUrl = DownloaderApp.FeedUrlPrefix;
 
 	  CreateFeedUrlRecursive(getPreferenceScreen());
 
 	  if(mType.length()>0){
 		  mType = mType.substring(0, mType.length() -1);
-		  RutrackerDownloaderApp.FeedUrl += "&type=";
-		  RutrackerDownloaderApp.FeedUrl += mType;
+		  DownloaderApp.FeedUrl += "&type=";
+		  DownloaderApp.FeedUrl += mType;
 	  }
   	  if(mDate.length()>0){
-		  RutrackerDownloaderApp.FeedUrl += "&date=";
-		  RutrackerDownloaderApp.FeedUrl += mDate;
+		  DownloaderApp.FeedUrl += "&date=";
+		  DownloaderApp.FeedUrl += mDate;
   	  }
   	  if(mName.length()>0){
-  		  	RutrackerDownloaderApp.FeedUrl += "&name=";
+  		  	DownloaderApp.FeedUrl += "&name=";
 			String enc_text = new String();
 			try {
 				enc_text = URLEncoder.encode(mName, "cp-1251");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			RutrackerDownloaderApp.FeedUrl += enc_text;
+			DownloaderApp.FeedUrl += enc_text;
   	  }
-  	  Log.d(RutrackerDownloaderApp.TAG,RutrackerDownloaderApp.FeedUrl);
+  	  Log.d(DownloaderApp.TAG,DownloaderApp.FeedUrl);
   }
   
   private void CreateFeedUrlRecursive(PreferenceGroup pg) {
@@ -254,11 +258,11 @@ public final class RSSPreferencesScreen extends PreferenceActivity
   }
     
   public void OnClickButtonLogin(View v) {
-      RutrackerDownloaderApp.SetSiteName(this, SearchSiteName.RUTRACKER_ORG);
-      RutrackerDownloaderApp.SetupRutracker(this);
+      DownloaderApp.SetSiteName(this, SearchSiteName.RUTRACKER_ORG);
+      DownloaderApp.SetupRutracker(this);
       
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);
+	  bundle.putString("LoadUrl", DownloaderApp.TorrentLoginUrl);
 	  bundle.putString("Action", "Login");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);

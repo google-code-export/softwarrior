@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.softwarrior.rss.MessageList;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,11 @@ public final class PiratePreferencesScreen extends PreferenceActivity
 	public enum MenuType{
 		About, Help, FileManager, WebHistory, Exit;
 	}
-		
+
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
 	@Override
   protected void onCreate(Bundle icicle) {
 	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -43,8 +47,8 @@ public final class PiratePreferencesScreen extends PreferenceActivity
 	InitSummaries(getPreferenceScreen());
 	setContentView(R.layout.pirate_preferences);
 	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
-	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/PiratePreferencesScreen");
+	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
+	DownloaderApp.AnalyticsTracker.trackPageView("/PiratePreferencesScreen");
   }
 	
   @Override
@@ -59,7 +63,7 @@ public final class PiratePreferencesScreen extends PreferenceActivity
 	super.onResume();
 	InitSummaries(getPreferenceScreen());
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
   }
   
 	@Override
@@ -70,7 +74,7 @@ public final class PiratePreferencesScreen extends PreferenceActivity
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -81,19 +85,19 @@ public final class PiratePreferencesScreen extends PreferenceActivity
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.FinalCloseApplication(this);
+			DownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;
@@ -120,7 +124,7 @@ public final class PiratePreferencesScreen extends PreferenceActivity
 		  if (p instanceof PreferenceGroup)
 		  {	
 			  String key = p.getKey();
-			  if(key!= null && key.equals(RutrackerDownloaderApp.KEY_SEARCH_ON_SITE))
+			  if(key!= null && key.equals(DownloaderApp.KEY_SEARCH_ON_SITE))
 				  mPSSearchOnSite = (PreferenceScreen) p;			  
 			  InitSummaries((PreferenceGroup) p); // recursion
 		  }
@@ -131,7 +135,7 @@ public final class PiratePreferencesScreen extends PreferenceActivity
   
   	private  String GetSearchString(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(RutrackerDownloaderApp.KEY_SEARCH_STRING, "");																
+		return preferences.getString(DownloaderApp.KEY_SEARCH_STRING, "");																
 	}
 			
     
@@ -152,21 +156,21 @@ public final class PiratePreferencesScreen extends PreferenceActivity
   private void CreatePirateSearchUrl()
   {
 	  mString = new String();
-	  RutrackerDownloaderApp.FeedUrl = RutrackerDownloaderApp.PirateFeedUrlPrefix;	  
+	  DownloaderApp.FeedUrl = DownloaderApp.PirateFeedUrlPrefix;	  
 	  
 	  mString = GetSearchString(this);	  
 	  	  
 	  if(mString.length()>0){
-		  RutrackerDownloaderApp.FeedUrl += "&search=";		  
+		  DownloaderApp.FeedUrl += "&search=";		  
 			String enc_text = new String();
 			try {
 				enc_text = URLEncoder.encode(mString, "cp-1251");
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			RutrackerDownloaderApp.FeedUrl += enc_text;
+			DownloaderApp.FeedUrl += enc_text;
 	  }
-  	  Log.d(RutrackerDownloaderApp.TAG,RutrackerDownloaderApp.SearchUrl);
+  	  Log.d(DownloaderApp.TAG,DownloaderApp.SearchUrl);
   }
 
   

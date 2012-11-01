@@ -1,6 +1,6 @@
 package com.softwarrior.about;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +40,7 @@ public class AboutUtils {
 	                md = context.getPackageManager().getApplicationInfo(
 						packagename, PackageManager.GET_META_DATA).metaData;
 	        } catch (NameNotFoundException e) {
-	            Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+	            Log.e(DownloaderApp.TAG, "Package name not found", e);
 	        }
 	
 	        if (md != null) {
@@ -51,11 +51,11 @@ public class AboutUtils {
 						.getResourcesForApplication(packagename);
             		array = resources.getStringArray(id);
 	        	} catch (NameNotFoundException e) {
-            		Log.e(RutrackerDownloaderApp.TAG, "Package name not found ", e);
+            		Log.e(DownloaderApp.TAG, "Package name not found ", e);
 	        	} catch (NumberFormatException e) {
-            		Log.e(RutrackerDownloaderApp.TAG, "Metadata not valid id.", e);
+            		Log.e(DownloaderApp.TAG, "Metadata not valid id.", e);
 	        	} catch (Resources.NotFoundException e) {
-            		Log.e(RutrackerDownloaderApp.TAG, "Resource not found.", e);
+            		Log.e(DownloaderApp.TAG, "Resource not found.", e);
 	        	}
 	        	
 	        	if (array != null) {
@@ -79,7 +79,7 @@ public class AboutUtils {
 	                md = context.getPackageManager().getApplicationInfo(
 						packagename, PackageManager.GET_META_DATA).metaData;
 	        } catch (NameNotFoundException e) {
-	            Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+	            Log.e(DownloaderApp.TAG, "Package name not found", e);
 	        }
 	
 	        if (md != null
@@ -104,7 +104,7 @@ public class AboutUtils {
 	                md = context.getPackageManager().getApplicationInfo(
 						packagename, PackageManager.GET_META_DATA).metaData;
 	        } catch (NameNotFoundException e) {
-	            Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+	            Log.e(DownloaderApp.TAG, "Package name not found", e);
 	        }
 	
 	        if (md != null) {

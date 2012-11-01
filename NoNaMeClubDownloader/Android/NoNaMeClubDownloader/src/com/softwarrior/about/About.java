@@ -8,9 +8,9 @@ import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -232,7 +232,7 @@ public class About extends TabActivity implements OnTabChangeListener{
     		}
     		
     	} catch (NameNotFoundException e) {
-            Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+            Log.e(DownloaderApp.TAG, "Package name not found", e);
     	}
     	
     	mLicenseText.setText(license);
@@ -249,7 +249,7 @@ public class About extends TabActivity implements OnTabChangeListener{
     			String resourcename = resources.getResourceName(pi.applicationInfo.icon);
                 changeLogoImageResource(resourcename, packagename);
     		} catch (PackageManager.NameNotFoundException e) {
-                Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+                Log.e(DownloaderApp.TAG, "Package name not found", e);
     			//mLogoImage.setImageResource(android.R.drawable.ic_menu_info_details);
         		//mLogoImage.setImageURI(Uri.EMPTY);
     		} catch (IllegalArgumentException e) {
@@ -284,7 +284,7 @@ public class About extends TabActivity implements OnTabChangeListener{
          					.getResourcesForApplication(packagename);
          			applicationlabel = resources.getString(labelid);
             } catch (PackageManager.NameNotFoundException e) {
-                    Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+                    Log.e(DownloaderApp.TAG, "Package name not found", e);
             }
 		}
 		return applicationlabel;
@@ -299,7 +299,7 @@ public class About extends TabActivity implements OnTabChangeListener{
                     		packagename, 0);
                     versionname = pi.versionName;
             } catch (PackageManager.NameNotFoundException e) {
-                    Log.e(RutrackerDownloaderApp.TAG, "Package name not found", e);
+                    Log.e(DownloaderApp.TAG, "Package name not found", e);
             }
 		}
 		return versionname;
@@ -448,8 +448,8 @@ public class About extends TabActivity implements OnTabChangeListener{
 		mArtistsText = (TextView) findViewById(R.id.et_artists);	
 		mNoInformationText = (TextView) findViewById(R.id.tv_no_information);
 		mLicenseText = (TextView) findViewById(R.id.et_license);
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-	    RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/About");
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
+	    DownloaderApp.AnalyticsTracker.trackPageView("/About");
     }
 
 	public void onTabChanged(String tabId) {
@@ -530,7 +530,7 @@ public class About extends TabActivity implements OnTabChangeListener{
 		}		
 		String packagename = getPackageNameFromIntent(intent);
 		
-		Log.i(RutrackerDownloaderApp.TAG, "Showing About dialog for package " + packagename);
+		Log.i(DownloaderApp.TAG, "Showing About dialog for package " + packagename);
     	
     	displayLogo(packagename, intent);
         displayProgramNameAndVersion(packagename, intent);
@@ -548,7 +548,7 @@ public class About extends TabActivity implements OnTabChangeListener{
     	
     	setResult(RESULT_OK);
         
-    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    	if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
 	}
 		
 	protected void showAboutDialog() {

@@ -3,7 +3,7 @@ package com.softwarrior.file;
 import java.io.File;
 import java.util.List;
 
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -46,7 +46,7 @@ public class ThumbnailLoader extends Thread {
 	public void run() {
 		int count = listFile.size();
 		
-		Log.v(RutrackerDownloaderApp.TAG, "Scanning for thumbnails (files=" + count + ")");
+		Log.v(DownloaderApp.TAG, "Scanning for thumbnails (files=" + count + ")");
 		
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		
@@ -54,7 +54,7 @@ public class ThumbnailLoader extends Thread {
 		
 		for (int x=0; x<count; x++) {
 			if (cancel) {
-				Log.v(RutrackerDownloaderApp.TAG, "Thumbnail loader canceled");
+				Log.v(DownloaderApp.TAG, "Thumbnail loader canceled");
 				listFile = null;
 				return;
 			}
@@ -119,7 +119,7 @@ public class ThumbnailLoader extends Thread {
 			}
 		}
 		
-		Log.v(RutrackerDownloaderApp.TAG, "Done scanning for thumbnails");
+		Log.v(DownloaderApp.TAG, "Done scanning for thumbnails");
 		listFile = null;
 	}
 }

@@ -8,7 +8,7 @@ import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
 
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 
 import android.content.Context;
 import android.util.Log;
@@ -76,7 +76,7 @@ public class SearchStringFactory {
 		    	}		    		
 		    }			
 		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Log.e(DownloaderApp.TAG, ex.toString());
 			Toast.makeText(mContext, mContext.getString(R.string.search_string_error), Toast.LENGTH_SHORT).show();
 	    }
 		return result;

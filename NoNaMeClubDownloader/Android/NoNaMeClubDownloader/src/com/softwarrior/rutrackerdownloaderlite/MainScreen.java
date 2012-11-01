@@ -1,48 +1,44 @@
 package com.softwarrior.rutrackerdownloaderlite;
 
 import com.softwarrior.rutrackerdownloaderlite.R;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 import com.softwarrior.rutrackerdownloaderlite.DownloadPreferencesScreen.MenuType;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
-public class MainScreen extends Activity {	
+public class MainScreen extends CustomTitleActive {	
 	
 		private int mBackPressedCount = 0;
 
 	    @Override
 	    public void onCreate(Bundle icicle) {
 	        super.onCreate(icicle);
-	        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-	        
-	        setContentView(R.layout.main_screen);
-	        
-	        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+	        //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);	        
+	        setContentView(R.layout.main_screen);        
+	        //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 
-	        switch(RutrackerDownloaderApp.GetSiteName(this)){
-		        case PORNOLAB_NET: RutrackerDownloaderApp.SetupPornolab(this); break;
-		        case RUTRACKER_ORG: RutrackerDownloaderApp.SetupRutracker(this); break;
-		        case NNM_CLUB_RU: RutrackerDownloaderApp.SetupNnmclub(this); break;
-		        default: RutrackerDownloaderApp.SetupRutracker(this); break;
+	        switch(DownloaderApp.GetSiteName(this)){
+		        case PORNOLAB_NET: DownloaderApp.SetupPornolab(this); break;
+		        case RUTRACKER_ORG: DownloaderApp.SetupRutracker(this); break;
+		        case NNM_CLUB_RU: DownloaderApp.SetupNnmclub(this); break;
+		        default: DownloaderApp.SetupRutracker(this); break;
 	        }	        
-	        RutrackerDownloaderApp.DownloadServiceMode = false;        	        
-	        RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
+	        DownloaderApp.DownloadServiceMode = false;        	        
+	        DownloaderApp.AnalyticsTracker.trackPageView("/StartApplication");
 	    }
 	    
 	    @Override
 	    protected void onResume() {
 	    	super.onResume();
 	    	mBackPressedCount = 0;
-	        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+	        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
 	    }
 	    				
 	    @Override
@@ -50,12 +46,12 @@ public class MainScreen extends Activity {
 			switch(ActivityResultType.getValue(resultCode))
 			{
 			case RESULT_DOWNLOADER:{
-				RutrackerDownloaderApp.OpenDownloaderActivity(this);
+				DownloaderApp.OpenDownloaderActivity(this);
 			} break;
 			case RESULT_MAIN:{			
 			} break;
 			case RESULT_EXIT:
-				RutrackerDownloaderApp.FinalCloseApplication(this);
+				DownloaderApp.FinalCloseApplication(this);
 			default:{
 			} break;
 			};
@@ -69,7 +65,7 @@ public class MainScreen extends Activity {
 			menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 			menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 			menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);			
-		    RutrackerDownloaderApp.SetMenuBackground(this); 
+		    DownloaderApp.SetMenuBackground(this); 
 			return true;
 		}
 		
@@ -80,19 +76,19 @@ public class MainScreen extends Activity {
 			switch(type)
 			{
 			case About:{
-				RutrackerDownloaderApp.AboutActivity(this);
+				DownloaderApp.AboutActivity(this);
 			} break;
 			case Help:{
-				RutrackerDownloaderApp.HelpActivity(this);
+				DownloaderApp.HelpActivity(this);
 			} break;
 			case FileManager:{
-				RutrackerDownloaderApp.FileManagerActivity(this);
+				DownloaderApp.FileManagerActivity(this);
 			} break;
 			case WebHistory:{
-				RutrackerDownloaderApp.WebHistoryActivity(this);
+				DownloaderApp.WebHistoryActivity(this);
 			} break;
 			case Exit:{
-				RutrackerDownloaderApp.FinalCloseApplication(this);
+				DownloaderApp.FinalCloseApplication(this);
 			} break;
 			}
 			return true;
@@ -105,27 +101,27 @@ public class MainScreen extends Activity {
 	    			mBackPressedCount++;
 	    			return true;
 	    		} else {
-	    			RutrackerDownloaderApp.FinalCloseApplication(this);
+	    			DownloaderApp.FinalCloseApplication(this);
 	    		}
 			return super.onKeyDown(keyCode,event); 
 		}
 						
 		public void OnClickMainButtonDownload(View v){
-			RutrackerDownloaderApp.OpenDownloaderActivity(this);			
+			DownloaderApp.OpenDownloaderActivity(this);			
 		}
 		public void OnClickMainButtonWebSearch(View v){
-			RutrackerDownloaderApp.OpenWebPreferencesScreen(this);
+			DownloaderApp.OpenWebPreferencesScreen(this);
 		}
 		public void OnClickMainButtonRSSSearch(View v){
-			RutrackerDownloaderApp.OpenRSSPreferencesScreen(this);
+			DownloaderApp.OpenRSSPreferencesScreen(this);
 		}
 		public void OnClickMainButtonPirateSearch(View v){
-			RutrackerDownloaderApp.OpenPiratePreferencesScreen(this);
+			DownloaderApp.OpenPiratePreferencesScreen(this);
 		}
 		public void OnClickMainButtonKinoafisha(View v){
-			RutrackerDownloaderApp.OpenKinoafisha(this);
+			DownloaderApp.OpenKinoafisha(this);
 		}
 		public void OnClickMainButtonSettings(View v){
-			RutrackerDownloaderApp.OpenDownloadPreferencesScreen(this);			
+			DownloaderApp.OpenDownloadPreferencesScreen(this);			
 		}
 }

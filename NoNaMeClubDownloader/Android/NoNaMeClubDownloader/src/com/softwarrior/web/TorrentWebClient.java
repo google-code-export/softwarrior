@@ -24,9 +24,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.softwarrior.rutrackerdownloaderlite.DownloadPreferencesScreen;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.SearchSiteName;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.SearchSiteName;
 import com.softwarrior.rutrackerdownloaderlite.TorrentsList;
 import com.softwarrior.rutrackerdownloaderlite.WEBPreferencesScreen;
 
@@ -102,7 +102,7 @@ public class TorrentWebClient extends Activity {
         if(mLoadUrl.contains(".torrent") || mLoadUrl.contains("mininova.org/get")){
     		boolean download_result = TorrentDownloader.DownloadTorrentFile(TorrentWebClient.this,mLoadUrl);
     		if(download_result){
-    			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+    			String text = getString(R.string.torrent_file_downloaded) + " : " + DownloaderApp.TorrentFullFileName;
     			Toast.makeText(this, text,Toast.LENGTH_SHORT).show();
         		Intent intent = new Intent(Intent.ACTION_VIEW);
     			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -139,7 +139,7 @@ public class TorrentWebClient extends Activity {
 	            public boolean shouldOverrideUrlLoading(WebView view, String url){
 	            	if(url.contains(".torrent") || mLoadUrl.contains("mininova.org/get")){
 	            		if(TorrentDownloader.DownloadTorrentFile(TorrentWebClient.this,url) == true){
-	            			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+	            			String text = getString(R.string.torrent_file_downloaded) + " : " + DownloaderApp.TorrentFullFileName;
 	            			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
 	            		}
 	            	}
@@ -150,7 +150,7 @@ public class TorrentWebClient extends Activity {
 	            }            
 	            @Override
 	            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-	            	if(mNNSearch && mRefreshNNSearch && url.equals(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
+	            	if(mNNSearch && mRefreshNNSearch && url.equals(DownloaderApp.NN_SearchUrlPrefix)){
 	            		mRefreshNNSearch = false;
 	            		NNMClubSearchResultThread(mSearchString);
 	            	}
@@ -185,8 +185,8 @@ public class TorrentWebClient extends Activity {
 	        }
 	        else if(mAction.equals("Search")){
 	        	mCatchBackKey = true;
-	        	if(RutrackerDownloaderApp.GetSiteName(this) == SearchSiteName.NNM_CLUB_RU){
-	        		activity.setTitle(RutrackerDownloaderApp.NN_SearchUrlPrefix);
+	        	if(DownloaderApp.GetSiteName(this) == SearchSiteName.NNM_CLUB_RU){
+	        		activity.setTitle(DownloaderApp.NN_SearchUrlPrefix);
 	        		mSearchString = mLoadUrl;
 	        		NNMClubSearchResultThread(mSearchString);
 	        	}
@@ -200,8 +200,8 @@ public class TorrentWebClient extends Activity {
         //mWebView.loadUrl("http://rutracker.org/forum/viewtopic.php?t=2587860");        
         //mWebView.loadUrl("file:///android_asset/demo.html");
         //mWebView.loadUrl("file:////sdcard/Downloads/GM_Direction.html");
-        if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
-    	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/TorrentWebClient");
+        if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
+    	DownloaderApp.AnalyticsTracker.trackPageView("/TorrentWebClient");
     }
 
     
@@ -309,9 +309,9 @@ public class TorrentWebClient extends Activity {
     	try{	    	
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
-    		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(RutrackerDownloaderApp.CookieUrl);
-    		if(RutrackerDownloaderApp.CookieData != null && RutrackerDownloaderApp.CookieData.length() >1){    		
-	    		URL url = new URL(RutrackerDownloaderApp.NN_SearchUrlPrefix);				
+    		DownloaderApp.CookieData = cookieManager.getCookie(DownloaderApp.CookieUrl);
+    		if(DownloaderApp.CookieData != null && DownloaderApp.CookieData.length() >1){    		
+	    		URL url = new URL(DownloaderApp.NN_SearchUrlPrefix);				
 				URLConnection connection = url.openConnection();
 				HttpURLConnection httppost = (HttpURLConnection) connection;
 				httppost.setDoInput(true);
@@ -332,17 +332,17 @@ public class TorrentWebClient extends Activity {
 			    httppost.setRequestProperty("Content-Length", Integer.toString(contetLength));
 	
 			    httppost.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			    httppost.setRequestProperty("Cookie", RutrackerDownloaderApp.CookieData);
+			    httppost.setRequestProperty("Cookie", DownloaderApp.CookieData);
 			    httppost.setRequestProperty("Host", "www.nnm-club.ru");
 			    httppost.setRequestProperty("Origin", "http://www.nnm-club.ru");
 			    
-			    String sid = RutrackerDownloaderApp.NN_SearchUrlPrefix + "?";
-			    int sidStart = RutrackerDownloaderApp.CookieData.indexOf("sid=");
-			    int sidEnd = RutrackerDownloaderApp.CookieData.indexOf(";", sidStart);	
+			    String sid = DownloaderApp.NN_SearchUrlPrefix + "?";
+			    int sidStart = DownloaderApp.CookieData.indexOf("sid=");
+			    int sidEnd = DownloaderApp.CookieData.indexOf(";", sidStart);	
 			    if(sidEnd == -1)
-			    	sidEnd = RutrackerDownloaderApp.CookieData.length();
-			    if(sidStart>0 && sidEnd >0 && sidStart<sidEnd && sidEnd <= RutrackerDownloaderApp.CookieData.length())
-			    	sid += RutrackerDownloaderApp.CookieData.substring(sidStart, sidEnd);		    
+			    	sidEnd = DownloaderApp.CookieData.length();
+			    if(sidStart>0 && sidEnd >0 && sidStart<sidEnd && sidEnd <= DownloaderApp.CookieData.length())
+			    	sid += DownloaderApp.CookieData.substring(sidStart, sidEnd);		    
 			    httppost.setRequestProperty("Referer", sid);
 			    
 			    httppost.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.151 Safari/534.16");
@@ -363,11 +363,11 @@ public class TorrentWebClient extends Activity {
 			        }
 			        inputStream.close();
 		        }
-			    mWebView.loadDataWithBaseURL(RutrackerDownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",RutrackerDownloaderApp.NN_SearchUrlPrefix);
+			    mWebView.loadDataWithBaseURL(DownloaderApp.NN_SearchUrlPrefix,sb.toString(),"text/html","UTF-8",DownloaderApp.NN_SearchUrlPrefix);
 			    result = true;
     		}    		
 		} catch (Exception ex){
-			Log.e(RutrackerDownloaderApp.TAG, ex.toString());
+			Log.e(DownloaderApp.TAG, ex.toString());
 	    }
 		return result;
     }
@@ -399,8 +399,8 @@ public class TorrentWebClient extends Activity {
 
     private void ManageDownloadButton(String current_url) {
     	if(mAction.equals("Show") || mAction.equals("Search") || mAction.equals("SiteMap")){        	
-	    	if(current_url.contains(RutrackerDownloaderApp.TorrentTopic)){
-	    		mDistributionNumber = current_url.replace(RutrackerDownloaderApp.TorrentTopic, "");
+	    	if(current_url.contains(DownloaderApp.TorrentTopic)){
+	    		mDistributionNumber = current_url.replace(DownloaderApp.TorrentTopic, "");
 	    		mDistributionNumber= mDistributionNumber.trim();
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
 	        	viewAnimator.setVisibility(View.VISIBLE);
@@ -409,7 +409,7 @@ public class TorrentWebClient extends Activity {
 	        	viewAnimator.bringChildToFront(downloadLayout);
 	        	Toast.makeText(TorrentWebClient.this, getString(R.string.download_torrent_instruction), Toast.LENGTH_SHORT).show();
 	    	}
-	    	else if(current_url.contains(RutrackerDownloaderApp.KinoafishaUrl) && current_url.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+	    	else if(current_url.contains(DownloaderApp.KinoafishaUrl) && current_url.contains(DownloaderApp.KinoafishaMoviesUrl)){
 	    		mDistributionNumber = "";
 	        	ViewAnimator viewAnimator = (ViewAnimator) findViewById(R.id.ViewAnimator);
 	        	viewAnimator.setVisibility(View.VISIBLE);
@@ -428,13 +428,13 @@ public class TorrentWebClient extends Activity {
     }
     
     public void OnClickButtonStoreWebHistory(View v) {
-        if(mCurrentUrl.contains(RutrackerDownloaderApp.NN_TorrentTopic) ||
-           mCurrentUrl.contains(RutrackerDownloaderApp.NN_SearchUrlPrefix)){
+        if(mCurrentUrl.contains(DownloaderApp.NN_TorrentTopic) ||
+           mCurrentUrl.contains(DownloaderApp.NN_SearchUrlPrefix)){
             Toast.makeText(this, getString(R.string.impossible_to_store), Toast.LENGTH_SHORT).show();
             return;
         }        		
         mHistoryName = "";
-        if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+        if(mCurrentUrl.contains(DownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(DownloaderApp.KinoafishaMoviesUrl)){
 			CookieSyncManager.getInstance().sync();
 			CookieManager cookieManager  = CookieManager.getInstance();	
 			String cookieData = cookieManager.getCookie(mCurrentUrl);
@@ -452,16 +452,16 @@ public class TorrentWebClient extends Activity {
     	if(mDistributionNumber.length()>0){
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
-    		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
-    		if(RutrackerDownloaderApp.CookieData !=null && RutrackerDownloaderApp.CookieData.length()>1){
-	    		final TorrentDownloader torrentDownloader = new TorrentDownloader(TorrentWebClient.this,RutrackerDownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(TorrentWebClient.this));
+    		DownloaderApp.CookieData = cookieManager.getCookie(mCurrentUrl);
+    		if(DownloaderApp.CookieData !=null && DownloaderApp.CookieData.length()>1){
+	    		final TorrentDownloader torrentDownloader = new TorrentDownloader(TorrentWebClient.this,DownloaderApp.CookieData, DownloadPreferencesScreen.GetTorrentSavePath(TorrentWebClient.this));
 	    		mDownloadResult = false;
 	        	final Handler handler = new Handler() {
 	                @Override
 	                public void handleMessage(Message msg) {
 	                    try{
 	                		if(mDownloadResult){
-	                			String text = getString(R.string.torrent_file_downloaded) + " : " + RutrackerDownloaderApp.TorrentFullFileName;
+	                			String text = getString(R.string.torrent_file_downloaded) + " : " + DownloaderApp.TorrentFullFileName;
 	                			Toast.makeText(TorrentWebClient.this, text,Toast.LENGTH_SHORT).show();
 	                    		Intent intent = new Intent(Intent.ACTION_VIEW);
 	                			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
@@ -477,7 +477,7 @@ public class TorrentWebClient extends Activity {
 	            new Thread(new Runnable() {
 	                public void run() {
 	                	try{
-		            		if(RutrackerDownloaderApp.GetSiteName(TorrentWebClient.this) == SearchSiteName.NNM_CLUB_RU)
+		            		if(DownloaderApp.GetSiteName(TorrentWebClient.this) == SearchSiteName.NNM_CLUB_RU)
 		            			mDownloadResult = torrentDownloader.DownloadNNM(mDistributionNumber);
 		            		else
 		            			mDownloadResult= torrentDownloader.Download(mDistributionNumber);    					
@@ -489,7 +489,7 @@ public class TorrentWebClient extends Activity {
         		Toast.makeText(TorrentWebClient.this, getString(R.string.please_login), Toast.LENGTH_SHORT).show();
     		}
     			
-    	} else if(mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(RutrackerDownloaderApp.KinoafishaMoviesUrl)){
+    	} else if(mCurrentUrl.contains(DownloaderApp.KinoafishaUrl) && mCurrentUrl.contains(DownloaderApp.KinoafishaMoviesUrl)){
     		CookieSyncManager.getInstance().sync();
     		CookieManager cookieManager  = CookieManager.getInstance();	
     		String cookieData = cookieManager.getCookie(mCurrentUrl);
@@ -525,7 +525,7 @@ public class TorrentWebClient extends Activity {
     protected void onResume() {
     	CookieSyncManager.getInstance().startSync();
     	super.onResume();
-    	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.CloseApplication(this);
+    	if(DownloaderApp.ExitState) DownloaderApp.CloseApplication(this);
     }
     
     @Override
@@ -543,7 +543,7 @@ public class TorrentWebClient extends Activity {
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -554,22 +554,22 @@ public class TorrentWebClient extends Activity {
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case Main:{
-			RutrackerDownloaderApp.MainScreen(this);
+			DownloaderApp.MainScreen(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.CloseApplication(this);
+			DownloaderApp.CloseApplication(this);
 		} break;
 		}
 		return true;
@@ -583,7 +583,7 @@ public class TorrentWebClient extends Activity {
 		CookieSyncManager.getInstance().sync();
 		CookieManager cookieManager  = CookieManager.getInstance();	
 //		"http://rutracker.org/forum/viewtopic.php?t=2587860" 
-		RutrackerDownloaderApp.CookieData = cookieManager.getCookie(RutrackerDownloaderApp.CookieUrl);
+		DownloaderApp.CookieData = cookieManager.getCookie(DownloaderApp.CookieUrl);
 		finish();
     }  
 }

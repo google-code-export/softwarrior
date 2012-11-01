@@ -4,8 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.softwarrior.rss.MessageList;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.ActivityResultType;
-import com.softwarrior.rutrackerdownloaderlite.RutrackerDownloaderApp.SearchSiteName;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
+import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.SearchSiteName;
 import com.softwarrior.web.TorrentWebClient;
 
 import android.app.Activity;
@@ -38,7 +38,11 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	public enum MenuType{
 		About, Help, FileManager, WebHistory, Exit;
 	}
-		
+
+	public void OnClickHomeHandler(View v){
+		DownloaderApp.MainScreen(this);
+	}
+
 	@Override
   protected void onCreate(Bundle icicle) {
 	requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -47,8 +51,8 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	InitSummaries(getPreferenceScreen());
 	setContentView(R.layout.web_preferences);
 	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
-	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
-	RutrackerDownloaderApp.AnalyticsTracker.trackPageView("/WEBPreferencesScreen");
+	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
+	DownloaderApp.AnalyticsTracker.trackPageView("/WEBPreferencesScreen");
   }
 	
   @Override
@@ -63,7 +67,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 	super.onResume();
 	InitSummaries(getPreferenceScreen());
 	getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-	if(RutrackerDownloaderApp.ExitState) RutrackerDownloaderApp.FinalCloseApplication(this);
+	if(DownloaderApp.ExitState) DownloaderApp.FinalCloseApplication(this);
   }
   
 	@Override
@@ -74,7 +78,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		menu.add(Menu.NONE, MenuType.FileManager.ordinal(), MenuType.FileManager.ordinal(), R.string.menu_file_manager);
 		menu.add(Menu.NONE, MenuType.WebHistory.ordinal(), MenuType.WebHistory.ordinal(), R.string.menu_web_history);
 		menu.add(Menu.NONE, MenuType.Exit.ordinal(), MenuType.Exit.ordinal(), R.string.menu_exit);
-	    RutrackerDownloaderApp.SetMenuBackground(this);
+	    DownloaderApp.SetMenuBackground(this);
 		return true;
 	}
 	
@@ -85,19 +89,19 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		switch(type)
 		{
 		case About:{
-			RutrackerDownloaderApp.AboutActivity(this);
+			DownloaderApp.AboutActivity(this);
 		} break;
 		case Help:{
-			RutrackerDownloaderApp.HelpActivity(this);
+			DownloaderApp.HelpActivity(this);
 		} break;
 		case FileManager:{
-			RutrackerDownloaderApp.FileManagerActivity(this);
+			DownloaderApp.FileManagerActivity(this);
 		} break;
 		case WebHistory:{
-			RutrackerDownloaderApp.WebHistoryActivity(this);
+			DownloaderApp.WebHistoryActivity(this);
 		} break;
 		case Exit:{
-			RutrackerDownloaderApp.FinalCloseApplication(this);
+			DownloaderApp.FinalCloseApplication(this);
 		} break;
 		}
 		return true;
@@ -124,7 +128,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 		  if (p instanceof PreferenceGroup)
 		  {	
 			  String key = p.getKey();
-			  if(key!= null && key.equals(RutrackerDownloaderApp.KEY_SEARCH_ON_SITE))
+			  if(key!= null && key.equals(DownloaderApp.KEY_SEARCH_ON_SITE))
 				  mPSSearchOnSite = (PreferenceScreen) p;			  
 			  InitSummaries((PreferenceGroup) p); // recursion
 		  }
@@ -137,26 +141,26 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   {
 	  mString = new String();
 
-	  RutrackerDownloaderApp.SearchUrl = RutrackerDownloaderApp.SearchUrlPrefix;
+	  DownloaderApp.SearchUrl = DownloaderApp.SearchUrlPrefix;
 	  
 //	  CreateSearchUrlRecursive(getPreferenceScreen());
 	  mString = GetSearchString(context);
 
 	  if(mString.length()>0){
-		  	if(RutrackerDownloaderApp.GetSiteName(context) == SearchSiteName.NNM_CLUB_RU){
-		  		RutrackerDownloaderApp.SearchUrl = mString; 
+		  	if(DownloaderApp.GetSiteName(context) == SearchSiteName.NNM_CLUB_RU){
+		  		DownloaderApp.SearchUrl = mString; 
 		  	} else {
-				RutrackerDownloaderApp.SearchUrl += "?nm=";		  
+				DownloaderApp.SearchUrl += "?nm=";		  
 				String enc_text = new String();
 				try {
 					enc_text = URLEncoder.encode(mString, "cp-1251");
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				RutrackerDownloaderApp.SearchUrl += enc_text;
+				DownloaderApp.SearchUrl += enc_text;
 		  	}
 	  }
-  	  Log.d(RutrackerDownloaderApp.TAG,RutrackerDownloaderApp.SearchUrl);
+  	  Log.d(DownloaderApp.TAG,DownloaderApp.SearchUrl);
   }
   
 //  private void CreateSearchUrlRecursive(PreferenceGroup pg) {
@@ -186,7 +190,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   
 	public static String GetSearchString(Context context){
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getString(RutrackerDownloaderApp.KEY_SEARCH_STRING, "");																
+		return preferences.getString(DownloaderApp.KEY_SEARCH_STRING, "");																
 	}
 			
 	public static void SetSearchString(Context context, String SearchString){
@@ -195,7 +199,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 			searchString = SearchString;
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(RutrackerDownloaderApp.KEY_SEARCH_STRING, searchString);
+		editor.putString(DownloaderApp.KEY_SEARCH_STRING, searchString);
 		editor.commit();
 	}
     
@@ -219,10 +223,10 @@ public final class WEBPreferencesScreen extends PreferenceActivity
     	listPreference.setSummary(SearchSiteName.getString(code));
 
     	switch(SearchSiteName.getValue(code)){
-        case PORNOLAB_NET: RutrackerDownloaderApp.SetupPornolab(this); break;
-        case RUTRACKER_ORG: RutrackerDownloaderApp.SetupRutracker(this); break;
-        case NNM_CLUB_RU: RutrackerDownloaderApp.SetupNnmclub(this); break;
-        default: RutrackerDownloaderApp.SetupRutracker(this); break;
+        case PORNOLAB_NET: DownloaderApp.SetupPornolab(this); break;
+        case RUTRACKER_ORG: DownloaderApp.SetupRutracker(this); break;
+        case NNM_CLUB_RU: DownloaderApp.SetupNnmclub(this); break;
+        default: DownloaderApp.SetupRutracker(this); break;
     }	        
     }
   }
@@ -233,9 +237,9 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   }
   
   public void OnClickButtonPirateSearch(View v) {  
-	  RutrackerDownloaderApp.FeedUrl = RutrackerDownloaderApp.PirateFeedUrlPrefix;
-	  RutrackerDownloaderApp.FeedUrl += "&search=";
-	  RutrackerDownloaderApp.FeedUrl += GetSearchString(this);	  
+	  DownloaderApp.FeedUrl = DownloaderApp.PirateFeedUrlPrefix;
+	  DownloaderApp.FeedUrl += "&search=";
+	  DownloaderApp.FeedUrl += GetSearchString(this);	  
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	  intent.setClassName(this, MessageList.class.getName());
@@ -245,7 +249,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   public void OnClickButtonSearch(View v) {
 	  CreateSearchUrl(this);
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.SearchUrl);
+	  bundle.putString("LoadUrl", DownloaderApp.SearchUrl);
 	  bundle.putString("Action", "Search");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
@@ -257,7 +261,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   static public void StartSearch(Activity activity){
 	    CreateSearchUrl(activity);	
 		Bundle bundle = new Bundle();
-		bundle.putString("LoadUrl", RutrackerDownloaderApp.SearchUrl);
+		bundle.putString("LoadUrl", DownloaderApp.SearchUrl);
 		bundle.putString("Action", "Search");
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.putExtras(bundle);
@@ -268,7 +272,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 
   public void OnClickButtonSiteMap(View v) {
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.SiteMap);
+	  bundle.putString("LoadUrl", DownloaderApp.SiteMap);
 	  bundle.putString("Action", "SiteMap");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
@@ -279,7 +283,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
   
   public void OnClickButtonKinoafisha(View v) {
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.KinoafishaCityUrl);
+	  bundle.putString("LoadUrl", DownloaderApp.KinoafishaCityUrl);
 	  bundle.putString("Action", "Show");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
@@ -290,7 +294,7 @@ public final class WEBPreferencesScreen extends PreferenceActivity
 
   public void OnClickButtonLogin(View v) {
 	  Bundle bundle = new Bundle();
-	  bundle.putString("LoadUrl", RutrackerDownloaderApp.TorrentLoginUrl);
+	  bundle.putString("LoadUrl", DownloaderApp.TorrentLoginUrl);
 	  bundle.putString("Action", "Login");
 	  Intent intent = new Intent(Intent.ACTION_VIEW);
 	  intent.putExtras(bundle);
