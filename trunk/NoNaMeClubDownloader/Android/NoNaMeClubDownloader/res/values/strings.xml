@@ -274,9 +274,9 @@ Please see contact information in the About page.
     <string name="torrent_file_downloaded">The file was downloaded</string>
     <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
     <string name="button_torrent_manager">Torrent Manager</string>
-    <string name="button_add_torrent">Add Torrent</string>
+    <string name="button_add_torrent">ADD\nTORRENT</string>
     <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
-    <string name="button_remove_torrents">Remove Torrents</string>
+    <string name="button_remove_torrents">REMOVE\nTORRENTS</string>
     <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>
     <string name="no_torrents">no torrents</string>
     <string name="preferences_upnp">UPnP service</string>
@@ -307,9 +307,9 @@ Please see contact information in the About page.
     <string name="button_storage_mode">Allocate storage for files</string>
     <string name="storage_mode_comment">Allocation takes time but speeds up downloads. Allocation takes a lot of time for big file. Option \"Select file\" enable only in \"Allocate storage\" mode.</string>
     <string name="select_file_disable">Option \"Select file\" enable only in \"Allocate storage\" mode.</string>
-    <string name="button_stop_all">Stop All</string>
+    <string name="button_stop_all">STOP\nALL</string>
     <string name="on_click_button_stop_all">OnClickButtonStopAll</string>
-    <string name="button_start_all">Start All</string>
+    <string name="button_start_all">START\nALL</string>
     <string name="on_click_button_start_all">OnClickButtonStartAll</string>
     <string name="remove_torrents_dialog_title">Do you want to remove all torrents ?</string>
     <string name="ip_address_label">Local IP address:</string>
@@ -318,9 +318,9 @@ Please see contact information in the About page.
     <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>
     <string name="nothing_found">Nothing found</string>
     <string name="on_click_button_resume_all">OnClickButtonResumeAll</string>
-    <string name="button_resume_all">Resume All</string>
+    <string name="button_resume_all">RESUME\nALL</string>
     <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
-    <string name="button_pause_all">Pause All</string>
+    <string name="button_pause_all">PAUSE\nALL</string>
     <string name="download_progress">Operation in progress...</string>
     <string name="button_clear_history">Clear history</string>
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
