@@ -142,10 +142,13 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         mRightText = (TextView) findViewById(R.id.right_text);
         mLeftText = (TextView) findViewById(R.id.left_text);
-        mLeftText.setTextColor(getResources().getColor(R.color.gold));
+        mLeftText.setTextColor(getResources().getColor(R.color.white));
+        mLeftText.setTextAppearance(this, android.R.style.TextAppearance_Small);
         mLeftText.setTypeface(null,Typeface.BOLD);
-        mRightText.setTextColor(getResources().getColor(R.color.gold));
+        mRightText.setTextColor(getResources().getColor(R.color.white));
+        mRightText.setTextAppearance(this, android.R.style.TextAppearance_Small);
         mRightText.setTypeface(null,Typeface.BOLD);
+        
 
         // Start lengthy operation in a background thread
         mStatusThreadRunnable = new Runnable() {
@@ -217,8 +220,8 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
                 	mLeftText.setTextColor(Color.RED);
                 	mRightText.setTextColor(Color.RED);
                 }else{
-                	mLeftText.setTextColor(getResources().getColor(R.color.gold));
-                	mRightText.setTextColor(getResources().getColor(R.color.gold));                	
+                	mLeftText.setTextColor(getResources().getColor(R.color.white));
+                	mRightText.setTextColor(getResources().getColor(R.color.white));                	
                 }                
             }
         };        

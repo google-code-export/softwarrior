@@ -4,8 +4,8 @@
     <item android:state_pressed="true" >
         <shape>
             <gradient
-                android:startColor="@color/nnm_button_dark"
-                android:endColor="@color/nnm_button_dark"
+                android:startColor="@color/nnm_button_light"
+                android:endColor="@color/nnm_button_light"
                 android:angle="270" />
             <stroke
                 android:width="4dp"
@@ -14,16 +14,16 @@
                 android:radius="2dp" />
             <padding
                 android:left="5dp"
-                android:top="10dp"
+                android:top="5dp"
                 android:right="5dp"
-                android:bottom="10dp" />
+                android:bottom="5dp" />
         </shape>
     </item>
     <item android:state_focused="true" >
         <shape>
             <gradient
-                android:startColor="@color/nnm_button_dark"
-                android:endColor="@color/nnm_button_dark"
+                android:startColor="@color/nnm_button_light"
+                android:endColor="@color/nnm_button_light"
                 android:angle="270" />
             <stroke
                 android:width="4dp"
@@ -32,16 +32,16 @@
                 android:radius="5dp" />
             <padding
                 android:left="5dp"
-                android:top="10dp"
+                android:top="5dp"
                 android:right="5dp"
-                android:bottom="10dp" />
+                android:bottom="5dp" />
         </shape>
     </item>
     <item>        
         <shape>
             <gradient
-                android:startColor="@color/nnm_button_dark"
-                android:endColor="@color/nnm_button_dark"
+                android:startColor="@color/nnm_button_light"
+                android:endColor="@color/nnm_button_light"
                 android:angle="270" />
             <stroke
                 android:width="4dp"
@@ -50,9 +50,9 @@
                 android:radius="2dp" />
             <padding
                 android:left="5dp"
-                android:top="10dp"
+                android:top="5dp"
                 android:right="5dp"
-                android:bottom="10dp" />
+                android:bottom="5dp" />
         </shape>
     </item>
 </selector>
