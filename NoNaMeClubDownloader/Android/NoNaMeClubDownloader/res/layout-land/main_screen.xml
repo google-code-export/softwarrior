@@ -9,7 +9,7 @@
     <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="1" android:id="@+id/linearLayoutButtons" android:gravity="center_vertical|center_horizontal">
         <Button 
             android:id="@+id/ButtonDownload"
-            android:background="@drawable/button_nnm_light" 
+            android:background="@drawable/button_nnm_light_s" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:text="@string/main_button_download" 
@@ -17,11 +17,11 @@
             android:textStyle="bold"  
             android:textSize="16sp"
             android:textColor="@color/white" 
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="5dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonWebSearch"
-            android:background="@drawable/button_nnm_light" 
+            android:background="@drawable/button_nnm_light_s" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:text="@string/main_button_websearch" 
@@ -29,11 +29,11 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white" 
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="5dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonRSSSearch"
-            android:background="@drawable/button_nnm_light" 
+            android:background="@drawable/button_nnm_light_s" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:text="@string/main_button_rsssearch" 
@@ -41,11 +41,11 @@
             android:textStyle="bold"  
             android:textSize="16sp"
             android:textColor="@color/white" 
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="5dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonKinoafisha"
-            android:background="@drawable/button_nnm_light" 
+            android:background="@drawable/button_nnm_light_s" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:text="@string/main_button_kinoafisha" 
@@ -53,11 +53,11 @@
             android:textStyle="bold"  
             android:textSize="16sp"
             android:textColor="@color/white" 
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="10dp">
         </Button>                       
         <Button 
             android:id="@+id/ButtonOptions"
-            android:background="@drawable/button_nnm_dark" 
+            android:background="@drawable/button_nnm_dark_s" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content" 
             android:text="@string/main_button_settings" 

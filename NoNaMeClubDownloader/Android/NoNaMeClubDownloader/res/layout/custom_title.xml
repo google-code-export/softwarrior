@@ -36,24 +36,28 @@
          android:layout_below="@+id/imageView2"
          android:background="@drawable/site_back"
          android:layout_centerHorizontal="true" >
+
          <TextView
-            android:id="@+id/left_text"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_marginTop="2dp"
-            android:paddingLeft="5dp"
-            android:text="@string/nnm_site"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+             android:id="@+id/left_text"
+             android:layout_width="wrap_content"
+             android:layout_height="fill_parent"
+             android:layout_alignParentLeft="true"
+             android:gravity="center_vertical"
+             android:paddingLeft="5dp"
+             android:text="@string/nnm_site"
+             android:textStyle="bold"
+             android:textAppearance="?android:attr/textAppearanceMedium" />
+
           <TextView
               android:id="@+id/right_text"
               android:layout_width="wrap_content"
               android:layout_height="fill_parent"
               android:layout_alignParentRight="true"
               android:layout_marginRight="5dp"
-              android:layout_marginTop="5dp"
+              android:gravity="center_vertical"
               android:text="@string/c_softwarrior"
-              android:textColor="@color/nnm_titles_light"
-              android:textAppearance="?android:attr/textAppearanceSmall" />
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:textColor="@color/nnm_titles_light" />
+
      </RelativeLayout>
 </RelativeLayout>
