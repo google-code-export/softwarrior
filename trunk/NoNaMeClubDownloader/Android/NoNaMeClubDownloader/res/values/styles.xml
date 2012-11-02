@@ -8,7 +8,7 @@
         <item name="android:background">@drawable/titles_back</item>
     </style>
     <style name="CustomTheme" parent="android:Theme">
-        <item name="android:windowTitleSize">80dip</item>
+        <item name="android:windowTitleSize">65dip</item>
         <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
     </style>
 </resources>

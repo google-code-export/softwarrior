@@ -3,15 +3,15 @@
     android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/nnm_icon" 
         android:contentDescription="@string/cdesc_nnm_icon"/>    <ImageButton
         android:id="@+id/imageButton1"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/button_home"
@@ -23,7 +23,7 @@
      <ImageView
          android:id="@+id/imageView2"
          android:layout_width="fill_parent"
-         android:layout_height="50dip"
+         android:layout_height="40dip"
          android:layout_marginLeft="5dp"
          android:layout_marginRight="5dp"
          android:layout_toLeftOf="@+id/imageButton1"
@@ -32,7 +32,7 @@
          android:src="@drawable/nnm_name" />
      <RelativeLayout
          android:layout_width="fill_parent"
-         android:layout_height="30dip"
+         android:layout_height="25dip"
          android:layout_below="@+id/imageView2"
          android:background="@drawable/site_back"
          android:layout_centerHorizontal="true" >
