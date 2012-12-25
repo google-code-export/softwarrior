@@ -16,6 +16,7 @@
     <color name="nnm_button_light">#6699cc</color>
     <color name="nnm_button_dark">#304d74</color>
     <color name="nnm_button_stroke">#cde3f8</color>
+    <color name="nnm_button_end">#E2E2E2</color>
 
     <color name="solid_red">#f00</color>
     <color name="solid_blue">#0000ff</color>

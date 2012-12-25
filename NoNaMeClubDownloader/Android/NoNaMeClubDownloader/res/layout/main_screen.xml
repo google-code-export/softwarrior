@@ -1,72 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:baselineAligned="false"
-  android:background="@drawable/background" android:gravity="center_vertical|center_horizontal" android:orientation="horizontal">
-    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="match_parent" android:layout_weight="0.3" android:id="@+id/linearLayoutLeft"></LinearLayout>
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="1" android:id="@+id/linearLayoutButtons" android:gravity="center_vertical|center_horizontal">
-        <Button 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@drawable/backrepeat" 
+	android:baselineAligned="false"
+	android:orientation="horizontal">
+    <FrameLayout 
+        android:layout_height="fill_parent"
+        android:layout_width="0dip"         
+        android:layout_weight="0.2" 
+        android:id="@+id/linearLayoutLeft">        
+    </FrameLayout>
+    <LinearLayout 
+        android:layout_width="0dip" 
+        android:layout_height="fill_parent" 
+        android:orientation="vertical" 
+        android:layout_weight="0.6" 
+        android:id="@+id/linearLayoutButtons">
+        <FrameLayout 
+	        android:layout_height="0dip"
+	        android:layout_width="fill_parent"         
+	        android:layout_weight="0.05" 
+	        android:id="@+id/linearLayoutUp">        
+    	</FrameLayout>
+        <com.softwarrior.widgets.AutoFitButton 
             android:id="@+id/ButtonDownload"
+            style="@style/MainButtonText"
             android:background="@drawable/button_nnm_light" 
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content" 
+            android:layout_height="0dip" 
             android:text="@string/main_button_download" 
             android:onClick="@string/on_click_main_button_download"
-            android:textStyle="bold"  
-            android:textSize="16sp"
-            android:textColor="@color/white" 
+            android:layout_weight="0.15" 
             android:layout_marginBottom="8dp">
-        </Button>                       
-        <Button 
+        </com.softwarrior.widgets.AutoFitButton>                       
+        <com.softwarrior.widgets.AutoFitButton 
             android:id="@+id/ButtonWebSearch"
+            style="@style/MainButtonText"
             android:background="@drawable/button_nnm_light" 
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content" 
+            android:layout_height="0dip" 
             android:text="@string/main_button_websearch" 
             android:onClick="@string/on_click_main_button_websearch"  
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/white" 
+            android:layout_weight="0.15"            
             android:layout_marginBottom="8dp">
-        </Button>                       
-        <Button 
+        </com.softwarrior.widgets.AutoFitButton>                       
+        <com.softwarrior.widgets.AutoFitButton 
             android:id="@+id/ButtonRSSSearch"
+            style="@style/MainButtonText"
             android:background="@drawable/button_nnm_light" 
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content" 
+            android:layout_height="0dip" 
             android:text="@string/main_button_rsssearch" 
             android:onClick="@string/on_click_main_button_rsssearch"
-            android:textStyle="bold"  
-            android:textSize="16sp"
-            android:textColor="@color/white" 
+            android:layout_weight="0.15"
             android:layout_marginBottom="8dp">
-        </Button>                       
-        <Button 
+        </com.softwarrior.widgets.AutoFitButton>                       
+        <com.softwarrior.widgets.AutoFitButton 
             android:id="@+id/ButtonKinoafisha"
+            style="@style/MainButtonText"
             android:background="@drawable/button_nnm_light" 
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content" 
+            android:layout_height="0dip" 
             android:text="@string/main_button_kinoafisha" 
             android:onClick="@string/on_click_main_button_kinoafisha"
-            android:textStyle="bold"  
-            android:textSize="16sp"
-            android:textColor="@color/white" 
+            android:layout_weight="0.15"
             android:layout_marginBottom="40dp">
-        </Button>                       
-        <Button 
+        </com.softwarrior.widgets.AutoFitButton>                       
+        <com.softwarrior.widgets.AutoFitButton 
             android:id="@+id/ButtonOptions"
+            style="@style/MainButtonText"
             android:background="@drawable/button_nnm_dark" 
             android:layout_width="fill_parent" 
-            android:layout_height="wrap_content" 
+            android:layout_height="0dip" 
             android:text="@string/main_button_settings" 
             android:onClick="@string/on_click_main_button_settings"
-            android:textStyle="bold"  
-            android:textSize="16sp"
-            android:textColor="@color/white" 
+            android:layout_weight="0.15"
             android:layout_marginBottom="5dp">
-        </Button>                               
-      </LinearLayout>
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="vertical" android:layout_weight="0.3" android:id="@+id/linearLayoutRight"></LinearLayout>
+        </com.softwarrior.widgets.AutoFitButton>
+        <FrameLayout 
+	        android:layout_height="0dip"
+	        android:layout_width="fill_parent"         
+	        android:layout_weight="0.1" 
+	        android:id="@+id/linearLayoutDown">        
+    	</FrameLayout>        
+    </LinearLayout>
+    <FrameLayout 
+        android:layout_width="0dip" 
+        android:layout_height="fill_parent"  
+        android:layout_weight="0.2" 
+        android:id="@+id/linearLayoutRight">        
+    </FrameLayout>
 </LinearLayout>

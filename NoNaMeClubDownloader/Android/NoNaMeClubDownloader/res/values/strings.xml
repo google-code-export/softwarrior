@@ -18,12 +18,7 @@
     <string name="on_click_main_button_programs">OnClickMainButtonPrograms</string>
     <string name="on_click_main_button_prog1">OnClickMainButtonProg1</string>
     <string name="on_click_main_button_prog2">OnClickMainButtonProg2</string>
-    <string name="main_button_download">DOWNLOAD</string>
-    <string name="main_button_websearch">WEB SEARCH</string>
-    <string name="main_button_rsssearch">RSS SEARCH</string>
     <string name="main_button_piratesearch">Pirate search</string>
-    <string name="main_button_kinoafisha">KINOAFISHA</string>
-    <string name="main_button_settings">SETTINGS</string>
     <string name="main_button_programs">Programs</string>
     <string name="main_button_prog1">Kings and emperors of Russia\n - the chronology of the Board</string>
     <string name="main_button_prog2">Adult Video</string>
@@ -274,9 +269,7 @@ Please see contact information in the About page.
     <string name="torrent_file_downloaded">The file was downloaded</string>
     <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
     <string name="button_torrent_manager">Torrent Manager</string>
-    <string name="button_add_torrent">ADD\nTORRENT</string>
     <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
-    <string name="button_remove_torrents">REMOVE\nTORRENTS</string>
     <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>
     <string name="no_torrents">no torrents</string>
     <string name="preferences_upnp">UPnP service</string>
@@ -307,9 +300,7 @@ Please see contact information in the About page.
     <string name="button_storage_mode">Allocate storage for files</string>
     <string name="storage_mode_comment">Allocation takes time but speeds up downloads. Allocation takes a lot of time for big file. Option \"Select file\" enable only in \"Allocate storage\" mode.</string>
     <string name="select_file_disable">Option \"Select file\" enable only in \"Allocate storage\" mode.</string>
-    <string name="button_stop_all">STOP\nALL</string>
     <string name="on_click_button_stop_all">OnClickButtonStopAll</string>
-    <string name="button_start_all">START\nALL</string>
     <string name="on_click_button_start_all">OnClickButtonStartAll</string>
     <string name="remove_torrents_dialog_title">Do you want to remove all torrents ?</string>
     <string name="ip_address_label">Local IP address:</string>
@@ -318,9 +309,7 @@ Please see contact information in the About page.
     <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>
     <string name="nothing_found">Nothing found</string>
     <string name="on_click_button_resume_all">OnClickButtonResumeAll</string>
-    <string name="button_resume_all">RESUME\nALL</string>
     <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
-    <string name="button_pause_all">PAUSE\nALL</string>
     <string name="download_progress">Operation in progress...</string>
     <string name="button_clear_history">Clear history</string>
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
@@ -335,4 +324,17 @@ Please see contact information in the About page.
     <string name="login_instruction">After login you should return to the search. You can download torrent file only after as buttons `Search` or `Site map` were clicked</string>
     <string name="download_torrent_instruction">To download the torrent file, tap the red button `Download torrent` at the bottom of the screen</string>
     <string name="online_faq">http://code.google.com/p/softwarrior/wiki/FAQEn</string>
+    <!-- Torrent list buttons -->
+    <string name="button_pause_all">\u0020\u0020\u0020\u0020 PAUSE \u0020\u0020\u0020 \n ALL</string>
+    <string name="button_start_all">\u0020\u0020\u0020\u0020 START \u0020\u0020\u0020 \n ALL</string>
+    <string name="button_stop_all">\u0020\u0020\u0020\u0020 STOP \u0020\u0020\u0020 \n ALL</string>
+    <string name="button_resume_all">\u0020\u0020 RESUME \u0020\u0020 \n ALL</string>
+    <string name="button_add_torrent">\u0020\u0020\u0020\u0020\u0020 ADD \u0020\u0020\u0020\u0020\u0020 \n TORRENT</string>
+    <string name="button_remove_torrents">\u0020 REMOVE \u0020 \n TORRENTS</string>
+    <!-- Main buttons -->
+    <string name="main_button_download">DOWNLOAD \u0020</string>
+    <string name="main_button_websearch">WEB SEARCH</string>
+    <string name="main_button_rsssearch">RSS SEARCH</string>
+    <string name="main_button_kinoafisha">KINOAFISHA</string>
+    <string name="main_button_settings">\u0020 SETTINGS \u0020</string>
 </resources>

@@ -18,12 +18,7 @@
     <string name="on_click_main_button_programs">OnClickMainButtonPrograms</string>
     <string name="on_click_main_button_prog1">OnClickMainButtonProg1</string>
     <string name="on_click_main_button_prog2">OnClickMainButtonProg2</string>
-    <string name="main_button_download">СКАЧИВАНИЕ</string>
-    <string name="main_button_websearch">WEB ПОИСК</string>
-    <string name="main_button_rsssearch">RSS ПОИСК</string>
     <string name="main_button_piratesearch">Пиратский поиск</string>
-    <string name="main_button_kinoafisha">КИНОАФИША</string>
-    <string name="main_button_settings">НАСТРОЙКИ</string>
     <string name="main_button_programs">Программы</string>
     <string name="main_button_prog1">Цари и императоры России\n - хронология правления</string>
     <string name="main_button_prog2">Видео для взрослых</string>
@@ -274,9 +269,7 @@ RSS только для rutracker.org\n
     <string name="torrent_file_downloaded">Файл был сохранен</string>
     <string name="on_click_button_torrent_manager">OnClickButtonTorrentManager</string>
     <string name="button_torrent_manager">Управление загрузкой</string>
-    <string name="button_add_torrent">ДОБАВИТЬ\nТОРРЕНТ</string>
     <string name="on_click_button_add_torrent">OnClickButtonAddTorrent</string>
-    <string name="button_remove_torrents">УДАЛИТЬ\n ВСЕ ТОРРЕНТЫ</string>
     <string name="on_click_button_remove_torrents">OnClickButtonRemoveTorrents</string>
     <string name="no_torrents">torrent файлов нет</string>
     <string name="preferences_upnp">UPnP сервис</string>
@@ -307,9 +300,7 @@ RSS только для rutracker.org\n
     <string name="button_storage_mode">Выделить место под файлы</string>
     <string name="storage_mode_comment">Выделение занимает время, но ускоряет скачивание. Для больших файлов выделение занимает много времени. Функция \"Выбор файла\" доступна только в режиме \"Выделить место\".</string>
     <string name="select_file_disable">Функция \"Выбор файла\" доступна только в режиме \"Выделить место\".</string>
-    <string name="button_stop_all">ОСТАНОВИТЬ\nВСЕ</string>
     <string name="on_click_button_stop_all">OnClickButtonStopAll</string>
-    <string name="button_start_all">ЗАПУСТИТЬ\nВСЕ</string>
     <string name="on_click_button_start_all">OnClickButtonStartAll</string>
     <string name="remove_torrents_dialog_title">Вы хотите удалить все torrents ?</string>
     <string name="ip_address_label">Локальный IP адрес:</string>
@@ -318,9 +309,7 @@ RSS только для rutracker.org\n
     <string name="on_click_button_pirate_search">OnClickButtonPirateSearch</string>
     <string name="nothing_found">Ничего не найдено</string>
     <string name="on_click_button_resume_all">OnClickButtonResumeAll</string>
-    <string name="button_resume_all">ПРОДОЛЖИТЬ\nВСЕ</string>
     <string name="on_click_button_pause_all">OnClickButtonPauseAll</string>
-    <string name="button_pause_all">ПРИОСТАНОВИТЬ\nВСЕ</string>
     <string name="download_progress">Ожидание загрузки...</string>
     <string name="button_clear_history">Очистить историю</string>
     <string name="on_click_button_clear_history">OnClickButtonClearHistory</string>
@@ -335,4 +324,17 @@ RSS только для rutracker.org\n
     <string name="login_instruction">После логина вернитесь в поиск. Скачивать torrent файлы возможно только после нажатия на кнопки «Поиск» или «Карта сайта»</string>
     <string name="download_torrent_instruction">Чтобы скачать torrent файл нажмите красную кнопку «Скачать torrent» внизу экрана</string>
     <string name="online_faq">http://code.google.com/p/softwarrior/wiki/FAQRu</string>
+    <!-- Torrent list buttons -->
+    <string name="button_pause_all">ПРИОСТАНОВИТЬ \n ВСЕ</string>
+    <string name="button_start_all">\u0020\u0020\u0020\u0020 ЗАПУСТИТЬ \u0020\u0020\u0020\u0020 \n ВСЕ</string>
+    <string name="button_stop_all">\u0020\u0020 ОСТАНОВИТЬ \u0020\u0020\u0020 \n ВСЕ</string>
+    <string name="button_resume_all">\u0020\u0020 ПРОДОЛЖИТЬ \u0020 \n ВСЕ</string>
+    <string name="button_add_torrent">\u0020\u0020\u0020\u0020\u0020 ДОБАВИТЬ \u0020\u0020\u0020\u0020\u0020 \n ТОРРЕНТ</string>
+    <string name="button_remove_torrents">\u0020\u0020\u0020\u0020\u0020\u0020 УДАЛИТЬ \u0020\u0020\u0020\u0020\u0020\u0020 \n ВСЕ</string>
+    <!-- Main buttons -->
+    <string name="main_button_download">СКАЧИВАНИЕ</string>
+    <string name="main_button_websearch">\u0020 WEB ПОИСК \u0020</string>
+    <string name="main_button_rsssearch">\u0020 RSS ПОИСК\u0020 </string>
+    <string name="main_button_kinoafisha">КИНОАФИША</string>
+    <string name="main_button_settings">НАСТРОЙКИ</string>
 </resources>
