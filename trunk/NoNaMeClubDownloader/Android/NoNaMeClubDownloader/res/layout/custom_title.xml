@@ -58,6 +58,34 @@
               android:text="@string/c_softwarrior"
               android:textAppearance="?android:attr/textAppearanceSmall"
               android:textColor="@color/nnm_titles_light" />
-
+     </RelativeLayout>
+     <RelativeLayout
+         android:id="@+id/ViewCenter"
+         android:layout_width="fill_parent"
+         android:layout_height="25dip"
+         android:visibility="gone"
+         android:layout_below="@+id/imageView2"
+         android:background="@drawable/site_back"
+         android:layout_centerHorizontal="true" >
+         <ProgressBar
+             android:id="@+id/progressBarCenter"
+             style="?android:attr/progressBarStyleSmall"
+             android:visibility="gone"
+             android:layout_width="24dp"
+             android:layout_height="fill_parent"
+             android:layout_alignParentLeft="true"
+             android:layout_alignParentTop="true" />         
+         <TextView
+             android:id="@+id/center_text"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:layout_toRightOf="@+id/progressBarCenter"
+             android:gravity="center_vertical"
+             android:maxLines="1"
+		     android:scrollHorizontally="true"
+			 android:ellipsize="end"
+             android:text="@string/app_desc"
+             android:textStyle="bold"
+             android:textAppearance="?android:attr/textAppearanceSmall" />
      </RelativeLayout>
 </RelativeLayout>
