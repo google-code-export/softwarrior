@@ -98,16 +98,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
         android:layout_above="@id/ViewAnimator"/>
-        <!-- android:layout_height="0dip" -->
-     <Button
-        style="?android:attr/buttonStyleSmall"
+        <!-- android:layout_height="0dip" -->     
+     <com.softwarrior.widgets.AutoFitButton
+        style="@style/SmallButtonText"
         android:layout_height="wrap_content" 
         android:layout_width="wrap_content" 
         android:onClick="@string/on_click_button_store_web_history" 
         android:text="@string/button_store_web_history"
         android:id="@+id/ButtonStoreWebHistory" 
-        android:textStyle="bold"
-        android:background="@drawable/button_blue"
-        android:textColor="@color/cyan"                         
+        android:background="@drawable/button_nnm_light"
         android:layout_alignParentRight="true"/>        
 </RelativeLayout>

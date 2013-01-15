@@ -23,6 +23,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.softwarrior.rutrackerdownloaderlite.CustomTitleActive;
 import com.softwarrior.rutrackerdownloaderlite.DownloadPreferencesScreen;
 import com.softwarrior.rutrackerdownloaderlite.DownloaderApp;
 import com.softwarrior.rutrackerdownloaderlite.DownloaderApp.ActivityResultType;
@@ -62,7 +63,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
-public class TorrentWebClient extends Activity {
+public class TorrentWebClient extends CustomTitleActive {
 
     private static final int DIALOG_TEXT_ENTRY = 1;
     private WebView mWebView;
@@ -87,11 +88,19 @@ public class TorrentWebClient extends Activity {
     public enum MenuType{
     	About, Help, Main, FileManager, WebHistory, Exit;
     }
-
+    
+    @Override
+    public void setTitle (CharSequence title){
+    	m_CenterText.setText(title);
+    }
+    
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        
+        VisibleCenter();       
+        
         setContentView(R.layout.web);
                 
         CookieSyncManager.createInstance(this);
@@ -125,9 +134,12 @@ public class TorrentWebClient extends Activity {
 	        mWebView.setWebChromeClient(new WebChromeClient() {
 	            public void onProgressChanged(WebView view, int progress){
 	                activity.setProgress(progress * 100);
-	                setProgressBarIndeterminateVisibility(true);
-	                if(progress == 100)
-	                	setProgressBarIndeterminateVisibility(false);
+	                //setProgressBarIndeterminateVisibility(true);
+	                VisibilityProgressBarCenter(View.VISIBLE);
+	                if(progress == 100){
+	                	//setProgressBarIndeterminateVisibility(false);
+		                VisibilityProgressBarCenter(View.GONE);
+	                }
 	            }
 	        });
 	        mWebView.setWebViewClient(new WebViewClient() {

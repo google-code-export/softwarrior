@@ -106,7 +106,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-
+       
 		PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
 			| PowerManager.ACQUIRE_CAUSES_WAKEUP, "SHARED");
@@ -114,6 +114,7 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
 
         // Use a custom layout file
         setContentView(R.layout.torrentslist);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);        
         
         Intent intent = getIntent();
         if(intent != null){
@@ -139,7 +140,6 @@ public class TorrentsList extends ListActivity implements AdListener, MobclixAdV
         mAdapter = new TorrentAdapter(this);
         setListAdapter(mAdapter);        
 
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
         mRightText = (TextView) findViewById(R.id.right_text);
         mLeftText = (TextView) findViewById(R.id.left_text);
         mLeftText.setTextColor(getResources().getColor(R.color.white));
