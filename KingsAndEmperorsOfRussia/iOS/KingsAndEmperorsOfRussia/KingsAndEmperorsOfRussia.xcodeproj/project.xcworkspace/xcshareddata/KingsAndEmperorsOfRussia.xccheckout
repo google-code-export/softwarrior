@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CA4F7334-A9D0-49A3-A543-4AD7280274BD</string>
+	<key>IDESourceControlProjectName</key>
+	<string>KingsAndEmperorsOfRussia</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>D925ED47-580D-492D-8F4A-3A904F8D98AD</key>
+		<string>https://softwarrior.googlecode.com/svn/trunk/KingsAndEmperorsOfRussia/iOS/KingsAndEmperorsOfRussia</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>KingsAndEmperorsOfRussia.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>D925ED47-580D-492D-8F4A-3A904F8D98AD</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>D925ED47-580D-492D-8F4A-3A904F8D98AD</key>
+		<string>https://softwarrior.googlecode.com/svn</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://softwarrior.googlecode.com/svn/trunk/KingsAndEmperorsOfRussia/iOS/KingsAndEmperorsOfRussia/KingsAndEmperorsOfRussia.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>D925ED47-580D-492D-8F4A-3A904F8D98AD</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>branches</string>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>trunk</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D925ED47-580D-492D-8F4A-3A904F8D98AD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>KingsAndEmperorsOfRussia</string>
+		</dict>
+	</array>
+</dict>
+</plist>
