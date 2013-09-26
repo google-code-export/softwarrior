@@ -18,10 +18,17 @@
 @implementation WebViewController
 
 @synthesize webView = _webView;
+@synthesize addsTextView = _addsTextView;
+
 @synthesize splashTimer = _splashTimer;
 //@synthesize internetTimer = _internetTimer;
 
 @synthesize splashViewVisible = _splashViewVisible;
+//-------------------------------------
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 //-------------------------------------
 - (void)didReceiveMemoryWarning
 {
@@ -174,15 +181,11 @@
                                                 GAD_SIZE_320x50.height)];
     }
 
-    // Назначение идентификатора объявлению. Указывается идентификатор издателя AdMob.
     _bannerView.adUnitID = @"a14fe885dfa9a34";
     
-    // Укажите, какой UIViewController необходимо восстановить после перехода
-    // пользователя по объявлению и добавить в иерархию представлений.
     _bannerView.rootViewController = self;
     [self.view addSubview:_bannerView];
     
-    // Инициирование общего запроса на загрузку вместе с объявлением.
     [_bannerView loadRequest:[GADRequest request]];
     
     [_bannerView setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin];
@@ -194,6 +197,8 @@
     _mainWebView = [MainWebView new];
     _mainWebView.webView = _webView;
     _mainWebView.webController = self;
+    
+     [_bannerView setDelegate:_mainWebView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeActive:) name:@"appDidBecomeActive" object:nil];
 }
