@@ -21,10 +21,28 @@
 
 @synthesize window = _window;
 
+/******* Set your tracking ID here *******/
+static NSString *const kTrackingId = @"UA-21583368-6";
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    Class cls = NSClassFromString (@"NSLayoutConstraint");
+    if (cls == nil) {
+        NSString *mainStoryboardName = nil;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            mainStoryboardName = @"MainStoryboard_iPad_iOS5";
+        } else {
+            mainStoryboardName = @"MainStoryboard_iPhone_iOS5";
+        }
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:mainStoryboardName bundle:nil];
+        
+        UIViewController *initialViewController = [mainStoryboard instantiateInitialViewController];
+        self.window.rootViewController = initialViewController;
+        [self.window makeKeyAndVisible];
+    }
     // Override point for customization after application launch.
-     ALog("********** didFinishLaunchingWithOptions %@",@"***********");
+    ALog("********** didFinishLaunchingWithOptions %@",@"***********");
     
     NSUInteger memoryCapacity = 4*1024*1024; //4Mb
     NSUInteger discCapacity = 32*1024*1024; //32Mb
@@ -34,12 +52,19 @@
     
     //SDURLCache *cache = [[SDURLCache alloc] initWithMemoryCapacity:memoryCapacity diskCapacity: discCapacity diskPath:[SDURLCache defaultCachePath]];
     [NSURLCache setSharedURLCache:cache];
+    
+    
+    // Initialize Google Analytics with a 120-second dispatch interval. There is a
+    // tradeoff between battery usage and timely dispatch.
+    //[GAI sharedInstance].debug = YES;
+    [GAI sharedInstance].dispatchInterval = 30;
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
+    
+  
+    return YES;
 
     
-    [[GANTracker sharedTracker] startTrackerWithAccountID:@"UA-21583368-6"
-                                           dispatchPeriod:30
-                                                 delegate:nil];
-    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -85,7 +110,7 @@
      See also applicationDidEnterBackground:.
      */
     ALog("********** applicationWillTerminate %@",@"***********");
-    [[GANTracker sharedTracker] stopTracker];
+    //[[GANTracker sharedTracker] stopTracker];
 }
 
 @end

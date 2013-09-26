@@ -14,7 +14,8 @@
 
 #import "Debug.h"
 
-#import "GANTracker.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
 
 #import <sys/socket.h>
 #import <netinet/in.h>
@@ -29,6 +30,16 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
 
 @synthesize webController = _webController;
 @dynamic webView;
+//-------------------------------------
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView{
+    ALog("!!!!!!!!!!!! adViewDidReceiveAd %@",@"");
+    [_webController.addsTextView setBackgroundColor: [UIColor blackColor]];
+}
+//-------------------------------------
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error{
+    ALog("!!!!!!!!!!!! didFailToReceiveAdWithError %@",@"");
+    [_webController.addsTextView setBackgroundColor: [UIColor whiteColor]];
+}
 //-------------------------------------
 - (id)init {
     if(self = [super init]){
@@ -72,7 +83,7 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
 -(void)SetJSBridgeLog {
     //"JSBridge.log = function(log) { document.location = 'JSBridge:' + 'log:' + log; };",@""];
     NSString *javaScript = [NSString stringWithFormat:@"JSBridge = new Object();"
-                            "JSBridge.log = function(log) { var iframe = document.createElement('IFRAME'); iframe.setAttribute('src', 'ios-log:#iOS#' + log); document.documentElement.appendChild(iframe);iframe.parentNode.removeChild(iframe); iframe = null; }",@""];
+                            "JSBridge.log = function(log) { var iframe = document.createElement('IFRAME'); iframe.setAttribute('src', 'ios-log:#iOS#' + log); document.documentElement.appendChild(iframe);iframe.parentNode.removeChild(iframe); iframe = null; }"];
     NSString *result = [_webView stringByEvaluatingJavaScriptFromString:javaScript];  
     ALog("SetJSBridgeLog %@",result);
 }
@@ -127,7 +138,9 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
     } else {
         if([requestString containsString:_contentFileCheck]){
             ALog("webViewDidFinishLoad Load Content URL %@",@"!!!!!!!!!!!!!");
-            [_webView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:_contentUrl] cachePolicy: NSURLRequestReloadRevalidatingCacheData/*NSURLRequestReturnCacheDataElseLoad*/ timeoutInterval: 5.0]];                
+            [_webView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:_contentUrl] cachePolicy: NSURLRequestReloadRevalidatingCacheData timeoutInterval: 5.0]];
+            NSString *download_msg  = [[NSBundle mainBundle] localizedStringForKey:@"download_msg" value:@"DefaultValue" table:@"InfoPlist"];
+            [self ToastShow :download_msg :iToastDurationNormal];
         } else if([requestString containsString:_contentUrl]){
             [_webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"PAID_VERSION = '%@';", @"true"]];
             [self SetJSBridgeLog];
@@ -262,12 +275,11 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
          }
          else if([logString containsString:@"KingsAndEmperorsOfRussia"]){
              NSString *analyticsMessage =  [NSString stringWithFormat:@"/%@", logString]; 
-             ALog(@"GoogleAnalytics %@", analyticsMessage);                 
-             NSError *error = nil;
-             if (![[GANTracker sharedTracker] trackPageview:analyticsMessage
-                                                      withError:&error]) {
-                  // Handle error here
-             }
+             ALog(@"GoogleAnalytics %@", analyticsMessage);
+             id tracker = [[GAI sharedInstance] defaultTracker];
+             GAIDictionaryBuilder* gdb = [GAIDictionaryBuilder createExceptionWithDescription:analyticsMessage withFatal:NO];
+             NSDictionary* ndErr = [gdb build];
+             [tracker send:ndErr];
              return NO;
          }
          return NO;
@@ -326,7 +338,7 @@ NSString * const _contentUrlPrefix = @"http://www.softwarrior.org/KingsAndEmpero
 }
 //-------------------------------------
 -(void)CheckAndLoadUrl {    
-     [_webView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:_contentUrlCheck] cachePolicy:NSURLRequestReturnCacheDataDontLoad timeoutInterval: 3.0]];        
+     [_webView loadRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:_contentUrlCheck] /*cachePolicy:NSURLRequestReturnCacheDataDontLoad timeoutInterval: 3.0*/]];
 }
 //-------------------------------------
 -(BOOL)IsNeedLoadContent {

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "iToast.h"
 
+#import "GADBannerView.h"
+#import "GADBannerViewDelegate.h"
+
 //Constant strings
 //extern NSString * const _contentFileMask;
 extern NSString * const _contentUrlPrefix;
@@ -16,7 +19,7 @@ extern NSString * const _contentUrlPrefix;
 
 @class WebViewController;
 
-@interface MainWebView : UIWebView <UIWebViewDelegate> {
+@interface MainWebView : UIWebView <UIWebViewDelegate, GADBannerViewDelegate> {
     UIWebView *_webView;    
     WebViewController *_webController;
     
@@ -44,6 +47,9 @@ extern NSString * const _contentUrlPrefix;
 
 -(BOOL)HasConnectivity;
 -(BOOL)IsNeedLoadContent;
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView;
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error;
 
 @end
 
@@ -73,17 +79,18 @@ extern NSString * const _contentUrlPrefix;
 //-----------------------------------------------------
 @interface UIWebView (JavaScriptAlert) 
 
-- (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame;
+- (void)webView:(UIWebView *)sender shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 
 @end
 
 @implementation UIWebView (JavaScriptAlert)
 
-- (void)webView:(UIWebView *)sender runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WebFrame *)frame {
+- (void)webView:(UIWebView *)sender shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
    
+    NSURL* url = request.URL;
+    NSString* message = [url query];
     NSDictionary* messageData = [NSDictionary dictionaryWithObject:message forKey:@"message"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"RunJavaScriptAlert" object:nil userInfo: messageData];
-     
 }
 
 @end

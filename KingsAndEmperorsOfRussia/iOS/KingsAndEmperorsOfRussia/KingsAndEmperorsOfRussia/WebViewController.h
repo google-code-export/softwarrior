@@ -20,9 +20,13 @@
     GADBannerView *_bannerView;
     
     bool _splashViewVisible;
+    
+    UITextView *_addsTextView;
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, retain) IBOutlet UITextView *addsTextView;
+
 @property (nonatomic,retain) NSTimer *splashTimer;
 //@property (nonatomic,retain) NSTimer *internetTimer;
 
@@ -42,5 +46,7 @@
 */
 
 -(void)appDidBecomeActive:(NSNotification *) notification;
+
+- (BOOL)prefersStatusBarHidden;
 
 @end

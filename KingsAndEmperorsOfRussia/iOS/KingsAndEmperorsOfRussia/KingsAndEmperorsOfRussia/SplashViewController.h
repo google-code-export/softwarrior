@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface SplashViewController : UIViewController
+
+- (BOOL)prefersStatusBarHidden;
+
 @end
 

@@ -13,10 +13,6 @@
 // Constant for getting test ads on the simulator using the testDevices method.
 #define GAD_SIMULATOR_ID @"Simulator"
 
-// The google ad mob network name to use with the additional parameters methods
-// below.
-#define kGADGoogleAdMobNetworkName @"GoogleAdMobAds"
-
 // Genders to help deliver more relevant ads.
 typedef enum {
   kGADGenderUnknown,
@@ -59,8 +55,8 @@ typedef enum {
 
 #pragma mark Testing
 
-// Setting this property to YES will return a test ad for this request.
-@property (nonatomic, getter=isTesting) BOOL testing;
+// Add the device's identifier into this array for testing purposes.
+@property (nonatomic, retain) NSArray *testDevices;
 
 #pragma mark User Information
 
@@ -83,6 +79,30 @@ typedef enum {
 // @"Champs-Elysees Paris" or @"94041 US".
 - (void)setLocationWithDescription:(NSString *)locationDescription;
 
+// [Optional] This method allows you to specify whether you would like your app
+// to be treated as child-directed for purposes of the Children’s Online Privacy
+// Protection Act (COPPA) -
+// http://business.ftc.gov/privacy-and-security/childrens-privacy.
+//
+// If you call this method with YES, you are indicating that your app should be
+// treated as child-directed for purposes of the Children’s Online Privacy
+// Protection Act (COPPA).
+// If you call this method with NO, you are indicating that your app should not
+// be treated as child-directed for purposes of the Children’s Online Privacy
+// Protection Act (COPPA).
+// If you do not call this method, ad requests will include no indication of how
+// you would like your app treated with respect to COPPA.
+//
+// By setting this method, you certify that this notification is accurate and
+// you are authorized to act on behalf of the owner of the app.  You understand
+// that abuse of this setting may result in termination of your Google account.
+//
+// Note: it may take some time for this designation to be fully implemented in
+// applicable Google services.
+// This designation will only apply to ad requests for which you have set this
+// method.
+- (void)tagForChildDirectedTreatment:(BOOL)childDirectedTreatment;
+
 #pragma mark Contextual Information
 
 // A keyword is a word or phrase describing the current activity of the user
@@ -97,12 +117,13 @@ typedef enum {
 #pragma mark -
 #pragma mark Deprecated Methods
 
-// Please use the testing property instead.
-@property (nonatomic, retain) NSArray *testDevices;
-
 // Accesses the additionalParameters for the "GoogleAdmob" ad network. Please
 // use -registerAdNetworkExtras: method above and pass an instance of
 // GADAdMobExtras instead.
 @property (nonatomic, retain) NSDictionary *additionalParameters;
+
+// This property has been deprecated with the latest SDK releases. Please use
+// testDevices.
+@property (nonatomic, getter=isTesting) BOOL testing;
 
 @end
