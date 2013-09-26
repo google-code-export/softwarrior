@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 
-#import "GANTracker.h"
-
 #import "WebViewController.h"
 
 #import "FilteredWebCache.h"

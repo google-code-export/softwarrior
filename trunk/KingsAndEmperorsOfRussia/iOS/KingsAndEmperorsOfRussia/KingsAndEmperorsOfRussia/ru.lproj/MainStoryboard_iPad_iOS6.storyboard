@@ -17,25 +17,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w8g-Bf-bvu">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w8g-Bf-bvu">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="934"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" text="Программа для людей интересующихся историей России." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="GXF-28-9by">
-                                <rect key="frame" x="0.0" y="933" width="768" height="91"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Программа для людей интересующихся историей России." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="GXF-28-9by">
+                                <rect key="frame" x="0.0" y="934" width="768" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="mQd-VN-m3k"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Pas-s9-X3H" firstAttribute="top" secondItem="GXF-28-9by" secondAttribute="bottom" id="236-8i-R1T"/>
+                            <constraint firstItem="GXF-28-9by" firstAttribute="leading" secondItem="TaW-Pq-Uvf" secondAttribute="leading" id="Qok-j9-IqR"/>
+                            <constraint firstAttribute="trailing" secondItem="w8g-Bf-bvu" secondAttribute="trailing" id="b3A-xs-UJK"/>
+                            <constraint firstItem="w8g-Bf-bvu" firstAttribute="leading" secondItem="TaW-Pq-Uvf" secondAttribute="leading" id="dQx-cB-2Lg"/>
+                            <constraint firstItem="GXF-28-9by" firstAttribute="top" secondItem="w8g-Bf-bvu" secondAttribute="bottom" id="lab-kX-mhZ"/>
+                            <constraint firstItem="w8g-Bf-bvu" firstAttribute="top" secondItem="TaW-Pq-Uvf" secondAttribute="top" id="qn6-EW-tXU"/>
+                            <constraint firstAttribute="trailing" secondItem="GXF-28-9by" secondAttribute="trailing" id="uEh-Pf-3Ah"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Root View Controller" id="8vt-2t-tjI"/>
                     <connections>
                         <outlet property="addsTextView" destination="GXF-28-9by" id="no4-zC-Y4Y"/>
-                        <outlet property="webView" destination="w8g-Bf-bvu" id="kAB-Bf-eZf"/>
+                        <outlet property="webView" destination="w8g-Bf-bvu" id="870-13-Qz0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ghv-CF-PvT" userLabel="First Responder" sceneMemberID="firstResponder"/>

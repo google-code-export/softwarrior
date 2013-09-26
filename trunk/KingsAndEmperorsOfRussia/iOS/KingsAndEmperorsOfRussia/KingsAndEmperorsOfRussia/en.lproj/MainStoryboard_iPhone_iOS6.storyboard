@@ -17,26 +17,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DN1-CY-ihg">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DN1-CY-ihg">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="430"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Program for people interested in the history of Russia." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SfW-lc-jbI">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Program for people interested in the history of Russia." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SfW-lc-jbI">
                                 <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="czL-Ch-H75"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DN1-CY-ihg" firstAttribute="leading" secondItem="T4L-ED-Ktv" secondAttribute="leading" id="7v7-JM-mO8"/>
+                            <constraint firstAttribute="trailing" secondItem="SfW-lc-jbI" secondAttribute="trailing" id="MR4-Tv-Di3"/>
+                            <constraint firstItem="uJD-fh-qMo" firstAttribute="top" secondItem="SfW-lc-jbI" secondAttribute="bottom" id="Oot-Bd-jyM"/>
+                            <constraint firstItem="SfW-lc-jbI" firstAttribute="top" secondItem="DN1-CY-ihg" secondAttribute="bottom" id="Rai-Eg-Wko"/>
+                            <constraint firstItem="DN1-CY-ihg" firstAttribute="top" secondItem="bYk-qX-Dka" secondAttribute="bottom" id="WzO-Bc-mQF"/>
+                            <constraint firstAttribute="trailing" secondItem="DN1-CY-ihg" secondAttribute="trailing" id="lWk-Vf-avx"/>
+                            <constraint firstItem="SfW-lc-jbI" firstAttribute="leading" secondItem="T4L-ED-Ktv" secondAttribute="leading" id="vED-Rb-3tz"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Root View Controller" id="EOX-lI-9dR"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="addsTextView" destination="SfW-lc-jbI" id="jws-fd-2Di"/>
-                        <outlet property="webView" destination="DN1-CY-ihg" id="N0U-yG-7ZM"/>
+                        <outlet property="webView" destination="DN1-CY-ihg" id="jO4-U1-9AI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="85o-6e-aSp" userLabel="First Responder" sceneMemberID="firstResponder"/>
