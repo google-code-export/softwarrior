@@ -34,8 +34,8 @@
 		55C4F7F614F3A1CD00EAD510 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C4F7D414F3A1CD00EAD510 /* Foundation.framework */; };
 		55C4F7FE14F3A1CE00EAD510 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55C4F7FC14F3A1CE00EAD510 /* InfoPlist.strings */; };
 		55C4F80114F3A1CE00EAD510 /* KingsAndEmperorsOfRussiaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C4F80014F3A1CE00EAD510 /* KingsAndEmperorsOfRussiaTests.m */; };
+		55DCA73217F4B7170009779E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55DCA73117F4B7170009779E /* libGoogleAnalyticsServices.a */; };
 		55E873F917F4950100130099 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55E873F817F4950100130099 /* Images.xcassets */; };
-		55E873FB17F4961900130099 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E873FA17F4961900130099 /* libGoogleAnalyticsServices.a */; };
 		55E8741317F4989C00130099 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 55E8740217F4989C00130099 /* Icon-40.png */; };
 		55E8741417F4989C00130099 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 55E8740317F4989C00130099 /* Icon-40@2x.png */; };
 		55E8741517F4989C00130099 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 55E8740417F4989C00130099 /* Icon-60.png */; };
@@ -121,11 +121,11 @@
 		55C4F7FD14F3A1CE00EAD510 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		55C4F7FF14F3A1CE00EAD510 /* KingsAndEmperorsOfRussiaTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KingsAndEmperorsOfRussiaTests.h; sourceTree = "<group>"; };
 		55C4F80014F3A1CE00EAD510 /* KingsAndEmperorsOfRussiaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsAndEmperorsOfRussiaTests.m; sourceTree = "<group>"; };
+		55DCA73117F4B7170009779E /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		55E13B5C15050D57009F7C92 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		55E13B5F15050D57009F7C92 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		55E13B69150518D8009F7C92 /* Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Debug.h; sourceTree = "<group>"; };
 		55E873F817F4950100130099 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		55E873FA17F4961900130099 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		55E873FC17F496A800130099 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		55E873FD17F496A800130099 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		55E873FE17F496A800130099 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
@@ -180,8 +180,8 @@
 				55C4F7D314F3A1CD00EAD510 /* UIKit.framework in Frameworks */,
 				55C4F7D514F3A1CD00EAD510 /* Foundation.framework in Frameworks */,
 				55C4F7D714F3A1CD00EAD510 /* CoreGraphics.framework in Frameworks */,
-				55E873FB17F4961900130099 /* libGoogleAnalyticsServices.a in Frameworks */,
 				5526C3291598C8A9004D5D86 /* libGoogleAdMobAds.a in Frameworks */,
+				55DCA73217F4B7170009779E /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,7 +226,7 @@
 		5594BD02151CD54C003DCE5B /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				55E873FA17F4961900130099 /* libGoogleAnalyticsServices.a */,
+				55DCA73117F4B7170009779E /* libGoogleAnalyticsServices.a */,
 				5526C3281598C8A9004D5D86 /* libGoogleAdMobAds.a */,
 			);
 			path = Library;
@@ -670,9 +670,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/Library\\\"",
-					/Users/andrey/SOFTWARRIOR/KingsAndEmperorsOfRussia/Library,
+					"\"$(SRCROOT)/Library\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
@@ -695,9 +695,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/Library\\\"",
-					/Users/andrey/SOFTWARRIOR/KingsAndEmperorsOfRussia/Library,
+					"\"$(SRCROOT)/Library\"",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

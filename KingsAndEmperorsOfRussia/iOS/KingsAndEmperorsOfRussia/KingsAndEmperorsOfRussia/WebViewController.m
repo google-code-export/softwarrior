@@ -159,7 +159,6 @@
     
     [super viewDidLoad];
     ////////////////////////////////////////
-    // Создание представления стандартного размера внизу экрана.
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
     {
         /* run something specific for the iPad */

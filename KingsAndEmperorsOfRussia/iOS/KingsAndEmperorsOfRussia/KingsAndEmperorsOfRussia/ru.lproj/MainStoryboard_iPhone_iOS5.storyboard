@@ -32,7 +32,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="addsTextView" destination="tn4-gF-bJA" id="gum-hL-MWX"/>
-                        <outlet property="webView" destination="IfC-n9-GPr" id="ew9-Zf-wTx"/>
+                        <outlet property="webView" destination="IfC-n9-GPr" id="dBt-PR-eLY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aip-R8-lp9" userLabel="First Responder" sceneMemberID="firstResponder"/>

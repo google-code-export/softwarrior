@@ -17,26 +17,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IfC-n9-GPr">
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IfC-n9-GPr">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="430"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Программа для людей интересующихся историей России." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tn4-gF-bJA">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Программа для людей интересующихся историей России." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tn4-gF-bJA">
                                 <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="7zW-HK-fUp"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="tn4-gF-bJA" secondAttribute="trailing" id="1yB-iW-DJQ"/>
+                            <constraint firstItem="tn4-gF-bJA" firstAttribute="leading" secondItem="IcA-Se-bQt" secondAttribute="leading" id="Mto-ds-9WH"/>
+                            <constraint firstItem="mT8-z9-RAf" firstAttribute="top" secondItem="tn4-gF-bJA" secondAttribute="bottom" id="Wjv-PV-4CG"/>
+                            <constraint firstItem="tn4-gF-bJA" firstAttribute="top" secondItem="IfC-n9-GPr" secondAttribute="bottom" id="Zth-Zw-74P"/>
+                            <constraint firstItem="IfC-n9-GPr" firstAttribute="top" secondItem="C3o-0Z-W82" secondAttribute="bottom" id="b3o-fB-7Oa"/>
+                            <constraint firstAttribute="trailing" secondItem="IfC-n9-GPr" secondAttribute="trailing" id="dWB-Mf-sKj"/>
+                            <constraint firstItem="IfC-n9-GPr" firstAttribute="leading" secondItem="IcA-Se-bQt" secondAttribute="leading" id="efZ-mv-Ow2"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Root View Controller" id="IQM-EU-xzd"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="addsTextView" destination="tn4-gF-bJA" id="cHo-oB-vXe"/>
-                        <outlet property="webView" destination="IfC-n9-GPr" id="ew9-Zf-wTx"/>
+                        <outlet property="webView" destination="IfC-n9-GPr" id="vgI-Tb-cf0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aip-R8-lp9" userLabel="First Responder" sceneMemberID="firstResponder"/>
