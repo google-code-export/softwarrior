@@ -83,7 +83,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" image="ic_splash_ver.png" translatesAutoresizingMaskIntoConstraints="NO" id="HJZ-QA-P8V">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="ic_splash_ver.png" translatesAutoresizingMaskIntoConstraints="NO" id="HJZ-QA-P8V">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -103,6 +103,12 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HJZ-QA-P8V" firstAttribute="top" secondItem="oK9-sx-4IE" secondAttribute="bottom" id="0ya-Yw-kwo"/>
+                            <constraint firstItem="HJZ-QA-P8V" firstAttribute="leading" secondItem="TFJ-ed-dfl" secondAttribute="leading" id="Bf2-rF-6Wn"/>
+                            <constraint firstItem="jn3-i8-O59" firstAttribute="top" secondItem="HJZ-QA-P8V" secondAttribute="bottom" id="ZqZ-o5-OZN"/>
+                            <constraint firstAttribute="trailing" secondItem="HJZ-QA-P8V" secondAttribute="trailing" id="jwf-yN-zaY"/>
+                        </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
@@ -123,7 +129,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" image="ic_splash_hor.png" translatesAutoresizingMaskIntoConstraints="NO" id="SQw-BP-k8d">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="ic_splash_hor.png" translatesAutoresizingMaskIntoConstraints="NO" id="SQw-BP-k8d">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -143,6 +149,12 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cn1-dy-bZm" firstAttribute="top" secondItem="SQw-BP-k8d" secondAttribute="bottom" id="Lky-KA-i00"/>
+                            <constraint firstItem="SQw-BP-k8d" firstAttribute="leading" secondItem="8b1-HA-Mze" secondAttribute="leading" id="YRm-d2-0Dn"/>
+                            <constraint firstItem="SQw-BP-k8d" firstAttribute="top" secondItem="CaE-er-QSz" secondAttribute="bottom" id="lwG-Wn-bv6"/>
+                            <constraint firstAttribute="trailing" secondItem="SQw-BP-k8d" secondAttribute="trailing" id="vQj-NA-EU0"/>
+                        </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>

@@ -66,7 +66,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" image="ic_splash_ver.png" translatesAutoresizingMaskIntoConstraints="NO" id="osb-9b-0P1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="ic_splash_ver.png" translatesAutoresizingMaskIntoConstraints="NO" id="osb-9b-0P1">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -86,6 +86,12 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Glg-FA-ZpM" firstAttribute="top" secondItem="osb-9b-0P1" secondAttribute="bottom" id="G3g-ZN-Eo7"/>
+                            <constraint firstItem="osb-9b-0P1" firstAttribute="top" secondItem="iLe-zl-l3v" secondAttribute="top" id="cIN-oQ-McQ"/>
+                            <constraint firstItem="osb-9b-0P1" firstAttribute="leading" secondItem="iLe-zl-l3v" secondAttribute="leading" id="pIV-2I-FxM"/>
+                            <constraint firstAttribute="trailing" secondItem="osb-9b-0P1" secondAttribute="trailing" id="phb-7k-WQb"/>
+                        </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                 </viewController>
@@ -105,7 +111,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" fixedFrame="YES" image="ic_splash_hor.png" translatesAutoresizingMaskIntoConstraints="NO" id="fUD-k7-TDj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" image="ic_splash_hor.png" translatesAutoresizingMaskIntoConstraints="NO" id="fUD-k7-TDj">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -125,6 +131,12 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fUD-k7-TDj" firstAttribute="top" secondItem="Mu5-9R-gq0" secondAttribute="top" id="58s-Ym-X8V"/>
+                            <constraint firstItem="j0Y-yK-BJe" firstAttribute="top" secondItem="fUD-k7-TDj" secondAttribute="bottom" id="VlI-Mu-OFx"/>
+                            <constraint firstItem="fUD-k7-TDj" firstAttribute="leading" secondItem="Mu5-9R-gq0" secondAttribute="leading" id="r9Y-Vn-gtQ"/>
+                            <constraint firstAttribute="trailing" secondItem="fUD-k7-TDj" secondAttribute="trailing" id="uxA-p0-nv8"/>
+                        </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
